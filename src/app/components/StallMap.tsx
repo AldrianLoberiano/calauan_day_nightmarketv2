@@ -14,13 +14,15 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
   const cornerMap = new Map(stalls.filter(s => s.number === 0).map(s => [s.id, s]));
 
   // ── Perimeter layout (clockwise from bottom-left) ─────────────────
-  // Bottom row         : 1   – 71   (left → right)
+  // Bottom row (left)  : 22  – 71   (left → right)
+  // Bottom row (right) : 21  – 1    (left → right)
   // Left column        : 72  – 134  (bottom → top)
   // Upper-left link    : 135 (single)
   // Top row (left)     : 136 – 196  (left → right)
   // Top row (right)    : 197 – 225  (left → right)
   // Right column       : 226 – 258  (top → bottom)
-  const bottomRow = range(1, 71).map(n => stallMap.get(n)!).filter(Boolean);
+  const bottomLeftRow = range(22, 71).map(n => stallMap.get(n)!).filter(Boolean).reverse();
+  const bottomRightRow = range(1, 21).map(n => stallMap.get(n)!).filter(Boolean).reverse();
   const leftCol = range(72, 134).map(n => stallMap.get(n)!).filter(Boolean).reverse();
   const upperLeftLink = stallMap.get(135);
   const topLeftRow = range(136, 196).map(n => stallMap.get(n)!).filter(Boolean);
@@ -121,37 +123,28 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
         {/* ── Outer site boundary ────────────────────────────────── */}
         <div className="relative border-4 border-blue-900 rounded-2xl bg-blue-50 shadow-inner">
 
-          {/* Corner labels */}
-          <div className="absolute top-2 left-2 z-20"><CornerTag label="C" /></div>
-          <div className="absolute top-2 right-2 z-20"><CornerTag label="D" /></div>
-          <div className="absolute bottom-2 left-2 z-20"><CornerTag label="B" /></div>
-          <div className="absolute bottom-2 right-2 z-20"><CornerTag label="A" /></div>
-
           <div className="px-10 py-10 sm:px-12 sm:py-10">
 
-            {/* ── TOP ROW ───────────────────────────────────────── */}
-            <div className="flex items-center justify-center gap-2 mb-2">
-              {upperLeftLink && <StallCell stall={upperLeftLink} dir="h" />}
-              <div className="flex items-center gap-0.5 sm:gap-1">
+            <div className="grid grid-cols-[auto,1fr,auto,1fr] gap-2">
+
+              {/* ── TOP ROW ───────────────────────────────────── */}
+              <div aria-hidden="true" />
+              <div className="flex items-center justify-center gap-0.5 sm:gap-1">
+                {upperLeftLink && <StallCell stall={upperLeftLink} dir="h" />}
                 {topLeftRow.map(s => <StallCell key={s.id} stall={s} dir="h" />)}
               </div>
-              <div className="w-8 sm:w-12" aria-hidden="true" />
-              <div className="flex items-center gap-0.5 sm:gap-1">
+              <div aria-hidden="true" />
+              <div className="flex items-center justify-center gap-0.5 sm:gap-1">
                 {topRightRow.map(s => <StallCell key={s.id} stall={s} dir="h" />)}
               </div>
-            </div>
 
-            {/* ── MIDDLE SECTION ────────────────────────────────── */}
-            <div className="flex items-stretch gap-1.5 sm:gap-2">
-
-              {/* Left column */}
+              {/* ── MIDDLE SECTION ───────────────────────────── */}
               <div className="flex flex-col items-center gap-0.5 sm:gap-1 shrink-0">
                 {leftCol.map(s => <StallCell key={s.id} stall={s} dir="v" />)}
               </div>
 
-              {/* ── Central market building ────────────────────── */}
-              <div className="flex-1 relative flex items-center justify-center" style={{ minHeight: 340 }}>
-                {/* Octagonal building shell */}
+              {/* ── Left block: MARKET SITE ─────────────────── */}
+              <div className="relative flex items-center justify-center" style={{ minHeight: 340 }}>
                 <div
                   className="absolute inset-0"
                   style={{
@@ -160,7 +153,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                       'polygon(9% 0%, 91% 0%, 100% 9%, 100% 91%, 91% 100%, 9% 100%, 0% 91%, 0% 9%)',
                   }}
                 />
-                {/* Inner building (slightly smaller octagon) */}
                 <div
                   className="absolute"
                   style={{
@@ -171,7 +163,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                       'polygon(8% 0%, 92% 0%, 100% 8%, 100% 92%, 92% 100%, 8% 100%, 0% 92%, 0% 8%)',
                   }}
                 />
-                {/* Building label */}
                 <div className="relative z-10 text-center select-none px-6">
                   <div className="text-4xl sm:text-5xl mb-2 leading-none">🏪</div>
                   <div className="font-black text-gray-700 text-lg sm:text-2xl tracking-[0.18em] uppercase leading-tight">
@@ -180,44 +171,54 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                   <div className="text-gray-500 text-[10px] sm:text-xs mt-1 font-semibold tracking-widest">
                     Pwesto Night Market
                   </div>
-                  {/* Dashed interior pathways */}
-                  <div className="mt-4 flex gap-3 justify-center opacity-60">
-                    <div className="h-px w-12 border-t-2 border-dashed border-gray-500 self-center" />
-                    <span className="text-[9px] text-gray-500 font-semibold whitespace-nowrap">← pathway →</span>
-                    <div className="h-px w-12 border-t-2 border-dashed border-gray-500 self-center" />
-                  </div>
-                  <div className="mt-2 grid grid-cols-2 gap-x-8 gap-y-1 text-[8px] sm:text-[9px] text-gray-500 font-semibold">
-                    <div className="text-right">C ↖</div><div className="text-left">↗ D</div>
-                    <div className="text-right">B ↙</div><div className="text-left">↘ A</div>
-                  </div>
                 </div>
 
+                {/* Corner labels */}
+                <div className="absolute top-2 left-2 z-20"><CornerTag label="C" /></div>
+                <div className="absolute top-2 right-2 z-20"><CornerTag label="D" /></div>
+                <div className="absolute bottom-2 left-2 z-20"><CornerTag label="B" /></div>
+                <div className="absolute bottom-2 right-2 z-20"><CornerTag label="A" /></div>
+
                 {/* Corner stalls */}
-                <div className="absolute top-3 left-4 flex flex-wrap gap-1 max-w-[120px]">
+                <div className="absolute top-10 left-3 flex flex-wrap gap-1 max-w-[120px]">
                   {cornerC.map(s => <CornerStallCell key={s.id} stall={s} />)}
                 </div>
-                <div className="absolute top-3 right-4 flex flex-wrap justify-end gap-1 max-w-[140px]">
+                <div className="absolute top-10 right-3 flex flex-wrap justify-end gap-1 max-w-[140px]">
                   {cornerD.map(s => <CornerStallCell key={s.id} stall={s} />)}
                 </div>
-                <div className="absolute bottom-3 left-4 flex flex-wrap gap-1 max-w-[120px]">
+                <div className="absolute bottom-10 left-3 flex flex-wrap gap-1 max-w-[120px]">
                   {cornerB.map(s => <CornerStallCell key={s.id} stall={s} />)}
                 </div>
-                <div className="absolute bottom-3 right-4 flex flex-wrap justify-end gap-1 max-w-[140px]">
+                <div className="absolute bottom-10 right-3 flex flex-wrap justify-end gap-1 max-w-[140px]">
                   {cornerA.map(s => <CornerStallCell key={s.id} stall={s} />)}
                 </div>
               </div>
 
-              {/* Right column */}
+              {/* Right column (road edge) */}
               <div className="flex flex-col items-center gap-0.5 sm:gap-1 shrink-0">
                 {rightCol.map(s => <StallCell key={s.id} stall={s} dir="v" />)}
               </div>
-            </div>
 
-            {/* ── BOTTOM ROW ────────────────────────────────────── */}
-            <div className="flex items-center justify-center gap-1 mt-2">
-              <div className="flex items-center gap-0.5 sm:gap-1">
-                {bottomRow.map(s => <StallCell key={s.id} stall={s} dir="h" />)}
+              {/* ── Right block: PET BOTTLING ───────────────── */}
+              <div className="relative flex items-center justify-center" style={{ minHeight: 340 }}>
+                <div className="absolute inset-0 rounded-lg border-2 border-gray-300 bg-gray-100" />
+                <div className="relative z-10 text-center select-none">
+                  <div className="text-gray-500 text-sm sm:text-base font-semibold tracking-[0.2em] uppercase">
+                    PET BOTTLING
+                  </div>
+                </div>
               </div>
+
+              {/* ── BOTTOM ROW ─────────────────────────────── */}
+              <div aria-hidden="true" />
+              <div className="flex items-center justify-center gap-0.5 sm:gap-1">
+                {bottomLeftRow.map(s => <StallCell key={s.id} stall={s} dir="h" />)}
+              </div>
+              <div aria-hidden="true" />
+              <div className="flex items-center justify-center gap-0.5 sm:gap-1">
+                {bottomRightRow.map(s => <StallCell key={s.id} stall={s} dir="h" />)}
+              </div>
+
             </div>
 
           </div>{/* /inner padding */}
