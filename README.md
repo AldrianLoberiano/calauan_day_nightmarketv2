@@ -16,6 +16,15 @@ Pwesto Reservation Mapping System is a Vite + React + TypeScript app for managin
 - TypeScript
 - Tailwind CSS
 
+## API
+
+This project currently runs without a backend API. Data is sourced from local files and persisted in browser storage:
+
+- Mock data: `src/app/data/stallData.ts`
+- Storage helpers: `src/app/utils/storage.ts`
+
+If you plan to connect a real API, add an API client layer (for example, in `src/app/utils/`) and replace the mock data usage in the pages and components.
+
 ## Project Structure
 
 ```
