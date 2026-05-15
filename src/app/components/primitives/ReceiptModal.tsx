@@ -145,3 +145,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
             </div>
 
             {/* Footer */}
+            <div className="text-center py-3 border-t border-gray-100">
