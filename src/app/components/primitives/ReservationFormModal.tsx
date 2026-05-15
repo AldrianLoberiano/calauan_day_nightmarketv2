@@ -41,4 +41,5 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
     } else if (formData.fullName.trim().length < 3) {
       newErrors.fullName = 'Please enter your full name.';
     }
+    if (!formData.contactNumber.trim()) {
       newErrors.contactNumber = 'Contact number is required.';
