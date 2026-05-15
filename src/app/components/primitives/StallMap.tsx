@@ -99,3 +99,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
       {/* Zoom controls */}
       <div style={{ position:'sticky', top:0, zIndex:30, display:'flex', justifyContent:'flex-end',
         padding:'8px 12px', background:'rgba(255,255,255,0.95)', borderBottom:'1px solid #e5e7eb', gap:6 }}>
+        <span style={{ fontSize:12, color:'#888', marginRight:8, alignSelf:'center' }}>
