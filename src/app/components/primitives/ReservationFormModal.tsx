@@ -22,3 +22,4 @@ interface FormErrors {
   contactNumber?: string;
 }
 
+export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationFormModalProps) {
