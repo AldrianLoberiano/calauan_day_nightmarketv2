@@ -103,3 +103,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-700 to-blue-800 text-white px-6 py-4 flex items-center justify-between">
+          <div>
