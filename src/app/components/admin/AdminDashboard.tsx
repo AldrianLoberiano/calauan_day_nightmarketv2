@@ -178,7 +178,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
             </div>
 
             {/* Occupancy bar */}
-            <div className="bg-white/90 rounded-2xl border border-slate-200/70 p-5 shadow-sm backdrop-blur-sm">
               <h3 className="text-sm font-bold text-gray-600 mb-3">Market Occupancy</h3>
               <div className="flex items-center gap-3 mb-2">
                 <span className="text-3xl font-black text-gray-800">
