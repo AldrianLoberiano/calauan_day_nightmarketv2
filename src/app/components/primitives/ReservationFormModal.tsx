@@ -50,3 +50,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
     return Object.keys(newErrors).length === 0;
   }
 
+  async function handleSubmit(e: React.FormEvent) {
