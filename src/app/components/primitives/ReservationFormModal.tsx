@@ -75,3 +75,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
       updatedAt: now.toISOString(),
     };
 
+    addReservation(reservation);
