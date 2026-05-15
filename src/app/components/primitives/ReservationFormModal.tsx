@@ -199,3 +199,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
           <p className="text-xs text-gray-500">
             Reservation expires in <strong>3 days</strong> if not processed at the BPLO office. This does not guarantee final approval.
           </p>
+
