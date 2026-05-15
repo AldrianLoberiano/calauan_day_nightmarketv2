@@ -70,3 +70,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
       businessName: formData.businessName.trim() || undefined,
       address: formData.address.trim() || undefined,
       status: 'pending',
+      createdAt: now.toISOString(),
