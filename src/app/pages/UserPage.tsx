@@ -63,7 +63,6 @@ export function UserPage() {
         style={{ backgroundImage: `url(${headerImage})` }}
       >
         <div className="absolute inset-0 bg-black/45" aria-hidden="true" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
