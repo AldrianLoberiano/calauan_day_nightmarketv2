@@ -72,3 +72,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
       status: 'pending',
       createdAt: now.toISOString(),
       expiresAt: expiresAt.toISOString(),
+      updatedAt: now.toISOString(),
