@@ -133,3 +133,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
             >
               {/* Horizontal roads */}
               {['17%','17.6%'].map((y,i)=>(
+                <React.Fragment key={`hr${i}`}>
