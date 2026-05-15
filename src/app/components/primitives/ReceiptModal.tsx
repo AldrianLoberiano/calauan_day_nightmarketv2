@@ -139,3 +139,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
               <ol className="text-sm text-blue-700 space-y-1 list-decimal list-inside">
                 <li>Take a screenshot or print this receipt.</li>
                 <li>Visit the <strong>BPLO Office</strong> within <strong>3 days</strong>.</li>
+                <li>Present your Reservation Number: <strong>{reservation.reservationNumber}</strong></li>
