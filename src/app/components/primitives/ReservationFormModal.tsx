@@ -36,3 +36,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
 
   function validate(): boolean {
     const newErrors: FormErrors = {};
+    if (!formData.fullName.trim()) {
