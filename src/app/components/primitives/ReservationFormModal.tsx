@@ -74,3 +74,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
       expiresAt: expiresAt.toISOString(),
       updatedAt: now.toISOString(),
     };
+
