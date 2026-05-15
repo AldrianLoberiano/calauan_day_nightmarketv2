@@ -67,3 +67,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
       >{s.id}</button>
     );
   };
+
