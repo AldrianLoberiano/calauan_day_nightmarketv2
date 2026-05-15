@@ -53,3 +53,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
           background: statusColor[s.status]||'#ccc',
           border: `1.5px solid ${statusBorder[s.status]||'#999'}`,
           color:'#fff', fontWeight:700, cursor:'pointer', display:'inline-flex',
+          alignItems:'center', justifyContent:'center', flexShrink:0,
