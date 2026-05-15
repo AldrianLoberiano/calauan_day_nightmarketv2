@@ -134,6 +134,7 @@ export function UserPage() {
         {/* Stall Browser */}
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm">
           <div className="px-5 py-4 border-b border-gray-100">
+            <h2 className="text-base font-bold text-gray-800">Stall Directory</h2>
           </div>
           <div className="p-5">
             {/* Filters */}
