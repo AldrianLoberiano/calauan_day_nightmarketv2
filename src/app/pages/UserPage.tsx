@@ -74,7 +74,6 @@ export function UserPage() {
                 <p className="text-blue-200 text-xs sm:text-sm">Public Market — Night Market Stall Mapping</p>
               </div>
             </div>
-              <ShieldCheck className="w-4 h-4" />
               <span className="hidden sm:inline">Admin Panel</span>
               <span className="sm:hidden">Admin</span>
             </Link>
