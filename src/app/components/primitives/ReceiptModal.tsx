@@ -81,3 +81,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
               <h3 className="text-xl font-bold mt-1">Pwesto Public Market</h3>
               <p className="text-blue-200 text-xs mt-0.5">BPLO — Business Permits &amp; Licensing Office</p>
             </div>
+
