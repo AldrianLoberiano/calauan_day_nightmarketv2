@@ -74,7 +74,6 @@ export function UserPage() {
                 <p className="text-blue-200 text-xs sm:text-sm">Public Market — Night Market Stall Mapping</p>
               </div>
             </div>
-            <Link
               to="/admin"
               className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-semibold px-3 py-2 rounded-xl transition-colors border border-white/20"
             >
