@@ -213,3 +213,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                 <div style={{ width:52, flexShrink:0 }}/>
                 <div style={{ display:'flex', alignItems:'center', gap:2, flex:1 }}>
                   <CL t="C"/>
+                  {cC.map(s=><CS key={s.id} s={s}/>)}
