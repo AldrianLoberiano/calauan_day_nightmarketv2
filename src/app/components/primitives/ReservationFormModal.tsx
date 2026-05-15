@@ -171,3 +171,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
                 type="text"
                 value={formData.businessName}
                 onChange={(e) => handleChange('businessName', e.target.value)}
+                placeholder="My Store Name"
