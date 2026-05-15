@@ -106,3 +106,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
           style={{ width:32, height:32, border:'1px solid #ddd', borderRadius:6, cursor:'pointer',
             fontSize:18, fontWeight:'bold', background:'#f9f9f9' }}>−</button>
         <button onClick={()=>setZoom(1)}
+          style={{ padding:'0 12px', height:32, border:'1px solid #ddd', borderRadius:6, cursor:'pointer',
