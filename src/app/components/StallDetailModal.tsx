@@ -105,6 +105,7 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
           )}
           {(stall.status === 'reserved' || stall.status === 'occupied') && (
             <div className="bg-red-50 border border-red-200 rounded-xl p-3 mb-4 text-sm text-red-800">
+              This stall is not available. Please select another stall from the map.
             </div>
           )}
 
