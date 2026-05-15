@@ -203,3 +203,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
               </div>
 
               {/* TOP OUTER ROWS */}
+              <div style={{ display:'flex', gap:55, marginBottom:2 }}>
