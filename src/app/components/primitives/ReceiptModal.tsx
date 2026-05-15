@@ -6,3 +6,4 @@ import { formatDate, formatPeso } from '../utils/helpers';
 interface ReceiptModalProps {
   reservation: Reservation | null;
   stall: Stall | null;
+  onClose: () => void;
