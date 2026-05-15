@@ -171,3 +171,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
             </svg>
 
             <div style={{ position:'relative', zIndex:2, padding:'12px 14px' }}>
+
