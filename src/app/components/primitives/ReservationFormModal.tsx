@@ -61,3 +61,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
     const expiresAt = new Date(now);
     expiresAt.setDate(expiresAt.getDate() + 3);
 
+    const reservation: Reservation = {
