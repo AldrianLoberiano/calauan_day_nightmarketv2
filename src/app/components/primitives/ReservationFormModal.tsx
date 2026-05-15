@@ -192,3 +192,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
                 rows={2}
                 className="w-full pl-10 pr-4 py-2.5 border-2 border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all resize-none"
                 disabled={isSubmitting}
+              />
