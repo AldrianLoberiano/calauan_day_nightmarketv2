@@ -173,3 +173,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
             <div style={{ position:'relative', zIndex:2, padding:'12px 14px' }}>
 
               {/* MARKET SITE */}
+              <div style={{ display:'flex', gap:35, marginBottom:8 }}>
