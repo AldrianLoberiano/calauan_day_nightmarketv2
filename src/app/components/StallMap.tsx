@@ -242,7 +242,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                 </div>
 
                 {/* Center + right col */}
-                    <div style={{ transform:'translateX(-10px)' }}>
                       <VC ss={rCol} w={25} h={16}/>
                     </div>
                   </div>
