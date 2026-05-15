@@ -32,3 +32,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
 
   return (
     <div
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
