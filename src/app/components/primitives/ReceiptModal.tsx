@@ -173,3 +173,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
   );
 }
 
+function DetailRow({
