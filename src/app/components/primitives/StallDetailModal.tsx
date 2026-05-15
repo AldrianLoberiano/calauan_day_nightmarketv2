@@ -64,3 +64,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
         </div>
 
         {/* Content */}
+        <div className="p-5">
