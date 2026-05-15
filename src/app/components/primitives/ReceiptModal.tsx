@@ -45,3 +45,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
             .footer { text-align: center; color: #9ca3af; font-size: 12px; margin-top: 16px; border-top: 1px dashed #d1d5db; padding-top: 12px; }
           </style>
         </head>
+        <body>${printContents}</body>
