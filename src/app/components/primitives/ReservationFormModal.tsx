@@ -83,3 +83,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
       reservationId: reservation.id,
     };
     updateStall(updatedStall);
+
