@@ -1,6 +1,5 @@
 # stall Reservation Mapping System
 
-Pwesto Reservation Mapping System is a Vite + React + TypeScript app for managing day and night market stall reservations. It provides user and admin flows, visual stall mapping, and reservation management features.
 
 ## Features
 
