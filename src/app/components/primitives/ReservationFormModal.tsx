@@ -216,4 +216,5 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
             >
               {isSubmitting ? (
                 <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
                   Processing...
