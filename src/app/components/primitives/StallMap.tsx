@@ -128,3 +128,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
             {/* Road SVG */}
             <svg
               viewBox="0 0 100 100"
+              preserveAspectRatio="none"
