@@ -8,3 +8,4 @@ interface StallMapProps {
   selectedStallId?: string;
 }
 
+function range(a: number, b: number) {
