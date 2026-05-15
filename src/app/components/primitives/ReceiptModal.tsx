@@ -7,3 +7,4 @@ interface ReceiptModalProps {
   reservation: Reservation | null;
   stall: Stall | null;
   onClose: () => void;
+}
