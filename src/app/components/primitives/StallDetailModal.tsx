@@ -57,3 +57,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
 
           <button
             onClick={onClose}
+            className="absolute top-3 left-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white rounded-full p-1.5 transition-colors"
