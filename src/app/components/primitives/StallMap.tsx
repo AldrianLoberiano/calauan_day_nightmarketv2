@@ -55,3 +55,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
           color:'#fff', fontWeight:700, cursor:'pointer', display:'inline-flex',
           alignItems:'center', justifyContent:'center', flexShrink:0,
           position:'relative', userSelect:'none', lineHeight:1,
+          outline: sel ? '2.5px solid #3b82f6' : 'none',
