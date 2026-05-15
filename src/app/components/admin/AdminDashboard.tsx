@@ -133,6 +133,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-full transition-all ${
                   activeTab === tab.id
                     ? 'border-white text-white'
                     : 'border-transparent text-blue-300 hover:text-white hover:border-blue-300'
