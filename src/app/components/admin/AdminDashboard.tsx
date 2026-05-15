@@ -92,6 +92,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Admin Header */}
+      <header
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 bg-white/20 rounded-xl flex items-center justify-center">
               <BarChart3 className="w-5 h-5" />
