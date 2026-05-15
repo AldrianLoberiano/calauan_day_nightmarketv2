@@ -43,3 +43,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
             .qr { text-align: center; margin: 16px 0; }
             .notice { background: #eff6ff; border: 1px solid #93c5fd; border-radius: 8px; padding: 12px; font-size: 13px; color: #1e40af; margin-top: 16px; }
             .footer { text-align: center; color: #9ca3af; font-size: 12px; margin-top: 16px; border-top: 1px dashed #d1d5db; padding-top: 12px; }
+          </style>
