@@ -126,6 +126,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
           <div style={{ position:'relative', border:'3px solid #1a1a6e' }}>
 
             {/* Road SVG */}
+            <svg
               {/* Horizontal roads */}
               {['17%','17.6%'].map((y,i)=>(
                 <React.Fragment key={`hr${i}`}>
