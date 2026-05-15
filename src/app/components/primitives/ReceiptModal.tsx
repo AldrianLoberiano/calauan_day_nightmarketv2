@@ -125,3 +125,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
               <p className="text-xs text-gray-500 uppercase tracking-wider">Scan for Verification</p>
               <img
                 src={qrUrl}
+                alt="Reservation QR Code"
