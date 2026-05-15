@@ -160,3 +160,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
             {errors.contactNumber && <p className="text-red-500 text-xs mt-1">{errors.contactNumber}</p>}
           </div>
 
+          {/* Business Name */}
