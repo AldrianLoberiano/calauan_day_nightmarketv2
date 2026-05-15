@@ -14,3 +14,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
 
   const statusIcon: Record<string, React.ReactNode> = {
     available: <CheckCircle className="w-4 h-4" />,
+    reserved: <XCircle className="w-4 h-4" />,
