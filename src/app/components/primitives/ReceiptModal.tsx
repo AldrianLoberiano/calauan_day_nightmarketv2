@@ -65,3 +65,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
             <div>
               <h2 className="text-lg font-bold">Reservation Successful!</h2>
               <p className="text-green-100 text-sm">Your stall has been reserved.</p>
+            </div>
