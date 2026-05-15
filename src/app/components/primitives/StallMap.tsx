@@ -201,3 +201,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                     fontSize:20, fontWeight:'bold', color:'#555', background:'#fff' }}>5</div>
                 </div>
               </div>
+
