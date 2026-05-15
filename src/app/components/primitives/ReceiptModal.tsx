@@ -8,3 +8,4 @@ interface ReceiptModalProps {
   stall: Stall | null;
   onClose: () => void;
 }
+
