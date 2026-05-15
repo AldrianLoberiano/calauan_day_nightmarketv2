@@ -154,7 +154,6 @@ export function UserPage() {
                 <select
                   value={filterStatus}
                   onChange={(e) => setFilterStatus(e.target.value)}
-                  className="appearance-none pl-3 pr-8 py-2 border-2 border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white w-full sm:w-auto"
                 >
                   <option value="all">All Status</option>
                   <option value="available">Available</option>
