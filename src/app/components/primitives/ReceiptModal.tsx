@@ -21,3 +21,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
   const locationLabel = stall.number > 0
     ? `Section ${stall.section}, Stall ${stall.id}`
     : `Section ${stall.section}`;
+
