@@ -71,7 +71,6 @@ export function UserPage() {
               </div>
               <div>
                 <h1 className="font-black text-lg sm:text-xl leading-tight">Pwesto Reservation System</h1>
-                <p className="text-blue-200 text-xs sm:text-sm">Public Market — Night Market Stall Mapping</p>
               </div>
             </div>
             <span className="text-xs sm:text-sm font-semibold text-white/80">Public View</span>
