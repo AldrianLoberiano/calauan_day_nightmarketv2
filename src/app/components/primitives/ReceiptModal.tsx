@@ -161,3 +161,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
             <Printer className="w-4 h-4" />
             Print Receipt
           </button>
+          <button
