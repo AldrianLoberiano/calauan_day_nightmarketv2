@@ -49,3 +49,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }
+
