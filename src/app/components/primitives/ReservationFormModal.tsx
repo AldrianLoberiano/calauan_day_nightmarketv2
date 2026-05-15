@@ -47,3 +47,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
       newErrors.contactNumber = 'Enter a valid Philippine mobile number (e.g., 09XXXXXXXXX).';
     }
     setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
