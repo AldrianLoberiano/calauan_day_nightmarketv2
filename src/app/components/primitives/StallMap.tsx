@@ -98,3 +98,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
     <div style={{ position:'relative' }}>
       {/* Zoom controls */}
       <div style={{ position:'sticky', top:0, zIndex:30, display:'flex', justifyContent:'flex-end',
+        padding:'8px 12px', background:'rgba(255,255,255,0.95)', borderBottom:'1px solid #e5e7eb', gap:6 }}>
