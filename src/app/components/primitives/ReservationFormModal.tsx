@@ -120,3 +120,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
             Fill in your details to reserve this stall. You will receive a <strong>Reservation Number</strong> that you must present at the <strong>BPLO Office</strong>.
           </div>
 
+          {/* Full Name */}
