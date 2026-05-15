@@ -189,3 +189,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                     <path d="M 0,25 Q 50,0 100,25" fill="none" stroke="#bbb" strokeWidth="1"/>
                     <path d="M 100,25 Q 150,0 200,25" fill="none" stroke="#bbb" strokeWidth="1"/>
                   </svg>
+                  {/* Title */}
