@@ -14,3 +14,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
 
   if (!reservation || !stall) return null;
 
+  const qrData = encodeURIComponent(
