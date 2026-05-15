@@ -36,3 +36,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
   const cD = ['D1','D2','D3','D4','D5','D6'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
 
   const statusColor: Record<string,string> = {
+    available:'#22c55e', pending:'#facc15', reserved:'#ef4444', occupied:'#6b7280'
