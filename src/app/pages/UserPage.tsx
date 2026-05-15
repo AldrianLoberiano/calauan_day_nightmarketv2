@@ -62,6 +62,7 @@ export function UserPage() {
         className="relative text-white bg-center bg-cover"
         style={{ backgroundImage: `url(${headerImage})` }}
       >
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-900/45 to-slate-950/70" aria-hidden="true" />
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
