@@ -145,3 +145,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
             <label className="block text-sm font-semibold text-gray-700 mb-1">
               Contact Number <span className="text-red-500">*</span>
             </label>
+            <div className="relative">
