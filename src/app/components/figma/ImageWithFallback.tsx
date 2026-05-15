@@ -1,4 +1,3 @@
-  }
 
   const { src, alt, style, className, ...rest } = props
 
