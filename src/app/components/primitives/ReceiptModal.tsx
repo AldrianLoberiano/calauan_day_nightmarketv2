@@ -185,3 +185,4 @@ function DetailRow({
   valueClass?: string;
 }) {
   return (
+    <div className="flex items-start gap-2">
