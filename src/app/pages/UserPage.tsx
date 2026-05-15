@@ -96,6 +96,7 @@ export function UserPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm px-5 py-4">
           <div className="flex flex-wrap items-center gap-2 sm:gap-4">
+            <StatPill color="bg-green-500" label="Available" count={availableCount} />
 
         {/* Interactive Map */}
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
