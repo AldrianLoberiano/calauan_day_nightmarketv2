@@ -11,6 +11,7 @@ import { StallMap } from '../StallMap';
 import { StallDetailModal } from '../StallDetailModal';
 import { ReservationFormModal } from '../ReservationFormModal';
 import { ReceiptModal } from '../ReceiptModal';
+import headerImage from '../public/header1.png';
 
 interface AdminDashboardProps {
   onLogout: () => void;
