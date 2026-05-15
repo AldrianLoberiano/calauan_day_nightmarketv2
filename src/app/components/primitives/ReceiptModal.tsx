@@ -27,3 +27,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
     const win = window.open('', '_blank');
     if (!win) return;
     win.document.write(`
+      <html>
