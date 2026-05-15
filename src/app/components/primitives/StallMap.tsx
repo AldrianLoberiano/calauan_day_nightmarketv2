@@ -152,3 +152,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                 <line key={`vm${i}`} x1={x} y1="3%" x2={x} y2="97%" stroke="#d946ef" strokeWidth={i?1.5:2.5} opacity={i?0.3:0.45}/>
               ))}
               <line x1="97%" y1="3%" x2="97%" y2="97%" stroke="#1a1a6e" strokeWidth="2" opacity="0.35"/>
+              {/* Curves */}
