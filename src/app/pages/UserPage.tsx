@@ -93,6 +93,7 @@ export function UserPage() {
       {/* How it works banner */}
       <div className="bg-blue-50 border-b border-blue-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3">
+          <div className="flex items-start sm:items-center gap-2 text-sm text-blue-800">
             <Info className="w-4 h-4 shrink-0 mt-0.5 sm:mt-0" />
             <span>
               <strong>How to Reserve:</strong> Click on any{' '}
