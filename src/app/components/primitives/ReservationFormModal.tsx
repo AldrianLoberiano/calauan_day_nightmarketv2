@@ -180,3 +180,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
 
           {/* Address */}
           <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
