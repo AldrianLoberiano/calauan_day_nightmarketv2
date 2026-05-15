@@ -127,3 +127,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
           </div>
         </div>
       </div>
+    </div>
