@@ -164,3 +164,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
           <button
             onClick={onClose}
             className="flex-1 bg-blue-700 hover:bg-blue-800 text-white rounded-xl py-2.5 text-sm font-bold transition-colors"
+          >
