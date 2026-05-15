@@ -5,3 +5,4 @@ import { formatPeso, getStatusTextClass, getStatusLabel } from '../../utils/help
 
 interface StallDetailModalProps {
   stall: Stall | null;
+  onClose: () => void;
