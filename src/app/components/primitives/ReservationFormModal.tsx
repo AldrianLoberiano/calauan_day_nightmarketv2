@@ -213,4 +213,5 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
               type="submit"
               disabled={isSubmitting}
               className="flex-1 bg-blue-700 hover:bg-blue-800 disabled:bg-blue-400 text-white rounded-xl py-2.5 text-sm font-bold transition-colors shadow-lg shadow-blue-200 flex items-center justify-center gap-2"
+            >
               {isSubmitting ? (
