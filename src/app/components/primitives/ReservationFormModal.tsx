@@ -16,3 +16,4 @@ interface FormData {
   businessName: string;
   address: string;
 }
+
