@@ -206,3 +206,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
               onClick={onClose}
               disabled={isSubmitting}
               className="flex-1 border-2 border-gray-300 text-gray-700 hover:bg-gray-100 rounded-xl py-2.5 text-sm font-semibold transition-colors disabled:opacity-50"
+            >
