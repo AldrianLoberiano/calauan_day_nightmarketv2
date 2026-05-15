@@ -150,3 +150,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
               <input
                 type="tel"
                 value={formData.contactNumber}
+                onChange={(e) => handleChange('contactNumber', e.target.value)}
