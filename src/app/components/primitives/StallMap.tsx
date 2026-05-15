@@ -30,3 +30,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
   const inBot = range(1,34).map(g).filter(Boolean) as Stall[];
   const outBL = range(22,71).reverse().map(g).filter(Boolean) as Stall[];
   const outBR = range(226,258).map(g).filter(Boolean) as Stall[];
+  const cA = ['A1','A2','A3','A4','A5'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
