@@ -4,3 +4,4 @@ import { Reservation, Stall } from '../types';
 import { formatDate, formatPeso } from '../utils/helpers';
 
 interface ReceiptModalProps {
+  reservation: Reservation | null;
