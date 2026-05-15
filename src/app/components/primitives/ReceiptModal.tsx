@@ -122,3 +122,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
 
             {/* QR Code */}
             <div className="border-t-2 border-dashed border-blue-300 py-4 flex flex-col items-center gap-2">
+              <p className="text-xs text-gray-500 uppercase tracking-wider">Scan for Verification</p>
