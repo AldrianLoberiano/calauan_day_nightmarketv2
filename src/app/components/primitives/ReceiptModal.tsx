@@ -149,3 +149,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
               <p className="text-xs text-gray-400">This is a computer-generated reservation slip.</p>
               <p className="text-xs text-gray-400">Valid until: {formatDate(reservation.expiresAt)}</p>
             </div>
+          </div>
