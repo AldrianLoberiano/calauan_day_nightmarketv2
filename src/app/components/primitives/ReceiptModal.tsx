@@ -73,3 +73,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
         </div>
 
         {/* Receipt body */}
+        <div ref={receiptRef} className="p-6">
