@@ -32,7 +32,6 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
   }
 
   return (
-          backgroundSize: '20px 20px',
         }}
       />
 
