@@ -124,4 +124,5 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
 
           {/* Outer border */}
           <div style={{ position:'relative', border:'3px solid #1a1a6e' }}>
+
             {/* Road SVG */}
