@@ -46,3 +46,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
   const S = ({ s, w, h }: { s: Stall; w: number; h: number }) => {
     const sel = selectedStallId === s.id;
     return (
+      <button onClick={()=>onStallClick(s)}
