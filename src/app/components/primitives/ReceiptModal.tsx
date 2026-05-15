@@ -75,3 +75,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
         {/* Receipt body */}
         <div ref={receiptRef} className="p-6">
           <div className="border-2 border-blue-700 rounded-xl overflow-hidden">
+            {/* Receipt header */}
