@@ -20,3 +20,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
   const g = (n: number) => sm.get(n);
 
   // Groups
+  const topOutL = [135,...range(136,196).filter(n=>n%2===0)].map(g).filter(Boolean) as Stall[];
