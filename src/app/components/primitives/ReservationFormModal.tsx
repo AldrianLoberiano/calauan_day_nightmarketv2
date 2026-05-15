@@ -189,3 +189,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
                 value={formData.address}
                 onChange={(e) => handleChange('address', e.target.value)}
                 placeholder="Barangay, Municipality, Province"
+                rows={2}
