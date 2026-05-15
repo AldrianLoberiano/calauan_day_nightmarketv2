@@ -52,3 +52,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
     win.print();
   }
 
+  return (
