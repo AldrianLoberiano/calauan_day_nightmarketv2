@@ -105,7 +105,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
             </div>
             <div>
               <h1 className="font-black text-base sm:text-lg leading-tight">BPLO Admin Panel</h1>
-              <p className="text-blue-200 text-xs hidden sm:block">Pwesto Reservation Mapping System</p>
             </div>
           </div>
           <div className="flex items-center gap-2 sm:gap-3">
