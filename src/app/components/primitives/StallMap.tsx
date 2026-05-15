@@ -14,3 +14,4 @@ function range(a: number, b: number) {
 
 export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProps) {
   const [zoom, setZoom] = useState(1);
+  const containerRef = useRef<HTMLDivElement>(null);
