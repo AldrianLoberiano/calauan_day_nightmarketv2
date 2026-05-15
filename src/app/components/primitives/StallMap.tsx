@@ -191,3 +191,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                   </svg>
                   {/* Title */}
                   <div style={{ position:'absolute', inset:0, display:'flex', alignItems:'center', justifyContent:'center' }}>
+                    <span style={{ fontSize:55, fontWeight:900, color:'#3a3a3a', letterSpacing:'0.4em',
