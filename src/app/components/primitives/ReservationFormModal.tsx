@@ -196,3 +196,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
             </div>
           </div>
 
+          <p className="text-xs text-gray-500">
