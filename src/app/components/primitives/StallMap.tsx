@@ -37,3 +37,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
 
   const statusColor: Record<string,string> = {
     available:'#22c55e', pending:'#facc15', reserved:'#ef4444', occupied:'#6b7280'
+  };
