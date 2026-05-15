@@ -26,3 +26,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
   const [formData, setFormData] = useState<FormData>({
     fullName: '',
     contactNumber: '',
+    address: '',
