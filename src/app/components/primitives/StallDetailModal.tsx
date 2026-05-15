@@ -99,3 +99,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
           <p className="text-sm text-gray-600 leading-relaxed mb-5">{stall.description}</p>
 
           {stall.status === 'pending' && (
+            <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3 mb-4 text-sm text-yellow-800">
