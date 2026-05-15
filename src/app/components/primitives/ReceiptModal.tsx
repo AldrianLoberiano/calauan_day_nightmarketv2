@@ -10,3 +10,4 @@ interface ReceiptModalProps {
 }
 
 export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps) {
+  const receiptRef = useRef<HTMLDivElement>(null);
