@@ -224,3 +224,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
               </div>
 
               {/* MAIN BODY */}
+              <div style={{ display:'flex', gap:0 }}>
