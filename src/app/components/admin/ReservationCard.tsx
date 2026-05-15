@@ -141,6 +141,7 @@ export function ReservationCard({ reservation, stall, onUpdate }: ReservationCar
 
           {reservation.adminNotes && (
             <div className="bg-gray-50 rounded-xl p-3 text-sm text-gray-600 border border-gray-200">
+              <strong>Notes:</strong> {reservation.adminNotes}
             </div>
           )}
 
