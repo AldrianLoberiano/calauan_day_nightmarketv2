@@ -90,3 +90,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
                 PENDING PROCESSING
               </span>
             </div>
+
