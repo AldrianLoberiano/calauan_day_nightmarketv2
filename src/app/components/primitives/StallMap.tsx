@@ -80,3 +80,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
   const CL = ({ t }: { t: string }) => (
     <div style={{ width:28, height:28, borderRadius:'50%', border:'3px solid #dc2626', background:'#fff',
       color:'#dc2626', fontWeight:900, fontSize:13, display:'inline-flex', alignItems:'center',
+      justifyContent:'center', flexShrink:0, boxShadow:'0 1px 3px rgba(0,0,0,0.2)' }}>{t}</div>
