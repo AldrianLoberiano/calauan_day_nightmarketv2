@@ -111,3 +111,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
                 value={formatDate(reservation.expiresAt)}
               />
               <div className="border-t border-dashed border-gray-200 pt-3">
+                <DetailRow
