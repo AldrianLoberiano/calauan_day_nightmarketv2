@@ -220,3 +220,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
                   Processing...
                 </>
               ) : (
+                'Confirm Reservation'
