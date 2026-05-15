@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Lock, User, Eye, EyeOff, ShieldCheck } from 'lucide-react';
 import { verifyAdminLogin } from '../../utils/storage';
 
 interface AdminLoginProps {
