@@ -72,3 +72,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
           </button>
         </div>
 
+        {/* Receipt body */}
