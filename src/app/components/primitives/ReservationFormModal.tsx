@@ -28,3 +28,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
     contactNumber: '',
     businessName: '',
     address: '',
+  });
