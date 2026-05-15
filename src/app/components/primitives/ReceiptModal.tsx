@@ -92,3 +92,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
             </div>
 
             {/* Details */}
+            <div className="p-4 space-y-3">
