@@ -108,3 +108,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
               <DetailRow
                 icon={<Clock className="w-4 h-4 text-red-500" />}
                 label="Expires On"
+                value={formatDate(reservation.expiresAt)}
