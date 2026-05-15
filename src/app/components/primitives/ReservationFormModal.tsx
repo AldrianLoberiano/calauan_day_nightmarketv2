@@ -185,3 +185,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
             </label>
             <div className="relative">
               <MapPin className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
+              <textarea
