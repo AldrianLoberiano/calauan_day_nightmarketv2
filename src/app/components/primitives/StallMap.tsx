@@ -6,3 +6,4 @@ interface StallMapProps {
   stalls: Stall[];
   onStallClick: (stall: Stall) => void;
   selectedStallId?: string;
+}
