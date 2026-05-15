@@ -162,3 +162,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
             Print Receipt
           </button>
           <button
+            onClick={onClose}
