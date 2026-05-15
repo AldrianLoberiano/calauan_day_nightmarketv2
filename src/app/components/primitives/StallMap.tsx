@@ -155,3 +155,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
               {/* Curves */}
               {
                 [
+                  "M 5.5 17 Q 5.5 3 15 3",
