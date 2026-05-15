@@ -29,3 +29,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
     win.document.write(`
       <html>
         <head>
+          <title>Reservation Receipt — ${reservation.reservationNumber}</title>
