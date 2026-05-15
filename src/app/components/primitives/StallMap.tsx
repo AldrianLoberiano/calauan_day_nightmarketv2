@@ -57,3 +57,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
           position:'relative', userSelect:'none', lineHeight:1,
           outline: sel ? '2.5px solid #3b82f6' : 'none',
           outlineOffset: sel ? 1 : 0,
+          transform: sel ? 'scale(1.15)' : undefined,
