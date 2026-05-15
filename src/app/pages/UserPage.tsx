@@ -135,6 +135,7 @@ export function UserPage() {
         <div className="bg-white rounded-2xl border border-slate-200/70 shadow-lg shadow-slate-200/60">
           <div className="px-5 py-4 border-b border-slate-100">
             <h2 className="text-base font-bold text-slate-900">Stall Directory</h2>
+            <p className="text-xs text-slate-500 mt-0.5">Browse and search all stalls</p>
           </div>
           <div className="p-5">
             {/* Filters */}
