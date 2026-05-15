@@ -59,7 +59,6 @@ export function UserPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Header */}
-      <header className="bg-gradient-to-r from-blue-800 via-blue-700 to-blue-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
