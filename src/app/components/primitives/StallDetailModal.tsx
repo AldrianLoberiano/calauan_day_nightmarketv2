@@ -108,3 +108,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
               This stall is not available. Please select another stall from the map.
             </div>
           )}
+
