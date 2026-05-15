@@ -219,3 +219,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
                   <Loader2 className="w-4 h-4 animate-spin" />
                   Processing...
                 </>
+              ) : (
