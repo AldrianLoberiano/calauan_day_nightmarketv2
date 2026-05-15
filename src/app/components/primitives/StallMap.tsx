@@ -186,3 +186,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                   <div style={{ position:'absolute', inset:22, border:'1px dashed #ccc' }}/>
                   {/* Bottom arch detail */}
                   <svg style={{ position:'absolute', bottom:5, left:60, width:200, height:25 }}>
+                    <path d="M 0,25 Q 50,0 100,25" fill="none" stroke="#bbb" strokeWidth="1"/>
