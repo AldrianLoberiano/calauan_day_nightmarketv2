@@ -4,3 +4,4 @@ import { Stall } from '../../types';
 import { formatPeso, getStatusTextClass, getStatusLabel } from '../../utils/helpers';
 
 interface StallDetailModalProps {
+  stall: Stall | null;
