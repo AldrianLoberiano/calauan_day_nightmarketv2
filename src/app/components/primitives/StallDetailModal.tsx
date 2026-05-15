@@ -3,3 +3,4 @@ import { X, MapPin, Tag, Ruler, ShoppingBag, CheckCircle, Clock, XCircle, MinusC
 import { Stall } from '../../types';
 import { formatPeso, getStatusTextClass, getStatusLabel } from '../../utils/helpers';
 
+interface StallDetailModalProps {
