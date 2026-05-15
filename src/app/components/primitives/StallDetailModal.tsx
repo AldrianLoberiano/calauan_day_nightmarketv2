@@ -9,3 +9,4 @@ interface StallDetailModalProps {
   onReserve: (stall: Stall) => void;
 }
 
+export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModalProps) {
