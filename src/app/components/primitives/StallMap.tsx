@@ -75,4 +75,5 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
         fontSize:7, fontWeight:900, cursor:'pointer', display:'inline-flex', alignItems:'center',
         justifyContent:'center', flexShrink:0 }}>{s.id}</button>
   );
+
   // Corner marker circle
