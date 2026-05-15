@@ -19,3 +19,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
     occupied: <MinusCircle className="w-4 h-4" />,
   };
 
+  const sizeLabel: Record<string, string> = {
