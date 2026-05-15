@@ -87,3 +87,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
   const HR = ({ ss, w, h }: { ss: Stall[]; w: number; h: number }) => (
     <div style={{ display:'flex', gap:1 }}>{ss.map(s=><S key={s.id} s={s} w={w} h={h}/>)}</div>
   );
+  const VC = ({ ss, w, h }: { ss: Stall[]; w: number; h: number }) => (
