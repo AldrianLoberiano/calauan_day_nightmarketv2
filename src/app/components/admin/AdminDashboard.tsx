@@ -358,6 +358,7 @@ function StatCard({
   color: 'blue' | 'green' | 'yellow' | 'red' | 'gray';
 }) {
   const colorMap = {
+    blue: 'bg-blue-50 text-blue-700 border-blue-200',
   };
 
   return (
