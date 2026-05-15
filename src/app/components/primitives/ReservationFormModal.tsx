@@ -55,3 +55,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
     if (!validate()) return;
 
     setIsSubmitting(true);
+    await new Promise(r => setTimeout(r, 1200));
