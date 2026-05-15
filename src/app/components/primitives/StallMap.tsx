@@ -93,3 +93,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
 
   // Left paired rows
   const pairs = Math.min(lOut.length, lIn.length);
+
