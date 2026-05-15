@@ -6,3 +6,4 @@ import { addReservation, updateStall, generateReservationNumber, generateUUID } 
 
 interface ReservationFormModalProps {
   stall: Stall | null;
+  onClose: () => void;
