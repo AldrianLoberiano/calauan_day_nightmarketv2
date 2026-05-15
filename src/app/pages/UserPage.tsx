@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, Info, ShieldCheck, Search, ChevronDown } from 'lucide-react';
 import { Stall, Reservation } from '../types';
-import headerImage from '../components/public/header1.png';
+const headerImage = new URL('../components/public/header1.png', import.meta.url).href;
 import { checkAndExpireReservations } from '../utils/storage';
-import { StallMap } from '../components/StallMap';
-import { StallDetailModal } from '../components/StallDetailModal';
-import { ReservationFormModal } from '../components/ReservationFormModal';
-import { ReceiptModal } from '../components/ReceiptModal';
+import { StallMap } from '../components/primitives/StallMap';
+import { StallDetailModal } from '../components/primitives/StallDetailModal';
+import { ReservationFormModal } from '../components/primitives/ReservationFormModal';
+import { ReceiptModal } from '../components/primitives/ReceiptModal';
 
 export function UserPage() {
   const [stalls, setStalls] = useState<Stall[]>([]);
