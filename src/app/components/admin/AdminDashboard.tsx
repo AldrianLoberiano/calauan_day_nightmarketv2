@@ -118,6 +118,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
             </button>
             <button
               onClick={onLogout}
+              className="flex items-center gap-1.5 bg-red-500/80 hover:bg-red-600 text-white text-xs font-semibold px-3 py-1.5 rounded-xl transition-colors ring-1 ring-red-200/20"
             >
               <LogOut className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Logout</span>
