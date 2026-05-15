@@ -9,3 +9,4 @@ interface ReceiptModalProps {
   onClose: () => void;
 }
 
+export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps) {
