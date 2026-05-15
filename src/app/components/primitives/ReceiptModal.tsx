@@ -187,3 +187,4 @@ function DetailRow({
   return (
     <div className="flex items-start gap-2">
       <span className="mt-0.5 shrink-0">{icon}</span>
+      <div className="flex-1 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-0.5">
