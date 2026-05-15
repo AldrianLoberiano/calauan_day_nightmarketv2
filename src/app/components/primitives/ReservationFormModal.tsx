@@ -9,3 +9,4 @@ interface ReservationFormModalProps {
   onClose: () => void;
   onSuccess: (reservation: Reservation, stall: Stall) => void;
 }
+
