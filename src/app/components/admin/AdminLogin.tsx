@@ -48,6 +48,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
             />
           </div>
           <h1 className="text-white text-2xl font-black tracking-tight">BPLO Admin Panel</h1>
+          <p className="text-blue-200 text-sm mt-1">stall Reservation Mapping System</p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-2xl p-8">
