@@ -112,3 +112,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
               <X className="w-5 h-5" />
             </button>
           )}
+        </div>
