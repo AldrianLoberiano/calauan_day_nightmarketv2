@@ -92,3 +92,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
               <div>
                 <p className="text-[10px] text-gray-500 uppercase tracking-wider">Type</p>
                 <p className="text-sm font-bold text-gray-800">{stall.category}</p>
+              </div>
