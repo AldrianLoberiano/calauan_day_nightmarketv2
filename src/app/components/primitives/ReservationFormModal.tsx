@@ -201,3 +201,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
           </p>
 
           <div className="flex gap-3 pt-2">
+            <button
