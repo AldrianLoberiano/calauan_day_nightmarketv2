@@ -154,3 +154,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
 
         {/* Action buttons */}
         <div className="px-6 pb-6 flex gap-3">
+          <button
