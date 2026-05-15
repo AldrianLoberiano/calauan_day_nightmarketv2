@@ -82,3 +82,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
               <p className="text-blue-200 text-xs mt-0.5">BPLO — Business Permits &amp; Licensing Office</p>
             </div>
 
+            {/* Reservation number */}
