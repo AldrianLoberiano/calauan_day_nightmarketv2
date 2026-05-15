@@ -156,4 +156,5 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
                   ${errors.contactNumber ? 'border-red-400 bg-red-50' : 'border-gray-200 focus:border-blue-400'}`}
                 disabled={isSubmitting}
               />
+            </div>
             {errors.contactNumber && <p className="text-red-500 text-xs mt-1">{errors.contactNumber}</p>}
