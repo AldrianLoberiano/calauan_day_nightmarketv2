@@ -187,3 +187,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
               <MapPin className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
               <textarea
                 value={formData.address}
+                onChange={(e) => handleChange('address', e.target.value)}
