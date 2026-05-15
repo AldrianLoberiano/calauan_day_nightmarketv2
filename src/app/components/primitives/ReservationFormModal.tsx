@@ -204,3 +204,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
             <button
               type="button"
               onClick={onClose}
+              disabled={isSubmitting}
