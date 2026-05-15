@@ -230,3 +230,104 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                 <div style={{ flexShrink:0, marginRight:3, display:'flex', flexDirection:'column', gap:1 }}>
                   {range(0, pairs-1).map(i=>(
                     <div key={`lp${i}`} style={{ display:'flex', gap:1 }}>
+                      <S s={lOut[i]} w={25} h={18}/>
+                      <S s={lIn[i]} w={25} h={18}/>
+                    </div>
+                  ))}
+                  {lBot.map(s=>(
+                    <div key={s.id} style={{ display:'flex', gap:1 }}>
+                      <S s={s} w={25} h={18}/>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Center + right col */}
+                <div style={{ display:'flex', flexDirection:'column', flex:1, position:'relative' }}>
+                  <div style={{ flex:1, minHeight:470, position:'relative' }}>
+                    <div style={{ position:'absolute', left:'50%', top:50, transform:'translateX(calc(-50% + 195px))' }}>
+                      <VC ss={rCol} w={25} h={16}/>
+                    </div>
+                  </div>
+                </div>
+
+                {/* PET BOTTLING */}
+                <div style={{ width:350, flexShrink:0, marginLeft:10, position:'relative' }}>
+                  <div style={{ position:'absolute', inset:0, border:'1.5px solid #bbb',
+                    background:'linear-gradient(135deg,#fafafa,#f0f0f0)', overflow:'hidden' }}>
+                    <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%' }}>
+                      <defs>
+                        <pattern id="xh" width="16" height="16" patternTransform="rotate(-45)" patternUnits="userSpaceOnUse">
+                          <line x1="0" y1="0" x2="0" y2="16" stroke="#ddd" strokeWidth="0.8"/>
+                        </pattern>
+                      </defs>
+                      <rect width="100%" height="100%" fill="url(#xh)"/>
+                    </svg>
+                    <div style={{ position:'absolute', inset:0, display:'flex', alignItems:'center', justifyContent:'center' }}>
+                      <span style={{ fontSize:26, fontWeight:'bold', color:'#666', letterSpacing:'0.2em',
+                        transform:'rotate(-38deg)', userSelect:'none' }}>PET BOTTLING</span>
+                    </div>
+                    <svg style={{ position:'absolute', right:30, bottom:55, width:95, height:70 }}>
+                      <polygon points="47,2 93,35 47,68 2,35" fill="none" stroke="#444" strokeWidth="2"/>
+                      <text x="47" y="40" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#444">3</text>
+                    </svg>
+                    <div style={{ position:'absolute', right:18, bottom:60, fontSize:17, fontWeight:'bold', color:'#444' }}>10</div>
+                    <div style={{ position:'absolute', right:12, top:'42%', width:28, height:28, borderRadius:'50%',
+                      border:'2px solid #666', background:'#fff', display:'flex', alignItems:'center',
+                      justifyContent:'center', fontSize:14, fontWeight:'bold', color:'#555' }}>4</div>
+                    <div style={{ position:'absolute', right:12, top:15, width:28, height:28, borderRadius:'50%',
+                      border:'2px solid #666', background:'#fff', display:'flex', alignItems:'center',
+                      justifyContent:'center', fontSize:14, fontWeight:'bold', color:'#555' }}>5</div>
+                    <div style={{ position:'absolute', right:4, top:'8%', bottom:'8%', width:2.5, background:'#1a1a6e', opacity:0.4 }}/>
+                  </div>
+                </div>
+              </div>
+
+              {/* INNER BOTTOM ROW (B/A) */}
+              <div style={{ display:'flex', gap:0, marginTop:2, marginBottom:2 }}>
+                <div style={{ width:52, flexShrink:0 }}/>
+                <div style={{ display:'flex', alignItems:'center', gap:2, flex:1 }}>
+                  <CL t="B"/>
+                  {cB.map(s=><CS key={s.id} s={s}/>)}
+                  <HR ss={inBot} w={20} h={16}/>
+                  <div style={{ display:'flex', gap:2, marginLeft:6, marginRight:6 }}>
+                    {cA.map(s=><CS key={s.id} s={s}/>)}
+                  </div>
+                  <CL t="A"/>
+                </div>
+                <div style={{ width:350, flexShrink:0 }}/>
+              </div>
+
+              {/* BOTTOM OUTER ROWS */}
+              <div style={{ display:'flex', gap:30, marginTop:3 }}>
+                <HR ss={outBL} w={17} h={15}/>
+                <HR ss={outBR} w={17} h={15}/>
+              </div>
+            </div>
+          </div>
+
+          {/* Legend */}
+          <div style={{ display:'flex', flexWrap:'wrap', alignItems:'center', justifyContent:'center',
+            gap:18, marginTop:16, paddingTop:12, borderTop:'1px solid #e5e7eb' }}>
+            <span style={{ fontSize:12, fontWeight:700, color:'#777', letterSpacing:'0.08em' }}>LEGEND:</span>
+            {[{c:'#22c55e',l:'Available'},{c:'#facc15',l:'Pending'},{c:'#ef4444',l:'Reserved'},{c:'#6b7280',l:'Occupied'}].map(i=>(
+              <div key={i.l} style={{ display:'flex', alignItems:'center', gap:6 }}>
+                <div style={{ width:16, height:16, background:i.c, border:'1.5px solid rgba(0,0,0,0.2)', borderRadius:2 }}/>
+                <span style={{ fontSize:12, color:'#555' }}>{i.l}</span>
+              </div>
+            ))}
+            <div style={{ display:'flex', alignItems:'center', gap:6 }}>
+              <div style={{ width:22, height:19, border:'2px solid #ef4444', background:'#fef2f2',
+                display:'flex', alignItems:'center', justifyContent:'center', fontSize:7, fontWeight:900, color:'#dc2626' }}>A1</div>
+              <span style={{ fontSize:12, color:'#555' }}>Corner Stall</span>
+            </div>
+            <div style={{ display:'flex', alignItems:'center', gap:6 }}>
+              <div style={{ width:24, height:24, borderRadius:'50%', border:'3px solid #dc2626', background:'#fff',
+                display:'flex', alignItems:'center', justifyContent:'center', fontSize:11, fontWeight:900, color:'#dc2626' }}>A</div>
+              <span style={{ fontSize:12, color:'#555' }}>Corner Marker</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
