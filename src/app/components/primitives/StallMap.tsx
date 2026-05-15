@@ -42,3 +42,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
     available:'#16a34a', pending:'#eab308', reserved:'#dc2626', occupied:'#4b5563'
   };
 
+  // Stall button
