@@ -1,4 +1,3 @@
-  const [didError, setDidError] = useState(false)
 
   const handleError = () => {
     setDidError(true)
