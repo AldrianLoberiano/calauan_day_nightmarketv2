@@ -8,3 +8,4 @@ interface StallDetailModalProps {
   onClose: () => void;
   onReserve: (stall: Stall) => void;
 }
+
