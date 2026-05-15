@@ -63,3 +63,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
           <div className="flex items-center gap-3">
             <CheckCircle className="w-8 h-8" />
             <div>
+              <h2 className="text-lg font-bold">Reservation Successful!</h2>
