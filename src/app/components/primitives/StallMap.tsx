@@ -19,3 +19,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
   const cm = new Map(stalls.filter(s => s.number === 0).map(s => [s.id, s]));
   const g = (n: number) => sm.get(n);
 
+  // Groups
