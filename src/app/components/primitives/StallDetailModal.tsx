@@ -36,3 +36,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+        <div className="relative h-48 sm:h-56 overflow-hidden">
