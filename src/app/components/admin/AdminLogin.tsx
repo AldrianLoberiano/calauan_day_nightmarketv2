@@ -57,7 +57,6 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
           <h2 className="text-gray-800 text-lg font-bold mb-1">Staff Login</h2>
           <p className="text-gray-500 text-sm mb-6">Sign in to access the admin dashboard.</p>
 
-            <p className="text-blue-700 text-xs">Username: <code className="font-mono bg-blue-100 px-1 rounded">admin</code></p>
             <p className="text-blue-700 text-xs">Password: <code className="font-mono bg-blue-100 px-1 rounded">bplo2026</code></p>
           </div>
 
