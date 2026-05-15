@@ -86,3 +86,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
 
     setIsSubmitting(false);
     onSuccess(reservation, updatedStall);
+  }
