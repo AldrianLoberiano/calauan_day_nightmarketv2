@@ -39,3 +39,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
         {/* Stall Image */}
         <div className="relative h-48 sm:h-56 overflow-hidden">
           <img
+            src={stall.image}
