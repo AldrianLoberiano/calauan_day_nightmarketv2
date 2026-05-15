@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router';
 import { MapPin, Info, ShieldCheck, Search, ChevronDown } from 'lucide-react';
 import { Stall, Reservation } from '../types';
+import headerImage from '../components/public/header1.png';
 import { checkAndExpireReservations } from '../utils/storage';
 import { StallMap } from '../components/StallMap';
 import { StallDetailModal } from '../components/StallDetailModal';
