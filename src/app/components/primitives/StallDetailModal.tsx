@@ -68,3 +68,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
           <div className="grid grid-cols-2 gap-3 mb-4">
             <div className="flex items-start gap-2 bg-gray-50 rounded-xl p-3">
               <Tag className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
+              <div>
