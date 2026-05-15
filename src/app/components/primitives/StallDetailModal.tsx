@@ -70,3 +70,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
               <Tag className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
               <div>
                 <p className="text-[10px] text-gray-500 uppercase tracking-wider">Monthly Rent</p>
+                <p className="text-sm font-bold text-gray-800">{formatPeso(stall.price)}</p>
