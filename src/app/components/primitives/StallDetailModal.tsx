@@ -42,3 +42,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
             src={stall.image}
             alt={`Stall ${stall.id}`}
             className="w-full h-full object-cover"
+          />
