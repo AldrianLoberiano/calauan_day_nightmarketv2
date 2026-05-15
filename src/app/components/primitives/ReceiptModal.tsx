@@ -193,3 +193,4 @@ function DetailRow({
       </div>
     </div>
   );
+}
