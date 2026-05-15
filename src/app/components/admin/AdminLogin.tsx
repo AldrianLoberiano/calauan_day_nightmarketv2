@@ -32,7 +32,6 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
   }
 
   return (
-      />
 
       <div className="relative w-full max-w-sm">
         <div className="text-center mb-8">
