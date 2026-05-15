@@ -223,3 +223,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                 <div style={{ width:350, flexShrink:0 }}/>
               </div>
 
+              {/* MAIN BODY */}
