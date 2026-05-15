@@ -69,3 +69,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
           </div>
           <button onClick={onClose} className="text-white/70 hover:text-white">
             <X className="w-5 h-5" />
+          </button>
