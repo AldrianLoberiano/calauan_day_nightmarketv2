@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { MapPin, Info, ShieldCheck, Search, ChevronDown } from 'lucide-react';
 import { Stall, Reservation } from '../types';
 const headerImage = new URL('../components/public/header1.png', import.meta.url).href;
+const bploLogo = new URL('../components/public/bplo-modified.png', import.meta.url).href;
 import { checkAndExpireReservations } from '../utils/storage';
 import { StallMap } from '../components/primitives/StallMap';
 import { StallDetailModal } from '../components/primitives/StallDetailModal';
