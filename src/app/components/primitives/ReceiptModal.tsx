@@ -30,3 +30,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
       <html>
         <head>
           <title>Reservation Receipt — ${reservation.reservationNumber}</title>
+          <style>
