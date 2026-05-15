@@ -17,3 +17,4 @@ interface FormData {
   address: string;
 }
 
+  fullName?: string;
