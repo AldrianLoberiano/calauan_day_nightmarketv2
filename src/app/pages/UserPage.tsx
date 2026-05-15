@@ -83,7 +83,6 @@ export function UserPage() {
             <StatPill color="bg-yellow-400" label="Pending" count={pendingCount} />
             <StatPill color="bg-red-500" label="Reserved" count={reservedCount} />
             <StatPill color="bg-gray-400" label="Occupied" count={occupiedCount} />
-            <div className="ml-auto text-blue-200 text-xs self-center hidden sm:block">
               Total Stalls: <span className="text-white font-bold">{stalls.length}</span>
             </div>
           </div>
