@@ -95,3 +95,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
   const pairs = Math.min(lOut.length, lIn.length);
 
   return (
+    <div style={{ position:'relative' }}>
