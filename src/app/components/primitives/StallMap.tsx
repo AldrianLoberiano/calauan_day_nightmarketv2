@@ -70,3 +70,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
 
   // Corner stall
   const CS = ({ s }: { s: Stall }) => (
+    <button onClick={()=>onStallClick(s)} title={`Corner ${s.id} · ${s.status}`}
