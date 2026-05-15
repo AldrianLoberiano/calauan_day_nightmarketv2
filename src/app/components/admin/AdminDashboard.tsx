@@ -367,6 +367,7 @@ function StatCard({
 
   return (
     <div className={`rounded-2xl border-2 p-4 ${colorMap[color]} flex items-center gap-3`}>
+      <div className="shrink-0 opacity-70">{icon}</div>
       <div>
         <p className="text-2xl font-black leading-tight">{value}</p>
         <p className="text-xs font-semibold opacity-70 uppercase tracking-wider">{label}</p>
