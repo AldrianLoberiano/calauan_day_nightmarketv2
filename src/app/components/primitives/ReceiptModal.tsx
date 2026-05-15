@@ -190,3 +190,4 @@ function DetailRow({
       <div className="flex-1 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-0.5">
         <span className="text-xs text-gray-500 uppercase tracking-wide shrink-0">{label}</span>
         <span className={`text-sm ${valueClass} sm:text-right`}>{value}</span>
+      </div>
