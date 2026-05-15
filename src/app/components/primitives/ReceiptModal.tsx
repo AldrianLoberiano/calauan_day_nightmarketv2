@@ -113,3 +113,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
               <div className="border-t border-dashed border-gray-200 pt-3">
                 <DetailRow
                   icon={<span className="text-blue-600 font-bold text-sm">₱</span>}
+                  label="Monthly Rent"
