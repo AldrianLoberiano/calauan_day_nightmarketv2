@@ -132,3 +132,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
               style={{ position:'absolute', inset:0, width:'100%', height:'100%', pointerEvents:'none', zIndex:1 }}
             >
               {/* Horizontal roads */}
+              {['17%','17.6%'].map((y,i)=>(
