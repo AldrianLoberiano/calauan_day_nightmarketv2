@@ -20,3 +20,4 @@ interface FormData {
 interface FormErrors {
   fullName?: string;
   contactNumber?: string;
+}
