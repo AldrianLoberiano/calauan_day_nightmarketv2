@@ -34,6 +34,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
   return (
     <div
       className="min-h-screen bg-center bg-cover flex items-center justify-center p-4"
+      style={{ backgroundImage: `url(${loginWallpaper})` }}
 
       <div className="relative w-full max-w-sm">
         <div className="text-center mb-8">
