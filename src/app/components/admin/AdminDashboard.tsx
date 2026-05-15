@@ -359,6 +359,7 @@ function StatCard({
 }) {
   const colorMap = {
     blue: 'bg-gradient-to-br from-blue-50 to-blue-100/60 text-blue-800 border-blue-200/70',
+    green: 'bg-gradient-to-br from-emerald-50 to-emerald-100/60 text-emerald-800 border-emerald-200/70',
   };
 
   return (
