@@ -151,3 +151,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
                 type="tel"
                 value={formData.contactNumber}
                 onChange={(e) => handleChange('contactNumber', e.target.value)}
+                placeholder="09XXXXXXXXX"
