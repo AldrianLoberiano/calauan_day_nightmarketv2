@@ -47,3 +47,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
         </head>
         <body>${printContents}</body>
       </html>
+    `);
