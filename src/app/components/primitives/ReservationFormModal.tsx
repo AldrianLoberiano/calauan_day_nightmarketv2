@@ -114,3 +114,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
           )}
         </div>
 
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
