@@ -227,3 +227,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
         </form>
       </div>
     </div>
+  );
