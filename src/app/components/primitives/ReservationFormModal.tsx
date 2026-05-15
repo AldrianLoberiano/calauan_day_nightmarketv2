@@ -15,3 +15,4 @@ interface FormData {
   contactNumber: string;
   businessName: string;
   address: string;
+}
