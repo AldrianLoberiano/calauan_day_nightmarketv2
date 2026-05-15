@@ -122,3 +122,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
                 className="flex-1 bg-blue-700 hover:bg-blue-800 text-white rounded-xl py-2.5 transition-colors text-sm font-bold shadow-lg shadow-blue-200"
               >
                 Reserve This Stall
+              </button>
