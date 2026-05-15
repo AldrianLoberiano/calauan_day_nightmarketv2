@@ -132,7 +132,6 @@ export function UserPage() {
         </div>
 
         {/* Stall Browser */}
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm">
           <div className="px-5 py-4 border-b border-gray-100">
             <h2 className="text-base font-bold text-gray-800">Stall Directory</h2>
             <p className="text-xs text-gray-500 mt-0.5">Browse and search all stalls</p>
