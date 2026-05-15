@@ -118,3 +118,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
           padding:14, background:'#fff', fontFamily:"'Courier New',monospace", position:'relative',
           width:'fit-content' }}>
 
+          {/* Grid */}
