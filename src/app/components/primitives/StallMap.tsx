@@ -102,3 +102,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
         <span style={{ fontSize:12, color:'#888', marginRight:8, alignSelf:'center' }}>
           Zoom: {Math.round(zoom*100)}%
         </span>
+        <button onClick={()=>setZoom(z=>Math.max(0.5,z-0.1))}
