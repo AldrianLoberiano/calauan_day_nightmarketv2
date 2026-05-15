@@ -31,3 +31,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
     : `Section ${stall.section}`;
 
   return (
+    <div
