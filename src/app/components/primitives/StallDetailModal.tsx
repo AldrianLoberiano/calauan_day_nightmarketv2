@@ -26,3 +26,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
     corner: 'Corner (20 sqm)',
   };
 
+  const locationLabel = stall.number > 0
