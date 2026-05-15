@@ -10,3 +10,4 @@ interface StallDetailModalProps {
 }
 
 export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModalProps) {
+  if (!stall) return null;
