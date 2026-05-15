@@ -59,3 +59,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
             onClick={onClose}
             className="absolute top-3 left-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white rounded-full p-1.5 transition-colors"
           >
+            <X className="w-4 h-4" />
