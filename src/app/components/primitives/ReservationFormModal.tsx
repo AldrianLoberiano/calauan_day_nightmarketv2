@@ -210,3 +210,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
               Cancel
             </button>
             <button
+              type="submit"
