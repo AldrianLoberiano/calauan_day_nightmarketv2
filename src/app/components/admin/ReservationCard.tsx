@@ -87,6 +87,7 @@ export function ReservationCard({ reservation, stall, onUpdate }: ReservationCar
                 daysLeft <= 1 ? 'bg-orange-100 text-orange-600' :
                 'bg-gray-100 text-gray-500'
               }`}>
+                {expired ? 'Expired' : `${daysLeft}d left`}
               </span>
             )}
           </div>
