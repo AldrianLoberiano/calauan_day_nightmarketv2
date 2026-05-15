@@ -132,7 +132,6 @@ export function UserPage() {
         </div>
 
         {/* Stall Browser */}
-            <p className="text-xs text-gray-500 mt-0.5">Browse and search all stalls</p>
           </div>
           <div className="p-5">
             {/* Filters */}
