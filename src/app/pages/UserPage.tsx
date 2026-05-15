@@ -104,6 +104,7 @@ export function UserPage() {
               Total Stalls: <span className="text-gray-900 font-bold">{stalls.length}</span>
             </div>
           </div>
+        </div>
 
         {/* Interactive Map */}
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
