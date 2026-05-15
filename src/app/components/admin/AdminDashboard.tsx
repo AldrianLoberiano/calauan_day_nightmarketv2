@@ -366,6 +366,7 @@ function StatCard({
   };
 
   return (
+    <div className={`rounded-2xl border p-4 ${colorMap[color]} flex items-center gap-3 shadow-sm`}>
       <div>
         <p className="text-2xl font-black leading-tight">{value}</p>
         <p className="text-xs font-semibold opacity-70 uppercase tracking-wider">{label}</p>
