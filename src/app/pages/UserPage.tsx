@@ -67,7 +67,6 @@ export function UserPage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
                 <MapPin className="w-6 h-6" />
               </div>
               <div>
