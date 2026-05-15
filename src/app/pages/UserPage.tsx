@@ -61,6 +61,7 @@ export function UserPage() {
       {/* Hero Header */}
       <header
         className="relative text-white bg-center bg-cover"
+        style={{ backgroundImage: `url(${headerImage})` }}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
