@@ -40,3 +40,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
       newErrors.fullName = 'Full name is required.';
     } else if (formData.fullName.trim().length < 3) {
       newErrors.fullName = 'Please enter your full name.';
+    }
