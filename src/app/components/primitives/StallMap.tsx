@@ -51,3 +51,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
         style={{
           width:w, height:h, fontSize: Math.max(7, Math.min(w,h)*0.42),
           background: statusColor[s.status]||'#ccc',
+          border: `1.5px solid ${statusBorder[s.status]||'#999'}`,
