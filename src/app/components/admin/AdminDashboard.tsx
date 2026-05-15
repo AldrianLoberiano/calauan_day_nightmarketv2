@@ -10,6 +10,7 @@ import { ReservationCard } from './ReservationCard';
 import { StallMap } from '../primitives/StallMap';
 import { StallDetailModal } from '../primitives/StallDetailModal';
 import { ReservationFormModal } from '../primitives/ReservationFormModal';
+import { ReceiptModal } from '../primitives/ReceiptModal';
 import headerImage from '../public/header1.png';
 
 interface AdminDashboardProps {
