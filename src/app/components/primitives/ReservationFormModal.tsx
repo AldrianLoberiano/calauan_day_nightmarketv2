@@ -31,3 +31,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
