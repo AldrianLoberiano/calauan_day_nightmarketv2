@@ -184,3 +184,4 @@ function DetailRow({
   value: string;
   valueClass?: string;
 }) {
+  return (
