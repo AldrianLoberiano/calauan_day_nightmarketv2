@@ -366,7 +366,6 @@ function StatCard({
   };
 
   return (
-      <div className="shrink-0 opacity-80">{icon}</div>
       <div>
         <p className="text-2xl font-black leading-tight">{value}</p>
         <p className="text-xs font-semibold opacity-70 uppercase tracking-wider">{label}</p>
