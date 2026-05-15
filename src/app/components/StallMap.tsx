@@ -153,7 +153,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
               ))}
               <line x1="97%" y1="3%" x2="97%" y2="97%" stroke="#1a1a6e" strokeWidth="2" opacity="0.35"/>
               {/* Curves */}
-                "M 50 90 Q 50 97 58 97",
                 "M 97 17 Q 97 3 90 3",
                 "M 97 90 Q 97 97 90 97",
               ].map((d,i)=>(
