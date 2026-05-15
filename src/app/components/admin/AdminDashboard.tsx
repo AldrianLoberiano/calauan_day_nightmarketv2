@@ -97,6 +97,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
         className="relative text-white shadow-lg sticky top-0 z-40 bg-center bg-cover"
         style={{ backgroundImage: `url(${headerImage})` }}
       >
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-900/45 to-slate-950/70 pointer-events-none" aria-hidden="true" />
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 bg-white/20 rounded-xl flex items-center justify-center">
               <BarChart3 className="w-5 h-5" />
