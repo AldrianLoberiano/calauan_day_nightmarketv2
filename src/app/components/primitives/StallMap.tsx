@@ -65,3 +65,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
         onMouseEnter={e=>{if(!sel){e.currentTarget.style.transform='scale(1.08)';e.currentTarget.style.zIndex='10'}}}
         onMouseLeave={e=>{if(!sel){e.currentTarget.style.transform='';e.currentTarget.style.zIndex=''}}}
       >{s.id}</button>
+    );
