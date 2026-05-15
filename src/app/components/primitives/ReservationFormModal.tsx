@@ -108,3 +108,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
             <p className="text-blue-200 text-sm">{stall.category} • {formatPeso(stall.price)}/month</p>
           </div>
           {!isSubmitting && (
+            <button onClick={onClose} className="text-white/70 hover:text-white transition-colors">
