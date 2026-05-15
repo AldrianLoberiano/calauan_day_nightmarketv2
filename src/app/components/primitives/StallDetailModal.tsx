@@ -50,3 +50,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
             <p className="text-white/80 text-sm">{stall.category}</p>
           </div>
 
+          <div className={`absolute top-3 right-3 flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold ${getStatusTextClass(stall.status)}`}>
