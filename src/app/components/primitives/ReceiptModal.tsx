@@ -26,3 +26,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
     const printContents = receiptRef.current?.innerHTML ?? '';
     const win = window.open('', '_blank');
     if (!win) return;
+    win.document.write(`
