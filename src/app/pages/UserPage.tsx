@@ -76,7 +76,6 @@ export function UserPage() {
             </div>
             <span className="text-xs sm:text-sm font-semibold text-white/80">Public View</span>
           </div>
-          <div className="flex flex-wrap gap-2 sm:gap-4 mt-4 pt-4 border-t border-white/20">
             <StatPill color="bg-green-500" label="Available" count={availableCount} />
             <StatPill color="bg-yellow-400" label="Pending" count={pendingCount} />
             <StatPill color="bg-red-500" label="Reserved" count={reservedCount} />
