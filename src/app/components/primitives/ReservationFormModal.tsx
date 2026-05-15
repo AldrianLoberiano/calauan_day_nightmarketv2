@@ -104,3 +104,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-700 to-blue-800 text-white px-6 py-4 flex items-center justify-between">
           <div>
+            <h2 className="text-lg font-bold">Reserve Stall {stall.id}</h2>
