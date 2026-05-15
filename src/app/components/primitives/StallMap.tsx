@@ -119,3 +119,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
           width:'fit-content' }}>
 
           {/* Grid */}
+          <div style={{ position:'absolute', inset:0, opacity:0.035, pointerEvents:'none',
