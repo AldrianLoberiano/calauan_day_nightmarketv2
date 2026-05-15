@@ -55,3 +55,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
             {getStatusLabel(stall.status)}
           </div>
 
+          <button
