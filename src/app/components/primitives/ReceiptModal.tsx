@@ -67,3 +67,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
               <p className="text-green-100 text-sm">Your stall has been reserved.</p>
             </div>
           </div>
+          <button onClick={onClose} className="text-white/70 hover:text-white">
