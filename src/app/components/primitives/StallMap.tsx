@@ -139,4 +139,5 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                 </React.Fragment>
               ))}
               {['90%','90.6%'].map((y,i)=>(
+                <React.Fragment key={`br${i}`}>
                   <line x1="4%" y1={y} x2="49%" y2={y} stroke="#d946ef" strokeWidth={i?1.5:2.5} opacity={i?0.3:0.45}/>
