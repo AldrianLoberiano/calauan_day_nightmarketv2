@@ -110,7 +110,6 @@ export function UserPage() {
         <div className="bg-white rounded-2xl border border-slate-200/70 shadow-lg shadow-slate-200/60 overflow-hidden">
           <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
             <div>
-              <h2 className="text-base font-bold text-gray-800">Interactive Stall Map — Night Market</h2>
               <p className="text-xs text-gray-500 mt-0.5">Click on any stall to view details and availability</p>
             </div>
           </div>
