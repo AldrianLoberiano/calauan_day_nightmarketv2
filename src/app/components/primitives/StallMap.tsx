@@ -113,3 +113,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
             fontSize:18, fontWeight:'bold', background:'#f9f9f9' }}>+</button>
       </div>
 
+        <div style={{ transform:`scale(${zoom})`, transformOrigin:'top left', minWidth:1750,
