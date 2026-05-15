@@ -17,3 +17,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
     pending: <Clock className="w-4 h-4" />,
     reserved: <XCircle className="w-4 h-4" />,
     occupied: <MinusCircle className="w-4 h-4" />,
+  };
