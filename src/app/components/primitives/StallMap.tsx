@@ -68,3 +68,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
     );
   };
 
+  // Corner stall
