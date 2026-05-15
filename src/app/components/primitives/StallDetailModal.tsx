@@ -111,3 +111,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
 
           <div className="flex gap-3">
             <button
+              onClick={onClose}
