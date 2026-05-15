@@ -177,3 +177,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                 <div style={{ width:750, height:155, flexShrink:0, position:'relative',
                   border:'2.5px solid #555', background:'linear-gradient(180deg,#f5f5f5,#ebebeb)' }}>
                   {/* Pillars */}
+                  {range(0,14).map(i=>(
