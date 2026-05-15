@@ -128,3 +128,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
                 alt="Reservation QR Code"
                 width={120}
                 height={120}
+                className="rounded-lg border border-gray-200"
