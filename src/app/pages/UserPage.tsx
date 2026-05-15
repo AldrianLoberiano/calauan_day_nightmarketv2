@@ -194,6 +194,7 @@ export function UserPage() {
         </div>
 
         {/* Footer info */}
+        <div className="bg-slate-900 text-slate-100 rounded-2xl p-5 sm:p-6 shadow-lg shadow-slate-300/40">
           <div className="grid sm:grid-cols-3 gap-4">
             <div>
               <h3 className="font-bold text-sm mb-1">BPLO Office Location</h3>
