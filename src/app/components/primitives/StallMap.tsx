@@ -50,3 +50,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
         title={`Stall ${s.id} · ${s.status} · ${s.category} · ₱${s.price.toLocaleString()}/mo`}
         style={{
           width:w, height:h, fontSize: Math.max(7, Math.min(w,h)*0.42),
+          background: statusColor[s.status]||'#ccc',
