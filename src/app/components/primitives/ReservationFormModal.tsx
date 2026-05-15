@@ -81,3 +81,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
       ...stall,
       status: 'pending',
       reservationId: reservation.id,
+    };
