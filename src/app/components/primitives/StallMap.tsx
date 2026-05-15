@@ -16,3 +16,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
   const [zoom, setZoom] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
   const sm = new Map(stalls.filter(s => s.number > 0).map(s => [s.number, s]));
+  const cm = new Map(stalls.filter(s => s.number === 0).map(s => [s.id, s]));
