@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Lock, User, Eye, EyeOff } from 'lucide-react';
 
+const bploLogo = new URL('../public/bplo-modified.png', import.meta.url).href;
 import { verifyAdminLogin } from '../../utils/storage';
 
 interface AdminLoginProps {
