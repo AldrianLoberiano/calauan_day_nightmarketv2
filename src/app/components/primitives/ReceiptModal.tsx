@@ -180,3 +180,4 @@ function DetailRow({
   valueClass = 'text-gray-800 font-semibold',
 }: {
   icon: React.ReactNode;
+  label: string;
