@@ -1,4 +1,3 @@
-  const handleError = () => {
     setDidError(true)
   }
 
