@@ -118,3 +118,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
             </button>
             {stall.status === 'available' && (
               <button
+                onClick={() => onReserve(stall)}
