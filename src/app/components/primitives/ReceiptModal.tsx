@@ -38,3 +38,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
             .res-num { font-size: 28px; font-weight: bold; letter-spacing: 2px; color: #111; margin: 8px 0; }
             .badge { background: #dcfce7; color: #15803d; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block; }
             .row { display: flex; justify-content: space-between; margin: 8px 0; font-size: 14px; }
+            .label { color: #6b7280; }
