@@ -205,7 +205,6 @@ export function UserPage() {
               <p className="text-blue-200 text-xs">Monday – Friday: 8:00 AM – 5:00 PM (No noon break)</p>
             </div>
             <div>
-              <h3 className="font-bold text-sm mb-1">⚠️ Important Reminder</h3>
               <p className="text-blue-200 text-xs">Reservations expire in 3 days if not processed. Present your receipt at the BPLO Office.</p>
             </div>
           </div>
