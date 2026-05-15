@@ -242,6 +242,7 @@ export function UserPage() {
 
 function StatPill({ color, label, count }: { color: string; label: string; count: number }) {
   return (
+    <div className="flex items-center gap-1.5">
       <span className="text-xs font-bold text-white">{count}</span>
     </div>
   );
