@@ -13,6 +13,7 @@ import { ReservationFormModal } from '../primitives/ReservationFormModal';
 import { ReceiptModal } from '../primitives/ReceiptModal';
 
 const headerImage = new URL('../public/header1.png', import.meta.url).href;
+
 interface AdminDashboardProps {
   onLogout: () => void;
 }
