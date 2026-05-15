@@ -115,3 +115,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
                   icon={<span className="text-blue-600 font-bold text-sm">₱</span>}
                   label="Monthly Rent"
                   value={`${formatPeso(stall.price)} / month`}
+                  valueClass="text-blue-700 font-black"
