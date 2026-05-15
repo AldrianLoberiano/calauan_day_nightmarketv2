@@ -182,3 +182,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                       borderRight:'1.5px solid #aaa', background:'#e0e0e0' }}/>
                   ))}
                   {/* Inner borders */}
+                  <div style={{ position:'absolute', inset:10, border:'1.5px solid #bbb' }}/>
