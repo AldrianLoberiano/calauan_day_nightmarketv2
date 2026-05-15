@@ -46,6 +46,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
             <img
               src={bploLogo}
               alt="BPLO Logo"
+              className="w-25 h-25 object-contain"
             />
           </div>
           <h1 className="text-white text-2xl font-black tracking-tight">BPLO Admin Panel</h1>
