@@ -16,3 +16,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
 
   const qrData = encodeURIComponent(
     `RES:${reservation.reservationNumber}|STALL:${reservation.stallId}|NAME:${reservation.fullName}|TEL:${reservation.contactNumber}`
+  );
