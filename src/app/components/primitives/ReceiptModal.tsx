@@ -141,3 +141,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
                 <li>Visit the <strong>BPLO Office</strong> within <strong>3 days</strong>.</li>
                 <li>Present your Reservation Number: <strong>{reservation.reservationNumber}</strong></li>
                 <li>Complete your business permit application.</li>
+              </ol>
