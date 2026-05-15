@@ -209,3 +209,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
               </div>
 
               {/* INNER TOP ROW (with C/D) */}
+              <div style={{ display:'flex', gap:0, marginBottom:2 }}>
