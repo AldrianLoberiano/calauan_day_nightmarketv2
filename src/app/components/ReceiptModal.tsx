@@ -87,6 +87,7 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
               <p className="text-xs text-gray-500 uppercase tracking-wider">Reservation Number</p>
               <p className="text-3xl font-black text-blue-800 tracking-widest mt-1">{reservation.reservationNumber}</p>
               <span className="inline-block mt-2 bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full">
+                PENDING PROCESSING
               </span>
             </div>
 
