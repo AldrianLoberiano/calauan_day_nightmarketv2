@@ -23,3 +23,4 @@ interface FormErrors {
 }
 
 export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationFormModalProps) {
+  const [formData, setFormData] = useState<FormData>({
