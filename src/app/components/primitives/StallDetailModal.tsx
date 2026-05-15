@@ -18,3 +18,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
     reserved: <XCircle className="w-4 h-4" />,
     occupied: <MinusCircle className="w-4 h-4" />,
   };
+
