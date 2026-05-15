@@ -23,3 +23,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
     : `Section ${stall.section}`;
 
   function handlePrint() {
+    const printContents = receiptRef.current?.innerHTML ?? '';
