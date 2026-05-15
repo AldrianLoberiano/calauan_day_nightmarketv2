@@ -57,7 +57,6 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
           <h2 className="text-gray-800 text-lg font-bold mb-1">Staff Login</h2>
           <p className="text-gray-500 text-sm mb-6">Sign in to access the admin dashboard.</p>
 
-          </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
