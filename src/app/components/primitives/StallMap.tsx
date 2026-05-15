@@ -145,3 +145,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                 </React.Fragment>
               ))}
               {/* Vertical roads */}
+              {['5.5%','6.1%'].map((x,i)=>(
