@@ -20,3 +20,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
   };
 
   const sizeLabel: Record<string, string> = {
+    small: 'Small (6 sqm)',
