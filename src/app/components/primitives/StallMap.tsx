@@ -121,3 +121,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
           {/* Grid */}
           <div style={{ position:'absolute', inset:0, opacity:0.035, pointerEvents:'none',
             backgroundImage:'repeating-linear-gradient(0deg,#1a1a6e 0,#1a1a6e 1px,transparent 1px,transparent 30px),repeating-linear-gradient(90deg,#1a1a6e 0,#1a1a6e 1px,transparent 1px,transparent 30px)' }}/>
+
