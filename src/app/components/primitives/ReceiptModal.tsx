@@ -30,6 +30,7 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
     win.document.write(`
       <html>
         <head>
+          <title>Reservation Receipt — ${reservationNumber}</title>
           <style>
             body { font-family: Arial, sans-serif; margin: 20px; color: #111; }
             .receipt { max-width: 500px; margin: auto; border: 2px solid #1d4ed8; border-radius: 12px; padding: 24px; }
