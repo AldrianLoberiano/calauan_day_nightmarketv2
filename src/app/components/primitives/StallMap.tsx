@@ -113,4 +113,5 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
             fontSize:18, fontWeight:'bold', background:'#f9f9f9' }}>+</button>
       </div>
 
+      <div ref={containerRef} className="w-full overflow-auto" style={{ maxHeight:'80vh' }}>
         <div style={{ transform:`scale(${zoom})`, transformOrigin:'top left', minWidth:1750,
