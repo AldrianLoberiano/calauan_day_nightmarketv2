@@ -136,3 +136,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
                   ${errors.fullName ? 'border-red-400 bg-red-50' : 'border-gray-200 focus:border-blue-400'}`}
                 disabled={isSubmitting}
               />
+            </div>
