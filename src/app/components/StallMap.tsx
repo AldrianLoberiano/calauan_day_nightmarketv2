@@ -153,7 +153,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
               ))}
               <line x1="97%" y1="3%" x2="97%" y2="97%" stroke="#1a1a6e" strokeWidth="2" opacity="0.35"/>
               {/* Curves */}
-                "M 5.5%,17% Q 5.5%,3% 15%,3%",
                 "M 5.5%,90% Q 5.5%,97% 15%,97%",
                 "M 50%,17% Q 50%,3% 58%,3%",
                 "M 50%,90% Q 50%,97% 58%,97%",
