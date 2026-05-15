@@ -107,3 +107,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
             <h2 className="text-lg font-bold">Reserve Stall {stall.id}</h2>
             <p className="text-blue-200 text-sm">{stall.category} • {formatPeso(stall.price)}/month</p>
           </div>
+          {!isSubmitting && (
