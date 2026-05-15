@@ -161,3 +161,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                   "M 50 90 Q 50 97 58 97",
                   "M 97 17 Q 97 3 90 3",
                   "M 97 90 Q 97 97 90 97",
+                ].map((d,i)=>(
