@@ -135,3 +135,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
 
             {/* Instructions */}
             <div className="bg-blue-50 border-t-2 border-blue-200 p-4">
+              <p className="text-sm font-bold text-blue-800 mb-1">Next Steps:</p>
