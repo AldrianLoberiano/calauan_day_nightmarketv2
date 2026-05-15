@@ -184,3 +184,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
               Home Address <span className="text-gray-400 font-normal text-xs">(optional)</span>
             </label>
             <div className="relative">
+              <MapPin className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
