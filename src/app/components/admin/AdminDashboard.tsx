@@ -7,7 +7,6 @@ import {
 import { Reservation, Stall } from '../../types';
 import { getReservations, checkAndExpireReservations } from '../../utils/storage';
 import { ReservationCard } from './ReservationCard';
-import { StallMap } from '../StallMap';
 import { StallDetailModal } from '../StallDetailModal';
 import { ReservationFormModal } from '../ReservationFormModal';
 import { ReceiptModal } from '../ReceiptModal';
