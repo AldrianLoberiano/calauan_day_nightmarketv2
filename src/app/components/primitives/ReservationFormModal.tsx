@@ -135,3 +135,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
                 className={`w-full pl-10 pr-4 py-2.5 border-2 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all
                   ${errors.fullName ? 'border-red-400 bg-red-50' : 'border-gray-200 focus:border-blue-400'}`}
                 disabled={isSubmitting}
+              />
