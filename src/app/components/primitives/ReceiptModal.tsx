@@ -142,3 +142,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
                 <li>Present your Reservation Number: <strong>{reservation.reservationNumber}</strong></li>
                 <li>Complete your business permit application.</li>
               </ol>
+            </div>
