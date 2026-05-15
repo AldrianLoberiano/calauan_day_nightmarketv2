@@ -15,3 +15,4 @@ function range(a: number, b: number) {
 export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProps) {
   const [zoom, setZoom] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
+  const sm = new Map(stalls.filter(s => s.number > 0).map(s => [s.number, s]));
