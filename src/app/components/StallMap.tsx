@@ -157,6 +157,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                 [
                   "M 5.5 17 Q 5.5 3 15 3",
                   "M 5.5 90 Q 5.5 97 15 97",
+                  "M 50 17 Q 50 3 58 3",
                 <path key={`c${i}`} d={d} fill="none" stroke={i>=4?"#1a1a6e":"#d946ef"} strokeWidth={i>=4?1.5:2} opacity={0.3}/>
               ))}
               {/* Inner walkway */}
