@@ -287,7 +287,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                   <CL t="B"/>
                   {cB.map(s=><CS key={s.id} s={s}/>)}
                   <HR ss={inBot} w={20} h={16}/>
-                  {cA.map(s=><CS key={s.id} s={s}/>)}
                   <CL t="A"/>
                 </div>
                 <div style={{ width:350, flexShrink:0 }}/>
