@@ -94,6 +94,7 @@ export function UserPage() {
       </div>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm px-5 py-4">
 
         {/* Interactive Map */}
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
