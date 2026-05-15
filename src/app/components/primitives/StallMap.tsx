@@ -110,3 +110,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
             fontSize:11, background:'#f9f9f9' }}>Reset</button>
         <button onClick={()=>setZoom(z=>Math.min(2,z+0.1))}
           style={{ width:32, height:32, border:'1px solid #ddd', borderRadius:6, cursor:'pointer',
+            fontSize:18, fontWeight:'bold', background:'#f9f9f9' }}>+</button>
