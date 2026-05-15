@@ -38,3 +38,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
         {/* Stall Image */}
         <div className="relative h-48 sm:h-56 overflow-hidden">
+          <img
