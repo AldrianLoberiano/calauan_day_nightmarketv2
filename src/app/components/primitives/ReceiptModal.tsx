@@ -31,3 +31,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
         <head>
           <title>Reservation Receipt — ${reservation.reservationNumber}</title>
           <style>
+            body { font-family: Arial, sans-serif; margin: 20px; color: #111; }
