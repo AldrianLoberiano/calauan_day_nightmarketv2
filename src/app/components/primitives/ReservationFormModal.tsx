@@ -90,3 +90,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
 
   function handleChange(field: keyof FormData, value: string) {
     setFormData(prev => ({ ...prev, [field]: value }));
+    if (errors[field as keyof FormErrors]) {
