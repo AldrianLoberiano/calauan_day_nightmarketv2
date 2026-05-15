@@ -86,3 +86,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
                 <p className="text-[10px] text-gray-500 uppercase tracking-wider">Location</p>
                 <p className="text-sm font-bold text-gray-800">{locationLabel}</p>
               </div>
+            </div>
