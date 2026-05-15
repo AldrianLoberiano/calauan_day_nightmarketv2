@@ -34,3 +34,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
 
   if (!stall) return null;
 
+  function validate(): boolean {
