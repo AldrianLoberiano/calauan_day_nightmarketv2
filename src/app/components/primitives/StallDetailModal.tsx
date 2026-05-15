@@ -80,3 +80,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
                 <p className="text-sm font-bold text-gray-800 capitalize">{sizeLabel[stall.size]}</p>
               </div>
             </div>
+            <div className="flex items-start gap-2 bg-gray-50 rounded-xl p-3">
