@@ -102,3 +102,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
             <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3 mb-4 text-sm text-yellow-800">
               This stall is currently under review. Please check back later or choose another stall.
             </div>
+          )}
