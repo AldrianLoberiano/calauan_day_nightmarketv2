@@ -146,3 +146,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
               ))}
               {/* Vertical roads */}
               {['5.5%','6.1%'].map((x,i)=>(
+                <line key={`vl${i}`} x1={x} y1="3%" x2={x} y2="97%" stroke="#d946ef" strokeWidth={i?1.5:2.5} opacity={i?0.3:0.45}/>
