@@ -208,3 +208,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                 <HR ss={topOutR} w={20} h={15}/>
               </div>
 
+              {/* INNER TOP ROW (with C/D) */}
