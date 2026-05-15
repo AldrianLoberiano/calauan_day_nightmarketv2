@@ -82,3 +82,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
             </div>
             <div className="flex items-start gap-2 bg-gray-50 rounded-xl p-3">
               <MapPin className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
+              <div>
