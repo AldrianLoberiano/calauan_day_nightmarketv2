@@ -115,3 +115,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
               className="flex-1 border-2 border-gray-300 text-gray-700 hover:bg-gray-100 rounded-xl py-2.5 transition-colors text-sm font-semibold"
             >
               Close
+            </button>
