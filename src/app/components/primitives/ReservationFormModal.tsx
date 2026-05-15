@@ -54,3 +54,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
     e.preventDefault();
     if (!validate()) return;
 
+    setIsSubmitting(true);
