@@ -109,3 +109,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
           </div>
           {!isSubmitting && (
             <button onClick={onClose} className="text-white/70 hover:text-white transition-colors">
+              <X className="w-5 h-5" />
