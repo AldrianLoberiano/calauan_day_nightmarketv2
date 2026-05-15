@@ -118,3 +118,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
                   valueClass="text-blue-700 font-black"
                 />
               </div>
+            </div>
