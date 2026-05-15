@@ -11,3 +11,4 @@ interface ReservationFormModalProps {
 }
 
 interface FormData {
+  contactNumber: string;
