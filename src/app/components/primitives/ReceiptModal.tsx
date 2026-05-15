@@ -129,3 +129,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
                 width={120}
                 height={120}
                 className="rounded-lg border border-gray-200"
+              />
