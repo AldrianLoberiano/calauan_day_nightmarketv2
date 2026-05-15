@@ -158,6 +158,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                 "M 5.5 90 Q 5.5 97 15 97",
                 "M 50 17 Q 50 3 58 3",
                 "M 50 90 Q 50 97 58 97",
+                "M 97 17 Q 97 3 90 3",
               ].map((d,i)=>(
                 <path key={`c${i}`} d={d} fill="none" stroke={i>=4?"#1a1a6e":"#d946ef"} strokeWidth={i>=4?1.5:2} opacity={0.3}/>
               ))}
