@@ -94,3 +94,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
                 <p className="text-sm font-bold text-gray-800">{stall.category}</p>
               </div>
             </div>
+          </div>
