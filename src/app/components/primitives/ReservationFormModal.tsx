@@ -4,3 +4,4 @@ import { Stall, Reservation } from '../../types';
 import { formatPeso } from '../../utils/helpers';
 import { addReservation, updateStall, generateReservationNumber, generateUUID } from '../../utils/storage';
 
+interface ReservationFormModalProps {
