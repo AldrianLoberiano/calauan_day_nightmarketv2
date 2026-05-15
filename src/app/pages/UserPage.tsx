@@ -69,7 +69,6 @@ export function UserPage() {
             <div className="flex items-center gap-3">
               <img src={bploLogo} alt="BPLO Logo" className="w-12 h-12 object-contain" />
               <div>
-                <h1 className="font-black text-lg sm:text-xl leading-tight">Pwesto Reservation System</h1>
                 <p className="text-blue-200 text-xs sm:text-sm">Public Market — Night Market Stall Mapping</p>
               </div>
             </div>
