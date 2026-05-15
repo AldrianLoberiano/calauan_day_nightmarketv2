@@ -48,3 +48,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
     return (
       <button onClick={()=>onStallClick(s)}
         title={`Stall ${s.id} · ${s.status} · ${s.category} · ₱${s.price.toLocaleString()}/mo`}
+        style={{
