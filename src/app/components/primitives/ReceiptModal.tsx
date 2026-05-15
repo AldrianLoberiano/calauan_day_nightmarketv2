@@ -105,3 +105,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
                 label="Reserved On"
                 value={formatDate(reservation.createdAt)}
               />
+              <DetailRow
