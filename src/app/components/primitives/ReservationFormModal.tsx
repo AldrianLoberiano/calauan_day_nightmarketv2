@@ -188,3 +188,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
               <textarea
                 value={formData.address}
                 onChange={(e) => handleChange('address', e.target.value)}
+                placeholder="Barangay, Municipality, Province"
