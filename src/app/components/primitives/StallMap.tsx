@@ -170,3 +170,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
               <rect x="8%" y="20%" width="41%" height="68.5%" rx="6" fill="none" stroke="#d946ef" strokeWidth="1" opacity="0.12"/>
             </svg>
 
+            <div style={{ position:'relative', zIndex:2, padding:'12px 14px' }}>
