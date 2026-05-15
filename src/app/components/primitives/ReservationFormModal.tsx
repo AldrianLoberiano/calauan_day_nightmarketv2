@@ -76,3 +76,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
     };
 
     addReservation(reservation);
+
