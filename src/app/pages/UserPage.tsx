@@ -107,7 +107,6 @@ export function UserPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
 
         {/* Interactive Map */}
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
           <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
             <div>
               <h2 className="text-base font-bold text-gray-800">Interactive Stall Map — Night Market</h2>
