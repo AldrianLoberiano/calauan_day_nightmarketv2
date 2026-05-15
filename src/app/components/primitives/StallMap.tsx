@@ -82,3 +82,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
       color:'#dc2626', fontWeight:900, fontSize:13, display:'inline-flex', alignItems:'center',
       justifyContent:'center', flexShrink:0, boxShadow:'0 1px 3px rgba(0,0,0,0.2)' }}>{t}</div>
   );
+
