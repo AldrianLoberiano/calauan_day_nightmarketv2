@@ -219,3 +219,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                     {cD.map(s=><CS key={s.id} s={s}/>)}
                   </div>
                   <CL t="D"/>
+                </div>
