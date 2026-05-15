@@ -132,6 +132,7 @@ export function UserPage() {
         </div>
 
         {/* Stall Browser */}
+        <div className="bg-white rounded-2xl border border-slate-200/70 shadow-lg shadow-slate-200/60">
           </div>
           <div className="p-5">
             {/* Filters */}
