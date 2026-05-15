@@ -81,6 +81,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
+                  className="w-full pl-10 pr-10 py-2 border-2 border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-violet-500 transition-all"
                   disabled={isLoading}
                   autoComplete="current-password"
                 />
