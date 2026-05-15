@@ -137,3 +137,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
             <div className="bg-blue-50 border-t-2 border-blue-200 p-4">
               <p className="text-sm font-bold text-blue-800 mb-1">Next Steps:</p>
               <ol className="text-sm text-blue-700 space-y-1 list-decimal list-inside">
+                <li>Take a screenshot or print this receipt.</li>
