@@ -46,3 +46,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
 
           <div className="absolute bottom-3 left-4">
+            <h2 className="text-white text-2xl font-bold drop-shadow-lg">Stall {stall.id}</h2>
