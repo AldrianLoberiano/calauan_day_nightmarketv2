@@ -42,7 +42,6 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
 
       <div className="relative w-full max-w-sm">
         <div className="text-center mb-8">
-            <ShieldCheck className="w-10 h-10 text-blue-700" />
           </div>
           <h1 className="text-white text-2xl font-black tracking-tight">BPLO Admin Panel</h1>
           <p className="text-blue-200 text-sm mt-1">Pwesto Reservation Mapping System</p>
