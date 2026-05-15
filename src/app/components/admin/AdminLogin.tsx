@@ -104,6 +104,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
             <button
               type="submit"
               disabled={isLoading || !username || !password}
+              className="w-full bg-violet-600 hover:bg-violet-700 disabled:bg-violet-300 text-white rounded-xl py-3 font-bold text-sm transition-colors shadow-lg shadow-violet-200 mt-2"
             >
               {isLoading ? 'Authenticating...' : 'Sign In'}
             </button>
