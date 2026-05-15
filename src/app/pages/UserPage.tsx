@@ -97,6 +97,7 @@ export function UserPage() {
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm px-5 py-4">
           <div className="flex flex-wrap items-center gap-2 sm:gap-4">
             <StatPill color="bg-green-500" label="Available" count={availableCount} />
+            <StatPill color="bg-yellow-400" label="Pending" count={pendingCount} />
 
         {/* Interactive Map */}
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
