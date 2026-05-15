@@ -135,7 +135,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold border-b-2 transition-all ${
                   activeTab === tab.id
-                    : 'text-white/70 hover:text-white hover:bg-white/10'
                     ? 'border-white text-white'
                 }`}
               >
