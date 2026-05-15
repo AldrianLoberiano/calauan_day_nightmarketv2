@@ -126,3 +126,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
               <img
                 src={qrUrl}
                 alt="Reservation QR Code"
+                width={120}
