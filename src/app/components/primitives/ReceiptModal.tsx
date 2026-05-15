@@ -192,3 +192,4 @@ function DetailRow({
         <span className={`text-sm ${valueClass} sm:text-right`}>{value}</span>
       </div>
     </div>
+  );
