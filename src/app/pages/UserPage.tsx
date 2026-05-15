@@ -76,7 +76,6 @@ export function UserPage() {
             </div>
             <span className="text-xs sm:text-sm font-semibold text-white/80">Public View</span>
           </div>
-            <StatPill color="bg-yellow-400" label="Pending" count={pendingCount} />
             <StatPill color="bg-red-500" label="Reserved" count={reservedCount} />
             <StatPill color="bg-gray-400" label="Occupied" count={occupiedCount} />
             <div className="ml-auto text-blue-200 text-xs self-center hidden sm:block">
