@@ -7,6 +7,7 @@ import {
 import { Reservation, Stall } from '../../types';
 import { getReservations, checkAndExpireReservations } from '../../utils/storage';
 import { ReservationCard } from './ReservationCard';
+import { StallMap } from '../primitives/StallMap';
 import headerImage from '../public/header1.png';
 
 interface AdminDashboardProps {
