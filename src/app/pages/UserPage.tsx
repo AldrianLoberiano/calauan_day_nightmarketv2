@@ -197,7 +197,6 @@ export function UserPage() {
         <div className="bg-blue-700 text-white rounded-2xl p-5 sm:p-6">
           <div className="grid sm:grid-cols-3 gap-4">
             <div>
-              <h3 className="font-bold text-sm mb-1">📍 BPLO Office Location</h3>
               <p className="text-blue-200 text-xs">Municipal Hall, Ground Floor, Business Permits &amp; Licensing Office</p>
             </div>
             <div>
