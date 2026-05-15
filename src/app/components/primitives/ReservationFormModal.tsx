@@ -79,3 +79,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
 
     const updatedStall: Stall = {
       ...stall,
+      status: 'pending',
