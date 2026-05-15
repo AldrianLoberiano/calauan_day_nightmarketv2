@@ -75,7 +75,6 @@ export function UserPage() {
               </div>
             </div>
             <span className="text-xs sm:text-sm font-semibold text-white/80">Public View</span>
-              Total Stalls: <span className="text-white font-bold">{stalls.length}</span>
             </div>
           </div>
         </div>
