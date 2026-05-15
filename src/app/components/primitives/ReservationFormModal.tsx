@@ -176,3 +176,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
                 disabled={isSubmitting}
               />
             </div>
+          </div>
