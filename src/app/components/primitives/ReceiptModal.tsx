@@ -143,3 +143,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
                 <li>Complete your business permit application.</li>
               </ol>
             </div>
+
