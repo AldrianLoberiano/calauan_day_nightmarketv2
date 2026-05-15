@@ -196,3 +196,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                   </div>
                 </div>
                 <div style={{ flex:1, position:'relative' }}>
+                  <div style={{ position:'absolute', right:25, top:20, width:32, height:32, borderRadius:'50%',
