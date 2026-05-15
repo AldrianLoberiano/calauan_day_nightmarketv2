@@ -79,3 +79,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
   // Corner marker circle
   const CL = ({ t }: { t: string }) => (
     <div style={{ width:28, height:28, borderRadius:'50%', border:'3px solid #dc2626', background:'#fff',
+      color:'#dc2626', fontWeight:900, fontSize:13, display:'inline-flex', alignItems:'center',
