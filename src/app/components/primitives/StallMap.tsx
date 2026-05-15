@@ -227,3 +227,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
               <div style={{ display:'flex', gap:0 }}>
 
                 {/* Left paired columns */}
+                <div style={{ flexShrink:0, marginRight:3, display:'flex', flexDirection:'column', gap:1 }}>
