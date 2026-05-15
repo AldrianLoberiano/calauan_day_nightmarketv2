@@ -69,3 +69,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
       contactNumber: formData.contactNumber.trim(),
       businessName: formData.businessName.trim() || undefined,
       address: formData.address.trim() || undefined,
+      status: 'pending',
