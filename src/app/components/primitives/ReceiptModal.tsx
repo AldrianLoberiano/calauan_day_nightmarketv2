@@ -158,3 +158,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
             onClick={handlePrint}
             className="flex-1 flex items-center justify-center gap-2 border-2 border-blue-700 text-blue-700 hover:bg-blue-50 rounded-xl py-2.5 text-sm font-semibold transition-colors"
           >
+            <Printer className="w-4 h-4" />
