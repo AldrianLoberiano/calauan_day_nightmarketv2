@@ -229,3 +229,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                 {/* Left paired columns */}
                 <div style={{ flexShrink:0, marginRight:3, display:'flex', flexDirection:'column', gap:1 }}>
                   {range(0, pairs-1).map(i=>(
+                    <div key={`lp${i}`} style={{ display:'flex', gap:1 }}>
