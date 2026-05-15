@@ -132,7 +132,6 @@ export function UserPage() {
         </div>
 
         {/* Stall Browser */}
-          <div className="px-5 py-4 border-b border-slate-100">
             <p className="text-xs text-slate-500 mt-0.5">Browse and search all stalls</p>
           </div>
           <div className="p-5">
