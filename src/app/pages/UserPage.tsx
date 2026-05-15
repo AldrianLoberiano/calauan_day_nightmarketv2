@@ -242,7 +242,6 @@ export function UserPage() {
 
 function StatPill({ color, label, count }: { color: string; label: string; count: number }) {
   return (
-      <span className="text-[11px] text-white/80 uppercase tracking-wider">{label}</span>
       <span className="text-xs font-bold text-white">{count}</span>
     </div>
   );
