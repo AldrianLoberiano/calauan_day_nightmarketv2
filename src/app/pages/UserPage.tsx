@@ -73,7 +73,6 @@ export function UserPage() {
                 <p className="text-blue-200 text-xs sm:text-sm">Public Market — Night Market Stall Mapping</p>
               </div>
             </div>
-            <span className="text-xs sm:text-sm font-semibold text-white/80">Public View</span>
           </div>
         </div>
       </header>
