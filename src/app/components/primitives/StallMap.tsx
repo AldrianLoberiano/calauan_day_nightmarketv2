@@ -61,3 +61,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
           zIndex: sel ? 20 : undefined,
           boxShadow: sel ? '0 0 8px rgba(59,130,246,0.5)' : '0 1px 2px rgba(0,0,0,0.15)',
           transition: 'transform 0.1s, box-shadow 0.1s',
+        }}
