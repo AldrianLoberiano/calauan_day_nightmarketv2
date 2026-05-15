@@ -194,3 +194,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                     <span style={{ fontSize:55, fontWeight:900, color:'#3a3a3a', letterSpacing:'0.4em',
                       textShadow:'1px 1px 0 rgba(255,255,255,0.8)', userSelect:'none' }}>MARKET SITE</span>
                   </div>
+                </div>
