@@ -89,3 +89,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
               <span className="inline-block mt-2 bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full">
                 PENDING PROCESSING
               </span>
+            </div>
