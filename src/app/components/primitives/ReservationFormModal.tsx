@@ -128,3 +128,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
             <div className="relative">
               <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
+                type="text"
