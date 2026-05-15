@@ -45,6 +45,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
           <div className="inline-flex items-center justify-center w-20 h-20 mb-4">
             <img
               src={bploLogo}
+              alt="BPLO Logo"
           </div>
           <h1 className="text-white text-2xl font-black tracking-tight">BPLO Admin Panel</h1>
           <p className="text-blue-200 text-sm mt-1">Pwesto Reservation Mapping System</p>
