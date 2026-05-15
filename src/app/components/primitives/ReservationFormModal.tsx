@@ -63,3 +63,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
 
     const reservation: Reservation = {
       id: generateUUID(),
+      reservationNumber: generateReservationNumber(),
