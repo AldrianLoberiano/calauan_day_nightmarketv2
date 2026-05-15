@@ -141,3 +141,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
           </div>
 
           {/* Contact Number */}
+          <div>
