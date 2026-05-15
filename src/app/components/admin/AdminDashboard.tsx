@@ -111,6 +111,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
           <div className="flex items-center gap-2 sm:gap-3">
             <button
               onClick={loadData}
+              className="flex items-center gap-1.5 bg-white/15 hover:bg-white/25 text-white text-xs font-semibold px-3 py-1.5 rounded-xl transition-colors ring-1 ring-white/15"
             >
               <RefreshCw className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Refresh</span>
