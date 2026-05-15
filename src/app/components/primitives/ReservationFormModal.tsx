@@ -65,3 +65,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
       id: generateUUID(),
       reservationNumber: generateReservationNumber(),
       stallId: stall.id,
+      fullName: formData.fullName.trim(),
