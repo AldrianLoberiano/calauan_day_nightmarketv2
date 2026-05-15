@@ -88,3 +88,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
     onSuccess(reservation, updatedStall);
   }
 
+  function handleChange(field: keyof FormData, value: string) {
