@@ -56,3 +56,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
           </div>
 
           <button
+            onClick={onClose}
