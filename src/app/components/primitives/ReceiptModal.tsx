@@ -146,3 +146,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
 
             {/* Footer */}
             <div className="text-center py-3 border-t border-gray-100">
+              <p className="text-xs text-gray-400">This is a computer-generated reservation slip.</p>
