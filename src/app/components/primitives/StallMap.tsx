@@ -43,3 +43,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
   };
 
   // Stall button
+  const S = ({ s, w, h }: { s: Stall; w: number; h: number }) => {
