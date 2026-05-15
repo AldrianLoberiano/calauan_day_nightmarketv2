@@ -116,3 +116,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 text-sm text-blue-800">
