@@ -117,3 +117,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
                   value={`${formatPeso(stall.price)} / month`}
                   valueClass="text-blue-700 font-black"
                 />
+              </div>
