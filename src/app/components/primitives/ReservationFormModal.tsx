@@ -94,3 +94,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
       setErrors(prev => ({ ...prev, [field]: undefined }));
     }
   }
+
