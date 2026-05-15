@@ -40,3 +40,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
             .row { display: flex; justify-content: space-between; margin: 8px 0; font-size: 14px; }
             .label { color: #6b7280; }
             .value { font-weight: bold; }
+            .qr { text-align: center; margin: 16px 0; }
