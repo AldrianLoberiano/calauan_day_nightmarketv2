@@ -59,3 +59,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
     >
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[95vh] overflow-y-auto">
         {/* Success header */}
+          <div className="flex items-center gap-3">
