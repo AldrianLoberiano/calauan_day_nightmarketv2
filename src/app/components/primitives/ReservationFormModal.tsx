@@ -17,4 +17,5 @@ interface FormData {
   address: string;
 }
 
+interface FormErrors {
   fullName?: string;
