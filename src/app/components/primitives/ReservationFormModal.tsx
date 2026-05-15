@@ -33,3 +33,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!stall) return null;
+
