@@ -138,3 +138,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
               />
             </div>
             {errors.fullName && <p className="text-red-500 text-xs mt-1">{errors.fullName}</p>}
+          </div>
