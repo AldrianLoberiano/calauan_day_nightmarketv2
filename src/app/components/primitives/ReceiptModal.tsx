@@ -168,3 +168,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
             Done
           </button>
         </div>
+      </div>
