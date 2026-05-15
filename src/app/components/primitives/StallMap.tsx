@@ -180,3 +180,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                   {range(0,14).map(i=>(
                     <div key={`p${i}`} style={{ position:'absolute', left:0, top:i*10+2, width:10, height:8,
                       borderRight:'1.5px solid #aaa', background:'#e0e0e0' }}/>
+                  ))}
