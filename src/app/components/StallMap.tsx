@@ -215,7 +215,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                   <CL t="C"/>
                   {cC.map(s=><CS key={s.id} s={s}/>)}
                   <HR ss={inTop} w={20} h={16}/>
-                  {cD.map(s=><CS key={s.id} s={s}/>)}
                   <CL t="D"/>
                 </div>
                 <div style={{ width:350, flexShrink:0 }}/>
