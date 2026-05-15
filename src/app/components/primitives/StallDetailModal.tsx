@@ -125,3 +125,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
               </button>
             )}
           </div>
+        </div>
