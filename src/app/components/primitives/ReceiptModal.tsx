@@ -133,3 +133,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
               <p className="text-xs text-gray-400">Show this QR at the BPLO Office</p>
             </div>
 
+            {/* Instructions */}
