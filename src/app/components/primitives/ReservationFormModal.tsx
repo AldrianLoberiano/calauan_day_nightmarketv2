@@ -101,3 +101,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
       onClick={(e) => { if (e.target === e.currentTarget && !isSubmitting) onClose(); }}
     >
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+        {/* Header */}
