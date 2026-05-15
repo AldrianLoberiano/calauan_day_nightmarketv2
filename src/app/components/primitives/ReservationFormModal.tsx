@@ -163,3 +163,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
           {/* Business Name */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1">
+              Business Name <span className="text-gray-400 font-normal text-xs">(optional)</span>
