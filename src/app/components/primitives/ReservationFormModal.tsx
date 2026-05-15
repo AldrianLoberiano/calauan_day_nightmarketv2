@@ -62,3 +62,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
     expiresAt.setDate(expiresAt.getDate() + 3);
 
     const reservation: Reservation = {
+      id: generateUUID(),
