@@ -17,3 +17,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
   const qrData = encodeURIComponent(
     `RES:${reservation.reservationNumber}|STALL:${reservation.stallId}|NAME:${reservation.fullName}|TEL:${reservation.contactNumber}`
   );
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${qrData}&margin=10`;
