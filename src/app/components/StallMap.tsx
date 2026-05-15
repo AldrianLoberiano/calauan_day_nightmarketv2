@@ -243,7 +243,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
 
                 {/* Center + right col */}
                 <div style={{ display:'flex', flexDirection:'column', flex:1 }}>
-                  <div style={{ display:'flex', flex:1 }}>
                     <div style={{ flex:1, minHeight:470 }}/>
                     <VC ss={rCol} w={25} h={16}/>
                   </div>
