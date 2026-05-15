@@ -44,3 +44,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
     if (!formData.contactNumber.trim()) {
       newErrors.contactNumber = 'Contact number is required.';
     } else if (!/^(09|\+639)\d{9}$/.test(formData.contactNumber.trim())) {
+      newErrors.contactNumber = 'Enter a valid Philippine mobile number (e.g., 09XXXXXXXXX).';
