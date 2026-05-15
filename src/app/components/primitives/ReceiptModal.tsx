@@ -22,3 +22,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
     ? `Section ${stall.section}, Stall ${stall.id}`
     : `Section ${stall.section}`;
 
+  function handlePrint() {
