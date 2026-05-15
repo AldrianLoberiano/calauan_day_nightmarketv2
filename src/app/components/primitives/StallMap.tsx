@@ -39,3 +39,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
     available:'#22c55e', pending:'#facc15', reserved:'#ef4444', occupied:'#6b7280'
   };
   const statusBorder: Record<string,string> = {
+    available:'#16a34a', pending:'#eab308', reserved:'#dc2626', occupied:'#4b5563'
