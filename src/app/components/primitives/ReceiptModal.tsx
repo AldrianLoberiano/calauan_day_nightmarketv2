@@ -85,3 +85,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
             {/* Reservation number */}
             <div className="bg-gray-50 border-b-2 border-dashed border-blue-300 text-center py-4">
               <p className="text-xs text-gray-500 uppercase tracking-wider">Reservation Number</p>
+              <p className="text-3xl font-black text-blue-800 tracking-widest mt-1">{reservation.reservationNumber}</p>
