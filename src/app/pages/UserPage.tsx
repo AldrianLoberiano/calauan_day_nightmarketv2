@@ -110,7 +110,6 @@ export function UserPage() {
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
           <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
             <div>
-              <p className="text-xs text-slate-500 mt-0.5">Click on any stall to view details and availability</p>
             </div>
           </div>
 
