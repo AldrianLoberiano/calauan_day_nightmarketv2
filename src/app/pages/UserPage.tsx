@@ -103,6 +103,7 @@ export function UserPage() {
             <div className="ml-auto text-gray-600 text-xs self-center hidden sm:block">
               Total Stalls: <span className="text-gray-900 font-bold">{stalls.length}</span>
             </div>
+          </div>
 
         {/* Interactive Map */}
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
