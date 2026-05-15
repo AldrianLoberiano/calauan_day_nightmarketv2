@@ -142,6 +142,7 @@
     font-size: var(--text-2xl);
     font-weight: var(--font-weight-medium);
     line-height: 1.5;
+    font-family: 'Fraunces', 'Manrope', serif;
   }
 
   h2 {
