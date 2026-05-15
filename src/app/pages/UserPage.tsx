@@ -67,7 +67,6 @@ export function UserPage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-                <MapPin className="w-6 h-6" />
               </div>
               <div>
                 <h1 className="font-black text-lg sm:text-xl leading-tight">Pwesto Reservation System</h1>
