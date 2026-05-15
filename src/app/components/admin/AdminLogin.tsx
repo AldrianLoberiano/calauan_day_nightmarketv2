@@ -32,7 +32,6 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
   }
 
   return (
-          backgroundImage: `repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 50%)`,
           backgroundSize: '20px 20px',
         }}
       />
