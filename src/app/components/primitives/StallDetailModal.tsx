@@ -43,3 +43,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
             alt={`Stall ${stall.id}`}
             className="w-full h-full object-cover"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
