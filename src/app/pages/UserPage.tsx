@@ -60,6 +60,7 @@ export function UserPage() {
     <div className="min-h-screen bg-gray-50">
       {/* Hero Header */}
       <header
+        className="sticky top-0 z-40 text-white bg-center bg-cover"
         style={{ backgroundImage: `url(${headerImage})` }}
       >
         <div className="absolute inset-0 bg-black/45" aria-hidden="true" />
