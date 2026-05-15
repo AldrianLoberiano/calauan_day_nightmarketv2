@@ -178,3 +178,4 @@ function DetailRow({
   label,
   value,
   valueClass = 'text-gray-800 font-semibold',
+}: {
