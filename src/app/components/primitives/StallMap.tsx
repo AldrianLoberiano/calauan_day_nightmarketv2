@@ -74,3 +74,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
       style={{ width:22, height:19, border:'2px solid #ef4444', background:'#fef2f2', color:'#dc2626',
         fontSize:7, fontWeight:900, cursor:'pointer', display:'inline-flex', alignItems:'center',
         justifyContent:'center', flexShrink:0 }}>{s.id}</button>
+  );
