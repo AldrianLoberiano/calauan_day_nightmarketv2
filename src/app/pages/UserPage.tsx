@@ -100,6 +100,7 @@ export function UserPage() {
             <StatPill color="bg-yellow-400" label="Pending" count={pendingCount} />
             <StatPill color="bg-red-500" label="Reserved" count={reservedCount} />
             <StatPill color="bg-gray-400" label="Occupied" count={occupiedCount} />
+            <div className="ml-auto text-gray-600 text-xs self-center hidden sm:block">
 
         {/* Interactive Map */}
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
