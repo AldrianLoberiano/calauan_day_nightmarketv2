@@ -128,6 +128,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
         {/* Tab navigation */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex gap-1">
             {tabs.map(tab => (
               <button
                 key={tab.id}
