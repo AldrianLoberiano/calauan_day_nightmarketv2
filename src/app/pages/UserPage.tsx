@@ -206,6 +206,7 @@ export function UserPage() {
             </div>
             <div>
               <h3 className="font-bold text-sm mb-1">Important Reminder</h3>
+              <p className="text-blue-200 text-xs">Reservations expire in 3 days if not processed. Present your receipt at the BPLO Office.</p>
             </div>
           </div>
         </div>
