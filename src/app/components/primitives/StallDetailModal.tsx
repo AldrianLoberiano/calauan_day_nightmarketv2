@@ -103,3 +103,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
               This stall is currently under review. Please check back later or choose another stall.
             </div>
           )}
+          {(stall.status === 'reserved' || stall.status === 'occupied') && (
