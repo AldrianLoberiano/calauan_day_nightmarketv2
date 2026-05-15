@@ -133,6 +133,7 @@ export function UserPage() {
 
         {/* Stall Browser */}
         <div className="bg-white rounded-2xl border border-slate-200/70 shadow-lg shadow-slate-200/60">
+          <div className="px-5 py-4 border-b border-slate-100">
           </div>
           <div className="p-5">
             {/* Filters */}
