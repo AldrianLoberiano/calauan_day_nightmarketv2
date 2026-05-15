@@ -28,3 +28,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
     if (!win) return;
     win.document.write(`
       <html>
+        <head>
