@@ -61,4 +61,5 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
           >
             <X className="w-4 h-4" />
           </button>
+        </div>
 
