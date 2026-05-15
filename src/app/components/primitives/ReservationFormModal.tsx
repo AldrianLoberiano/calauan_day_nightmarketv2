@@ -130,3 +130,4 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
               <input
                 type="text"
                 value={formData.fullName}
+                onChange={(e) => handleChange('fullName', e.target.value)}
