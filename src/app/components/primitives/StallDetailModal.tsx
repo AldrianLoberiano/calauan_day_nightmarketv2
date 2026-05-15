@@ -123,3 +123,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
               >
                 Reserve This Stall
               </button>
+            )}
