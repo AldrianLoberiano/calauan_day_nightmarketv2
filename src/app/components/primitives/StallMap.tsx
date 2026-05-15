@@ -84,3 +84,4 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
   );
 
   // Helpers
+  const HR = ({ ss, w, h }: { ss: Stall[]; w: number; h: number }) => (
