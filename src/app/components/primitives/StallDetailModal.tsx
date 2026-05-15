@@ -29,3 +29,4 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
   const locationLabel = stall.number > 0
     ? `Section ${stall.section}, Stall ${stall.id}`
     : `Section ${stall.section}`;
+  return (
