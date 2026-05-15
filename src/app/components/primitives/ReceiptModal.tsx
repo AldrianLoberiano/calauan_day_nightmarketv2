@@ -48,4 +48,5 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
         <body>${printContents}</body>
       </html>
     `);
+    win.document.close();
     win.print();
