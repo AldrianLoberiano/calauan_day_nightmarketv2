@@ -106,3 +106,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
                 value={formatDate(reservation.createdAt)}
               />
               <DetailRow
+                icon={<Clock className="w-4 h-4 text-red-500" />}
