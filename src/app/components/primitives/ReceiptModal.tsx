@@ -71,3 +71,4 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
             <X className="w-5 h-5" />
           </button>
         </div>
+
