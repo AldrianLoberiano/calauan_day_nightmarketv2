@@ -141,11 +141,16 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 className={`flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold border-b-2 transition-all relative ${
                   activeTab === tab.id
                     ? 'border-white text-white'
-                    : 'border-transparent text-blue-300 hover:text-white hover:border-blue-300'
+                    : 'border-transparent text-blue-300 hover:text-white hover:border-blue-300/50'
                 }`}
               >
                 {tab.icon}
                 {tab.label}
+                {tab.badge !== undefined && (
+                  <span className="ml-0.5 bg-amber-400 text-amber-900 text-[10px] font-black px-1.5 py-0.5 rounded-full leading-none">
+                    {tab.badge}
+                  </span>
+                )}
               </button>
             ))}
           </div>
