@@ -386,6 +386,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
           stall={getStallForReservation(activeReservation)}
           onClose={() => setActiveReservationId(null)}
           onUpdate={loadData}
+        />
     </div>
   );
 }
