@@ -93,6 +93,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
     { id: 'map' as TabId, label: 'Stall Map', icon: <MapPin className="w-4 h-4" /> },
   ];
 
+  const activeReservation = activeReservationId
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Admin Header */}
