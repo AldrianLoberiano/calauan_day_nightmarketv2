@@ -260,7 +260,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
             {stats.pending === 0 && (
               <div className="bg-green-50 border border-green-200 rounded-2xl p-6 text-center">
-                <p className="text-green-600 text-sm">No pending reservations to process.</p>
               </div>
             )}
           </div>
