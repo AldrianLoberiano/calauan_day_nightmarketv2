@@ -87,7 +87,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
   const tabs = [
     { id: 'dashboard' as TabId, label: 'Dashboard', icon: <LayoutDashboard className="w-4 h-4" /> },
-    { id: 'reservations' as TabId, label: 'Reservations', icon: <ClipboardList className="w-4 h-4" /> },
     { id: 'map' as TabId, label: 'Stall Map', icon: <MapPin className="w-4 h-4" /> },
   ];
 
