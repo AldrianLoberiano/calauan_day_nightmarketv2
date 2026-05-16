@@ -254,7 +254,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                     background:'linear-gradient(135deg,#fafafa,#f0f0f0)', overflow:'hidden' }}>
                     <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%' }}>
                       <defs>
-                        <pattern id="xh" width="16" height="16" patternTransform="rotate(-45)" patternUnits="userSpaceOnUse">
                           <line x1="0" y1="0" x2="0" y2="16" stroke="#ddd" strokeWidth="0.8"/>
                         </pattern>
                       </defs>
