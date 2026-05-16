@@ -259,7 +259,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
               <div style={{ display:'flex', gap:0 }}>
 
                 {/* Left paired columns */}
-                <div style={{ flexShrink:0, marginRight:3, display:'flex', flexDirection:'column', gap:1 }}>
                   {range(0, pairs-1).map(i=>(
                     <div key={`lp${i}`} style={{ display:'flex', gap:15 }}>
                       <S s={lOut[i]} w={25} h={18}/>
