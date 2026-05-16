@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, User, Phone, Building2, MapPin, Loader2 } from 'lucide-react';
+import { X, User, Phone, Building2, MapPin, Loader2, Tag, Info } from 'lucide-react';
 import { Stall, Reservation } from '../../types';
 import { formatPeso } from '../../utils/helpers';
 import { addReservation, updateStall, generateReservationNumber, generateUUID } from '../../utils/storage';
@@ -101,131 +101,165 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
       onClick={(e) => { if (e.target === e.currentTarget && !isSubmitting) onClose(); }}
     >
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-blue-700 to-blue-800 text-white px-6 py-4 flex items-center justify-between">
+        {/* Header — solid color, no gradient */}
+        <div className="bg-blue-800 text-white px-5 py-4 flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-bold">Reserve Stall {stall.id}</h2>
-            <p className="text-blue-200 text-sm">{stall.category} • {formatPeso(stall.price)}/month</p>
+            <p className="text-blue-300 text-xs font-semibold uppercase tracking-wider mb-0.5">Stall {stall.id}</p>
+            <h2 className="text-lg font-bold leading-tight">Reserve This Stall</h2>
+            <div className="flex items-center gap-2 mt-1">
+              <span className="text-blue-300 text-xs">{stall.category}</span>
+              <span className="w-1 h-1 rounded-full bg-blue-500" />
+              <span className="text-blue-200 text-xs font-semibold">{formatPeso(stall.price)}/month</span>
+            </div>
           </div>
           {!isSubmitting && (
-            <button onClick={onClose} className="text-white/70 hover:text-white transition-colors">
-              <X className="w-5 h-5" />
+            <button
+              onClick={onClose}
+              className="text-blue-300 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-xl p-1.5"
+            >
+              <X className="w-4 h-4" />
             </button>
           )}
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 text-sm text-blue-800">
-            Fill in your details to reserve this stall. You will receive a <strong>Reservation Number</strong> that you must present at the <strong>BPLO Office</strong>.
+        <form onSubmit={handleSubmit} className="p-5 space-y-4">
+          {/* Info notice */}
+          <div className="flex items-start gap-2.5 bg-blue-50 border border-blue-200 rounded-xl p-3">
+            <Info className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+            <p className="text-sm text-blue-800">
+              Fill in your details to reserve this stall. You will receive a <strong>Reservation Number</strong> to present at the <strong>BPLO Office</strong>.
+            </p>
           </div>
 
           {/* Full Name */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">
-              Full Name <span className="text-red-500">*</span>
-            </label>
-            <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input
-                type="text"
-                value={formData.fullName}
-                onChange={(e) => handleChange('fullName', e.target.value)}
-                placeholder="Juan Dela Cruz"
-                className={`w-full pl-10 pr-4 py-2.5 border-2 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all
-                  ${errors.fullName ? 'border-red-400 bg-red-50' : 'border-gray-200 focus:border-blue-400'}`}
-                disabled={isSubmitting}
-              />
-            </div>
-            {errors.fullName && <p className="text-red-500 text-xs mt-1">{errors.fullName}</p>}
-          </div>
+          <FormField
+            label="Full Name"
+            required
+            error={errors.fullName}
+            icon={<User className="w-4 h-4 text-slate-400" />}
+          >
+            <input
+              type="text"
+              value={formData.fullName}
+              onChange={(e) => handleChange('fullName', e.target.value)}
+              placeholder="Juan Dela Cruz"
+              className={`w-full pl-10 pr-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all bg-slate-50 focus:bg-white ${
+                errors.fullName ? 'border-red-400 bg-red-50 focus:bg-red-50' : 'border-slate-200 focus:border-blue-500'
+              }`}
+              disabled={isSubmitting}
+            />
+          </FormField>
 
           {/* Contact Number */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">
-              Contact Number <span className="text-red-500">*</span>
-            </label>
-            <div className="relative">
-              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input
-                type="tel"
-                value={formData.contactNumber}
-                onChange={(e) => handleChange('contactNumber', e.target.value)}
-                placeholder="09XXXXXXXXX"
-                className={`w-full pl-10 pr-4 py-2.5 border-2 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all
-                  ${errors.contactNumber ? 'border-red-400 bg-red-50' : 'border-gray-200 focus:border-blue-400'}`}
-                disabled={isSubmitting}
-              />
-            </div>
-            {errors.contactNumber && <p className="text-red-500 text-xs mt-1">{errors.contactNumber}</p>}
-          </div>
+          <FormField
+            label="Contact Number"
+            required
+            error={errors.contactNumber}
+            icon={<Phone className="w-4 h-4 text-slate-400" />}
+          >
+            <input
+              type="tel"
+              value={formData.contactNumber}
+              onChange={(e) => handleChange('contactNumber', e.target.value)}
+              placeholder="09XXXXXXXXX"
+              className={`w-full pl-10 pr-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all bg-slate-50 focus:bg-white ${
+                errors.contactNumber ? 'border-red-400 bg-red-50 focus:bg-red-50' : 'border-slate-200 focus:border-blue-500'
+              }`}
+              disabled={isSubmitting}
+            />
+          </FormField>
 
           {/* Business Name */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">
-              Business Name <span className="text-gray-400 font-normal text-xs">(optional)</span>
-            </label>
-            <div className="relative">
-              <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input
-                type="text"
-                value={formData.businessName}
-                onChange={(e) => handleChange('businessName', e.target.value)}
-                placeholder="My Store Name"
-                className="w-full pl-10 pr-4 py-2.5 border-2 border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"
-                disabled={isSubmitting}
-              />
-            </div>
-          </div>
+          <FormField
+            label="Business Name"
+            optional
+            icon={<Building2 className="w-4 h-4 text-slate-400" />}
+          >
+            <input
+              type="text"
+              value={formData.businessName}
+              onChange={(e) => handleChange('businessName', e.target.value)}
+              placeholder="My Store Name"
+              className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-slate-50 focus:bg-white"
+              disabled={isSubmitting}
+            />
+          </FormField>
 
           {/* Address */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">
-              Home Address <span className="text-gray-400 font-normal text-xs">(optional)</span>
-            </label>
-            <div className="relative">
-              <MapPin className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
-              <textarea
-                value={formData.address}
-                onChange={(e) => handleChange('address', e.target.value)}
-                placeholder="Barangay, Municipality, Province"
-                rows={2}
-                className="w-full pl-10 pr-4 py-2.5 border-2 border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all resize-none"
-                disabled={isSubmitting}
-              />
-            </div>
-          </div>
+          <FormField
+            label="Home Address"
+            optional
+            icon={<MapPin className="w-4 h-4 text-slate-400" />}
+            isTextarea
+          >
+            <textarea
+              value={formData.address}
+              onChange={(e) => handleChange('address', e.target.value)}
+              placeholder="Barangay, Municipality, Province"
+              rows={2}
+              className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none bg-slate-50 focus:bg-white"
+              disabled={isSubmitting}
+            />
+          </FormField>
 
-          <p className="text-xs text-gray-500">
-            Reservation expires in <strong>3 days</strong> if not processed at the BPLO office. This does not guarantee final approval.
+          <p className="text-xs text-slate-400 leading-relaxed">
+            Reservation expires in <strong className="text-slate-600">3 days</strong> if not processed at the BPLO office. This does not guarantee final approval.
           </p>
 
-          <div className="flex gap-3 pt-2">
+          <div className="flex gap-2.5 pt-1">
             <button
               type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="flex-1 border-2 border-gray-300 text-gray-700 hover:bg-gray-100 rounded-xl py-2.5 text-sm font-semibold transition-colors disabled:opacity-50"
+              className="flex-1 border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl py-2.5 text-sm font-semibold transition-colors disabled:opacity-50"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 bg-blue-700 hover:bg-blue-800 disabled:bg-blue-400 text-white rounded-xl py-2.5 text-sm font-bold transition-colors shadow-lg shadow-blue-200 flex items-center justify-center gap-2"
+              className="flex-1 bg-blue-700 hover:bg-blue-800 disabled:bg-slate-300 disabled:cursor-not-allowed text-white rounded-xl py-2.5 text-sm font-bold transition-colors flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
                   Processing...
                 </>
-              ) : (
-                'Confirm Reservation'
-              )}
+              ) : 'Confirm Reservation'}
             </button>
           </div>
         </form>
       </div>
+    </div>
+  );
+}
+
+function FormField({
+  label, required, optional, error, icon, isTextarea, children,
+}: {
+  label: string;
+  required?: boolean;
+  optional?: boolean;
+  error?: string;
+  icon: React.ReactNode;
+  isTextarea?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <div>
+      <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+        {label}
+        {required && <span className="text-red-500 ml-0.5">*</span>}
+        {optional && <span className="text-slate-400 font-normal text-xs ml-1">(optional)</span>}
+      </label>
+      <div className="relative">
+        <span className={`absolute left-3 text-slate-400 pointer-events-none ${isTextarea ? 'top-3' : 'top-1/2 -translate-y-1/2'}`}>
+          {icon}
+        </span>
+        {children}
+      </div>
+      {error && <p className="text-red-500 text-xs mt-1 flex items-center gap-1">⚠ {error}</p>}
     </div>
   );
 }
