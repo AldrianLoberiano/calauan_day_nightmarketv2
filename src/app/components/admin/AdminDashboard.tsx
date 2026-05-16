@@ -315,6 +315,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                     expanded={expandedReservationId === res.id}
                     onToggle={() =>
                       setExpandedReservationId(prev => (prev === res.id ? null : res.id))
+                    }
                     onUpdate={loadData}
                   />
                 ))}
