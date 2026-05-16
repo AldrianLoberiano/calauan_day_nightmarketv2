@@ -209,6 +209,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                   utilized ({stats.totalStalls - stats.availableStalls}/{stats.totalStalls})
                 </span>
               </div>
+              <div className="h-3 bg-slate-100 rounded-full overflow-hidden flex gap-0.5">
                 {stats.occupiedStalls > 0 && (
                   <div className="bg-gray-500 h-full" style={{ width: `${(stats.occupiedStalls / stats.totalStalls) * 100}%` }} />
                 )}
