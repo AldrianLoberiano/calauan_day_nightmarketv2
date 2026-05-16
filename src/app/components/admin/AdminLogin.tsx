@@ -57,6 +57,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
           {/* Card Header Strip */}
           <div className="bg-blue-800 px-6 py-4">
             <div className="flex items-center gap-2">
+              <ShieldCheck className="w-5 h-5 text-blue-200" />
               </div>
             </div>
 
