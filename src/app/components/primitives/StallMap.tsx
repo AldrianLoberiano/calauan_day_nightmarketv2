@@ -264,6 +264,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                         transform:'rotate(-35deg)', userSelect:'none' }}>PET BOTTLING</span>
                     </div>
                       <text x="47" y="40" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#444">3</text>
+                      <text x="30" y="26" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#444">3</text>
                     </svg>
                   </div>
                 </div>
