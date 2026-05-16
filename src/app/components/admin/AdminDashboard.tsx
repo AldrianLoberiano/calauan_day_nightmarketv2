@@ -316,7 +316,12 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 ))}
               </div>
             ) : (
-                <p className="text-gray-400 text-sm mt-1">
+              <div className="bg-white rounded-2xl border border-slate-200 p-10 text-center">
+                <div className="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                  <ClipboardList className="w-7 h-7 text-slate-400" />
+                </div>
+                <p className="text-slate-600 font-semibold">No reservations found.</p>
+                <p className="text-slate-400 text-sm mt-1">
                   {searchQuery ? 'Try a different search term.' : 'No reservations have been made yet.'}
                 </p>
               </div>
@@ -328,10 +333,10 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
         {activeTab === 'map' && (
           <div className="space-y-4">
             <div>
-              <h2 className="text-xl font-black text-gray-800">Stall Map (Admin View)</h2>
-              <p className="text-sm text-gray-500">Click on any stall to view details or manage its reservation.</p>
+              <h2 className="text-xl font-black text-slate-800">Stall Map (Admin View)</h2>
+              <p className="text-sm text-slate-500">Click on any stall to view details or manage its reservation.</p>
             </div>
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
               <StallMap
                 stalls={stalls}
                 onStallClick={(stall) => setSelectedStall(stall)}
@@ -382,10 +387,6 @@ function StatCard({
   color: 'blue' | 'green' | 'yellow' | 'red' | 'gray';
 }) {
   const colorMap = {
-    blue: 'bg-blue-50 text-blue-700 border-blue-200',
-    green: 'bg-green-50 text-green-700 border-green-200',
-    yellow: 'bg-yellow-50 text-yellow-700 border-yellow-200',
-    red: 'bg-red-50 text-red-700 border-red-200',
     gray: 'bg-gray-50 text-gray-700 border-gray-200',
   };
 
