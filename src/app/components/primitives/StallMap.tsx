@@ -229,6 +229,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                         >
                           <CS s={s}/>
                         </div>
+                      );
                   </div>
                   <CL t="D"/>
                 </div>
