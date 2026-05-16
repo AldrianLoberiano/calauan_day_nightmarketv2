@@ -171,6 +171,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
             {/* Reservation Stats */}
             <div>
+              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Reservation Statistics</h3>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <StatCard icon={<Users className="w-5 h-5" />} label="Total" value={stats.total} color="blue" />
                 <StatCard icon={<Clock className="w-5 h-5" />} label="Pending" value={stats.pending} color="yellow" />
@@ -179,8 +180,9 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
               </div>
             </div>
 
+            {/* Stall Stats */}
             <div>
-              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Stall Status Overview</h3>
+              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Stall Status Overview</h3>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <StatCard icon={<MapPin className="w-5 h-5" />} label="Available" value={stats.availableStalls} color="green" />
                 <StatCard icon={<Clock className="w-5 h-5" />} label="Pending" value={stats.pendingStalls} color="yellow" />
@@ -190,10 +192,14 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
             </div>
 
             {/* Occupancy bar */}
-            <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-gray-600 mb-3">Market Occupancy</h3>
-              <div className="flex items-center gap-3 mb-2">
-                <span className="text-3xl font-black text-gray-800">
+            <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-sm font-bold text-slate-700">Market Occupancy</h3>
+                <span className="text-xs text-slate-500 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1">
+                  {stats.totalStalls} total stalls
+                </span>
+              </div>
+              <div className="flex items-end gap-3 mb-3">
                   {stats.totalStalls > 0
                     ? Math.round(((stats.totalStalls - stats.availableStalls) / stats.totalStalls) * 100)
                     : 0}%
