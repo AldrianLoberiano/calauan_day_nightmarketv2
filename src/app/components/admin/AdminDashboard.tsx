@@ -211,7 +211,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
               </div>
               <div className="h-3 bg-slate-100 rounded-full overflow-hidden flex gap-0.5">
                 {stats.occupiedStalls > 0 && (
-                  <div className="bg-gray-500 h-full" style={{ width: `${(stats.occupiedStalls / stats.totalStalls) * 100}%` }} />
                 )}
                 {stats.reservedStalls > 0 && (
                   <div className="bg-red-500 h-full" style={{ width: `${(stats.reservedStalls / stats.totalStalls) * 100}%` }} />
