@@ -264,6 +264,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                   <CheckCircle className="w-6 h-6 text-green-600" />
                 </div>
                 <p className="text-green-800 font-bold">All caught up!</p>
+                <p className="text-green-600 text-sm mt-1">No pending reservations to process.</p>
               </div>
             )}
           </div>
@@ -274,20 +275,19 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
           <div className="space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div>
-                <h2 className="text-xl font-black text-gray-800">All Reservations</h2>
-                <p className="text-sm text-gray-500">{filteredReservations.length} of {reservations.length} records</p>
+                <h2 className="text-xl font-black text-slate-800">All Reservations</h2>
+                <p className="text-sm text-slate-500">{filteredReservations.length} of {reservations.length} records</p>
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col sm:flex-row gap-2.5">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search by name, reservation no., stall ID..."
-                  className="w-full pl-10 pr-4 py-2.5 border-2 border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
                 />
               </div>
               <select
