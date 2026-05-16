@@ -382,6 +382,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
       )}
       {activeReservation && (
         <ReservationDetailsModal
+          reservation={activeReservation}
     </div>
   );
 }
