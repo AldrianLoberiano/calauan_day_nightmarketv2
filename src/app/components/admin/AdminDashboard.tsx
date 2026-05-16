@@ -317,6 +317,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                     key={res.id}
                     reservation={res}
                     stall={getStallForReservation(res)}
+                    onView={() => setActiveReservationId(res.id)}
                   />
                 ))}
               </div>
