@@ -215,6 +215,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                     {cC.map((s, idx) => {
                       const t = idx - (cC.length - 1) / 2;
                       const angle = -t * 14.5;
+                      const offsetY = 0 + (t * t) * 2.9;
                       const offsetX = 0;
                       return (
                         <div
