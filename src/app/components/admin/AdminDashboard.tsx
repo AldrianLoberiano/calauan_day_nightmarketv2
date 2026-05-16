@@ -380,6 +380,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
           onClose={() => { setReceiptData(null); loadData(); }}
         />
       )}
+      {activeReservation && (
     </div>
   );
 }
