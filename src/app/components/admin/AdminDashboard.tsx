@@ -105,7 +105,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
               <img src={bploLogo} alt="BPLO Logo" className="w-9 h-9 object-contain" />
             </div>
             <div>
-              <p className="text-blue-200 text-xs hidden sm:block">stall Reservation Mapping System</p>
             </div>
           </div>
           <div className="flex items-center gap-2 sm:gap-3">
