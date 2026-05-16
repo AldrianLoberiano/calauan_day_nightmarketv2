@@ -215,6 +215,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                   <HR ss={inTop} w={20} h={16}/>
                   <div style={{ display:'flex', gap:0, marginLeft:6, marginRight:6, alignItems:'flex-end' }}>
                     {cD.map((s, idx) => {
+                      const t = idx - (cD.length - 1) / 2;
                   </div>
                   <CL t="D"/>
                 </div>
