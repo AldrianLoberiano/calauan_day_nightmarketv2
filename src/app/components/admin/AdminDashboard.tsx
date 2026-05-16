@@ -169,6 +169,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
               </div>
             </div>
 
+            {/* Reservation Stats */}
             <div>
               <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Reservation Statistics</h3>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
