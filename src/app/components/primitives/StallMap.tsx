@@ -265,7 +265,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                     </div>
                       <text x="47" y="40" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#444">3</text>
                     </svg>
-                      justifyContent:'center', fontSize:12, fontWeight:'bold', color:'#555' }}>5</div>
                     <div style={{ position:'absolute', right:4, top:'8%', bottom:'8%', width:2, background:'#1a1a6e', opacity:0.4 }}/>
                   </div>
                 </div>
