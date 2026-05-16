@@ -171,7 +171,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
             {/* Reservation Stats */}
             <div>
-              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Reservation Statistics</h3>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <StatCard icon={<Users className="w-5 h-5" />} label="Total" value={stats.total} color="blue" />
                 <StatCard icon={<Clock className="w-5 h-5" />} label="Pending" value={stats.pending} color="yellow" />
