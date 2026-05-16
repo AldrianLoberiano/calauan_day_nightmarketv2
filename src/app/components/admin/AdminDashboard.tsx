@@ -389,14 +389,20 @@ function StatCard({
   const colorMap = {
     blue: { wrap: 'bg-blue-50 border-blue-100', icon: 'bg-blue-100 text-blue-600', text: 'text-blue-800' },
     green: { wrap: 'bg-green-50 border-green-100', icon: 'bg-green-100 text-green-600', text: 'text-green-800' },
+    yellow: { wrap: 'bg-amber-50 border-amber-100', icon: 'bg-amber-100 text-amber-600', text: 'text-amber-800' },
+    red: { wrap: 'bg-red-50 border-red-100', icon: 'bg-red-100 text-red-600', text: 'text-red-800' },
+    gray: { wrap: 'bg-slate-50 border-slate-100', icon: 'bg-slate-100 text-slate-600', text: 'text-slate-800' },
   };
 
+  const c = colorMap[color];
+
   return (
-    <div className={`rounded-2xl border-2 p-4 ${colorMap[color]} flex items-center gap-3`}>
-      <div className="shrink-0 opacity-70">{icon}</div>
+    <div className={`rounded-2xl border p-4 ${c.wrap} flex items-center gap-3`}>
+      <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${c.icon}`}>
+        {icon}
+      </div>
       <div>
-        <p className="text-2xl font-black leading-tight">{value}</p>
-        <p className="text-xs font-semibold opacity-70 uppercase tracking-wider">{label}</p>
+        <p className={`text-2xl font-black leading-tight ${c.text}`}>{value}</p>
       </div>
     </div>
   );
