@@ -222,6 +222,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                           key={s.id}
                           style={{
                             transform:`translate(${offsetX}px, ${offsetY}px) rotate(${angle}deg)`,
+                            transformOrigin:'50% 80%'
                   <HR ss={inTop} w={20} h={16}/>
                   <div style={{ display:'flex', gap:-8, marginLeft:6, marginRight:6, alignItems:'flex-end', transform:'rotate(50deg)', transformOrigin:'left bottom' }}>
                     {cD.map((s, idx) => {
