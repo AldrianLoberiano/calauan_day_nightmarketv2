@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Lock, User, Eye, EyeOff, ShieldCheck, AlertCircle } from 'lucide-react';
 
 const bploLogo = new URL('../public/bplo-modified.png', import.meta.url).href;
 const loginWallpaper = new URL('../public/wallpaper.png', import.meta.url).href;
