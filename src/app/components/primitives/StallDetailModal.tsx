@@ -13,16 +13,16 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
   if (!stall) return null;
 
   const statusIcon: Record<string, React.ReactNode> = {
-    available: <CheckCircle className="w-4 h-4" />,
-    pending: <Clock className="w-4 h-4" />,
-    reserved: <XCircle className="w-4 h-4" />,
-    occupied: <MinusCircle className="w-4 h-4" />,
+    available: <CheckCircle className="w-3.5 h-3.5" />,
+    pending:   <Clock className="w-3.5 h-3.5" />,
+    reserved:  <XCircle className="w-3.5 h-3.5" />,
+    occupied:  <MinusCircle className="w-3.5 h-3.5" />,
   };
 
   const sizeLabel: Record<string, string> = {
-    small: 'Small (6 sqm)',
+    small:  'Small (6 sqm)',
     medium: 'Medium (10 sqm)',
-    large: 'Large (16 sqm)',
+    large:  'Large (16 sqm)',
     corner: 'Corner (20 sqm)',
   };
 
@@ -37,27 +37,32 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
     >
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
         {/* Stall Image */}
-        <div className="relative h-48 sm:h-56 overflow-hidden">
+        <div className="relative h-44 sm:h-52 overflow-hidden bg-slate-100">
           <img
             src={stall.image}
             alt={`Stall ${stall.id}`}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+          {/* Dark scrim only at bottom */}
+          <div className="absolute inset-0 bg-slate-900/30" />
+          <div className="absolute bottom-0 left-0 right-0 h-20 bg-slate-900/50" />
 
+          {/* Stall ID & Category */}
           <div className="absolute bottom-3 left-4">
-            <h2 className="text-white text-2xl font-bold drop-shadow-lg">Stall {stall.id}</h2>
-            <p className="text-white/80 text-sm">{stall.category}</p>
+            <h2 className="text-white text-2xl font-black drop-shadow-sm">Stall {stall.id}</h2>
+            <p className="text-white/80 text-sm font-medium">{stall.category}</p>
           </div>
 
-          <div className={`absolute top-3 right-3 flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold ${getStatusTextClass(stall.status)}`}>
+          {/* Status badge */}
+          <div className={`absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold backdrop-blur-sm ${getStatusTextClass(stall.status)} ring-1 ring-white/20`}>
             {statusIcon[stall.status]}
             {getStatusLabel(stall.status)}
           </div>
 
+          {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-3 left-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white rounded-full p-1.5 transition-colors"
+            className="absolute top-3 left-3 bg-black/30 hover:bg-black/50 backdrop-blur-sm text-white rounded-full p-1.5 transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
@@ -65,67 +70,58 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
 
         {/* Content */}
         <div className="p-5">
-          <div className="grid grid-cols-2 gap-3 mb-4">
-            <div className="flex items-start gap-2 bg-gray-50 rounded-xl p-3">
-              <Tag className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
-              <div>
-                <p className="text-[10px] text-gray-500 uppercase tracking-wider">Monthly Rent</p>
-                <p className="text-sm font-bold text-gray-800">{formatPeso(stall.price)}</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-2 bg-gray-50 rounded-xl p-3">
-              <Ruler className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
-              <div>
-                <p className="text-[10px] text-gray-500 uppercase tracking-wider">Size</p>
-                <p className="text-sm font-bold text-gray-800 capitalize">{sizeLabel[stall.size]}</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-2 bg-gray-50 rounded-xl p-3">
-              <MapPin className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
-              <div>
-                <p className="text-[10px] text-gray-500 uppercase tracking-wider">Location</p>
-                <p className="text-sm font-bold text-gray-800">{locationLabel}</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-2 bg-gray-50 rounded-xl p-3">
-              <ShoppingBag className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
-              <div>
-                <p className="text-[10px] text-gray-500 uppercase tracking-wider">Type</p>
-                <p className="text-sm font-bold text-gray-800">{stall.category}</p>
-              </div>
-            </div>
+          {/* Info grid */}
+          <div className="grid grid-cols-2 gap-2.5 mb-4">
+            <InfoTile icon={<Tag className="w-4 h-4 text-blue-600" />} label="Monthly Rent" value={formatPeso(stall.price)} />
+            <InfoTile icon={<Ruler className="w-4 h-4 text-blue-600" />} label="Size" value={sizeLabel[stall.size]} />
+            <InfoTile icon={<MapPin className="w-4 h-4 text-blue-600" />} label="Location" value={locationLabel} />
+            <InfoTile icon={<ShoppingBag className="w-4 h-4 text-blue-600" />} label="Type" value={stall.category} />
           </div>
 
-          <p className="text-sm text-gray-600 leading-relaxed mb-5">{stall.description}</p>
+          <p className="text-sm text-slate-600 leading-relaxed mb-4">{stall.description}</p>
 
           {stall.status === 'pending' && (
-            <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3 mb-4 text-sm text-yellow-800">
-              This stall is currently under review. Please check back later or choose another stall.
+            <div className="flex items-start gap-2.5 bg-amber-50 border border-amber-200 rounded-xl p-3 mb-4">
+              <Clock className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+              <p className="text-sm text-amber-800">This stall is currently under review. Please check back later or choose another stall.</p>
             </div>
           )}
           {(stall.status === 'reserved' || stall.status === 'occupied') && (
-            <div className="bg-red-50 border border-red-200 rounded-xl p-3 mb-4 text-sm text-red-800">
-              This stall is not available. Please select another stall from the map.
+            <div className="flex items-start gap-2.5 bg-red-50 border border-red-200 rounded-xl p-3 mb-4">
+              <XCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+              <p className="text-sm text-red-800">This stall is not available. Please select another stall from the map.</p>
             </div>
           )}
 
-          <div className="flex gap-3">
+          <div className="flex gap-2.5">
             <button
               onClick={onClose}
-              className="flex-1 border-2 border-gray-300 text-gray-700 hover:bg-gray-100 rounded-xl py-2.5 transition-colors text-sm font-semibold"
+              className="flex-1 border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl py-2.5 transition-colors text-sm font-semibold"
             >
               Close
             </button>
             {stall.status === 'available' && (
               <button
                 onClick={() => onReserve(stall)}
-                className="flex-1 bg-blue-700 hover:bg-blue-800 text-white rounded-xl py-2.5 transition-colors text-sm font-bold shadow-lg shadow-blue-200"
+                className="flex-1 bg-blue-700 hover:bg-blue-800 text-white rounded-xl py-2.5 transition-colors text-sm font-bold shadow-sm"
               >
                 Reserve This Stall
               </button>
             )}
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function InfoTile({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+  return (
+    <div className="flex items-start gap-2 bg-slate-50 border border-slate-100 rounded-xl p-3">
+      <span className="mt-0.5 shrink-0">{icon}</span>
+      <div className="min-w-0">
+        <p className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">{label}</p>
+        <p className="text-sm font-bold text-slate-800 mt-0.5 leading-tight">{value}</p>
       </div>
     </div>
   );
