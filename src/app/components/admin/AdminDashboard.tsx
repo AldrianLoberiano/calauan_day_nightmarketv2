@@ -261,6 +261,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
             {stats.pending === 0 && (
               <div className="bg-green-50 border border-green-200 rounded-2xl p-6 text-center">
                 <div className="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                  <CheckCircle className="w-6 h-6 text-green-600" />
               </div>
             )}
           </div>
