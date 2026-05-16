@@ -195,7 +195,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                       textShadow:'1px 1px 0 rgba(255,255,255,0.8)', userSelect:'none' }}>MARKET SITE</span>
                   </div>
                 </div>
-                </div>
               </div>
 
               {/* TOP OUTER ROWS */}
