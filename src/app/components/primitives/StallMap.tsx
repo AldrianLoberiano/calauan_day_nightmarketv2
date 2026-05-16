@@ -27,6 +27,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
   const lIn = range(77,133).filter(n=>n%2===1).reverse().map(g).filter(Boolean) as Stall[];
   const lBot = [75,74,73,72].map(g).filter(Boolean) as Stall[];
   const rCol = range(35,61).reverse().map(g).filter(Boolean) as Stall[];
+  const rColOffsetX = 260;
   const inBot = range(1,34).map(g).filter(Boolean) as Stall[];
   const outBL = range(22,71).reverse().map(g).filter(Boolean) as Stall[];
   const outBR = range(226,258).map(g).filter(Boolean) as Stall[];
