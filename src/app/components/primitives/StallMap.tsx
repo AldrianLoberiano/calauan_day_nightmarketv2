@@ -264,7 +264,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                       <span style={{ fontSize:20, fontWeight:'bold', color:'#666', letterSpacing:'0.18em',
                         transform:'rotate(-38deg)', userSelect:'none' }}>PET BOTTLING</span>
                     </div>
-                    <svg style={{ position:'absolute', right:30, bottom:55, width:95, height:70 }}>
                       <polygon points="47,2 93,35 47,68 2,35" fill="none" stroke="#444" strokeWidth="2"/>
                       <text x="47" y="40" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#444">3</text>
                     </svg>
