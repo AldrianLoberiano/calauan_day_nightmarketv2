@@ -206,6 +206,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                     : 0}%
                 </span>
                 <span className="text-sm text-slate-500 mb-1">
+                  utilized ({stats.totalStalls - stats.availableStalls}/{stats.totalStalls})
                 </span>
               </div>
               <div className="h-4 bg-gray-100 rounded-full overflow-hidden flex">
