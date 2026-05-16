@@ -316,7 +316,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 ))}
               </div>
             ) : (
-                <ClipboardList className="w-12 h-12 text-gray-300 mx-auto mb-3" />
                 <p className="text-gray-500 font-semibold">No reservations found.</p>
                 <p className="text-gray-400 text-sm mt-1">
                   {searchQuery ? 'Try a different search term.' : 'No reservations have been made yet.'}
