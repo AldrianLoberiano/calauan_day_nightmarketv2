@@ -68,6 +68,20 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
           <div className="p-6">
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Username */}
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Username</label>
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <input
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="admin"
+                    className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-slate-50 focus:bg-white transition-all disabled:opacity-60"
+                    disabled={isLoading}
+                    autoComplete="username"
+                  />
+                </div>
               </div>
             </div>
 
