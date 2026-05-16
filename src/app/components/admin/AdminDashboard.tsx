@@ -33,7 +33,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [reserveStall, setReserveStall] = useState<Stall | null>(null);
   const [receiptData, setReceiptData] = useState<{ reservation: Reservation; stall: Stall } | null>(null);
   const [lastRefresh, setLastRefresh] = useState(new Date());
-  const [expandedReservationId, setExpandedReservationId] = useState<string | null>(null);
 
   function loadData() {
     const updatedStalls = checkAndExpireReservations();
