@@ -52,7 +52,6 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
           <p className="text-slate-300 text-sm mt-1">Stall Reservation Mapping System</p>
         </div>
 
-
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1">Username</label>
