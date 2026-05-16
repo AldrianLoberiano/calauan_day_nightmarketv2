@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import {
   Search, RefreshCw, LogOut, LayoutDashboard, ClipboardList,
-  MapPin, BarChart3, CheckCircle, Clock, XCircle, Package,
   TrendingUp, Users
 } from 'lucide-react';
 import { Reservation, Stall } from '../../types';
