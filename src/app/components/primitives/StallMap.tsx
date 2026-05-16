@@ -266,7 +266,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                     </div>
                     <svg style={{ position:'absolute', right:22, bottom:45, width:80, height:60 }}>
                       <polygon points="47,2 93,35 47,68 2,35" fill="none" stroke="#444" strokeWidth="2"/>
-                      <text x="47" y="40" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#444">3</text>
                     </svg>
                     <div style={{ position:'absolute', right:18, bottom:60, fontSize:17, fontWeight:'bold', color:'#444' }}>10</div>
                     <div style={{ position:'absolute', right:12, top:'42%', width:28, height:28, borderRadius:'50%',
