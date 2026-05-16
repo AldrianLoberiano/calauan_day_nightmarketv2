@@ -220,6 +220,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                       const offsetY = 6 + (t * t) * 2.8;
                       const offsetX = -Math.abs(t) * 0.9;
                       return (
+                        <div
                   </div>
                   <CL t="D"/>
                 </div>
