@@ -263,6 +263,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 <div className="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
                   <CheckCircle className="w-6 h-6 text-green-600" />
                 </div>
+                <p className="text-green-800 font-bold">All caught up!</p>
               </div>
             )}
           </div>
