@@ -403,6 +403,7 @@ function StatCard({
       </div>
       <div>
         <p className={`text-2xl font-black leading-tight ${c.text}`}>{value}</p>
+        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{label}</p>
       </div>
     </div>
   );
