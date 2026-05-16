@@ -41,6 +41,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
       <div className="relative w-full max-w-sm">
         {/* Logo & Title */}
         <div className="text-center mb-6">
+          <div className="inline-flex items-center justify-center w-20 h-20 mb-4 bg-white/10 backdrop-blur-sm rounded-2xl ring-1 ring-white/20">
             <img
               src={bploLogo}
               alt="BPLO Logo"
