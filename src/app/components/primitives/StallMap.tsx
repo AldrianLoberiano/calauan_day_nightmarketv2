@@ -214,7 +214,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                   <div style={{ display:'flex', gap:-10, marginRight:6, marginTop:-6, alignItems:'flex-end', transform:'rotate(-38deg)', transformOrigin:'right bottom' }}>
                     {cC.map((s, idx) => {
                       const t = idx - (cC.length - 1) / 2;
-                      const offsetY = 0 + (t * t) * 2.9;
                       const offsetX = 0;
                       return (
                         <div
