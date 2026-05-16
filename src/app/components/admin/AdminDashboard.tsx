@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import {
   Search, RefreshCw, LogOut, LayoutDashboard, ClipboardList,
   MapPin, CheckCircle, Clock, XCircle, Package,
+  TrendingUp, Users, Activity
 } from 'lucide-react';
 import { Reservation, Stall } from '../../types';
 import { getReservations, checkAndExpireReservations } from '../../utils/storage';
