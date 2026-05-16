@@ -177,6 +177,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                 <div style={{ width:520, height:100, flexShrink:0, position:'relative',
                   border:'2.5px solid #555', background:'linear-gradient(180deg,#f5f5f5,#ebebeb)' }}>
                   {/* Pillars */}
+                  {range(0,10).map(i=>(
                       borderRight:'1.5px solid #aaa', background:'#e0e0e0' }}/>
                   ))}
                   {/* Inner borders */}
