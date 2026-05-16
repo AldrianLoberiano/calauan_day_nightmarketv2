@@ -92,6 +92,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   ];
 
   return (
+    <div className="min-h-screen bg-slate-50">
       {/* Admin Header */}
       <header
         className="relative text-white shadow-lg sticky top-0 z-40 bg-center bg-cover"
