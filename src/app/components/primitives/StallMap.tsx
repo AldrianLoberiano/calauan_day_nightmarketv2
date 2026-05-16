@@ -216,6 +216,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                   <div style={{ display:'flex', gap:0, marginLeft:6, marginRight:6, alignItems:'flex-end' }}>
                     {cD.map((s, idx) => {
                       const t = idx - (cD.length - 1) / 2;
+                      const angle = t * 22;
                   </div>
                   <CL t="D"/>
                 </div>
