@@ -195,7 +195,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                       textShadow:'1px 1px 0 rgba(255,255,255,0.8)', userSelect:'none' }}>MARKET SITE</span>
                   </div>
                 </div>
-                    fontSize:20, fontWeight:'bold', color:'#555', background:'#fff' }}>5</div>
                 </div>
               </div>
 
