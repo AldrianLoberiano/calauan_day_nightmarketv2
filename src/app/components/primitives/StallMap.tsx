@@ -250,6 +250,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
 
                 {/* PET BOTTLING */}
                 <div style={{ width:220, height:160, flexShrink:0, marginLeft:8, position:'relative', alignSelf:'flex-start' }}>
+                <div style={{ width:220, height:160, flexShrink:0, marginLeft:8, marginTop:200, position:'relative', alignSelf:'flex-start' }}>
                   <div style={{ position:'absolute', inset:0, border:'1.5px solid #bbb',
                     background:'linear-gradient(135deg,#fafafa,#f0f0f0)', overflow:'hidden' }}>
                     <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%' }}>
