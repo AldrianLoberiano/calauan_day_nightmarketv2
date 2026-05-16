@@ -312,6 +312,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                     key={res.id}
                     reservation={res}
                     stall={getStallForReservation(res)}
+                    expanded={expandedReservationId === res.id}
                     onUpdate={loadData}
                   />
                 ))}
