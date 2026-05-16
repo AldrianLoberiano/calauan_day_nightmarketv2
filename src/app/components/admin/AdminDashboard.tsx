@@ -94,6 +94,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   ];
 
   const activeReservation = activeReservationId
+    ? reservations.find(r => r.id === activeReservationId) ?? null
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Admin Header */}
