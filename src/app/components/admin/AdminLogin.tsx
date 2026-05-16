@@ -55,6 +55,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
         {/* Login Card */}
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
           {/* Card Header Strip */}
+          <div className="bg-blue-800 px-6 py-4">
               </div>
             </div>
 
