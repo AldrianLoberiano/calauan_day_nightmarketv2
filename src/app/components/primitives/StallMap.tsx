@@ -221,6 +221,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                       const offsetX = -Math.abs(t) * 0.9;
                       return (
                         <div
+                          key={s.id}
                   </div>
                   <CL t="D"/>
                 </div>
