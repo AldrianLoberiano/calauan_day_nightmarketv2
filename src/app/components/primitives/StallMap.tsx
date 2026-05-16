@@ -222,6 +222,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                       return (
                         <div
                           key={s.id}
+                          style={{
                   </div>
                   <CL t="D"/>
                 </div>
