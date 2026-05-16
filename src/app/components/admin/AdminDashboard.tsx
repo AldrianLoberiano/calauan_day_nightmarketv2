@@ -294,6 +294,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value as FilterStatus)}
+                className="border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50 focus:bg-white transition-all"
               >
                 <option value="all">All Status</option>
                 <option value="pending">Pending</option>
