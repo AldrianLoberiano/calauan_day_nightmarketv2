@@ -260,7 +260,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
             {stats.pending === 0 && (
               <div className="bg-green-50 border border-green-200 rounded-2xl p-6 text-center">
-                <CheckCircle className="w-10 h-10 text-green-500 mx-auto mb-2" />
                 <p className="text-green-700 font-bold">All caught up!</p>
                 <p className="text-green-600 text-sm">No pending reservations to process.</p>
               </div>
