@@ -67,6 +67,7 @@ export function UserPage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-3.5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
+              <div className="w-11 h-11 rounded-xl flex items-center justify-center overflow-hidden">
                 <img src={bploLogo} alt="BPLO Logo" className="w-10 h-10 object-contain" />
               </div>
               <div>
