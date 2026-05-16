@@ -13,6 +13,7 @@ import { ReservationFormModal } from '../primitives/ReservationFormModal';
 import { ReceiptModal } from '../primitives/ReceiptModal';
 
 const headerImage = new URL('../public/header1.png', import.meta.url).href;
+const bploLogo = new URL('../public/bplo-modified.png', import.meta.url).href;
 
 interface AdminDashboardProps {
   onLogout: () => void;
