@@ -225,6 +225,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                           style={{
                             transform:`translate(${offsetX}px, ${offsetY}px) rotate(${angle}deg)`,
                             transformOrigin:'50% 80%'
+                          }}
                   </div>
                   <CL t="D"/>
                 </div>
