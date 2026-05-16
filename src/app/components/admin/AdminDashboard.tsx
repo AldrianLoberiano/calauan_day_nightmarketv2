@@ -205,7 +205,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                     ? Math.round(((stats.totalStalls - stats.availableStalls) / stats.totalStalls) * 100)
                     : 0}%
                 </span>
-                  of stalls utilized ({stats.totalStalls - stats.availableStalls}/{stats.totalStalls})
                 <span className="text-sm text-slate-500 mb-1">
                 </span>
               </div>
