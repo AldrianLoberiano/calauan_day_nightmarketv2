@@ -255,6 +255,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                     <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%' }}>
                       <defs>
                         <pattern id="xh" width="12" height="12" patternTransform="rotate(-45)" patternUnits="userSpaceOnUse">
+                          <line x1="0" y1="0" x2="0" y2="12" stroke="#ddd" strokeWidth="0.8"/>
                         </pattern>
                       </defs>
                       <rect width="100%" height="100%" fill="url(#xh)"/>
