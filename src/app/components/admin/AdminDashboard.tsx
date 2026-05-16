@@ -109,7 +109,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
               <p className="text-blue-200 text-xs hidden sm:block font-medium">Stall Reservation Mapping System</p>
             </div>
           </div>
-          <div className="flex items-center gap-2 sm:gap-3">
             <button
               onClick={loadData}
               className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-3 py-1.5 rounded-xl transition-colors"
