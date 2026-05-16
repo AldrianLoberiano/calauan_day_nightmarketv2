@@ -59,45 +59,52 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[95vh] overflow-y-auto">
-        {/* Success header */}
-        <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-4 rounded-t-2xl flex items-center justify-between">
+
+        {/* Success header — solid green, no gradient */}
+        <div className="bg-green-700 text-white px-5 py-4 rounded-t-2xl flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <CheckCircle className="w-8 h-8" />
+            <div className="w-10 h-10 bg-white/15 rounded-xl flex items-center justify-center">
+              <CheckCircle className="w-6 h-6 text-white" />
+            </div>
             <div>
-              <h2 className="text-lg font-bold">Reservation Successful!</h2>
-              <p className="text-green-100 text-sm">Your stall has been reserved.</p>
+              <h2 className="text-base font-bold leading-tight">Reservation Successful!</h2>
+              <p className="text-green-200 text-xs mt-0.5">Your stall has been reserved.</p>
             </div>
           </div>
-          <button onClick={onClose} className="text-white/70 hover:text-white">
-            <X className="w-5 h-5" />
+          <button
+            onClick={onClose}
+            className="text-green-300 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-xl p-1.5"
+          >
+            <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Receipt body */}
-        <div ref={receiptRef} className="p-6">
+        <div ref={receiptRef} className="p-5">
           <div className="border-2 border-blue-700 rounded-xl overflow-hidden">
-            {/* Receipt header */}
-            <div className="bg-blue-700 text-white text-center py-4 px-4">
-              <p className="text-xs uppercase tracking-widest font-semibold text-blue-200">Official Reservation Receipt</p>
-              <h3 className="text-xl font-bold mt-1">stall Public Market</h3>
-              <p className="text-blue-200 text-xs mt-0.5">BPLO — Business Permits &amp; Licensing Office</p>
+
+            {/* Receipt header — solid blue */}
+            <div className="bg-blue-800 text-white text-center py-4 px-4">
+              <p className="text-[10px] uppercase tracking-widest font-semibold text-blue-300">Official Reservation Receipt</p>
+              <h3 className="text-lg font-bold mt-1">Stall Public Market</h3>
+              <p className="text-blue-300 text-xs mt-0.5">BPLO — Business Permits &amp; Licensing Office</p>
             </div>
 
             {/* Reservation number */}
-            <div className="bg-gray-50 border-b-2 border-dashed border-blue-300 text-center py-4">
-              <p className="text-xs text-gray-500 uppercase tracking-wider">Reservation Number</p>
+            <div className="bg-slate-50 border-b-2 border-dashed border-blue-300 text-center py-5 px-4">
+              <p className="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Reservation Number</p>
               <p className="text-3xl font-black text-blue-800 tracking-widest mt-1">{reservation.reservationNumber}</p>
-              <span className="inline-block mt-2 bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full">
+              <span className="inline-block mt-2.5 bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full">
                 PENDING PROCESSING
               </span>
             </div>
 
             {/* Details */}
-            <div className="p-4 space-y-3">
-              <DetailRow icon={<MapPin className="w-4 h-4 text-blue-600" />} label="Stall ID" value={`Stall ${stall.id} — ${stall.category}`} />
-              <DetailRow icon={<MapPin className="w-4 h-4 text-blue-600" />} label="Location" value={locationLabel} />
-              <DetailRow icon={<User className="w-4 h-4 text-blue-600" />} label="Applicant" value={reservation.fullName} />
-              <DetailRow icon={<Phone className="w-4 h-4 text-blue-600" />} label="Contact" value={reservation.contactNumber} />
+            <div className="p-4 space-y-2.5">
+              <DetailRow icon={<MapPin className="w-4 h-4 text-blue-600" />} label="Stall ID"    value={`Stall ${stall.id} — ${stall.category}`} />
+              <DetailRow icon={<MapPin className="w-4 h-4 text-blue-600" />} label="Location"   value={locationLabel} />
+              <DetailRow icon={<User className="w-4 h-4 text-blue-600" />}   label="Applicant"  value={reservation.fullName} />
+              <DetailRow icon={<Phone className="w-4 h-4 text-blue-600" />}  label="Contact"    value={reservation.contactNumber} />
               {reservation.businessName && (
                 <DetailRow icon={<Building2 className="w-4 h-4 text-blue-600" />} label="Business Name" value={reservation.businessName} />
               )}
@@ -106,12 +113,15 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
                 label="Reserved On"
                 value={formatDate(reservation.createdAt)}
               />
-              <DetailRow
-                icon={<Clock className="w-4 h-4 text-red-500" />}
-                label="Expires On"
-                value={formatDate(reservation.expiresAt)}
-              />
-              <div className="border-t border-dashed border-gray-200 pt-3">
+              <div className="border-t border-dashed border-slate-200 pt-2.5">
+                <DetailRow
+                  icon={<Clock className="w-4 h-4 text-red-500" />}
+                  label="Expires On"
+                  value={formatDate(reservation.expiresAt)}
+                  valueClass="text-red-600 font-semibold"
+                />
+              </div>
+              <div className="border-t border-dashed border-slate-200 pt-2.5">
                 <DetailRow
                   icon={<span className="text-blue-600 font-bold text-sm">₱</span>}
                   label="Monthly Rent"
@@ -122,22 +132,22 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
             </div>
 
             {/* QR Code */}
-            <div className="border-t-2 border-dashed border-blue-300 py-4 flex flex-col items-center gap-2">
-              <p className="text-xs text-gray-500 uppercase tracking-wider">Scan for Verification</p>
+            <div className="border-t-2 border-dashed border-blue-300 py-5 flex flex-col items-center gap-2 bg-slate-50">
+              <p className="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Scan for Verification</p>
               <img
                 src={qrUrl}
                 alt="Reservation QR Code"
                 width={120}
                 height={120}
-                className="rounded-lg border border-gray-200"
+                className="rounded-xl border-2 border-slate-200"
               />
-              <p className="text-xs text-gray-400">Show this QR at the BPLO Office</p>
+              <p className="text-xs text-slate-400">Show this QR at the BPLO Office</p>
             </div>
 
             {/* Instructions */}
             <div className="bg-blue-50 border-t-2 border-blue-200 p-4">
-              <p className="text-sm font-bold text-blue-800 mb-1">Next Steps:</p>
-              <ol className="text-sm text-blue-700 space-y-1 list-decimal list-inside">
+              <p className="text-sm font-bold text-blue-800 mb-2">Next Steps:</p>
+              <ol className="text-sm text-blue-700 space-y-1.5 list-decimal list-inside">
                 <li>Take a screenshot or print this receipt.</li>
                 <li>Visit the <strong>BPLO Office</strong> within <strong>3 days</strong>.</li>
                 <li>Present your Reservation Number: <strong>{reservation.reservationNumber}</strong></li>
@@ -146,18 +156,18 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
             </div>
 
             {/* Footer */}
-            <div className="text-center py-3 border-t border-gray-100">
-              <p className="text-xs text-gray-400">This is a computer-generated reservation slip.</p>
-              <p className="text-xs text-gray-400">Valid until: {formatDate(reservation.expiresAt)}</p>
+            <div className="text-center py-3 border-t border-slate-100 bg-white">
+              <p className="text-[11px] text-slate-400">This is a computer-generated reservation slip.</p>
+              <p className="text-[11px] text-slate-400">Valid until: {formatDate(reservation.expiresAt)}</p>
             </div>
           </div>
         </div>
 
         {/* Action buttons */}
-        <div className="px-6 pb-6 flex gap-3">
+        <div className="px-5 pb-5 flex gap-2.5">
           <button
             onClick={handlePrint}
-            className="flex-1 flex items-center justify-center gap-2 border-2 border-blue-700 text-blue-700 hover:bg-blue-50 rounded-xl py-2.5 text-sm font-semibold transition-colors"
+            className="flex-1 flex items-center justify-center gap-2 border border-blue-700 text-blue-700 hover:bg-blue-50 rounded-xl py-2.5 text-sm font-semibold transition-colors"
           >
             <Printer className="w-4 h-4" />
             Print Receipt
@@ -175,10 +185,7 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
 }
 
 function DetailRow({
-  icon,
-  label,
-  value,
-  valueClass = 'text-gray-800 font-semibold',
+  icon, label, value, valueClass = 'text-slate-800 font-semibold',
 }: {
   icon: React.ReactNode;
   label: string;
@@ -189,7 +196,7 @@ function DetailRow({
     <div className="flex items-start gap-2">
       <span className="mt-0.5 shrink-0">{icon}</span>
       <div className="flex-1 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-0.5">
-        <span className="text-xs text-gray-500 uppercase tracking-wide shrink-0">{label}</span>
+        <span className="text-[11px] text-slate-400 uppercase tracking-wide font-semibold shrink-0">{label}</span>
         <span className={`text-sm ${valueClass} sm:text-right`}>{value}</span>
       </div>
     </div>
