@@ -200,6 +200,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 </span>
               </div>
               <div className="flex items-end gap-3 mb-3">
+                <span className="text-4xl font-black text-slate-800 leading-none">
                   {stats.totalStalls > 0
                     ? Math.round(((stats.totalStalls - stats.availableStalls) / stats.totalStalls) * 100)
                     : 0}%
