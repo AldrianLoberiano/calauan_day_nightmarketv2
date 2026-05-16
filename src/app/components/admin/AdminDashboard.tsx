@@ -219,19 +219,25 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 {stats.pendingStalls > 0 && (
                   <div className="bg-amber-400 h-full rounded-full" style={{ width: `${(stats.pendingStalls / stats.totalStalls) * 100}%` }} />
                 )}
+                {stats.availableStalls > 0 && (
+                  <div className="bg-green-400 h-full rounded-full" style={{ width: `${(stats.availableStalls / stats.totalStalls) * 100}%` }} />
+                )}
               </div>
-              <div className="flex flex-wrap gap-3 mt-3 text-xs text-gray-500">
-                <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-green-500 inline-block" />Available ({stats.availableStalls})</span>
-                <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-yellow-400 inline-block" />Pending ({stats.pendingStalls})</span>
-                <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-red-500 inline-block" />Reserved ({stats.reservedStalls})</span>
-                <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-gray-500 inline-block" />Occupied ({stats.occupiedStalls})</span>
+              <div className="flex flex-wrap gap-4 mt-3 text-xs text-slate-500">
+                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-green-400 inline-block" />Available ({stats.availableStalls})</span>
+                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block" />Pending ({stats.pendingStalls})</span>
+                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-red-500 inline-block" />Reserved ({stats.reservedStalls})</span>
+                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-slate-500 inline-block" />Occupied ({stats.occupiedStalls})</span>
               </div>
             </div>
 
             {stats.pending > 0 && (
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider">Pending Actions</h3>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Pending Actions</h3>
+                    <span className="bg-amber-100 text-amber-700 text-xs font-bold px-2 py-0.5 rounded-full">{stats.pending} pending</span>
+                  </div>
                   <button onClick={() => setActiveTab('reservations')} className="text-xs text-blue-600 font-semibold hover:underline">
                     View all →
                   </button>
