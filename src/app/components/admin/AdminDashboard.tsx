@@ -101,6 +101,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
         <div className="absolute inset-0 bg-slate-900/55 pointer-events-none" aria-hidden="true" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-sm ring-1 ring-white/20 flex items-center justify-center overflow-hidden">
             </div>
             <div>
               <h1 className="font-black text-base sm:text-lg leading-tight">BPLO Admin Panel</h1>
