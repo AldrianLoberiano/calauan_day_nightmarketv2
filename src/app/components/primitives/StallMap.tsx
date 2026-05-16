@@ -227,6 +227,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                             transformOrigin:'50% 80%'
                           }}
                         >
+                          <CS s={s}/>
                   </div>
                   <CL t="D"/>
                 </div>
