@@ -275,6 +275,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
                     <div style={{ position:'absolute', right:10, top:14, width:24, height:24, borderRadius:'50%',
                       border:'2px solid #666', background:'#fff', display:'flex', alignItems:'center',
                       justifyContent:'center', fontSize:12, fontWeight:'bold', color:'#555' }}>5</div>
+                    <div style={{ position:'absolute', right:4, top:'8%', bottom:'8%', width:2, background:'#1a1a6e', opacity:0.4 }}/>
                   </div>
                 </div>
               </div>
