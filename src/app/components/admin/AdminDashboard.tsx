@@ -105,6 +105,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
               <img src={bploLogo} alt="BPLO Logo" className="w-9 h-9 object-contain" />
             </div>
             <div>
+              <h1 className="font-black text-base sm:text-lg leading-tight tracking-tight">BPLO Admin Panel</h1>
             </div>
           </div>
           <div className="flex items-center gap-2 sm:gap-3">
