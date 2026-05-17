@@ -6,14 +6,15 @@ interface StallMapProps {
   stalls: Stall[];
   onStallClick: (stall: Stall) => void;
   selectedStallId?: string;
+  initialZoom?: number;
 }
 
 function range(a: number, b: number) {
   return Array.from({ length: b - a + 1 }, (_, i) => a + i);
 }
 
-export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProps) {
-  const [zoom, setZoom] = useState(1);
+export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom }: StallMapProps) {
+  const [zoom, setZoom] = useState(initialZoom ?? 1);
   const containerRef = useRef<HTMLDivElement>(null);
   const sm = new Map(stalls.filter(s => s.number > 0).map(s => [s.number, s]));
   const cm = new Map(stalls.filter(s => s.number === 0).map(s => [s.id, s]));
@@ -106,7 +107,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId }: StallMapProp
         <button onClick={()=>setZoom(z=>Math.max(0.5,z-0.1))}
           style={{ width:32, height:32, border:'1px solid #ddd', borderRadius:6, cursor:'pointer',
             fontSize:18, fontWeight:'bold', background:'#f9f9f9' }}>−</button>
-        <button onClick={()=>setZoom(1)}
+        <button onClick={()=>setZoom(initialZoom ?? 1)}
           style={{ padding:'0 12px', height:32, border:'1px solid #ddd', borderRadius:6, cursor:'pointer',
             fontSize:11, background:'#f9f9f9' }}>Reset</button>
         <button onClick={()=>setZoom(z=>Math.min(2,z+0.1))}
