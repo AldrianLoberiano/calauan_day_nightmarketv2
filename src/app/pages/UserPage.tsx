@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Info, Search, ChevronDown, Store, MapPin, Clock, ShieldCheck, Maximize2, X } from 'lucide-react';
+import { Info, Search, ChevronDown, Store, MapPin, Clock, ShieldCheck, X } from 'lucide-react';
 import { Stall, Reservation } from '../types';
 const headerImage = new URL('../components/public/header1.png', import.meta.url).href;
 const bploLogo = new URL('../components/public/bplo-modified.png', import.meta.url).href;
@@ -130,22 +130,11 @@ export function UserPage() {
               <h2 className="text-base font-bold text-slate-800">Interactive Stall Map — Night Market</h2>
               <p className="text-xs text-slate-500 mt-0.5">Click on any stall to view details and availability</p>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-4 text-[11px] text-slate-500 hidden sm:flex">
-                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-green-500 inline-block" />Available</span>
-                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-amber-400 inline-block" />Pending</span>
-                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-red-500 inline-block" />Reserved</span>
-                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-slate-400 inline-block" />Occupied</span>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowFullMap(true)}
-                className="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-slate-200 text-slate-500 hover:text-slate-700 hover:bg-slate-50 transition-colors"
-                aria-label="View full map"
-                title="View full map"
-              >
-                <Maximize2 className="w-4 h-4" />
-              </button>
+            <div className="flex items-center gap-4 text-[11px] text-slate-500 hidden sm:flex">
+              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-green-500 inline-block" />Available</span>
+              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-amber-400 inline-block" />Pending</span>
+              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-red-500 inline-block" />Reserved</span>
+              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-slate-400 inline-block" />Occupied</span>
             </div>
           </div>
 
