@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { X, User, Phone, Building2, MapPin, Loader2, Tag, Info } from 'lucide-react';
 import { Stall, Reservation } from '../../types';
 import { formatPeso } from '../../utils/helpers';
-import { addReservation, updateStall, generateReservationNumber, generateUUID } from '../../utils/storage';
+import { addReservation } from '../../utils/storage';
 
 interface ReservationFormModalProps {
   stall: Stall | null;
@@ -61,31 +61,16 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
     const expiresAt = new Date(now);
     expiresAt.setDate(expiresAt.getDate() + 3);
 
-    const reservation: Reservation = {
-      id: generateUUID(),
-      reservationNumber: generateReservationNumber(),
+    const result = await addReservation({
       stallId: stall.id,
       fullName: formData.fullName.trim(),
       contactNumber: formData.contactNumber.trim(),
       businessName: formData.businessName.trim() || undefined,
       address: formData.address.trim() || undefined,
-      status: 'pending',
-      createdAt: now.toISOString(),
-      expiresAt: expiresAt.toISOString(),
-      updatedAt: now.toISOString(),
-    };
-
-    addReservation(reservation);
-
-    const updatedStall: Stall = {
-      ...stall,
-      status: 'pending',
-      reservationId: reservation.id,
-    };
-    updateStall(updatedStall);
+    });
 
     setIsSubmitting(false);
-    onSuccess(reservation, updatedStall);
+    onSuccess(result.reservation, result.stall);
   }
 
   function handleChange(field: keyof FormData, value: string) {
