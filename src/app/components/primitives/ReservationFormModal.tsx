@@ -57,10 +57,6 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
     setIsSubmitting(true);
     await new Promise(r => setTimeout(r, 1200));
 
-    const now = new Date();
-    const expiresAt = new Date(now);
-    expiresAt.setDate(expiresAt.getDate() + 3);
-
     const result = await addReservation({
       stallId: stall.id,
       fullName: formData.fullName.trim(),
