@@ -23,6 +23,10 @@ export async function resetStorage(): Promise<void> {
   await apiFetch<{ ok: boolean }>('/admin/reset', { method: 'POST' });
 }
 
+export async function extendPendingReservations(): Promise<{ updated: number }> {
+  return apiFetch<{ updated: number }>('/admin/extend-pending', { method: 'POST' });
+}
+
 // ─── Stall Operations ───────────────────────────────────────
 
 export async function getStalls(): Promise<Stall[]> {
