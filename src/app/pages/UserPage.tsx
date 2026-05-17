@@ -269,7 +269,7 @@ export function UserPage() {
         <ReceiptModal
           reservation={receiptData.reservation}
           stall={receiptData.stall}
-          onClose={() => { setReceiptData(null); loadStalls(); }}
+          onClose={() => { setReceiptData(null); void loadStalls(); }}
         />
       )}
     </div>
