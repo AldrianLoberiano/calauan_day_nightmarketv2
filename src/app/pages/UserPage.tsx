@@ -221,8 +221,19 @@ export function UserPage() {
         </div>
 
         {/* Footer info */}
-        <div className="bg-blue-800 text-white rounded-2xl p-5 sm:p-6">
-          <div className="grid sm:grid-cols-3 gap-5">
+        <div
+          className="relative text-white rounded-2xl p-5 sm:p-6 overflow-hidden"
+          style={{ backgroundImage: `url(${headerImage})` }}
+        >
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(135deg, rgba(76, 29, 149, 0.92), rgba(88, 28, 135, 0.85) 45%, rgba(30, 27, 75, 0.92))',
+            }}
+            aria-hidden="true"
+          />
+          <div className="relative grid sm:grid-cols-3 gap-5">
             <div className="flex gap-3">
               <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0 mt-0.5">
                 <MapPin className="w-4 h-4 text-blue-200" />
