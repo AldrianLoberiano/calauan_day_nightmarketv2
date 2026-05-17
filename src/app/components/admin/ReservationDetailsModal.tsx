@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import { Reservation, Stall } from '../../types';
 import { formatDate, getDaysRemaining, isExpired } from '../../utils/helpers';
-import { approveReservation, rejectReservation, markAsOccupied } from '../../utils/storage';
+import { approveReservation, rejectReservation, markAsOccupied, updateReservationAdmin, deleteReservation } from '../../utils/storage';
 
 interface ReservationDetailsModalProps {
   reservation: Reservation;
@@ -65,6 +65,8 @@ export function ReservationDetailsModal({
   const [showRejectForm, setShowRejectForm] = useState(false);
   const [rejectNotes, setRejectNotes] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editData, setEditData] = useState<Reservation>({ ...reservation });
 
   const daysLeft = getDaysRemaining(reservation.expiresAt);
   const expired = isExpired(reservation.expiresAt);
@@ -93,6 +95,30 @@ export function ReservationDetailsModal({
     markAsOccupied(reservation.id);
     setIsProcessing(false);
     onUpdate();
+  }
+
+  async function handleSaveChanges() {
+    setIsProcessing(true);
+    const updated: Reservation = {
+      ...editData,
+      updatedAt: new Date().toISOString(),
+    };
+    updateReservationAdmin(updated);
+    await new Promise(r => setTimeout(r, 400));
+    setIsProcessing(false);
+    setIsEditing(false);
+    onUpdate();
+  }
+
+  async function handleDelete() {
+    const ok = window.confirm('Delete this reservation permanently?');
+    if (!ok) return;
+    setIsProcessing(true);
+    deleteReservation(reservation.id);
+    await new Promise(r => setTimeout(r, 400));
+    setIsProcessing(false);
+    onUpdate();
+    onClose();
   }
 
   return (
@@ -163,24 +189,73 @@ export function ReservationDetailsModal({
           </div>
 
           <div className="border-t border-slate-100 pt-3 space-y-2.5">
-            <InfoRow icon={<Phone className="w-3.5 h-3.5 text-slate-400" />} value={reservation.contactNumber} />
-            {reservation.businessName && (
-              <InfoRow icon={<Building2 className="w-3.5 h-3.5 text-slate-400" />} value={reservation.businessName} />
+            {isEditing ? (
+              <div className="space-y-2">
+                <label className="block text-xs font-semibold text-slate-600">Full Name</label>
+                <input
+                  value={editData.fullName}
+                  onChange={(e) => setEditData({ ...editData, fullName: e.target.value })}
+                  className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
+                />
+                <label className="block text-xs font-semibold text-slate-600">Contact Number</label>
+                <input
+                  value={editData.contactNumber}
+                  onChange={(e) => setEditData({ ...editData, contactNumber: e.target.value })}
+                  className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
+                />
+                <label className="block text-xs font-semibold text-slate-600">Business Name</label>
+                <input
+                  value={editData.businessName ?? ''}
+                  onChange={(e) => setEditData({ ...editData, businessName: e.target.value })}
+                  className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
+                />
+                <label className="block text-xs font-semibold text-slate-600">Address</label>
+                <input
+                  value={editData.address ?? ''}
+                  onChange={(e) => setEditData({ ...editData, address: e.target.value })}
+                  className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
+                />
+                <label className="block text-xs font-semibold text-slate-600">Status</label>
+                <select
+                  value={editData.status}
+                  onChange={(e) => setEditData({ ...editData, status: e.target.value as Reservation['status'] })}
+                  className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white"
+                >
+                  <option value="pending">Pending</option>
+                  <option value="approved">Approved</option>
+                  <option value="rejected">Rejected</option>
+                  <option value="occupied">Occupied</option>
+                </select>
+                <label className="block text-xs font-semibold text-slate-600">Admin Notes</label>
+                <textarea
+                  value={editData.adminNotes ?? ''}
+                  onChange={(e) => setEditData({ ...editData, adminNotes: e.target.value })}
+                  rows={2}
+                  className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
+                />
+              </div>
+            ) : (
+              <>
+                <InfoRow icon={<Phone className="w-3.5 h-3.5 text-slate-400" />} value={reservation.contactNumber} />
+                {reservation.businessName && (
+                  <InfoRow icon={<Building2 className="w-3.5 h-3.5 text-slate-400" />} value={reservation.businessName} />
+                )}
+                {reservation.address && (
+                  <InfoRow icon={<MapPin className="w-3.5 h-3.5 text-slate-400" />} value={reservation.address} />
+                )}
+                <InfoRow
+                  icon={<Clock className="w-3.5 h-3.5 text-slate-400" />}
+                  value={
+                    <span>
+                      Expires:{' '}
+                      <span className={expired ? 'text-red-600 font-semibold' : 'text-slate-700'}>
+                        {formatDate(reservation.expiresAt)}
+                      </span>
+                    </span>
+                  }
+                />
+              </>
             )}
-            {reservation.address && (
-              <InfoRow icon={<MapPin className="w-3.5 h-3.5 text-slate-400" />} value={reservation.address} />
-            )}
-            <InfoRow
-              icon={<Clock className="w-3.5 h-3.5 text-slate-400" />}
-              value={
-                <span>
-                  Expires:{' '}
-                  <span className={expired ? 'text-red-600 font-semibold' : 'text-slate-700'}>
-                    {formatDate(reservation.expiresAt)}
-                  </span>
-                </span>
-              }
-            />
           </div>
 
           {reservation.adminNotes && (
@@ -209,6 +284,30 @@ export function ReservationDetailsModal({
           {!isProcessing && (
             <div className="border-t border-slate-100 pt-3 space-y-2">
               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Admin Actions</p>
+
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setIsEditing((prev) => !prev)}
+                  className="flex-1 border border-slate-300 text-slate-700 hover:bg-slate-50 text-xs font-bold py-2.5 rounded-xl transition-colors"
+                >
+                  {isEditing ? 'Cancel Edit' : 'Edit'}
+                </button>
+                <button
+                  onClick={handleDelete}
+                  className="flex-1 border border-red-300 text-red-600 hover:bg-red-50 text-xs font-bold py-2.5 rounded-xl transition-colors"
+                >
+                  Delete
+                </button>
+              </div>
+
+              {isEditing && (
+                <button
+                  onClick={handleSaveChanges}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2.5 rounded-xl transition-colors"
+                >
+                  Save Changes
+                </button>
+              )}
 
               {reservation.status === 'pending' && (
                 <div className="flex gap-2">
