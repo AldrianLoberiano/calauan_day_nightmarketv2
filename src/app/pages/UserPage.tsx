@@ -21,7 +21,7 @@ export function UserPage() {
 
   async function loadStalls() {
     const updated = await checkAndExpireReservations();
-    setStalls(updated);
+    setStalls(Array.isArray(updated) ? updated : []);
     setIsLoading(false);
   }
 
@@ -29,13 +29,14 @@ export function UserPage() {
     void loadStalls();
   }, []);
 
-  const availableCount = stalls.filter(s => s.status === 'available').length;
-  const pendingCount = stalls.filter(s => s.status === 'pending').length;
-  const reservedCount = stalls.filter(s => s.status === 'reserved').length;
-  const occupiedCount = stalls.filter(s => s.status === 'occupied').length;
+  const safeStalls = Array.isArray(stalls) ? stalls : [];
+  const availableCount = safeStalls.filter(s => s.status === 'available').length;
+  const pendingCount = safeStalls.filter(s => s.status === 'pending').length;
+  const reservedCount = safeStalls.filter(s => s.status === 'reserved').length;
+  const occupiedCount = safeStalls.filter(s => s.status === 'occupied').length;
 
-  const categories = [...new Set(stalls.map(s => s.category))];
-  const filteredStalls = stalls.filter(s => {
+  const categories = [...new Set(safeStalls.map(s => s.category))];
+  const filteredStalls = safeStalls.filter(s => {
     if (filterStatus !== 'all' && s.status !== filterStatus) return false;
     if (filterCategory !== 'all' && s.category !== filterCategory) return false;
     if (searchQuery.trim()) {
@@ -46,7 +47,7 @@ export function UserPage() {
   });
 
   function handleStallClick(stall: Stall) {
-    const latest = stalls.find(s => s.id === stall.id) ?? stall;
+    const latest = safeStalls.find(s => s.id === stall.id) ?? stall;
     setSelectedStall(latest);
   }
 
