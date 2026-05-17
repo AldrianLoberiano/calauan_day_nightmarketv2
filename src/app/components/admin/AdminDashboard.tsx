@@ -34,6 +34,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [receiptData, setReceiptData] = useState<{ reservation: Reservation; stall: Stall } | null>(null);
   const [lastRefresh, setLastRefresh] = useState(new Date());
   const [activeReservationId, setActiveReservationId] = useState<string | null>(null);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   function loadData() {
     const updatedStalls = checkAndExpireReservations();
@@ -128,7 +129,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
               <span className="hidden sm:inline">Refresh</span>
             </button>
             <button
-              onClick={onLogout}
+              onClick={() => setShowLogoutConfirm(true)}
               className="flex items-center gap-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold px-3 py-1.5 rounded-xl transition-colors"
             >
               <LogOut className="w-3.5 h-3.5" />
@@ -387,6 +388,29 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
           onClose={() => setActiveReservationId(null)}
           onUpdate={loadData}
         />
+      )}
+      {showLogoutConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setShowLogoutConfirm(false)} />
+          <div className="relative w-full max-w-sm bg-white rounded-2xl shadow-xl p-5 text-center">
+            <h3 className="text-lg font-black text-slate-800">Log out?</h3>
+            <p className="text-sm text-slate-500 mt-2">You will be signed out of the admin panel.</p>
+            <div className="mt-5 flex gap-2">
+              <button
+                onClick={() => setShowLogoutConfirm(false)}
+                className="flex-1 border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold py-2.5 rounded-xl transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={onLogout}
+                className="flex-1 bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2.5 rounded-xl transition-colors"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
