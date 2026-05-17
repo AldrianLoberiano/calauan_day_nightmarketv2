@@ -18,12 +18,19 @@ stall Reservation Mapping System is a Vite + React + TypeScript app for managing
 
 ## API
 
-This project currently runs without a backend API. Data is sourced from local files and persisted in browser storage:
+This project includes a Node/Express + MySQL backend under `server/`.
 
-- Mock data: `src/app/data/stallData.ts`
-- Storage helpers: `src/app/utils/storage.ts`
+### Backend setup
 
-If you plan to connect a real API, add an API client layer (for example, in `src/app/utils/`) and replace the mock data usage in the pages and components.
+1. Create the database using [database/schema.sql](database/schema.sql).
+2. Copy `server/.env.example` to `server/.env` and update credentials.
+3. Install backend dependencies:
+   - `cd server`
+   - `npm i`
+4. Start the API server:
+   - `npm run dev`
+
+The frontend expects the API at `http://localhost:5174/api`. You can override this with `VITE_API_URL` in `.env`.
 
 ## Project Structure
 
