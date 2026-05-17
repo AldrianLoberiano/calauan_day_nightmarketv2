@@ -19,14 +19,14 @@ export function UserPage() {
   const [filterCategory, setFilterCategory] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
 
-  function loadStalls() {
-    const updated = checkAndExpireReservations();
+  async function loadStalls() {
+    const updated = await checkAndExpireReservations();
     setStalls(updated);
     setIsLoading(false);
   }
 
   useEffect(() => {
-    loadStalls();
+    void loadStalls();
   }, []);
 
   const availableCount = stalls.filter(s => s.status === 'available').length;
