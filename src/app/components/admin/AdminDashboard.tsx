@@ -146,7 +146,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
         style={{ backgroundImage: `url(${headerImage})` }}
       >
         <div className="absolute inset-0 bg-slate-900/55 pointer-events-none" aria-hidden="true" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+        <div className="relative max-w-8xl mx-auto px-3 sm:px-5 py-2.5 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden">
               <img src={bploLogo} alt="BPLO Logo" className="w-9 h-9 object-contain" />
@@ -193,7 +193,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
         </div>
 
         {/* Tab navigation */}
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="relative max-w-8xl mx-auto px-3 sm:px-5">
           <div className="flex gap-0.5">
             {tabs.map(tab => (
               <button
@@ -218,7 +218,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+      <main className="max-w-8xl mx-auto px-3 sm:px-5 py-5">
 
         {/* Dashboard Tab */}
         {activeTab === 'dashboard' && (
