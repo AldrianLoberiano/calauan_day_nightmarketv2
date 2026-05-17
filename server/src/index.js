@@ -387,6 +387,29 @@ app.post('/api/reservations/:id/occupy', async (req, res, next) => {
   }
 });
 
+app.post('/api/admin/reset', async (req, res, next) => {
+  const connection = await pool.getConnection();
+  try {
+    await connection.beginTransaction();
+
+    await connection.query(
+      `UPDATE stalls
+       SET status = 'available', reservation_id = NULL, updated_at = NOW()`
+    );
+
+    await connection.query('DELETE FROM reservations');
+    await connection.query('UPDATE reservation_counter SET counter = 0 WHERE id = 1');
+
+    await connection.commit();
+    res.json({ ok: true });
+  } catch (err) {
+    await connection.rollback();
+    next(err);
+  } finally {
+    connection.release();
+  }
+});
+
 app.delete('/api/reservations/:id', async (req, res, next) => {
   const connection = await pool.getConnection();
   try {
