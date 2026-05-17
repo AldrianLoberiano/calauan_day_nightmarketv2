@@ -15,6 +15,7 @@ export function UserPage() {
   const [reserveStall, setReserveStall] = useState<Stall | null>(null);
   const [receiptData, setReceiptData] = useState<{ reservation: Reservation; stall: Stall } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [now, setNow] = useState(new Date());
   const [showFullMap, setShowFullMap] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCategory, setFilterCategory] = useState('all');
@@ -28,6 +29,8 @@ export function UserPage() {
 
   useEffect(() => {
     void loadStalls();
+    const interval = setInterval(() => setNow(new Date()), 60000);
+    return () => clearInterval(interval);
   }, []);
 
   const safeStalls = Array.isArray(stalls) ? stalls : [];
@@ -82,9 +85,9 @@ export function UserPage() {
                 <p className="text-blue-200 text-xs sm:text-sm font-medium">Public Market — Night Market Stall Mapping</p>
               </div>
             </div>
-            <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm rounded-xl px-3 py-1.5 ring-1 ring-white/15">
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              <span className="text-xs font-semibold text-white/90">{availableCount} Available</span>
+            <div className="text-xs text-blue-100 font-semibold bg-white/10 backdrop-blur-sm rounded-xl px-3 py-1.5 ring-1 ring-white/15">
+              {now.toLocaleDateString([], { year: 'numeric', month: 'short', day: '2-digit' })}{' '}
+              {now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </div>
           </div>
         </div>
