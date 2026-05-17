@@ -5,7 +5,12 @@ import {
   TrendingUp, Users, Activity
 } from 'lucide-react';
 import { Reservation, Stall } from '../../types';
-import { getReservations, checkAndExpireReservations, resetStorage } from '../../utils/storage';
+import {
+  getReservations,
+  checkAndExpireReservations,
+  resetStorage,
+  extendPendingReservations,
+} from '../../utils/storage';
 import { ReservationCard } from './ReservationCard';
 import { ReservationDetailsModal } from './ReservationDetailsModal';
 import { StallMap } from '../primitives/StallMap';
@@ -37,6 +42,8 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [isResetting, setIsResetting] = useState(false);
+  const [showExtendConfirm, setShowExtendConfirm] = useState(false);
+  const [isExtending, setIsExtending] = useState(false);
 
   async function loadData() {
     const updatedStalls = await checkAndExpireReservations();
@@ -65,6 +72,20 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
     } finally {
       setIsResetting(false);
       setShowResetConfirm(false);
+    }
+  }
+
+  async function handleExtend() {
+    setIsExtending(true);
+    try {
+      await extendPendingReservations();
+      await loadData();
+    } catch (err) {
+      console.error(err);
+      window.alert('Extend failed. Please try again.');
+    } finally {
+      setIsExtending(false);
+      setShowExtendConfirm(false);
     }
   }
 
@@ -153,6 +174,13 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
             >
               <span className="hidden sm:inline">Reset Stalls</span>
               <span className="sm:hidden">Reset</span>
+            </button>
+            <button
+              onClick={() => setShowExtendConfirm(true)}
+              className="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-1.5 rounded-xl transition-colors"
+            >
+              <span className="hidden sm:inline">Extend Pending +1 Day</span>
+              <span className="sm:hidden">Extend</span>
             </button>
             <button
               onClick={() => setShowLogoutConfirm(true)}
@@ -460,6 +488,33 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 disabled={isResetting}
               >
                 {isResetting ? 'Resetting...' : 'Reset'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showExtendConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setShowExtendConfirm(false)} />
+          <div className="relative w-full max-w-sm bg-white rounded-2xl shadow-xl p-5 text-center">
+            <h3 className="text-lg font-black text-slate-800">Extend pending reservations?</h3>
+            <p className="text-sm text-slate-500 mt-2">
+              This adds 1 day to the expiry of all pending reservations.
+            </p>
+            <div className="mt-5 flex gap-2">
+              <button
+                onClick={() => setShowExtendConfirm(false)}
+                className="flex-1 border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold py-2.5 rounded-xl transition-colors"
+                disabled={isExtending}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleExtend}
+                className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2.5 rounded-xl transition-colors"
+                disabled={isExtending}
+              >
+                {isExtending ? 'Extending...' : 'Extend'}
               </button>
             </div>
           </div>
