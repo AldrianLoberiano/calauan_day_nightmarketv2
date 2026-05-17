@@ -91,8 +91,8 @@ async function expireReservations() {
 
     await connection.query(
       `UPDATE reservations
-       SET status = 'rejected',
-           admin_notes = 'Auto-cancelled: Reservation expired after 3 days.',
+         SET status = 'rejected',
+           admin_notes = 'Auto-cancelled: Reservation expired after 4 days.',
            updated_at = NOW()
        WHERE id IN (?)`,
       [expiredIds]
@@ -191,7 +191,7 @@ app.post('/api/reservations', async (req, res, next) => {
     const payload = req.body;
     const now = new Date();
     const expiresAt = new Date(now);
-    expiresAt.setDate(expiresAt.getDate() + 3);
+    expiresAt.setDate(expiresAt.getDate() + 4);
 
     await connection.beginTransaction();
 
@@ -402,6 +402,28 @@ app.post('/api/admin/reset', async (req, res, next) => {
 
     await connection.commit();
     res.json({ ok: true });
+  } catch (err) {
+    await connection.rollback();
+    next(err);
+  } finally {
+    connection.release();
+  }
+});
+
+app.post('/api/admin/extend-pending', async (req, res, next) => {
+  const connection = await pool.getConnection();
+  try {
+    await connection.beginTransaction();
+
+    const [result] = await connection.query(
+      `UPDATE reservations
+       SET expires_at = DATE_ADD(expires_at, INTERVAL 1 DAY),
+           updated_at = NOW()
+       WHERE status = 'pending'`
+    );
+
+    await connection.commit();
+    res.json({ ok: true, updated: result.affectedRows ?? 0 });
   } catch (err) {
     await connection.rollback();
     next(err);
