@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { Maximize2 } from 'lucide-react';
 import { Stall } from '../../types';
 import { getStallColorClass } from '../../utils/helpers';
 
@@ -97,6 +98,16 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   // Left paired rows
   const pairs = Math.min(lOut.length, lIn.length);
 
+  function handleFullView() {
+    setZoom(0.7);
+    requestAnimationFrame(() => {
+      if (containerRef.current) {
+        containerRef.current.scrollTop = 0;
+        containerRef.current.scrollLeft = 0;
+      }
+    });
+  }
+
   return (
     <div style={{ position:'relative' }}>
       {/* Zoom controls */}
@@ -114,6 +125,14 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
         <button onClick={()=>setZoom(z=>Math.min(2,z+0.1))}
           style={{ width:32, height:32, border:'1px solid #ddd', borderRadius:6, cursor:'pointer',
             fontSize:18, fontWeight:'bold', background:'#f9f9f9' }}>+</button>
+        <button onClick={handleFullView}
+          style={{ padding:'0 10px', height:32, border:'1px solid #ddd', borderRadius:6, cursor:'pointer',
+            fontSize:11, fontWeight:'bold', background:'#f9f9f9', display:'inline-flex', alignItems:'center', justifyContent:'center' }}
+          title="View full map"
+          aria-label="View full map"
+        >
+          <Maximize2 size={16} />
+        </button>
       </div>
 
       <div ref={containerRef} className="w-full overflow-auto" style={{ maxHeight: maxHeight ?? '80vh' }}>
