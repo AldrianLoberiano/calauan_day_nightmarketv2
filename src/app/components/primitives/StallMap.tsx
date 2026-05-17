@@ -7,13 +7,14 @@ interface StallMapProps {
   onStallClick: (stall: Stall) => void;
   selectedStallId?: string;
   initialZoom?: number;
+  maxHeight?: string;
 }
 
 function range(a: number, b: number) {
   return Array.from({ length: b - a + 1 }, (_, i) => a + i);
 }
 
-export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom }: StallMapProps) {
+export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, maxHeight }: StallMapProps) {
   const [zoom, setZoom] = useState(initialZoom ?? 1);
   const containerRef = useRef<HTMLDivElement>(null);
   const sm = new Map(stalls.filter(s => s.number > 0).map(s => [s.number, s]));
@@ -115,7 +116,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom }:
             fontSize:18, fontWeight:'bold', background:'#f9f9f9' }}>+</button>
       </div>
 
-      <div ref={containerRef} className="w-full overflow-auto" style={{ maxHeight:'80vh' }}>
+      <div ref={containerRef} className="w-full overflow-auto" style={{ maxHeight: maxHeight ?? '80vh' }}>
         <div style={{ transform:`scale(${zoom})`, transformOrigin:'top left', minWidth:1750,
           padding:14, background:'#fff', fontFamily:"'Courier New',monospace", position:'relative',
           width:'fit-content' }}>
