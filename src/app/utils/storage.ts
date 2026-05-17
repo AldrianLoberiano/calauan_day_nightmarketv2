@@ -5,6 +5,15 @@ const STALLS_KEY = 'pwesto_stalls';
 const RESERVATIONS_KEY = 'pwesto_reservations';
 const COUNTER_KEY = 'pwesto_reservation_counter';
 
+export function resetStorage(): Stall[] {
+  localStorage.removeItem(STALLS_KEY);
+  localStorage.removeItem(RESERVATIONS_KEY);
+  localStorage.removeItem(COUNTER_KEY);
+  const initial = generateInitialStalls();
+  localStorage.setItem(STALLS_KEY, JSON.stringify(initial));
+  return initial;
+}
+
 // ─── Stall Operations ───────────────────────────────────────
 
 export function getStalls(): Stall[] {
