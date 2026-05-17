@@ -1,258 +1,134 @@
 import { Stall, Reservation } from '../types';
-import { generateInitialStalls } from '../data/stallData';
 
-const STALLS_KEY = 'pwesto_stalls';
-const RESERVATIONS_KEY = 'pwesto_reservations';
-const COUNTER_KEY = 'pwesto_reservation_counter';
+const API_BASE = (import.meta.env.VITE_API_URL ?? '/api').replace(/\/$/, '');
 
-export function resetStorage(): Stall[] {
-  localStorage.removeItem(STALLS_KEY);
-  localStorage.removeItem(RESERVATIONS_KEY);
-  localStorage.removeItem(COUNTER_KEY);
-  const initial = generateInitialStalls();
-  localStorage.setItem(STALLS_KEY, JSON.stringify(initial));
-  return initial;
+async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
+  const res = await fetch(`${API_BASE}${path}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      ...(options?.headers ?? {}),
+    },
+    ...options,
+  });
+
+  if (!res.ok) {
+    const message = await res.text();
+    throw new Error(message || 'Request failed');
+  }
+
+  return res.json() as Promise<T>;
+}
+
+export async function resetStorage(): Promise<void> {
+  throw new Error('Reset is not supported when using MySQL.');
 }
 
 // ─── Stall Operations ───────────────────────────────────────
 
-export function getStalls(): Stall[] {
+export async function getStalls(): Promise<Stall[]> {
+  return apiFetch<Stall[]>('/stalls');
+}
+
+export async function updateStall(updatedStall: Stall): Promise<Stall> {
+  return apiFetch<Stall>(`/stalls/${encodeURIComponent(updatedStall.id)}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      status: updatedStall.status,
+      reservationId: updatedStall.reservationId ?? null,
+    }),
+  });
+}
+
+export async function getStallById(stallId: string): Promise<Stall | undefined> {
   try {
-    const raw = localStorage.getItem(STALLS_KEY);
-    if (!raw) {
-      const initial = generateInitialStalls();
-      localStorage.setItem(STALLS_KEY, JSON.stringify(initial));
-      return initial;
-    }
-    return JSON.parse(raw) as Stall[];
+    return await apiFetch<Stall>(`/stalls/${encodeURIComponent(stallId)}`);
   } catch {
-    return generateInitialStalls();
+    return undefined;
   }
-}
-
-export function saveStalls(stalls: Stall[]): void {
-  localStorage.setItem(STALLS_KEY, JSON.stringify(stalls));
-}
-
-export function updateStall(updatedStall: Stall): Stall[] {
-  const stalls = getStalls();
-  const idx = stalls.findIndex(s => s.id === updatedStall.id);
-  if (idx !== -1) stalls[idx] = updatedStall;
-  saveStalls(stalls);
-  return stalls;
-}
-
-export function getStallById(stallId: string): Stall | undefined {
-  return getStalls().find(s => s.id === stallId);
 }
 
 // ─── Reservation Operations ─────────────────────────────────
 
-export function getReservations(): Reservation[] {
+export async function getReservations(): Promise<Reservation[]> {
+  return apiFetch<Reservation[]>('/reservations');
+}
+
+export async function getReservationById(id: string): Promise<Reservation | undefined> {
   try {
-    const raw = localStorage.getItem(RESERVATIONS_KEY);
-    if (!raw) return [];
-    return JSON.parse(raw) as Reservation[];
+    return await apiFetch<Reservation>(`/reservations/${encodeURIComponent(id)}`);
   } catch {
-    return [];
+    return undefined;
   }
 }
 
-export function saveReservations(reservations: Reservation[]): void {
-  localStorage.setItem(RESERVATIONS_KEY, JSON.stringify(reservations));
+export async function getReservationByNumber(resNum: string): Promise<Reservation | undefined> {
+  const reservations = await getReservations();
+  return reservations.find(r => r.reservationNumber === resNum);
 }
 
-export function getReservationById(id: string): Reservation | undefined {
-  return getReservations().find(r => r.id === id);
+export async function addReservation(input: {
+  stallId: string;
+  fullName: string;
+  contactNumber: string;
+  businessName?: string;
+  address?: string;
+}): Promise<{ reservation: Reservation; stall: Stall }> {
+  return apiFetch<{ reservation: Reservation; stall: Stall }>('/reservations', {
+    method: 'POST',
+    body: JSON.stringify(input),
+  });
 }
 
-export function getReservationByNumber(resNum: string): Reservation | undefined {
-  return getReservations().find(r => r.reservationNumber === resNum);
+export async function updateReservation(updated: Reservation): Promise<Reservation> {
+  return apiFetch<Reservation>(`/reservations/${encodeURIComponent(updated.id)}`, {
+    method: 'PUT',
+    body: JSON.stringify(updated),
+  });
 }
 
-export function addReservation(reservation: Reservation): void {
-  const reservations = getReservations();
-  reservations.push(reservation);
-  saveReservations(reservations);
+export async function updateReservationAdmin(updated: Reservation): Promise<Reservation> {
+  return updateReservation(updated);
 }
 
-export function updateReservation(updated: Reservation): void {
-  const reservations = getReservations();
-  const idx = reservations.findIndex(r => r.id === updated.id);
-  if (idx !== -1) reservations[idx] = updated;
-  saveReservations(reservations);
-}
-
-export function updateReservationAdmin(updated: Reservation): { stalls: Stall[]; reservation: Reservation | null } {
-  const reservations = getReservations();
-  const stalls = getStalls();
-
-  const resIdx = reservations.findIndex(r => r.id === updated.id);
-  if (resIdx === -1) return { stalls, reservation: null };
-
-  const prev = reservations[resIdx];
-  const next: Reservation = { ...prev, ...updated };
-  reservations[resIdx] = next;
-
-  const stallIdx = stalls.findIndex(s => s.id === next.stallId);
-  if (stallIdx !== -1) {
-    const status = next.status;
-    if (status === 'rejected') {
-      stalls[stallIdx].status = 'available';
-      stalls[stallIdx].reservationId = undefined;
-    } else if (status === 'approved') {
-      stalls[stallIdx].status = 'reserved';
-      stalls[stallIdx].reservationId = next.id;
-    } else if (status === 'occupied') {
-      stalls[stallIdx].status = 'occupied';
-      stalls[stallIdx].reservationId = next.id;
-    } else {
-      stalls[stallIdx].status = 'pending';
-      stalls[stallIdx].reservationId = next.id;
-    }
-  }
-
-  saveReservations(reservations);
-  saveStalls(stalls);
-  return { stalls, reservation: next };
-}
-
-export function deleteReservation(reservationId: string): { stalls: Stall[]; removed: boolean } {
-  const reservations = getReservations();
-  const stalls = getStalls();
-  const resIdx = reservations.findIndex(r => r.id === reservationId);
-  if (resIdx === -1) return { stalls, removed: false };
-
-  const removed = reservations.splice(resIdx, 1)[0];
-  const stallIdx = stalls.findIndex(s => s.id === removed.stallId);
-  if (stallIdx !== -1) {
-    stalls[stallIdx].status = 'available';
-    stalls[stallIdx].reservationId = undefined;
-  }
-
-  saveReservations(reservations);
-  saveStalls(stalls);
-  return { stalls, removed: true };
-}
-
-// ─── Reservation Number Counter ─────────────────────────────
-
-export function generateReservationNumber(): string {
-  const year = new Date().getFullYear();
-  const raw = localStorage.getItem(COUNTER_KEY);
-  const counter = raw ? parseInt(raw, 10) + 1 : 1;
-  localStorage.setItem(COUNTER_KEY, counter.toString());
-  const paddedCounter = counter.toString().padStart(4, '0');
-  return `RES-${year}-${paddedCounter}`;
-}
-
-// ─── UUID Generator ─────────────────────────────────────────
-
-export function generateUUID(): string {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = (Math.random() * 16) | 0;
-    const v = c === 'x' ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
+export async function deleteReservation(reservationId: string): Promise<{ removed: boolean }> {
+  return apiFetch<{ removed: boolean }>(`/reservations/${encodeURIComponent(reservationId)}`, {
+    method: 'DELETE',
   });
 }
 
 // ─── Expiration Check (3 days) ──────────────────────────────
 
-export function checkAndExpireReservations(): Stall[] {
-  const reservations = getReservations();
-  const stalls = getStalls();
-  const now = new Date();
-  let changed = false;
-
-  reservations.forEach((res) => {
-    if (res.status === 'pending' && new Date(res.expiresAt) < now) {
-      res.status = 'rejected';
-      res.updatedAt = now.toISOString();
-      res.adminNotes = 'Auto-cancelled: Reservation expired after 3 days.';
-
-      const stallIdx = stalls.findIndex(s => s.id === res.stallId);
-      if (stallIdx !== -1 && stalls[stallIdx].status === 'pending') {
-        stalls[stallIdx].status = 'available';
-        stalls[stallIdx].reservationId = undefined;
-        changed = true;
-      }
-    }
-  });
-
-  saveReservations(reservations);
-  if (changed) saveStalls(stalls);
-  return stalls;
+export async function checkAndExpireReservations(): Promise<Stall[]> {
+  return getStalls();
 }
 
 // ─── Admin Auth ─────────────────────────────────────────────
 
-export function verifyAdminLogin(username: string, password: string): boolean {
-  return username === 'admin' && password === 'bplo2026';
+export async function verifyAdminLogin(username: string, password: string): Promise<boolean> {
+  const result = await apiFetch<{ ok: boolean }>('/admin/login', {
+    method: 'POST',
+    body: JSON.stringify({ username, password }),
+  });
+  return result.ok;
 }
 
 // ─── Status Update (Admin Actions) ──────────────────────────
 
-export function approveReservation(reservationId: string): { stalls: Stall[]; reservation: Reservation | null } {
-  const reservations = getReservations();
-  const stalls = getStalls();
-
-  const resIdx = reservations.findIndex(r => r.id === reservationId);
-  if (resIdx === -1) return { stalls, reservation: null };
-
-  const res = reservations[resIdx];
-  res.status = 'approved';
-  res.updatedAt = new Date().toISOString();
-
-  const stallIdx = stalls.findIndex(s => s.id === res.stallId);
-  if (stallIdx !== -1) {
-    stalls[stallIdx].status = 'reserved';
-  }
-
-  saveReservations(reservations);
-  saveStalls(stalls);
-  return { stalls, reservation: res };
+export async function approveReservation(reservationId: string): Promise<Reservation> {
+  return apiFetch<Reservation>(`/reservations/${encodeURIComponent(reservationId)}/approve`, {
+    method: 'POST',
+  });
 }
 
-export function rejectReservation(reservationId: string, notes?: string): { stalls: Stall[]; reservation: Reservation | null } {
-  const reservations = getReservations();
-  const stalls = getStalls();
-
-  const resIdx = reservations.findIndex(r => r.id === reservationId);
-  if (resIdx === -1) return { stalls, reservation: null };
-
-  const res = reservations[resIdx];
-  res.status = 'rejected';
-  res.updatedAt = new Date().toISOString();
-  if (notes) res.adminNotes = notes;
-
-  const stallIdx = stalls.findIndex(s => s.id === res.stallId);
-  if (stallIdx !== -1) {
-    stalls[stallIdx].status = 'available';
-    stalls[stallIdx].reservationId = undefined;
-  }
-
-  saveReservations(reservations);
-  saveStalls(stalls);
-  return { stalls, reservation: res };
+export async function rejectReservation(reservationId: string, notes?: string): Promise<Reservation> {
+  return apiFetch<Reservation>(`/reservations/${encodeURIComponent(reservationId)}/reject`, {
+    method: 'POST',
+    body: JSON.stringify({ notes }),
+  });
 }
 
-export function markAsOccupied(reservationId: string): { stalls: Stall[]; reservation: Reservation | null } {
-  const reservations = getReservations();
-  const stalls = getStalls();
-
-  const resIdx = reservations.findIndex(r => r.id === reservationId);
-  if (resIdx === -1) return { stalls, reservation: null };
-
-  const res = reservations[resIdx];
-  res.status = 'occupied';
-  res.updatedAt = new Date().toISOString();
-
-  const stallIdx = stalls.findIndex(s => s.id === res.stallId);
-  if (stallIdx !== -1) {
-    stalls[stallIdx].status = 'occupied';
-  }
-
-  saveReservations(reservations);
-  saveStalls(stalls);
-  return { stalls, reservation: res };
+export async function markAsOccupied(reservationId: string): Promise<Reservation> {
+  return apiFetch<Reservation>(`/reservations/${encodeURIComponent(reservationId)}/occupy`, {
+    method: 'POST',
+  });
 }
