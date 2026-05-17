@@ -61,7 +61,12 @@ export function UserPage() {
       {/* Hero Header */}
       <header
         className="sticky top-0 z-40 text-white bg-center bg-cover"
-        style={{ backgroundImage: `url(${headerImage})` }}
+        style={{
+          backgroundImage: `url(${headerImage})`,
+          transform: 'scale(1.1)',
+          transformOrigin: 'top center',
+          width: '100%',
+        }}
       >
         <div className="absolute inset-0 bg-slate-900/55" aria-hidden="true" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-3.5">
@@ -97,7 +102,10 @@ export function UserPage() {
         </div>
       </div>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-5">
+      <main
+        className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-5"
+        style={{ transform: 'scale(1.1)', transformOrigin: 'top center', width: '100%' }}
+      >
 
         {/* Stat Summary Bar */}
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm px-5 py-4">
