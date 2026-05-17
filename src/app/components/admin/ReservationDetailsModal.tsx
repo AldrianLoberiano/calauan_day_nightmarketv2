@@ -76,7 +76,7 @@ export function ReservationDetailsModal({
   async function handleApprove() {
     setIsProcessing(true);
     await new Promise(r => setTimeout(r, 600));
-    approveReservation(reservation.id);
+    await approveReservation(reservation.id);
     setIsProcessing(false);
     onUpdate();
   }
@@ -84,7 +84,7 @@ export function ReservationDetailsModal({
   async function handleReject() {
     setIsProcessing(true);
     await new Promise(r => setTimeout(r, 600));
-    rejectReservation(reservation.id, rejectNotes || 'Rejected by admin.');
+    await rejectReservation(reservation.id, rejectNotes || 'Rejected by admin.');
     setIsProcessing(false);
     setShowRejectForm(false);
     onUpdate();
@@ -93,7 +93,7 @@ export function ReservationDetailsModal({
   async function handleMarkOccupied() {
     setIsProcessing(true);
     await new Promise(r => setTimeout(r, 600));
-    markAsOccupied(reservation.id);
+    await markAsOccupied(reservation.id);
     setIsProcessing(false);
     onUpdate();
   }
@@ -104,7 +104,7 @@ export function ReservationDetailsModal({
       ...editData,
       updatedAt: new Date().toISOString(),
     };
-    updateReservationAdmin(updated);
+    await updateReservationAdmin(updated);
     await new Promise(r => setTimeout(r, 400));
     setIsProcessing(false);
     setIsEditing(false);
@@ -113,7 +113,7 @@ export function ReservationDetailsModal({
 
   async function handleDelete() {
     setIsProcessing(true);
-    deleteReservation(reservation.id);
+    await deleteReservation(reservation.id);
     await new Promise(r => setTimeout(r, 400));
     setIsProcessing(false);
     setShowDeleteConfirm(false);
