@@ -83,6 +83,58 @@ export function updateReservation(updated: Reservation): void {
   saveReservations(reservations);
 }
 
+export function updateReservationAdmin(updated: Reservation): { stalls: Stall[]; reservation: Reservation | null } {
+  const reservations = getReservations();
+  const stalls = getStalls();
+
+  const resIdx = reservations.findIndex(r => r.id === updated.id);
+  if (resIdx === -1) return { stalls, reservation: null };
+
+  const prev = reservations[resIdx];
+  const next: Reservation = { ...prev, ...updated };
+  reservations[resIdx] = next;
+
+  const stallIdx = stalls.findIndex(s => s.id === next.stallId);
+  if (stallIdx !== -1) {
+    const status = next.status;
+    if (status === 'rejected') {
+      stalls[stallIdx].status = 'available';
+      stalls[stallIdx].reservationId = undefined;
+    } else if (status === 'approved') {
+      stalls[stallIdx].status = 'reserved';
+      stalls[stallIdx].reservationId = next.id;
+    } else if (status === 'occupied') {
+      stalls[stallIdx].status = 'occupied';
+      stalls[stallIdx].reservationId = next.id;
+    } else {
+      stalls[stallIdx].status = 'pending';
+      stalls[stallIdx].reservationId = next.id;
+    }
+  }
+
+  saveReservations(reservations);
+  saveStalls(stalls);
+  return { stalls, reservation: next };
+}
+
+export function deleteReservation(reservationId: string): { stalls: Stall[]; removed: boolean } {
+  const reservations = getReservations();
+  const stalls = getStalls();
+  const resIdx = reservations.findIndex(r => r.id === reservationId);
+  if (resIdx === -1) return { stalls, removed: false };
+
+  const removed = reservations.splice(resIdx, 1)[0];
+  const stallIdx = stalls.findIndex(s => s.id === removed.stallId);
+  if (stallIdx !== -1) {
+    stalls[stallIdx].status = 'available';
+    stalls[stallIdx].reservationId = undefined;
+  }
+
+  saveReservations(reservations);
+  saveStalls(stalls);
+  return { stalls, removed: true };
+}
+
 // ─── Reservation Number Counter ─────────────────────────────
 
 export function generateReservationNumber(): string {
