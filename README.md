@@ -40,32 +40,46 @@ The frontend expects the API at `http://localhost:5174/api`. You can override th
 
 ```
 .
+├─ .env
+├─ .env.example
+├─ ATTRIBUTIONS.md
+├─ database/
+│  ├─ README.md
+│  └─ schema.sql
+├─ guidelines/
+│  └─ Guidelines.md
 ├─ index.html
 ├─ package.json
 ├─ postcss.config.mjs
+├─ public/
 ├─ vite.config.ts
-├─ guidelines/
-│  └─ Guidelines.md
+├─ server/
+│  ├─ .env
+│  ├─ .env.example
+│  ├─ package.json
+│  └─ src/
+│     ├─ db.js
+│     ├─ index.js
+│     └─ stalls.js
 ├─ src/
 │  ├─ main.tsx
 │  ├─ app/
 │  │  ├─ App.tsx
-│  │  ├─ routes.tsx
 │  │  ├─ components/
-│  │  │  ├─ ReceiptModal.tsx
-│  │  │  ├─ ReservationFormModal.tsx
-│  │  │  ├─ StallDetailModal.tsx
-│  │  │  ├─ StallMap.tsx
 │  │  │  ├─ admin/
 │  │  │  │  ├─ AdminDashboard.tsx
 │  │  │  │  ├─ AdminLogin.tsx
-│  │  │  │  └─ ReservationCard.tsx
-│  │  │  ├─ figma/
-│  │  │  │  └─ ImageWithFallback.tsx
-│  │  │  └─ ui/
-│  │  │     └─ ...
+│  │  │  │  ├─ ReservationCard.tsx
+│  │  │  │  └─ ReservationDetailsModal.tsx
+│  │  │  ├─ primitives/
+│  │  │  │  ├─ ReceiptModal.tsx
+│  │  │  │  ├─ ReservationFormModal.tsx
+│  │  │  │  ├─ StallDetailModal.tsx
+│  │  │  │  └─ StallMap.tsx
+│  │  │  └─ public/
 │  │  ├─ data/
 │  │  │  └─ stallData.ts
+│  │  ├─ imports/
 │  │  ├─ pages/
 │  │  │  ├─ AdminPage.tsx
 │  │  │  └─ UserPage.tsx
