@@ -70,7 +70,7 @@ export function UserPage() {
         style={{ backgroundImage: `url(${headerImage})` }}
       >
         <div className="absolute inset-0 bg-slate-900/55" aria-hidden="true" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-3.5">
+        <div className="relative max-w-8xl mx-auto px-3 sm:px-5 py-2.5 sm:py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-11 h-11 rounded-xl flex items-center justify-center overflow-hidden">
@@ -103,10 +103,10 @@ export function UserPage() {
         </div>
       </div>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-5">
+      <main className="max-w-8xl mx-auto px-3 sm:px-5 py-5 space-y-4">
 
         {/* Stat Summary Bar */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm px-5 py-4">
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm px-4 py-3">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <StatPill color="bg-green-500" label="Available" count={availableCount} />
             <div className="w-px h-4 bg-slate-200 hidden sm:block" />
@@ -124,7 +124,7 @@ export function UserPage() {
 
         {/* Interactive Map */}
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+          <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
             <div>
               <h2 className="text-base font-bold text-slate-800">Interactive Stall Map — Night Market</h2>
               <p className="text-xs text-slate-500 mt-0.5">Click on any stall to view details and availability</p>
@@ -155,7 +155,7 @@ export function UserPage() {
 
         {/* Stall Directory */}
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm">
-          <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+          <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
             <div>
               <h2 className="text-base font-bold text-slate-800">Stall Directory</h2>
               <p className="text-xs text-slate-500 mt-0.5">Browse and search all stalls</p>
@@ -164,7 +164,7 @@ export function UserPage() {
               {filteredStalls.length} stalls
             </span>
           </div>
-          <div className="p-5">
+          <div className="p-4">
             {/* Filters */}
             <div className="flex flex-col sm:flex-row gap-2.5 mb-5">
               <div className="relative flex-1">
@@ -222,7 +222,7 @@ export function UserPage() {
 
         {/* Footer info */}
         <div
-          className="relative text-white rounded-2xl p-5 sm:p-6 overflow-hidden"
+          className="relative text-white rounded-2xl p-4 sm:p-5 overflow-hidden"
           style={{ backgroundImage: `url(${headerImage})` }}
         >
           <div
