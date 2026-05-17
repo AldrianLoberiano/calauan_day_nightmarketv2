@@ -1,0 +1,153 @@
+{
+  "meta": {
+    "system": "BPLO Stall Reservation Mapping System",
+    "version": "2.0",
+    "market": "Calauan Day & Night Market",
+    "created": "2026-05-17",
+    "totalStalls": 277,
+    "sections": ["Bottom Row", "Left Column", "Top Left Corner", "Top Row", "Upper Right Row", "Right Column", "Corner A", "Corner B", "Corner C", "Corner D"]
+  },
+
+  "admin_users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "bplo2026",
+      "full_name": "BPLO Administrator",
+      "role": "admin"
+    }
+  ],
+
+  "stall_prices": {
+    "small":  1500,
+    "medium": 2500,
+    "large":  3500,
+    "corner": 4500
+  },
+
+  "stall_categories": [
+    "Cooked Food",
+    "Vegetables & Fruits",
+    "Dry Goods & Groceries",
+    "Clothing & Apparel",
+    "General Merchandise"
+  ],
+
+  "stall_sizes": ["small", "medium", "large", "corner"],
+  "stall_statuses": ["available", "pending", "reserved", "occupied"],
+  "reservation_statuses": ["pending", "approved", "rejected", "occupied"],
+
+  "sections": {
+    "Bottom Row":       { "stall_range": "1-71",    "count": 71 },
+    "Left Column":      { "stall_range": "72-134",  "count": 63 },
+    "Top Left Corner":  { "stall_range": "135",      "count": 1  },
+    "Top Row":          { "stall_range": "136-196",  "count": 61 },
+    "Upper Right Row":  { "stall_range": "197-225",  "count": 29 },
+    "Right Column":     { "stall_range": "226-258",  "count": 33 },
+    "Corner A":         { "stall_range": "A1-A5",    "count": 5  },
+    "Corner B":         { "stall_range": "B1-B4",    "count": 4  },
+    "Corner C":         { "stall_range": "C1-C4",    "count": 4  },
+    "Corner D":         { "stall_range": "D1-D6",    "count": 6  }
+  },
+
+  "image_urls": {
+    "Cooked Food":            "https://images.unsplash.com/photo-1504674900247-0877df9cc836?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
+    "Vegetables & Fruits":    "https://images.unsplash.com/photo-1540420773420-3366772f4999?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
+    "Dry Goods & Groceries":  "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
+    "Clothing & Apparel":     "https://images.unsplash.com/photo-1441986300917-64674bd600d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
+    "General Merchandise":    "https://images.unsplash.com/photo-1542838132-92c53300491e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400"
+  },
+
+  "descriptions": {
+    "Cooked Food": [
+      "Ideal for selling cooked meals, snacks, and Filipino dishes.",
+      "Perfect spot for a carinderia or food stall near the main aisle.",
+      "High-traffic location great for fast food and ready-to-eat items.",
+      "Corner stall with extra space for cooking equipment and display.",
+      "Suitable for selling breakfast meals, kakanin, and beverages.",
+      "Great for silog meals, merienda, and affordable daily lunches.",
+      "Prime location for barbecue, grilled items, and pulutan.",
+      "Excellent for baked goods, pastries, and Filipino desserts."
+    ],
+    "Vegetables & Fruits": [
+      "Spacious stall perfect for fresh vegetables and seasonal produce.",
+      "Conveniently located near the entrance for easy customer access.",
+      "Great for fruits, vegetables, herbs, and fresh condiments.",
+      "Well-ventilated space ideal for fresh tropical fruits.",
+      "Corner stall with wide display area for colorful produce.",
+      "Suitable for exotic fruits, organic veggies, and fresh herbs.",
+      "Near the wet section, ideal for root crops and leafy greens.",
+      "Prime spot for selling locally sourced farm produce."
+    ],
+    "Dry Goods & Groceries": [
+      "Ideal for selling canned goods, condiments, and dry groceries.",
+      "Large stall suitable for wholesale and retail dry goods.",
+      "Perfect for rice, flour, sugar, salt, and pantry essentials.",
+      "Great for spices, seasonings, and cooking ingredients.",
+      "Corner location with high foot traffic, ideal for grocery items.",
+      "Suitable for noodles, crackers, biscuits, and packaged foods.",
+      "Excellent for coffee, sugar, and everyday household needs.",
+      "Wide display space for organizing dry goods and groceries."
+    ],
+    "Clothing & Apparel": [
+      "Trendy location for ukay-ukay, ref items, and fashion pieces.",
+      "Perfect for selling everyday clothing and accessories.",
+      "Ideal for school uniforms, casual wear, and workwear.",
+      "Great spot for selling bags, shoes, and fashion accessories.",
+      "Corner stall with extra space for hanging clothes and display.",
+      "High-visibility location for fashion retail and trendy items.",
+      "Suitable for children's clothing, school supplies, and toys.",
+      "Excellent for local designer pieces and handcrafted goods."
+    ],
+    "General Merchandise": [
+      "Versatile stall for hardware, tools, and household items.",
+      "Ideal for selling electronics, phone accessories, and gadgets.",
+      "Perfect for kitchenware, cookware, and home essentials.",
+      "Great for personal care products and hygiene goods.",
+      "Corner stall with wide space for displaying varied merchandise.",
+      "Suitable for school supplies, notebooks, and art materials.",
+      "Excellent for seeds, gardening tools, and farm supplies.",
+      "Wide-open stall ideal for wholesale general goods."
+    ]
+  },
+
+  "generation_rules": {
+    "note": "Stalls 1-258 are programmatically generated using these rules.",
+    "category_rotation": ["Cooked Food", "Vegetables & Fruits", "Dry Goods & Groceries", "Clothing & Apparel", "General Merchandise"],
+    "size_cycle": ["small", "medium", "medium", "large", "medium"],
+    "status_rules": {
+      "occupied_if":  "stall_number % 29 === 0",
+      "reserved_if":  "stall_number % 17 === 0",
+      "pending_if":   "stall_number % 11 === 0",
+      "default":      "available"
+    },
+    "section_rules": {
+      "1-71":   "Bottom Row",
+      "72-134": "Left Column",
+      "135":    "Top Left Corner",
+      "136-196":"Top Row",
+      "197-225":"Upper Right Row",
+      "226-258":"Right Column"
+    },
+    "corner_stalls": [
+      { "section": "Corner A", "prefix": "A", "count": 5, "size": "corner", "category": "General Merchandise" },
+      { "section": "Corner B", "prefix": "B", "count": 4, "size": "corner", "category": "General Merchandise" },
+      { "section": "Corner C", "prefix": "C", "count": 4, "size": "corner", "category": "General Merchandise" },
+      { "section": "Corner D", "prefix": "D", "count": 6, "size": "corner", "category": "General Merchandise" }
+    ]
+  },
+
+  "reservation_counter": {
+    "current_value": 0,
+    "format": "RES-{YEAR}-{COUNTER_4_DIGITS}",
+    "example": "RES-2026-0001"
+  },
+
+  "reservations": [],
+
+  "localStorage_keys": {
+    "stalls":       "pwesto_stalls",
+    "reservations": "pwesto_reservations",
+    "counter":      "pwesto_reservation_counter"
+  }
+}
