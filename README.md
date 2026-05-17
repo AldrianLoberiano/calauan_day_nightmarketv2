@@ -8,6 +8,10 @@ stall Reservation Mapping System is a Vite + React + TypeScript app for managing
 - Interactive stall map and stall detail views
 - Reservation form and receipt modals
 - UI kit components for consistent styling
+- Admin tools to reset all stalls, clear reservations, and reset the reservation counter
+- Admin action to extend all pending reservations by 1 day
+- Pending reservations now expire after 4 days by default
+- Category filter simplified to Food vs Non-Food in the user stall directory
 
 ## Tech Stack
 
