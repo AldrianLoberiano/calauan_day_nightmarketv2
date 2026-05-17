@@ -36,16 +36,19 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [activeReservationId, setActiveReservationId] = useState<string | null>(null);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
-  function loadData() {
-    const updatedStalls = checkAndExpireReservations();
+  async function loadData() {
+    const updatedStalls = await checkAndExpireReservations();
+    const updatedReservations = await getReservations();
     setStalls(updatedStalls);
-    setReservations(getReservations());
+    setReservations(updatedReservations);
     setLastRefresh(new Date());
   }
 
   useEffect(() => {
-    loadData();
-    const interval = setInterval(loadData, 30000);
+    void loadData();
+    const interval = setInterval(() => {
+      void loadData();
+    }, 30000);
     return () => clearInterval(interval);
   }, []);
 
@@ -378,7 +381,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
         <ReceiptModal
           reservation={receiptData.reservation}
           stall={receiptData.stall}
-          onClose={() => { setReceiptData(null); loadData(); }}
+          onClose={() => { setReceiptData(null); void loadData(); }}
         />
       )}
       {activeReservation && (
@@ -386,7 +389,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
           reservation={activeReservation}
           stall={getStallForReservation(activeReservation)}
           onClose={() => setActiveReservationId(null)}
-          onUpdate={loadData}
+          onUpdate={() => { void loadData(); }}
         />
       )}
       {showLogoutConfirm && (
