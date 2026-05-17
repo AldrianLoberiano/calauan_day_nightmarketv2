@@ -5,7 +5,7 @@ import {
   TrendingUp, Users, Activity
 } from 'lucide-react';
 import { Reservation, Stall } from '../../types';
-import { getReservations, checkAndExpireReservations } from '../../utils/storage';
+import { getReservations, checkAndExpireReservations, resetStorage } from '../../utils/storage';
 import { ReservationCard } from './ReservationCard';
 import { ReservationDetailsModal } from './ReservationDetailsModal';
 import { StallMap } from '../primitives/StallMap';
@@ -35,6 +35,8 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [lastRefresh, setLastRefresh] = useState(new Date());
   const [activeReservationId, setActiveReservationId] = useState<string | null>(null);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
 
   async function loadData() {
     const updatedStalls = await checkAndExpireReservations();
@@ -51,6 +53,20 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
     }, 30000);
     return () => clearInterval(interval);
   }, []);
+
+  async function handleReset() {
+    setIsResetting(true);
+    try {
+      await resetStorage();
+      await loadData();
+    } catch (err) {
+      console.error(err);
+      window.alert('Reset failed. Please try again.');
+    } finally {
+      setIsResetting(false);
+      setShowResetConfirm(false);
+    }
+  }
 
   const stats = useMemo(() => {
     const total = reservations.length;
@@ -130,6 +146,13 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
             >
               <RefreshCw className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Refresh</span>
+            </button>
+            <button
+              onClick={() => setShowResetConfirm(true)}
+              className="flex items-center gap-1.5 bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold px-3 py-1.5 rounded-xl transition-colors"
+            >
+              <span className="hidden sm:inline">Reset Stalls</span>
+              <span className="sm:hidden">Reset</span>
             </button>
             <button
               onClick={() => setShowLogoutConfirm(true)}
@@ -410,6 +433,33 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 className="flex-1 bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2.5 rounded-xl transition-colors"
               >
                 Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showResetConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setShowResetConfirm(false)} />
+          <div className="relative w-full max-w-sm bg-white rounded-2xl shadow-xl p-5 text-center">
+            <h3 className="text-lg font-black text-slate-800">Reset all stalls?</h3>
+            <p className="text-sm text-slate-500 mt-2">
+              This will set every stall to available, clear all reservations, and reset the counter.
+            </p>
+            <div className="mt-5 flex gap-2">
+              <button
+                onClick={() => setShowResetConfirm(false)}
+                className="flex-1 border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold py-2.5 rounded-xl transition-colors"
+                disabled={isResetting}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleReset}
+                className="flex-1 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold py-2.5 rounded-xl transition-colors"
+                disabled={isResetting}
+              >
+                {isResetting ? 'Resetting...' : 'Reset'}
               </button>
             </div>
           </div>
