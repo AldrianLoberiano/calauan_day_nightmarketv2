@@ -124,7 +124,7 @@ export function ReservationDetailsModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-xl overflow-hidden">
+      <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden">
         <div className={`${cfg.headerBg} px-5 py-4 relative`}>
           <div
             className="absolute inset-0 opacity-10"
@@ -162,7 +162,7 @@ export function ReservationDetailsModal({
           </div>
         </div>
 
-        <div className="px-5 py-4 space-y-4">
+        <div className="px-5 py-4 space-y-4 max-h-[85vh] overflow-y-auto">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2 min-w-0">
               <div className="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
@@ -190,49 +190,61 @@ export function ReservationDetailsModal({
 
           <div className="border-t border-slate-100 pt-3 space-y-2.5">
             {isEditing ? (
-              <div className="space-y-2">
-                <label className="block text-xs font-semibold text-slate-600">Full Name</label>
-                <input
-                  value={editData.fullName}
-                  onChange={(e) => setEditData({ ...editData, fullName: e.target.value })}
-                  className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
-                />
-                <label className="block text-xs font-semibold text-slate-600">Contact Number</label>
-                <input
-                  value={editData.contactNumber}
-                  onChange={(e) => setEditData({ ...editData, contactNumber: e.target.value })}
-                  className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
-                />
-                <label className="block text-xs font-semibold text-slate-600">Business Name</label>
-                <input
-                  value={editData.businessName ?? ''}
-                  onChange={(e) => setEditData({ ...editData, businessName: e.target.value })}
-                  className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
-                />
-                <label className="block text-xs font-semibold text-slate-600">Address</label>
-                <input
-                  value={editData.address ?? ''}
-                  onChange={(e) => setEditData({ ...editData, address: e.target.value })}
-                  className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
-                />
-                <label className="block text-xs font-semibold text-slate-600">Status</label>
-                <select
-                  value={editData.status}
-                  onChange={(e) => setEditData({ ...editData, status: e.target.value as Reservation['status'] })}
-                  className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white"
-                >
-                  <option value="pending">Pending</option>
-                  <option value="approved">Approved</option>
-                  <option value="rejected">Rejected</option>
-                  <option value="occupied">Occupied</option>
-                </select>
-                <label className="block text-xs font-semibold text-slate-600">Admin Notes</label>
-                <textarea
-                  value={editData.adminNotes ?? ''}
-                  onChange={(e) => setEditData({ ...editData, adminNotes: e.target.value })}
-                  rows={2}
-                  className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
-                />
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600">Full Name</label>
+                  <input
+                    value={editData.fullName}
+                    onChange={(e) => setEditData({ ...editData, fullName: e.target.value })}
+                    className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600">Contact Number</label>
+                  <input
+                    value={editData.contactNumber}
+                    onChange={(e) => setEditData({ ...editData, contactNumber: e.target.value })}
+                    className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600">Business Name</label>
+                  <input
+                    value={editData.businessName ?? ''}
+                    onChange={(e) => setEditData({ ...editData, businessName: e.target.value })}
+                    className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600">Status</label>
+                  <select
+                    value={editData.status}
+                    onChange={(e) => setEditData({ ...editData, status: e.target.value as Reservation['status'] })}
+                    className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white"
+                  >
+                    <option value="pending">Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="occupied">Occupied</option>
+                  </select>
+                </div>
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-semibold text-slate-600">Address</label>
+                  <input
+                    value={editData.address ?? ''}
+                    onChange={(e) => setEditData({ ...editData, address: e.target.value })}
+                    className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-semibold text-slate-600">Admin Notes</label>
+                  <textarea
+                    value={editData.adminNotes ?? ''}
+                    onChange={(e) => setEditData({ ...editData, adminNotes: e.target.value })}
+                    rows={2}
+                    className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
+                  />
+                </div>
               </div>
             ) : (
               <>
