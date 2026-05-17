@@ -35,10 +35,15 @@ export function UserPage() {
   const reservedCount = safeStalls.filter(s => s.status === 'reserved').length;
   const occupiedCount = safeStalls.filter(s => s.status === 'occupied').length;
 
-  const categories = [...new Set(safeStalls.map(s => s.category))];
+  const categories = ['Food', 'Non-Food'];
+
+  function mapCategory(category: string) {
+    if (category === 'Cooked Food' || category === 'Vegetables & Fruits') return 'Food';
+    return 'Non-Food';
+  }
   const filteredStalls = safeStalls.filter(s => {
     if (filterStatus !== 'all' && s.status !== filterStatus) return false;
-    if (filterCategory !== 'all' && s.category !== filterCategory) return false;
+    if (filterCategory !== 'all' && mapCategory(s.category) !== filterCategory) return false;
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       return s.id.toLowerCase().includes(q) || s.category.toLowerCase().includes(q) || s.description.toLowerCase().includes(q);
