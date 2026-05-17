@@ -20,7 +20,7 @@ async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
 }
 
 export async function resetStorage(): Promise<void> {
-  throw new Error('Reset is not supported when using MySQL.');
+  await apiFetch<{ ok: boolean }>('/admin/reset', { method: 'POST' });
 }
 
 // ─── Stall Operations ───────────────────────────────────────
