@@ -67,6 +67,7 @@ export function ReservationDetailsModal({
   const [isProcessing, setIsProcessing] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState<Reservation>({ ...reservation });
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const daysLeft = getDaysRemaining(reservation.expiresAt);
   const expired = isExpired(reservation.expiresAt);
@@ -111,12 +112,11 @@ export function ReservationDetailsModal({
   }
 
   async function handleDelete() {
-    const ok = window.confirm('Delete this reservation permanently?');
-    if (!ok) return;
     setIsProcessing(true);
     deleteReservation(reservation.id);
     await new Promise(r => setTimeout(r, 400));
     setIsProcessing(false);
+    setShowDeleteConfirm(false);
     onUpdate();
     onClose();
   }
@@ -305,7 +305,7 @@ export function ReservationDetailsModal({
                   {isEditing ? 'Cancel Edit' : 'Edit'}
                 </button>
                 <button
-                  onClick={handleDelete}
+                  onClick={() => setShowDeleteConfirm(true)}
                   className="flex-1 border border-red-300 text-red-600 hover:bg-red-50 text-xs font-bold py-2.5 rounded-xl transition-colors"
                 >
                   Delete
@@ -397,6 +397,29 @@ export function ReservationDetailsModal({
           )}
         </div>
       </div>
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setShowDeleteConfirm(false)} />
+          <div className="relative w-full max-w-sm bg-white rounded-2xl shadow-xl p-5 text-center">
+            <h3 className="text-lg font-black text-slate-800">Delete reservation?</h3>
+            <p className="text-sm text-slate-500 mt-2">This action cannot be undone.</p>
+            <div className="mt-5 flex gap-2">
+              <button
+                onClick={() => setShowDeleteConfirm(false)}
+                className="flex-1 border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold py-2.5 rounded-xl transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDelete}
+                className="flex-1 bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2.5 rounded-xl transition-colors"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
