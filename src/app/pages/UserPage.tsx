@@ -86,8 +86,9 @@ export function UserPage() {
               </div>
             </div>
             <div className="text-xs text-blue-100 font-semibold bg-white/10 backdrop-blur-sm rounded-xl px-3 py-1.5 ring-1 ring-white/15">
-              {now.toLocaleDateString([], { year: 'numeric', month: 'short', day: '2-digit' })}{' '}
-              {now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              {now.toLocaleDateString([], { year: 'numeric', month: 'short', day: '2-digit' })}
+              <span className="mx-1.5 text-blue-200/80">|</span>
+              {now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
             </div>
           </div>
         </div>
