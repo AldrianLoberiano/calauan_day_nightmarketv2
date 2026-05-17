@@ -474,6 +474,22 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
             <p className="text-sm text-slate-500 mt-2">
               This will set every stall to available, clear all reservations, and reset the counter.
             </p>
+            <div className="mt-4 flex items-center justify-center gap-2 text-[11px] text-slate-500">
+              <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-lg px-2 py-1">
+                <ClipboardList className="w-3.5 h-3.5 text-slate-500" />
+                <span>Clear reservations</span>
+              </div>
+              <span className="text-slate-400">→</span>
+              <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-lg px-2 py-1">
+                <MapPin className="w-3.5 h-3.5 text-slate-500" />
+                <span>Stalls available</span>
+              </div>
+              <span className="text-slate-400">→</span>
+              <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-lg px-2 py-1">
+                <RefreshCw className="w-3.5 h-3.5 text-slate-500" />
+                <span>Counter reset</span>
+              </div>
+            </div>
             <div className="mt-5 flex gap-2">
               <button
                 onClick={() => setShowResetConfirm(false)}
