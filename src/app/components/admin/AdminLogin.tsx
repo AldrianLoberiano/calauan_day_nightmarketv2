@@ -23,10 +23,15 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
 
     await new Promise(r => setTimeout(r, 800));
 
-    if (verifyAdminLogin(username.trim(), password)) {
-      onLoginSuccess();
-    } else {
-      setError('Invalid username or password. Please try again.');
+    try {
+      const ok = await verifyAdminLogin(username.trim(), password);
+      if (ok) {
+        onLoginSuccess();
+      } else {
+        setError('Invalid username or password. Please try again.');
+      }
+    } catch {
+      setError('Login failed. Please check your connection.');
     }
     setIsLoading(false);
   }
