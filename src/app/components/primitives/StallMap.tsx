@@ -315,7 +315,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                 <div style={{ width:52, flexShrink:0 }}/>
                 <div style={{ display:'flex', alignItems:'center', gap:2, flex:1 }}>
                   <CL t="B"/>
-                  <div style={{ display:'flex', gap:-10, marginRight:6, marginTop:10, alignItems:'flex-start', transform:'rotate(35deg)', transformOrigin:'right top' }}>
                     {cB.map((s, idx) => {
                       const t = idx - (cB.length - 1) / 2;
                       const angle = -t * -15;
