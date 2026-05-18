@@ -315,7 +315,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                 <div style={{ width:52, flexShrink:0 }}/>
                 <div style={{ display:'flex', alignItems:'center', gap:2, flex:1 }}>
                   <CL t="B"/>
-                    {cB.map((s, idx) => {
                       const t = idx - (cB.length - 1) / 2;
                       const angle = -t * -15;
                       const offsetY = 8 + (t * t) * 2.6;
