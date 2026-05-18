@@ -316,6 +316,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                 <div style={{ display:'flex', alignItems:'center', gap:2, flex:1 }}>
                   <CL t="B"/>
                   <div style={{ display:'flex', gap:-10, marginRight:6, marginTop:-280, alignItems:'flex-end', transform:'rotate(-120deg)', transformOrigin:'right bottom' }}>
+                    {[...cB].reverse().map((s, idx) => {
                       const t = idx - (cB.length - 1) / 2;
                       const angle = -t * -15;
                       const offsetY = 8 + (t * t) * 2.6;
