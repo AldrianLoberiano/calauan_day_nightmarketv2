@@ -345,6 +345,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                       const offsetX = 0;
                       return (
                         <div
+                          key={s.id}
                           <CS s={s}/>
                         </div>
                       );
