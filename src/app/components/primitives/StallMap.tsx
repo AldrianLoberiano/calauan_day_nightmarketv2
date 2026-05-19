@@ -207,6 +207,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               {/* TOP OUTER ROWS */}
               <div style={{ display:'flex', gap:55, marginBottom:2 }}>
                 <HR ss={topOutL} w={20} h={15}/>
+                <div style={{ marginLeft:250 }}>
               </div>
 
               {/* INNER TOP ROW (with C/D) */}
