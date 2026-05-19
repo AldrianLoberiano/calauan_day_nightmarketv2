@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   X, User, Phone, MapPin, Clock, Building2, CheckCircle,
+  XCircle, Package, AlertCircle, Calendar, ShieldCheck, Tag
 } from 'lucide-react';
 import { Reservation, Stall } from '../../types';
 import { formatDate, getDaysRemaining, isExpired } from '../../utils/helpers';
