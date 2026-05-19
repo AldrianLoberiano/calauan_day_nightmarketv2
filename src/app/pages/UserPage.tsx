@@ -411,6 +411,7 @@ function StallBrowserCard({ stall, onClick }: { stall: Stall; onClick: () => voi
       </div>
       <p className="text-[11px] text-slate-500 line-clamp-1 mb-1.5">{stall.category}</p>
       <span className={`inline-block text-[10px] font-bold px-1.5 py-0.5 rounded-md ${cfg.badge}`}>
+        {stall.status === 'available' ? 'To be discussed' : cfg.badgeText}
       </span>
       <p className="text-[10px] text-blue-600 font-semibold mt-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
         View details →
