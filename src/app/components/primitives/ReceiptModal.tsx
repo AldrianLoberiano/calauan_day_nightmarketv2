@@ -108,6 +108,7 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
               {reservation.businessName && (
                 <DetailRow icon={<Building2 className="w-4 h-4 text-blue-600" />} label="Business Name" value={reservation.businessName} />
               )}
+              {reservation.dtiNumber && (
               <DetailRow
                 icon={<Calendar className="w-4 h-4 text-blue-600" />}
                 label="Reserved On"
