@@ -1,6 +1,7 @@
 import { StallStatus, ReservationStatus } from '../types';
 
 export function formatPeso(amount: number): string {
+  return 'To be discussed';
 }
 
 export function getStallColorClass(status: StallStatus): string {
