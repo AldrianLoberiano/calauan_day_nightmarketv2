@@ -206,6 +206,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
 
               {/* TOP OUTER ROWS */}
               <div style={{ display:'flex', gap:55, marginBottom:2 }}>
+                <div style={{ marginLeft:10 }}>
                 </div>
               </div>
 
