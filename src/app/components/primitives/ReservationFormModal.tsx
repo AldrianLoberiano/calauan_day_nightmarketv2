@@ -181,6 +181,50 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
           <FormField
             label="DTI Number"
             optional
+            icon={<ShieldCheck className="w-4 h-4 text-slate-400" />}
+          >
+            <input
+              type="text"
+              value={formData.dtiNumber}
+              onChange={(e) => handleChange('dtiNumber', e.target.value)}
+              placeholder="DTI-XXXXXXXX"
+              className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-slate-50 focus:bg-white"
+              disabled={isSubmitting}
+            />
+          </FormField>
+
+          {/* Cedula Number */}
+          <FormField
+            label="Cedula Number"
+            optional
+            icon={<ShieldCheck className="w-4 h-4 text-slate-400" />}
+          >
+            <input
+              type="text"
+              value={formData.cedulaNumber}
+              onChange={(e) => handleChange('cedulaNumber', e.target.value)}
+              placeholder="Cedula-XXXXXXXX"
+              className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-slate-50 focus:bg-white"
+              disabled={isSubmitting}
+            />
+          </FormField>
+
+          {/* Price */}
+          <FormField
+            label="Price"
+            optional
+            icon={<Tag className="w-4 h-4 text-slate-400" />}
+          >
+            <input
+              type="text"
+              value={formData.price}
+              onChange={(e) => handleChange('price', e.target.value)}
+              placeholder="To be discussed"
+              className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-slate-50 focus:bg-white"
+              disabled={isSubmitting}
+            />
+          </FormField>
+
           {/* Address */}
           <FormField
             label="Home Address"
