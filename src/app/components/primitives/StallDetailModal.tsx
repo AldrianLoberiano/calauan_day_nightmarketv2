@@ -20,7 +20,6 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
   };
 
   const sizeLabel: Record<string, string> = {
-    corner: 'Corner (20 sqm)',
   };
 
   const locationLabel = stall.number > 0
