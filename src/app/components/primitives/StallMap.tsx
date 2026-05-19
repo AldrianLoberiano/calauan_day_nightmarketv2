@@ -22,12 +22,12 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   const g = (n: number) => sm.get(n);
 
   // Groups
-  const topOutL = [135,...range(136,196).filter(n=>n%2===0)].map(g).filter(Boolean) as Stall[];
+  const topOutL = range(1,37).map(g).filter(Boolean) as Stall[];
   const topOutR = range(197,225).map(g).filter(Boolean) as Stall[];
-  const inTop = range(137,195).filter(n=>n%2===1).map(g).filter(Boolean) as Stall[];
-  const lOut = range(76,134).filter(n=>n%2===0).reverse().map(g).filter(Boolean) as Stall[];
-  const lIn = range(77,133).filter(n=>n%2===1).reverse().map(g).filter(Boolean) as Stall[];
-  const lBot = [75,74,73,72].map(g).filter(Boolean) as Stall[];
+  const inTop = range(1,39).map(g).filter(Boolean) as Stall[];
+  const lOut = range(1,42).reverse().map(g).filter(Boolean) as Stall[];
+  const lIn = range(1,34).reverse().map(g).filter(Boolean) as Stall[];
+  const lBot = [8,7,6,5,4,3,2,1].map(g).filter(Boolean) as Stall[];
   const rCol = range(35,61).reverse().map(g).filter(Boolean) as Stall[];
   const rColOffsetX = 280;
   const inBot = range(1,40).reverse().map(g).filter(Boolean) as Stall[];
@@ -205,12 +205,12 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                 <div style={{ width:52, flexShrink:0 }}/>
                 <div style={{ display:'flex', alignItems:'center', gap:2, flex:1 }}>
                   <CL t="C"/>
-                  <div style={{ display:'flex', gap:-10, marginRight:6, marginTop:-13, alignItems:'flex-end', transform:'rotate(-38deg)', transformOrigin:'right bottom' }}>
+                  <div style={{ display:'flex', gap:-10, marginRight:-44, marginTop:-13, alignItems:'flex-end', transform:'rotate(-38deg)', transformOrigin:'right bottom' }}>
                     {cC.map((s, idx) => {
                       const t = idx - (cC.length - 1) / 2;
                       const angle = -t * -15;
-                      const offsetY = -10 + (t * t) * 3;
-                      const offsetX = -5;
+                      const offsetY = -35 + (t * t) * 3;
+                      const offsetX = -38;
                       return (
                         <div
                           key={s.id}
@@ -253,15 +253,15 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               <div style={{ display:'flex', gap:0 }}>
 
                 {/* Left paired columns */}
-                <div style={{ flexShrink:0, marginLeft:5, marginRight:3, marginTop:50, display:'flex', flexDirection:'column', gap:0 }}>
+                <div style={{ flexShrink:0, marginLeft:0, marginRight:3, marginTop:50, display:'flex', flexDirection:'column', gap:0 }}>
                   {range(0, pairs-1).map(i=>(
-                    <div key={`lp${i}`} style={{ display:'flex', gap:2 }}>
+                    <div key={`lp${i}`} style={{ display:'flex', gap:10 }}>
                       <S s={lOut[i]} w={25} h={18}/>
                       <S s={lIn[i]} w={25} h={18}/>
                     </div>
                   ))}
                   {lBot.map(s=>(
-                    <div key={s.id} style={{ display:'flex', gap:1 }}>
+                    <div key={s.id} style={{ display:'flex', gap:10 }}>
                       <S s={s} w={25} h={18}/>
                     </div>
                   ))}
@@ -301,7 +301,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               </div>
 
               {/* INNER BOTTOM ROW (B/A) */}
-              <div style={{ display:'flex', gap:0, marginTop:3, marginBottom:2 }}>
+              <div style={{ display:'flex', gap:0, marginTop:-65, marginBottom:2 }}>
                 <div style={{ width:52, flexShrink:0 }}/>
                 <div style={{ display:'flex', alignItems:'center', gap:2, flex:1 }}>
                   <CL t="B"/>
@@ -324,10 +324,10 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                       );
                     })}
                   </div>
-                  <div style={{ marginLeft:-80 }}>
+                  <div style={{ marginLeft:-70 }}>
                     <HR ss={inBot} w={20} h={16}/>
                   </div>
-                  <div style={{ display:'flex', gap:0, marginLeft:6, marginRight:50, marginTop:-258, alignItems:'flex-end', transform:'rotate(110deg)', transformOrigin:'left bottom' }}>
+                  <div style={{ display:'flex', gap:0, marginLeft:6, marginRight:3, marginTop:-258, alignItems:'flex-end', transform:'rotate(110deg)', transformOrigin:'left bottom' }}>
                     {cA.map((s, idx) => {
                       const t = idx - (cA.length - 1) / 2;
                       const angle = t * 13;
@@ -353,7 +353,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
 
               {/* BOTTOM OUTER ROWS */}
               <div style={{ display:'flex', gap:30, marginTop:3 }}>
-                <div style={{ marginLeft:30 }}>
+                <div style={{ marginLeft:100 }}>
                   <HR ss={outBL} w={17} h={15}/>
                 </div>
               </div>
