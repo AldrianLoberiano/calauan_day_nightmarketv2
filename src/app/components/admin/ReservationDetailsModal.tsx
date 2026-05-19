@@ -257,6 +257,7 @@ export function ReservationDetailsModal({
                   <input
                     value={editData.price ?? ''}
                     onChange={(e) => setEditData({ ...editData, price: e.target.value })}
+                    className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-slate-600">Admin Notes</label>
                   <textarea
