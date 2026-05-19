@@ -31,6 +31,7 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
     contactNumber: '',
     businessName: '',
     dtiNumber: '',
+    cedulaNumber: '',
     address: '',
   });
   const [errors, setErrors] = useState<FormErrors>({});
