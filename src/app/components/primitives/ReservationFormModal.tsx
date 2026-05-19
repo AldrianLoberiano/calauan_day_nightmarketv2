@@ -70,6 +70,7 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
       contactNumber: formData.contactNumber.trim(),
       businessName: formData.businessName.trim() || undefined,
       dtiNumber: formData.dtiNumber.trim() || undefined,
+      cedulaNumber: formData.cedulaNumber.trim() || undefined,
       address: formData.address.trim() || undefined,
     });
 
