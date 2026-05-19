@@ -364,7 +364,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               {/* BOTTOM OUTER ROWS */}
               <div style={{ display:'flex', gap:30, marginTop:3 }}>
                 <HR ss={outBL} w={17} h={15}/>
-                <HR ss={outBR} w={17} h={15}/>
               </div>
             </div>
           </div>
