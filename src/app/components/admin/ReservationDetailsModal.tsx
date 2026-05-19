@@ -283,6 +283,7 @@ export function ReservationDetailsModal({
                   <InfoRow icon={<ShieldCheck className="w-3.5 h-3.5 text-slate-400" />} value={`Cedula: ${reservation.cedulaNumber}`} />
                 )}
                 {reservation.price && (
+                  <InfoRow icon={<Tag className="w-3.5 h-3.5 text-slate-400" />} value={`Price: ${reservation.price}`} />
                 {reservation.address && (
                   <InfoRow icon={<MapPin className="w-3.5 h-3.5 text-slate-400" />} value={reservation.address} />
                 )}
