@@ -155,7 +155,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               {['50%','50%'].map((x,i)=>(
                 <line key={`vm${i}`} x1={x} y1="3%" x2={x} y2="97%" stroke="#35d3de" strokeWidth={i?1.5:2.5} opacity={i?0.3:0.45}/>
               ))}
-                ))
               {/* Inner walkway */}
               <rect x="7.5%" y="19.5%" width="42%" height="69.5%" rx="8" fill="none" stroke="#d946ef" strokeWidth="1.5" opacity="0.18"/>
               <rect x="8%" y="20%" width="41%" height="68.5%" rx="6" fill="none" stroke="#d946ef" strokeWidth="1" opacity="0.12"/>
