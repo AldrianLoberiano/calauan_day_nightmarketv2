@@ -26,9 +26,9 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   const topOutR = range(197,225).map(g).filter(Boolean) as Stall[];
   const inTop = range(1,39).map(g).filter(Boolean) as Stall[];
   const lOut = range(1,42).reverse().map(g).filter(Boolean) as Stall[];
-  const lIn = range(1,34).reverse().map(g).filter(Boolean) as Stall[];
+  const lIn = range(1,30).reverse().map(g).filter(Boolean) as Stall[];
   const lBot = [8,7,6,5,4,3,2,1].map(g).filter(Boolean) as Stall[];
-  const rCol = range(35,61).reverse().map(g).filter(Boolean) as Stall[];
+  const rCol = [] as Stall[];
   const rColOffsetX = 280;
   const inBot = range(1,40).reverse().map(g).filter(Boolean) as Stall[];
   const outBL = range(1,47).reverse().map(g).filter(Boolean) as Stall[];
@@ -152,12 +152,12 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               {['3%','3%'].map((x,i)=>(
                 <line key={`vl${i}`} x1={x} y1="3%" x2={x} y2="97%" stroke="#4400ff" strokeWidth={i?1.5:2.5} opacity={i?0.3:0.45}/>
               ))}
-              {['50%','50%'].map((x,i)=>(
+              {['63%','63%'].map((x,i)=>(
                 <line key={`vm${i}`} x1={x} y1="3%" x2={x} y2="97%" stroke="#35d3de" strokeWidth={i?1.5:2.5} opacity={i?0.3:0.45}/>
               ))}
               {/* Inner walkway */}
-              <rect x="5.5%" y="20%" width="42%" height="69.5%" rx="8" fill="none" stroke="#000000" strokeWidth="1" opacity="0.18"/>
-              <rect x="5.5%" y="20%" width="42%" height="69.5%" rx="8" fill="none" stroke="#000000" strokeWidth="1" opacity="0.18"/>
+              <rect x="5.5%" y="21%" width="53%" height="69.5%" rx="8" fill="none" stroke="#000000" strokeWidth="1" opacity="5"/>
+              <rect x="5.5%" y="21%" width="53%" height="69.5%" rx="8" fill="none" stroke="#000000" strokeWidth="1" opacity="5"/>
             </svg>
 
             <div style={{ position:'relative', zIndex:2, padding:'12px 14px' }}>
