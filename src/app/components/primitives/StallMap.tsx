@@ -315,6 +315,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               </div>
 
               {/* INNER BOTTOM ROW (B/A) */}
+              <div style={{ display:'flex', gap:0, marginTop:3, marginBottom:2 }}>
                 <div style={{ width:52, flexShrink:0 }}/>
                 <div style={{ display:'flex', alignItems:'center', gap:2, flex:1 }}>
                   <CL t="B"/>
