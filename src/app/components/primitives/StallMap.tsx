@@ -152,7 +152,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               {['3%','3%'].map((x,i)=>(
                 <line key={`vl${i}`} x1={x} y1="3%" x2={x} y2="97%" stroke="#4400ff" strokeWidth={i?1.5:2.5} opacity={i?0.3:0.45}/>
               ))}
-              {['50%','50.5%'].map((x,i)=>(
                 <line key={`vm${i}`} x1={x} y1="3%" x2={x} y2="97%" stroke="#d946ef" strokeWidth={i?1.5:2.5} opacity={i?0.3:0.45}/>
               ))}
               <line x1="97%" y1="3%" x2="97%" y2="97%" stroke="#1a1a6e" strokeWidth="2" opacity="0.35"/>
