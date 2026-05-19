@@ -77,6 +77,7 @@ export async function addReservation(input: {
   businessName?: string;
   dtiNumber?: string;
   cedulaNumber?: string;
+  price?: string;
   address?: string;
 }): Promise<{ reservation: Reservation; stall: Stall }> {
   return apiFetch<{ reservation: Reservation; stall: Stall }>('/reservations', {
