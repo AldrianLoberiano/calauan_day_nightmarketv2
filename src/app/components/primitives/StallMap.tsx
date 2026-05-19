@@ -330,15 +330,15 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                   <div style={{ display:'flex', gap:0, marginLeft:6, marginRight:3, marginTop:-258, alignItems:'flex-end', transform:'rotate(110deg)', transformOrigin:'left bottom' }}>
                     {cA.map((s, idx) => {
                       const t = idx - (cA.length - 1) / 2;
-                      const angle = t * 13;
-                      const offsetY = -50 + (t * t) * 3;  
-                      const offsetX = 0;
+                      const angle = t * 15;
+                      const offsetY = -50 + (t * t) * 1;  
+                      const offsetX = 2;
                       return (
                         <div
                           key={s.id}
                           style={{
                             transform:`translate(${offsetX}px, ${offsetY}px) rotate(${angle}deg)`,
-                            transformOrigin:'50% 80%'
+                            transformOrigin:'-65% 60%'
                           }}
                         >
                           <CS s={s}/>
