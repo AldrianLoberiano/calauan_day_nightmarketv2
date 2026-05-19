@@ -337,7 +337,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                   <div style={{ marginLeft:-32 }}>
                     <HR ss={inBot} w={20} h={16}/>
                   </div>
-                  <div style={{ display:'flex', gap:0, marginLeft:6, marginRight:6, marginTop:-10, alignItems:'flex-end', transform:'rotate(90deg)', transformOrigin:'left bottom' }}>
                   <div style={{ display:'flex', gap:0, marginLeft:6, marginRight:6, marginTop:-20, alignItems:'flex-end', transform:'rotate(90deg)', transformOrigin:'left bottom' }}>
                     {cA.map((s, idx) => {
                       const t = idx - (cA.length - 1) / 2;
