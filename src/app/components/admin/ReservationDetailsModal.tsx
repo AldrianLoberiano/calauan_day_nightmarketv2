@@ -227,6 +227,7 @@ export function ReservationDetailsModal({
                   <label className="block text-xs font-semibold text-slate-600">Cedula Number</label>
                   <input
                     value={editData.cedulaNumber ?? ''}
+                    onChange={(e) => setEditData({ ...editData, cedulaNumber: e.target.value })}
                 <div>
                   <label className="block text-xs font-semibold text-slate-600">Status</label>
                   <select
