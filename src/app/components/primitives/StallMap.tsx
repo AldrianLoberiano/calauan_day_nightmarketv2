@@ -155,7 +155,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               {['50%','50%'].map((x,i)=>(
                 <line key={`vm${i}`} x1={x} y1="3%" x2={x} y2="97%" stroke="#35d3de" strokeWidth={i?1.5:2.5} opacity={i?0.3:0.45}/>
               ))}
-              {/* Curves */}
                 [
                   "M 5.5 17 Q 5.5 3 15 3",
                   "M 5.5 90 Q 5.5 97 15 97",
