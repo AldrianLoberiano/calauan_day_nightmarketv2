@@ -346,6 +346,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                           <CS s={s}/>
                         </div>
                       );
+                    })}
                   </div>
                   <CL t="A"/>
                 </div>
