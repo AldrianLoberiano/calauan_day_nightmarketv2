@@ -67,6 +67,7 @@ export function UserPage() {
   }
 
   return (
+    <div className="min-h-screen bg-slate-50">
       {/* Hero Header */}
       <header
         className="fixed top-0 inset-x-0 z-40 text-white bg-center bg-cover"
