@@ -339,6 +339,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                   </div>
                   <div style={{ display:'flex', gap:2, marginLeft:6, marginRight:6, alignItems:'flex-start' }}>
                     {cA.map((s, idx) => {
+                      const t = idx - (cA.length - 1) / 2;
                   </div>
                   <CL t="A"/>
                 </div>
