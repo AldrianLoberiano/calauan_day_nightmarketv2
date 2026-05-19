@@ -346,6 +346,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                       return (
                         <div
                           key={s.id}
+                          style={{
                           <CS s={s}/>
                         </div>
                       );
