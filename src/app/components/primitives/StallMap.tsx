@@ -337,7 +337,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                   <div style={{ marginLeft:-32 }}>
                     <HR ss={inBot} w={20} h={16}/>
                   </div>
-                    {cA.map(s=><CS key={s.id} s={s}/>)}
                   </div>
                   <CL t="A"/>
                 </div>
