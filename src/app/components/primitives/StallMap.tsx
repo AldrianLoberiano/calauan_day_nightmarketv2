@@ -342,6 +342,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                       const t = idx - (cA.length - 1) / 2;
                       const offsetY = (t * t) * -2.5;
                       return (
+                        <div key={s.id} style={{ transform:`translateY(${offsetY}px)` }}>
                   </div>
                   <CL t="A"/>
                 </div>
