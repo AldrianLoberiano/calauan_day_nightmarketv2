@@ -164,7 +164,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
 
               {/* MARKET SITE */}
               <div style={{ position:'relative', display:'flex', justifyContent:'flex-start', gap:20, marginBottom:8, width:'100%', paddingLeft:170 }}>
-                <div style={{ width:520, height:100, flexShrink:0, position:'relative',
                   border:'2.5px solid #555', background:'linear-gradient(180deg,#f5f5f5,#ebebeb)' }}>
                   {/* Pillars */}
                   {range(0,10).map(i=>(
