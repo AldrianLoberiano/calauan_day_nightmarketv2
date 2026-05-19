@@ -91,16 +91,16 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
       onClick={(e) => { if (e.target === e.currentTarget && !isSubmitting) onClose(); }}
     >
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-xs overflow-hidden">
         {/* Header — solid color, no gradient */}
-        <div className="bg-blue-800 text-white px-5 py-4 flex items-center justify-between">
+        <div className="bg-blue-800 text-white px-3.5 py-2.5 flex items-center justify-between">
           <div>
-            <p className="text-blue-300 text-xs font-semibold uppercase tracking-wider mb-0.5">Stall {stall.id}</p>
-            <h2 className="text-lg font-bold leading-tight">Reserve This Stall</h2>
+            <p className="text-blue-300 text-[11px] font-semibold uppercase tracking-wider mb-0.5">Stall {stall.id}</p>
+            <h2 className="text-[15px] font-bold leading-tight">Reserve This Stall</h2>
             <div className="flex items-center gap-2 mt-1">
-              <span className="text-blue-300 text-xs">{stall.category}</span>
+              <span className="text-blue-300 text-[11px]">{stall.category}</span>
               <span className="w-1 h-1 rounded-full bg-blue-500" />
-              <span className="text-blue-200 text-xs font-semibold">{formatPeso(stall.price)}</span>
+              <span className="text-blue-200 text-[10px] font-semibold">{formatPeso(stall.price)}</span>
             </div>
           </div>
           {!isSubmitting && (
@@ -114,11 +114,11 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-5 space-y-4">
+        <form onSubmit={handleSubmit} className="p-3.5 space-y-3">
           {/* Info notice */}
-          <div className="flex items-start gap-2.5 bg-blue-50 border border-blue-200 rounded-xl p-3">
+          <div className="flex items-start gap-2 bg-blue-50 border border-blue-200 rounded-xl p-2">
             <Info className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
-            <p className="text-sm text-blue-800">
+            <p className="text-[12px] text-blue-800">
               Fill in your details to reserve this stall. You will receive a <strong>Reservation Number</strong> to present at the <strong>BPLO Office</strong>.
             </p>
           </div>
@@ -135,7 +135,7 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
               value={formData.fullName}
               onChange={(e) => handleChange('fullName', e.target.value)}
               placeholder="Juan Dela Cruz"
-              className={`w-full pl-10 pr-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all bg-slate-50 focus:bg-white ${
+              className={`w-full pl-8 pr-3 py-1.5 border rounded-xl text-[12px] focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all bg-slate-50 focus:bg-white ${
                 errors.fullName ? 'border-red-400 bg-red-50 focus:bg-red-50' : 'border-slate-200 focus:border-blue-500'
               }`}
               disabled={isSubmitting}
@@ -154,7 +154,7 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
               value={formData.contactNumber}
               onChange={(e) => handleChange('contactNumber', e.target.value)}
               placeholder="09XXXXXXXXX"
-              className={`w-full pl-10 pr-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all bg-slate-50 focus:bg-white ${
+              className={`w-full pl-8 pr-3 py-1.5 border rounded-xl text-[12px] focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all bg-slate-50 focus:bg-white ${
                 errors.contactNumber ? 'border-red-400 bg-red-50 focus:bg-red-50' : 'border-slate-200 focus:border-blue-500'
               }`}
               disabled={isSubmitting}
@@ -172,7 +172,7 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
               value={formData.businessName}
               onChange={(e) => handleChange('businessName', e.target.value)}
               placeholder="My Store Name"
-              className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-slate-50 focus:bg-white"
+              className="w-full pl-8 pr-3 py-1.5 border border-slate-200 rounded-xl text-[12px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-slate-50 focus:bg-white"
               disabled={isSubmitting}
             />
           </FormField>
@@ -188,7 +188,7 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
               value={formData.dtiNumber}
               onChange={(e) => handleChange('dtiNumber', e.target.value)}
               placeholder="DTI-XXXXXXXX"
-              className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-slate-50 focus:bg-white"
+              className="w-full pl-8 pr-3 py-1.5 border border-slate-200 rounded-xl text-[12px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-slate-50 focus:bg-white"
               disabled={isSubmitting}
             />
           </FormField>
@@ -204,7 +204,7 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
               value={formData.cedulaNumber}
               onChange={(e) => handleChange('cedulaNumber', e.target.value)}
               placeholder="Cedula-XXXXXXXX"
-              className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-slate-50 focus:bg-white"
+              className="w-full pl-8 pr-3 py-1.5 border border-slate-200 rounded-xl text-[12px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-slate-50 focus:bg-white"
               disabled={isSubmitting}
             />
           </FormField>
@@ -220,7 +220,7 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
               value={formData.price}
               onChange={(e) => handleChange('price', e.target.value)}
               placeholder="To be discussed"
-              className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-slate-50 focus:bg-white"
+              className="w-full pl-8 pr-3 py-1.5 border border-slate-200 rounded-xl text-[12px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-slate-50 focus:bg-white"
               disabled={isSubmitting}
             />
           </FormField>
@@ -237,28 +237,28 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
               onChange={(e) => handleChange('address', e.target.value)}
               placeholder="Barangay, Municipality, Province"
               rows={2}
-              className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none bg-slate-50 focus:bg-white"
+              className="w-full pl-8 pr-3 py-1.5 border border-slate-200 rounded-xl text-[12px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none bg-slate-50 focus:bg-white"
               disabled={isSubmitting}
             />
           </FormField>
 
-          <p className="text-xs text-slate-400 leading-relaxed">
+          <p className="text-[10px] text-slate-400 leading-relaxed">
             Reservation expires in <strong className="text-slate-600">3 days</strong> if not processed at the BPLO office. This does not guarantee final approval.
           </p>
 
-          <div className="flex gap-2.5 pt-1">
+          <div className="flex gap-1.5 pt-0.5">
             <button
               type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="flex-1 border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl py-2.5 text-sm font-semibold transition-colors disabled:opacity-50"
+              className="flex-1 border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl py-1.5 text-[12px] font-semibold transition-colors disabled:opacity-50"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 bg-blue-700 hover:bg-blue-800 disabled:bg-slate-300 disabled:cursor-not-allowed text-white rounded-xl py-2.5 text-sm font-bold transition-colors flex items-center justify-center gap-2"
+              className="flex-1 bg-blue-700 hover:bg-blue-800 disabled:bg-slate-300 disabled:cursor-not-allowed text-white rounded-xl py-1.5 text-[12px] font-bold transition-colors flex items-center justify-center gap-1.5"
             >
               {isSubmitting ? (
                 <>
