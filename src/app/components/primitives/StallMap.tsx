@@ -341,6 +341,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                     {cA.map((s, idx) => {
                       const t = idx - (cA.length - 1) / 2;
                       const offsetY = (t * t) * -2.5;
+                      return (
                   </div>
                   <CL t="A"/>
                 </div>
