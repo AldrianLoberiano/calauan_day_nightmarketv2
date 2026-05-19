@@ -334,7 +334,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                       );
                     })}
                   </div>
-                  <div style={{ marginLeft:-30 }}>
+                  <div style={{ marginLeft:-32 }}>
                     <HR ss={inBot} w={20} h={16}/>
                   </div>
                   <div style={{ display:'flex', gap:2, marginLeft:6, marginRight:6 }}>
