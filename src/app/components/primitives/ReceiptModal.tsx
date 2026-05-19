@@ -110,6 +110,7 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
               )}
               {reservation.dtiNumber && (
                 <DetailRow icon={<CheckCircle className="w-4 h-4 text-blue-600" />} label="DTI Number" value={reservation.dtiNumber} />
+              )}
               <DetailRow
                 icon={<Calendar className="w-4 h-4 text-blue-600" />}
                 label="Reserved On"
