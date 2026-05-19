@@ -69,6 +69,7 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
       fullName: formData.fullName.trim(),
       contactNumber: formData.contactNumber.trim(),
       businessName: formData.businessName.trim() || undefined,
+      dtiNumber: formData.dtiNumber.trim() || undefined,
       address: formData.address.trim() || undefined,
     });
 
