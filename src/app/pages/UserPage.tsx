@@ -67,7 +67,6 @@ export function UserPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
       {/* Hero Header */}
       <header
         className="sticky top-0 z-40 text-white bg-center bg-cover"
