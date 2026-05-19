@@ -91,7 +91,6 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
             <div className="flex items-center gap-2 mt-1">
               <span className="text-blue-300 text-xs">{stall.category}</span>
               <span className="w-1 h-1 rounded-full bg-blue-500" />
-              <span className="text-blue-200 text-xs font-semibold">{formatPeso(stall.price)}/month</span>
             </div>
           </div>
           {!isSubmitting && (
