@@ -82,7 +82,6 @@ export function UserPage() {
               </div>
               <div>
                 <h1 className="font-black text-base sm:text-lg leading-tight tracking-tight">Stall Reservation System</h1>
-                <p className="text-blue-200 text-xs sm:text-sm font-medium">Public Market — Night Market Stall Mapping</p>
               </div>
             </div>
             <div className="text-xs text-blue-100 font-semibold bg-white/10 backdrop-blur-sm rounded-xl px-3 py-1.5 ring-1 ring-white/15">
