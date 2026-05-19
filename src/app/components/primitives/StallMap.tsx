@@ -30,6 +30,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   const lBot = [75,74,73,72].map(g).filter(Boolean) as Stall[];
   const rCol = range(35,61).reverse().map(g).filter(Boolean) as Stall[];
   const rColOffsetX = 280;
+  const inBot = range(1,40).reverse().map(g).filter(Boolean) as Stall[];
   const outBL = range(1,47).reverse().map(g).filter(Boolean) as Stall[];
   const outBR = range(226,258).map(g).filter(Boolean) as Stall[];
   const cA = ['A1','A2','A3','A4','A5'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
