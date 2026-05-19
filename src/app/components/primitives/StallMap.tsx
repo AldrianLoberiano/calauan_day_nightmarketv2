@@ -344,6 +344,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                       return (
                         <div key={s.id} style={{ transform:`translateY(${offsetY}px)` }}>
                           <CS s={s}/>
+                        </div>
                   </div>
                   <CL t="A"/>
                 </div>
