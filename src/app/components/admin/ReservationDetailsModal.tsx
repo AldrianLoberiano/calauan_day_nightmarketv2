@@ -216,6 +216,7 @@ export function ReservationDetailsModal({
                   />
                 </div>
                 <div>
+                <div>
                   <label className="block text-xs font-semibold text-slate-600">Status</label>
                   <select
                     value={editData.status}
