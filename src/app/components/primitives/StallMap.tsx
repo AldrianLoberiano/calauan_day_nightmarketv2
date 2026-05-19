@@ -138,7 +138,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               {/* Horizontal roads */}
               {['15%','15%'].map((y,i)=>(
                 <React.Fragment key={`hr${i}`}>
-                  <line x1="52%" y1={y} x2="96%" y2={y} stroke="#d946ef" strokeWidth={i?1.5:2.5} opacity={i?0.3:0.45}/>
                 </React.Fragment>
               ))}
               {['90%','90.6%'].map((y,i)=>(
