@@ -178,6 +178,7 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
           </FormField>
 
           {/* DTI Number */}
+          <FormField
           {/* Address */}
           <FormField
             label="Home Address"
