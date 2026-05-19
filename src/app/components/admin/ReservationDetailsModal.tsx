@@ -278,6 +278,7 @@ export function ReservationDetailsModal({
                 )}
                 {reservation.dtiNumber && (
                   <InfoRow icon={<ShieldCheck className="w-3.5 h-3.5 text-slate-400" />} value={`DTI: ${reservation.dtiNumber}`} />
+                )}
                 {reservation.address && (
                   <InfoRow icon={<MapPin className="w-3.5 h-3.5 text-slate-400" />} value={reservation.address} />
                 )}
