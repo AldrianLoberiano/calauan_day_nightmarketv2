@@ -365,6 +365,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               <div style={{ display:'flex', gap:30, marginTop:3 }}>
                 <div style={{ marginLeft:30 }}>
                   <HR ss={outBL} w={17} h={15}/>
+                </div>
               </div>
             </div>
           </div>
