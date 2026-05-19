@@ -337,7 +337,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                   <div style={{ marginLeft:-32 }}>
                     <HR ss={inBot} w={20} h={16}/>
                   </div>
-                  <div style={{ display:'flex', gap:2, marginLeft:6, marginRight:6, alignItems:'flex-start' }}>
                     {cA.map((s, idx) => {
                       const t = idx - (cA.length - 1) / 2;
                       const offsetY = (t * t) * -2.5;
