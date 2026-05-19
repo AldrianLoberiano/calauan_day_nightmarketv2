@@ -28,6 +28,7 @@ export interface Reservation {
   fullName: string;
   contactNumber: string;
   businessName?: string;
+  dtiNumber?: string;
   address?: string;
   status: ReservationStatus;
   createdAt: string;
