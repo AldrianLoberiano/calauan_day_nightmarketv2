@@ -71,6 +71,7 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
       businessName: formData.businessName.trim() || undefined,
       dtiNumber: formData.dtiNumber.trim() || undefined,
       cedulaNumber: formData.cedulaNumber.trim() || undefined,
+      price: formData.price.trim() || undefined,
       address: formData.address.trim() || undefined,
     });
 
