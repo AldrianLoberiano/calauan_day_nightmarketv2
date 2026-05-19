@@ -217,6 +217,7 @@ export function ReservationDetailsModal({
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-600">DTI Number</label>
+                  <input
                     value={editData.dtiNumber ?? ''}
                 <div>
                   <label className="block text-xs font-semibold text-slate-600">Status</label>
