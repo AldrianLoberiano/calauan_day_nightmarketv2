@@ -254,6 +254,7 @@ export function ReservationDetailsModal({
                 </div>
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-slate-600">Price</label>
+                  <input
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-slate-600">Admin Notes</label>
                   <textarea
