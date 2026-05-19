@@ -225,6 +225,7 @@ export function ReservationDetailsModal({
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-600">Cedula Number</label>
+                  <input
                 <div>
                   <label className="block text-xs font-semibold text-slate-600">Status</label>
                   <select
