@@ -255,6 +255,7 @@ export function ReservationDetailsModal({
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-slate-600">Price</label>
                   <input
+                    value={editData.price ?? ''}
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-slate-600">Admin Notes</label>
                   <textarea
