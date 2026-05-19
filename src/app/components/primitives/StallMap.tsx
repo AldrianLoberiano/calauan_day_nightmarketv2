@@ -139,6 +139,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               {['15%','15%'].map((y,i)=>(
                 <React.Fragment key={`hr${i}`}>
                   <line x1="4%" y1={y} x2="96%" y2={y} stroke="#caef46" strokeWidth={i?1.5:2.5} opacity={i?0.3:0.45}/>
+                  <line x1="5%" y1={y} x2="96%" y2={y} stroke="#e4ef46" strokeWidth={i?1.5:2.5} opacity={i?0.3:0.45}/>
                 </React.Fragment>
               ))}
               {['90%','90.6%'].map((y,i)=>(
