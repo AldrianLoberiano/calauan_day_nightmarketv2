@@ -344,6 +344,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                       const offsetY = -6 + (t * t) * 3.2;
                       const offsetX = 0;
                       return (
+                        <div
                           <CS s={s}/>
                         </div>
                       );
