@@ -21,6 +21,7 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
 
   const sizeLabel: Record<string, string> = {
     small:  '2 x 3 m',
+    medium: '2 x 3 m',
   };
 
   const locationLabel = stall.number > 0
