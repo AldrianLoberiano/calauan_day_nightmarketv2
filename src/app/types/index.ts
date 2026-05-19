@@ -30,6 +30,7 @@ export interface Reservation {
   businessName?: string;
   dtiNumber?: string;
   cedulaNumber?: string;
+  price?: string;
   address?: string;
   status: ReservationStatus;
   createdAt: string;
