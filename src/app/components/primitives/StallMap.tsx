@@ -256,6 +256,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                 <div style={{ flexShrink:0, marginLeft:0, marginRight:3, marginTop:50, display:'flex', flexDirection:'column', gap:0, position:'relative' }}>
                   <div style={{ height:28, marginBottom:6 }} />
                   <div style={{ position:'absolute', left:0, top:'50%', transform:'translateY(-50%)' }}>
+                    <CL t="AA"/>
                   </div>
                   </div>
                   {range(0, pairs-1).map(i=>(
