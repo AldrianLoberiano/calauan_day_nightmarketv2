@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { X, Printer, CheckCircle, MapPin, Phone, User, Calendar, Building2, Clock } from 'lucide-react';
 import { Reservation, Stall } from '../../types';
-import { formatDate, formatPeso } from '../../utils/helpers';
+import { formatDate, formatPeso, getDisplayStallId } from '../../utils/helpers';
 
 interface ReceiptModalProps {
   reservation: Reservation | null;
@@ -19,8 +19,9 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
     `RES:${reservation.reservationNumber}|STALL:${reservation.stallId}|NAME:${reservation.fullName}|TEL:${reservation.contactNumber}`
   );
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${qrData}&margin=10`;
+  const displayStallId = getDisplayStallId(stall.id);
   const locationLabel = stall.number > 0
-    ? `Section ${stall.section}, Stall ${stall.id}`
+    ? `Section ${stall.section}, Stall ${displayStallId}`
     : `Section ${stall.section}`;
 
   function handlePrint() {
@@ -101,7 +102,7 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
 
             {/* Details */}
             <div className="p-4 space-y-2.5">
-              <DetailRow icon={<MapPin className="w-4 h-4 text-blue-600" />} label="Stall ID"    value={`Stall ${stall.id} — ${stall.category}`} />
+              <DetailRow icon={<MapPin className="w-4 h-4 text-blue-600" />} label="Stall ID"    value={`Stall ${displayStallId} — ${stall.category}`} />
               <DetailRow icon={<MapPin className="w-4 h-4 text-blue-600" />} label="Location"   value={locationLabel} />
               <DetailRow icon={<User className="w-4 h-4 text-blue-600" />}   label="Applicant"  value={reservation.fullName} />
               <DetailRow icon={<Phone className="w-4 h-4 text-blue-600" />}  label="Contact"    value={reservation.contactNumber} />
