@@ -230,6 +230,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                   <div style={{ display:'flex', gap:1 }}>
                     {inTopRight.map(s => (
                       s.number === 20 ? (
+                        <div key={s.id} style={{ position:'relative', width:20, height:16, transform:'translateY(-6px)' }}>
                   <div style={{ display:'flex', gap:-8, marginLeft:15, marginRight:10, marginTop:-35, alignItems:'flex-end', transform:'rotate(50deg)', transformOrigin:'left bottom' }}>
                     {cD.map((s, idx) => {
                       const t = idx - (cD.length - 1) / 2;
