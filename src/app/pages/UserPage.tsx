@@ -56,12 +56,12 @@ export function UserPage() {
   });
 
   const directoryLayout = [
-    { label: 'A', count: 47 },
-    { label: 'B', count: 44 },
-    { label: 'AA', count: 42 },
-    { label: 'BB', count: 34 },
-    { label: 'C', count: 37 },
-    { label: 'D', count: 39 },
+    { label: 'A', start: 1, end: 47 },
+    { label: 'B', start: 48, end: 91 },
+    { label: 'AA', start: 92, end: 133 },
+    { label: 'BB', start: 134, end: 167 },
+    { label: 'C', start: 168, end: 204 },
+    { label: 'D', start: 205, end: 243 },
   ];
   const directoryRanges: Record<string, string> = {
     A: '1-47',
@@ -71,20 +71,19 @@ export function UserPage() {
     C: '1-37',
     D: '1-39',
   };
-  const sortedDirectoryStalls = safeStalls
-    .filter(s => s.number > 0)
-    .sort((a, b) => a.number - b.number || a.id.localeCompare(b.id));
   const directoryAssignment = new Map<string, { label: string; index: number }>();
-  let cursor = 0;
-  for (const group of directoryLayout) {
-    for (let i = 0; i < group.count; i += 1) {
-      const stall = sortedDirectoryStalls[cursor + i];
-      if (!stall) break;
-      directoryAssignment.set(stall.id, { label: group.label, index: i + 1 });
-    }
-    cursor += group.count;
+  const numberedStalls = safeStalls.filter(s => s.number > 0);
+  for (const stall of numberedStalls) {
+    const numericId = Number(stall.id);
+    if (!Number.isFinite(numericId)) continue;
+    const group = directoryLayout.find(g => numericId >= g.start && numericId <= g.end);
+    if (!group) continue;
+    directoryAssignment.set(stall.id, { label: group.label, index: numericId - group.start + 1 });
   }
-  const unassigned = sortedDirectoryStalls.slice(cursor);
+  const assignedIds = new Set(directoryAssignment.keys());
+  const unassigned = numberedStalls
+    .filter(stall => !assignedIds.has(stall.id))
+    .sort((a, b) => a.number - b.number || a.id.localeCompare(b.id));
   unassigned.forEach((stall, idx) => {
     directoryAssignment.set(stall.id, { label: 'Other', index: idx + 1 });
   });
