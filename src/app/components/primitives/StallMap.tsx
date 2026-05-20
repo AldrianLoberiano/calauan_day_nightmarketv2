@@ -25,6 +25,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   const topOutL = range(1,37).map(g).filter(Boolean) as Stall[];
   const topOutR = range(197,225).map(g).filter(Boolean) as Stall[];
   const inTop = range(1,39).map(g).filter(Boolean) as Stall[];
+  const inTopLeft = inTop.filter(s => s.number <= 19);
   const lOut = range(1,42).reverse().map(g).filter(Boolean) as Stall[];
   const lIn = range(1,30).reverse().map(g).filter(Boolean) as Stall[];
   const lBot = [8,7,6,5,4,3,2,1].map(g).filter(Boolean) as Stall[];
