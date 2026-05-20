@@ -373,6 +373,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                         <div
                           key={s.id}
                           style={{
+                            transform:`translate(${offsetX}px, ${offsetY}px) rotate(${t * 16}deg)`,
                           }}
                         >
                           <CS s={s}/>
