@@ -66,7 +66,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   const inTopLeft = inTopSlots.slice(0, 19);
   const inTopRight = inTopSlots.slice(19);
   const lOut = makeDirectionalSlots('AA', 92, 42, 'bottom');
-  const bbSlots = makeRangeSlots('BB', 134, 38);
+  const bbSlots = makeRangeSlots('BB', 134, 30);
   const lIn = bbSlots.slice(0, 30).reverse();
   const lBot = bbSlots.slice(30).reverse();
   const inBot = makeRangeSlots('B', 48, 40).reverse();
@@ -85,10 +85,10 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   const cA = ['A1','A2','A3','A4','A5'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
   const cB = ['B1','B2','B3','B4'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
   const cornerBSlots: StallSlot[] = [
-    { stall: idMap.get(88), label: 'B44' },
-    { stall: idMap.get(89), label: 'B43' },
-    { stall: idMap.get(90), label: 'B42' },
-    { stall: idMap.get(91), label: 'B41' },
+    { stall: idMap.get(88), label: 'B41' },
+    { stall: idMap.get(89), label: 'B42' },
+    { stall: idMap.get(90), label: 'B43' },
+    { stall: idMap.get(91), label: 'B44' },
   ];
   const cC = ['C1','C2','C3','C4'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
   const cD = ['D1','D2','D3','D4','D5','D6'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
