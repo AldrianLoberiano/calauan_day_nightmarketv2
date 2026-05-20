@@ -201,6 +201,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                   <div style={{ display:'flex', gap:1 }}>
                     {topOutLRight.map(s => (
                       s.number === 19 ? (
+                        <div key={s.id} style={{ position:'relative', width:20, height:15, transform:'translateY(-6px)' }}>
                 </div>
                 <div style={{ marginLeft:10 }}>
                   <HR ss={topOutR} w={20} h={15}/>
