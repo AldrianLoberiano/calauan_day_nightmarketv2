@@ -75,3 +75,16 @@ export function capitalize(str: string): string {
   if (!str) return '';
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+export function getDisplayStallId(stallId: string): string {
+  if (!stallId) return '';
+  if (!/^\d+$/.test(stallId)) return stallId;
+  const numericId = Number(stallId);
+  if (numericId >= 1 && numericId <= 47) return `A${numericId}`;
+  if (numericId >= 48 && numericId <= 91) return `B${numericId - 47}`;
+  if (numericId >= 92 && numericId <= 133) return `AA${numericId - 91}`;
+  if (numericId >= 134 && numericId <= 167) return `BB${numericId - 133}`;
+  if (numericId >= 168 && numericId <= 204) return `C${numericId - 167}`;
+  if (numericId >= 205 && numericId <= 243) return `D${numericId - 204}`;
+  return stallId;
+}
