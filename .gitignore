@@ -4,3 +4,4 @@ ATTRIBUTIONS.md
 database/*.db
 database/*.sqlite
 database/*.sqlite3
+database/schema.sql
