@@ -213,6 +213,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                     ))}
                   </div>
                 </div>
+                <div style={{ marginLeft:10, transform:'translateX(110px)' }}>
                   <HR ss={topOutR} w={20} h={15}/>
                 </div>
               </div>
