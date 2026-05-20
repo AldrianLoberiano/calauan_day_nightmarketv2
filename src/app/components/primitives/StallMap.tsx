@@ -250,7 +250,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               </div>
 
               {/* MAIN BODY */}
-              <div style={{ display:'flex', gap:0 }}>
 
                 {/* Left paired columns */}
                 <div style={{ flexShrink:0, marginLeft:0, marginRight:3, marginTop:50, display:'flex', flexDirection:'column', gap:0 }}>
