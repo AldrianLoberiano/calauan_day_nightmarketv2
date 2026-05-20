@@ -305,6 +305,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                     </svg>
                   </div>
                 </div>
+
               </div>
 
               {/* INNER BOTTOM ROW (B/A) */}
