@@ -253,7 +253,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               <div style={{ display:'flex', gap:0, position:'relative' }}>
 
                 {/* Left paired columns */}
-                      <CL t="BB"/>
                     </div>
                   </div>
                   {range(0, pairs-1).map(i=>(
