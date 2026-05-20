@@ -259,6 +259,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                     <CL t="AA"/>
                   </div>
                   <div style={{ position:'absolute', left:70, top:'50%', transform:'translateY(-50%)' }}>
+                    <CL t="BB"/>
                   </div>
                   {range(0, pairs-1).map(i=>(
                     <div key={`lp${i}`} style={{ display:'flex', gap:10 }}>
