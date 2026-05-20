@@ -78,16 +78,12 @@ CREATE TABLE IF NOT EXISTS stalls (
   CONSTRAINT fk_stalls_reservation_id FOREIGN KEY (reservation_id) REFERENCES reservations(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
--- =============================================================
---  TABLE: reservation_counter
---  Single-row table to track the auto-incrementing reservation number.
--- =============================================================
 CREATE TABLE IF NOT EXISTS reservation_counter (
-  id      INT PRIMARY KEY CHECK (id = 1),
+  section VARCHAR(16) PRIMARY KEY,
   counter INT NOT NULL DEFAULT 0
 ) ENGINE=InnoDB;
 
-INSERT IGNORE INTO reservation_counter (id, counter) VALUES (1, 0);
+-- Optional: seed a default section if desired. Application will create rows on demand.
 
 -- =============================================================
 --  VIEW: v_stall_summary
