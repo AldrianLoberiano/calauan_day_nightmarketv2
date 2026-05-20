@@ -55,6 +55,74 @@ export function UserPage() {
     return true;
   });
 
+  const directoryLayout = [
+    { label: 'A', count: 47 },
+    { label: 'B', count: 44 },
+    { label: 'AA', count: 42 },
+    { label: 'BB', count: 34 },
+    { label: 'C', count: 37 },
+    { label: 'D', count: 39 },
+  ];
+  const directoryRanges: Record<string, string> = {
+    A: '1-47',
+    B: '1-44',
+    AA: '1-42',
+    BB: '1-34',
+    C: '1-37',
+    D: '1-39',
+  };
+  const sortedDirectoryStalls = safeStalls
+    .filter(s => s.number > 0)
+    .sort((a, b) => a.number - b.number || a.id.localeCompare(b.id));
+  const directoryAssignment = new Map<string, { label: string; index: number }>();
+  let cursor = 0;
+  for (const group of directoryLayout) {
+    for (let i = 0; i < group.count; i += 1) {
+      const stall = sortedDirectoryStalls[cursor + i];
+      if (!stall) break;
+      directoryAssignment.set(stall.id, { label: group.label, index: i + 1 });
+    }
+    cursor += group.count;
+  }
+  const unassigned = sortedDirectoryStalls.slice(cursor);
+  unassigned.forEach((stall, idx) => {
+    directoryAssignment.set(stall.id, { label: 'Other', index: idx + 1 });
+  });
+  const cornerStalls = safeStalls.filter(s => s.number === 0);
+  const directoryOrder = [
+    ...directoryLayout.map(group => group.label),
+    ...(cornerStalls.length ? ['Corner'] : []),
+    ...(unassigned.length ? ['Other'] : []),
+  ];
+  const groupedDirectory = directoryOrder
+    .map((label) => {
+      const items = filteredStalls
+        .filter((stall) => {
+          if (label === 'Corner') return stall.number === 0;
+          const meta = directoryAssignment.get(stall.id);
+          return meta?.label === label;
+        })
+        .sort((a, b) => {
+          if (label === 'Corner') return a.id.localeCompare(b.id);
+          const aMeta = directoryAssignment.get(a.id);
+          const bMeta = directoryAssignment.get(b.id);
+          return (aMeta?.index ?? 0) - (bMeta?.index ?? 0);
+        })
+        .map((stall) => {
+          if (label === 'Corner') {
+            return { stall, displayId: stall.id };
+          }
+          if (label === 'Other') {
+            return { stall, displayId: stall.id };
+          }
+          const meta = directoryAssignment.get(stall.id);
+          return { stall, displayId: `${label}${meta?.index ?? ''}` };
+        });
+
+      return { label, items };
+    })
+    .filter(group => group.items.length > 0);
+
   function handleStallClick(stall: Stall) {
     const latest = safeStalls.find(s => s.id === stall.id) ?? stall;
     setSelectedStall(latest);
@@ -209,10 +277,30 @@ export function UserPage() {
               </div>
             </div>
 
-            {filteredStalls.length > 0 ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-                {filteredStalls.map(stall => (
-                  <StallBrowserCard key={stall.id} stall={stall} onClick={() => handleStallClick(stall)} />
+            {groupedDirectory.length > 0 ? (
+              <div className="space-y-6">
+                {groupedDirectory.map(group => (
+                  <div key={group.label}>
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-sm font-bold text-slate-800">
+                        Section {group.label}
+                        {directoryRanges[group.label] ? ` (${directoryRanges[group.label]})` : ''}
+                      </h3>
+                      <span className="text-[11px] text-slate-500 bg-slate-50 border border-slate-200 rounded-md px-2 py-0.5 font-semibold">
+                        {group.items.length} stalls
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                      {group.items.map(({ stall, displayId }) => (
+                        <StallBrowserCard
+                          key={stall.id}
+                          stall={stall}
+                          displayId={displayId}
+                          onClick={() => handleStallClick(stall)}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 ))}
               </div>
             ) : (
@@ -366,7 +454,7 @@ function StatPill({ color, label, count }: { color: string; label: string; count
   );
 }
 
-function StallBrowserCard({ stall, onClick }: { stall: Stall; onClick: () => void }) {
+function StallBrowserCard({ stall, onClick, displayId }: { stall: Stall; onClick: () => void; displayId?: string }) {
   const statusConfig: Record<string, { border: string; bg: string; dot: string; badge: string; badgeText: string }> = {
     available: {
       border: 'border-green-200 hover:border-green-400',
@@ -406,9 +494,12 @@ function StallBrowserCard({ stall, onClick }: { stall: Stall; onClick: () => voi
       className={`border rounded-xl p-3 text-left transition-all duration-150 hover:shadow-md active:scale-95 group ${cfg.border} ${cfg.bg}`}
     >
       <div className="flex items-start justify-between mb-2">
-        <span className="text-sm font-black text-slate-800 tracking-wide">{stall.id}</span>
+        <span className="text-sm font-black text-slate-800 tracking-wide">{displayId ?? stall.id}</span>
         <span className={`w-2 h-2 rounded-full shrink-0 mt-1 ${cfg.dot}`} />
       </div>
+      {displayId && displayId !== stall.id ? (
+        <p className="text-[10px] text-slate-400">ID {stall.id}</p>
+      ) : null}
       <p className="text-[11px] text-slate-500 line-clamp-1 mb-1.5">{stall.category}</p>
       <span className={`inline-block text-[10px] font-bold px-1.5 py-0.5 rounded-md ${cfg.badge}`}>
         {stall.status === 'available' ? 'To be discussed' : cfg.badgeText}
