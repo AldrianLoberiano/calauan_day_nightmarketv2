@@ -163,6 +163,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
             <div style={{ position:'relative', zIndex:2, padding:'12px 14px' }}>
 
               {/* MARKET SITE */}
+              <div style={{ position:'relative', display:'flex', justifyContent:'flex-start', gap:20, marginBottom:8, width:'100%', paddingLeft:270 }}>
                 <div style={{ width:500, height:90, flexShrink:0, position:'relative',
                   border:'2.5px solid #555', background:'linear-gradient(180deg,#f5f5f5,#ebebeb)' }}>
                   {/* Pillars */}
