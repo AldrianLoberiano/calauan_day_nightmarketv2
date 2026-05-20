@@ -253,6 +253,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               <div style={{ display:'flex', gap:0, position:'relative' }}>
 
                 {/* Left paired columns */}
+                <div style={{ flexShrink:0, marginLeft:0, marginRight:3, marginTop:50, display:'flex', flexDirection:'column', gap:0, position:'relative' }}>
                   </div>
                   {range(0, pairs-1).map(i=>(
                     <div key={`lp${i}`} style={{ display:'flex', gap:10 }}>
