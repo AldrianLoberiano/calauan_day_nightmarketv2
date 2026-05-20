@@ -17,26 +17,71 @@ function range(a: number, b: number) {
 export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, maxHeight }: StallMapProps) {
   const [zoom, setZoom] = useState(initialZoom ?? 1);
   const containerRef = useRef<HTMLDivElement>(null);
-  const sm = new Map(stalls.filter(s => s.number > 0).map(s => [s.number, s]));
+  const numericStalls = stalls.filter(s => s.number > 0 && /^\d+$/.test(s.id));
+  const idMap = new Map(numericStalls.map(s => [Number(s.id), s]));
   const cm = new Map(stalls.filter(s => s.number === 0).map(s => [s.id, s]));
-  const g = (n: number) => sm.get(n);
+
+  type StallSlot = { stall?: Stall; label: string; disabled?: boolean };
+
+  const usedIds = new Set<number>();
+  const makeRangeSlots = (prefix: string, startId: number, count: number): StallSlot[] => {
+    const slots: StallSlot[] = [];
+    for (let i = 0; i < count; i += 1) {
+      const id = startId + i;
+      const stall = idMap.get(id);
+      if (stall) usedIds.add(id);
+      slots.push({ stall, label: `${prefix}${i + 1}`, disabled: !stall });
+    }
+    return slots;
+  };
+
+  const makeDirectionalSlots = (
+    prefix: string,
+    startId: number,
+    count: number,
+    direction: 'top' | 'bottom'
+  ): StallSlot[] => {
+    const slots = makeRangeSlots(prefix, startId, count);
+    return direction === 'bottom' ? slots.reverse() : slots;
+  };
+
+  const makeListSlots = (items: Stall[], count: number): StallSlot[] => {
+    const slots: StallSlot[] = items.slice(0, count).map((stall) => ({
+      stall,
+      label: stall.id,
+      disabled: false,
+    }));
+    const missing = count - slots.length;
+    for (let i = 0; i < missing; i += 1) {
+      slots.push({ label: '', disabled: true });
+    }
+    return slots;
+  };
 
   // Groups
-  const topOutL = range(1,37).map(g).filter(Boolean) as Stall[];
-  const topOutLLeft = topOutL.filter(s => s.number <= 18);
-  const topOutLRight = topOutL.filter(s => s.number >= 19);
-  const topOutR = range(1,25).map(g).filter(Boolean) as Stall[];
-  const inTop = range(1,39).map(g).filter(Boolean) as Stall[];
-  const inTopLeft = inTop.filter(s => s.number <= 19);
-  const inTopRight = inTop.filter(s => s.number >= 20);
-  const lOut = range(1,42).reverse().map(g).filter(Boolean) as Stall[];
-  const lIn = range(1,30).reverse().map(g).filter(Boolean) as Stall[];
-  const lBot = [8,7,6,5,4,3,2,1].map(g).filter(Boolean) as Stall[];
-  const rCol = [] as Stall[];
+  const topOutLSlots = makeRangeSlots('C', 168, 37);
+  const topOutLLeft = topOutLSlots.slice(0, 18);
+  const topOutLRight = topOutLSlots.slice(18);
+  const inTopSlots = makeRangeSlots('D', 205, 39);
+  const inTopLeft = inTopSlots.slice(0, 19);
+  const inTopRight = inTopSlots.slice(19);
+  const lOut = makeDirectionalSlots('AA', 92, 42, 'bottom');
+  const bbSlots = makeRangeSlots('BB', 134, 38);
+  const lIn = bbSlots.slice(0, 30).reverse();
+  const lBot = bbSlots.slice(30).reverse();
+  const inBot = makeRangeSlots('B', 48, 40).reverse();
+  const outBL = makeRangeSlots('A', 1, 47).reverse();
+
+  const remaining = numericStalls
+    .filter((stall) => {
+      const numericId = Number(stall.id);
+      return Number.isFinite(numericId) && !usedIds.has(numericId);
+    })
+    .sort((a, b) => Number(a.id) - Number(b.id));
+  const topOutR = makeListSlots(remaining, 25);
+  const outBR = makeListSlots(remaining.slice(25), 33);
+  const rCol = [] as StallSlot[];
   const rColOffsetX = 280;
-  const inBot = range(1,40).reverse().map(g).filter(Boolean) as Stall[];
-  const outBL = range(1,47).reverse().map(g).filter(Boolean) as Stall[];
-  const outBR = range(226,258).map(g).filter(Boolean) as Stall[];
   const cA = ['A1','A2','A3','A4','A5'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
   const cB = ['B1','B2','B3','B4'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
   const cC = ['C1','C2','C3','C4'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
@@ -50,16 +95,19 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   };
 
   // Stall button
-  const S = ({ s, w, h }: { s: Stall; w: number; h: number }) => {
-    const sel = selectedStallId === s.id;
+  const S = ({ slot, w, h }: { slot: StallSlot; w: number; h: number }) => {
+    const stall = slot.stall;
+    const sel = stall ? selectedStallId === stall.id : false;
+    const disabled = slot.disabled || !stall;
+    const label = slot.label;
     return (
-      <button onClick={()=>onStallClick(s)}
-        title={`Stall ${s.id} · ${s.status} · ${s.category} · Price: To be discussed`}
+      <button onClick={()=>{ if (!disabled && stall) onStallClick(stall); }}
+        title={stall ? `Stall ${stall.id} · ${stall.status} · ${stall.category} · Price: To be discussed` : 'Unavailable'}
         style={{
           width:w, height:h, fontSize: Math.max(7, Math.min(w,h)*0.42),
-          background: statusColor[s.status]||'#ccc',
-          border: `1.5px solid ${statusBorder[s.status]||'#999'}`,
-          color:'#fff', fontWeight:700, cursor:'pointer', display:'inline-flex',
+          background: stall ? (statusColor[stall.status]||'#ccc') : '#e5e7eb',
+          border: `1.5px solid ${stall ? (statusBorder[stall.status]||'#999') : '#cbd5e1'}`,
+          color: stall ? '#fff' : '#94a3b8', fontWeight:700, cursor: disabled ? 'default' : 'pointer', display:'inline-flex',
           alignItems:'center', justifyContent:'center', flexShrink:0,
           position:'relative', userSelect:'none', lineHeight:1,
           outline: sel ? '2.5px solid #3b82f6' : 'none',
@@ -69,9 +117,9 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
           boxShadow: sel ? '0 0 8px rgba(59,130,246,0.5)' : '0 1px 2px rgba(0,0,0,0.15)',
           transition: 'transform 0.1s, box-shadow 0.1s',
         }}
-        onMouseEnter={e=>{if(!sel){e.currentTarget.style.transform='scale(1.08)';e.currentTarget.style.zIndex='10'}}}
-        onMouseLeave={e=>{if(!sel){e.currentTarget.style.transform='';e.currentTarget.style.zIndex=''}}}
-      >{s.id}</button>
+        onMouseEnter={e=>{if(!sel && !disabled){e.currentTarget.style.transform='scale(1.08)';e.currentTarget.style.zIndex='10'}}}
+        onMouseLeave={e=>{if(!sel && !disabled){e.currentTarget.style.transform='';e.currentTarget.style.zIndex=''}}}
+      >{label}</button>
     );
   };
 
@@ -91,15 +139,18 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   );
 
   // Helpers
-  const HR = ({ ss, w, h }: { ss: Stall[]; w: number; h: number }) => (
-    <div style={{ display:'flex', gap:1 }}>{ss.map(s=><S key={s.id} s={s} w={w} h={h}/>)}</div>
+  const HR = ({ ss, w, h }: { ss: StallSlot[]; w: number; h: number }) => (
+    <div style={{ display:'flex', gap:1 }}>{ss.map((slot, idx)=><S key={slot.stall?.id ?? `${slot.label}-${idx}`} slot={slot} w={w} h={h}/>)}</div>
   );
-  const VC = ({ ss, w, h }: { ss: Stall[]; w: number; h: number }) => (
-    <div style={{ display:'flex', flexDirection:'column', gap:1 }}>{ss.map(s=><S key={s.id} s={s} w={w} h={h}/>)}</div>
+  const VC = ({ ss, w, h }: { ss: StallSlot[]; w: number; h: number }) => (
+    <div style={{ display:'flex', flexDirection:'column', gap:1 }}>{ss.map((slot, idx)=><S key={slot.stall?.id ?? `${slot.label}-${idx}`} slot={slot} w={w} h={h}/>)}</div>
   );
 
   // Left paired rows
   const pairs = Math.min(lOut.length, lIn.length);
+  const lOutTail = lOut.slice(pairs);
+  const lInTail = lBot;
+  const tailRows = Math.max(lOutTail.length, lInTail.length);
 
 
   return (
@@ -199,16 +250,16 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                 <div style={{ marginLeft:140, display:'flex', gap:1, alignItems:'center' }}>
                   <HR ss={topOutLLeft} w={20} h={15}/>
                   <div style={{ display:'flex', gap:1 }}>
-                    {topOutLRight.map(s => (
-                      s.number === 19 ? (
-                        <div key={s.id} style={{ position:'relative', width:20, height:15, transform:'translateY(-6px)' }}>
-                          <S s={s} w={20} h={15}/>
+                    {topOutLRight.map((slot, idx) => (
+                      idx === 0 ? (
+                        <div key={slot.stall?.id ?? `topOutLRight-${idx}`} style={{ position:'relative', width:20, height:15, transform:'translateY(-6px)' }}>
+                          <S slot={slot} w={20} h={15}/>
                           <div style={{ position:'absolute', inset:0, display:'flex', alignItems:'flex-start', justifyContent:'center', zIndex:6, pointerEvents:'none', marginTop:-25, transform:'translateY(-6px)' }}>
                             <CL t="C"/>
                           </div>
                         </div>
                       ) : (
-                        <S key={s.id} s={s} w={20} h={15}/>
+                        <S key={slot.stall?.id ?? `topOutLRight-${idx}`} slot={slot} w={20} h={15}/>
                       )
                     ))}
                   </div>
@@ -242,16 +293,16 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                   </div>
                   <HR ss={inTopLeft} w={20} h={16}/>
                   <div style={{ display:'flex', gap:1 }}>
-                    {inTopRight.map(s => (
-                      s.number === 20 ? (
-                        <div key={s.id} style={{ position:'relative', width:20, height:16, transform:'translateY(-6px)' }}>
-                          <S s={s} w={20} h={16}/>
+                    {inTopRight.map((slot, idx) => (
+                      idx === 0 ? (
+                        <div key={slot.stall?.id ?? `inTopRight-${idx}`} style={{ position:'relative', width:20, height:16, transform:'translateY(-6px)' }}>
+                          <S slot={slot} w={20} h={16}/>
                           <div style={{ position:'absolute', inset:0, display:'flex', alignItems:'flex-end', justifyContent:'center', zIndex:6, pointerEvents:'none', marginBottom:-38 }}>
                             <CL t="D"/>
                           </div>
                         </div>
                       ) : (
-                        <S key={s.id} s={s} w={20} h={16}/>
+                        <S key={slot.stall?.id ?? `inTopRight-${idx}`} slot={slot} w={20} h={16}/>
                       )
                     ))}
                   </div>
@@ -291,15 +342,21 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                   </div>
                   {range(0, pairs-1).map(i=>(
                     <div key={`lp${i}`} style={{ display:'flex', gap:10 }}>
-                      <S s={lOut[i]} w={25} h={18}/>
-                      <S s={lIn[i]} w={25} h={18}/>
+                      <S slot={lOut[i]} w={25} h={18}/>
+                      <S slot={lIn[i]} w={25} h={18}/>
                     </div>
                   ))}
-                  {lBot.map(s=>(
-                    <div key={s.id} style={{ display:'flex', gap:10 }}>
-                      <S s={s} w={25} h={18}/>
-                    </div>
-                  ))}
+                  {Array.from({ length: tailRows }, (_, idx) => {
+                    const outSlot = lOutTail[idx];
+                    const inSlot = lInTail[idx];
+                    if (!outSlot && !inSlot) return null;
+                    return (
+                      <div key={`lp-tail-${idx}`} style={{ display:'flex', gap:10 }}>
+                        {outSlot ? <S slot={outSlot} w={25} h={18}/> : <div style={{ width:25, height:18 }} />}
+                        {inSlot ? <S slot={inSlot} w={25} h={18}/> : null}
+                      </div>
+                    );
+                  })}
                 </div>
 
                 {/* Center + right col */}
@@ -337,7 +394,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               </div>
 
               {/* INNER BOTTOM ROW (B/A) */}
-              <div style={{ display:'flex', gap:0, marginTop:-65, marginBottom:2, position:'relative' }}>
+              <div style={{ display:'flex', gap:0, marginTop:10, marginBottom:2, position:'relative' }}>
                 <div style={{ width:52, flexShrink:0 }}/>
                 <div style={{ position:'absolute', left:'30%', top:'-100%', transform:'translate(-50%, -50%)', zIndex:5 }}>
                   <CL t="B"/>
