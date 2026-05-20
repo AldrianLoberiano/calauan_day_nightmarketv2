@@ -117,7 +117,41 @@ async function expireReservations() {
 }
 
 async function nextReservationNumber(connection) {
+  // legacy single-counter support removed — use nextReservationNumberBySection
+  throw new Error('Use nextReservationNumberBySection(connection, section) instead');
+}
+
+async function nextReservationNumberBySection(connection, section) {
   const year = new Date().getFullYear();
+  const sec = (section || 'X').toString().toUpperCase();
+  try {
+    // Ensure a counter row exists for this section
+    await connection.query(
+      'INSERT IGNORE INTO reservation_counter (section, counter) VALUES (?, 0)',
+      [sec]
+    );
+
+    const [rows] = await connection.query(
+      'SELECT counter FROM reservation_counter WHERE section = ? FOR UPDATE',
+      [sec]
+    );
+    const current = rows[0]?.counter ?? 0;
+    const next = current + 1;
+    await connection.query('UPDATE reservation_counter SET counter = ? WHERE section = ?', [next, sec]);
+    return `RES-${year}-${sec}-${String(next).padStart(4, '0')}`;
+  } catch (err) {
+    // Fallback: database still using legacy single-row counter schema.
+    if (err && (err.code === 'ER_BAD_FIELD_ERROR' || err.code === 'ER_NO_SUCH_TABLE')) {
+      // Use legacy single-counter implementation
+      return legacyNextReservationNumber(connection, year);
+    }
+    throw err;
+  }
+}
+
+async function legacyNextReservationNumber(connection, yearOverride) {
+  const year = yearOverride ?? new Date().getFullYear();
+  // Behave like the previous single-row counter implementation (id=1)
   const [rows] = await connection.query('SELECT counter FROM reservation_counter WHERE id = 1 FOR UPDATE');
   const current = rows[0]?.counter ?? 0;
   const next = current + 1;
@@ -195,7 +229,10 @@ app.post('/api/reservations', async (req, res, next) => {
 
     await connection.beginTransaction();
 
-    const reservationNumber = await nextReservationNumber(connection);
+    // determine stall section so counters are per-section
+    const [stallInfoRows] = await connection.query('SELECT section FROM stalls WHERE id = ? FOR UPDATE', [payload.stallId]);
+    const section = stallInfoRows[0]?.section || 'X';
+    const reservationNumber = await nextReservationNumberBySection(connection, section);
     const reservationId = crypto.randomUUID();
 
     await connection.query(
@@ -398,7 +435,8 @@ app.post('/api/admin/reset', async (req, res, next) => {
     );
 
     await connection.query('DELETE FROM reservations');
-    await connection.query('UPDATE reservation_counter SET counter = 0 WHERE id = 1');
+    // reset all per-section counters
+    await connection.query('UPDATE reservation_counter SET counter = 0');
 
     await connection.commit();
     res.json({ ok: true });
