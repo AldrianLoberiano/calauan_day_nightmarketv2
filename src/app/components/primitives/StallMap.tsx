@@ -350,6 +350,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                       const t = idx - (cB.length - 1) / 2;
                       const angle = -t * -15;
                       const offsetY = -110 + (t * t) * 3;
+                      const offsetX = -5;
                       return (
                         <div
                           key={s.id}
