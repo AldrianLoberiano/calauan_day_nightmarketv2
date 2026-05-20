@@ -3,7 +3,7 @@ import {
   User, MapPin, Calendar, ChevronRight
 } from 'lucide-react';
 import { Reservation, Stall } from '../../types';
-import { formatDate, getDaysRemaining, isExpired } from '../../utils/helpers';
+import { formatDate, getDaysRemaining, isExpired, getDisplayStallId } from '../../utils/helpers';
 
 interface ReservationCardProps {
   reservation: Reservation;
@@ -115,7 +115,7 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
         {/* Stall info inside header */}
         <div className={`mt-3 flex items-center gap-1.5 text-sm font-semibold ${cfg.headerText}`}>
           <MapPin className="w-3.5 h-3.5 opacity-80 shrink-0" />
-          <span>Stall {reservation.stallId}</span>
+          <span>Stall {getDisplayStallId(reservation.stallId)}</span>
           {stall && <span className={`font-normal text-xs ${cfg.subText}`}>— {stall.category}</span>}
         </div>
       </div>
