@@ -367,6 +367,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                   <div style={{ display:'flex', gap:-16, marginLeft:-10, marginRight:0, marginTop:-310, alignItems:'flex-end', transform:'rotate(135deg)', transformOrigin:'left bottom' }}>
                     {cA.map((s, idx) => {
                       const t = idx - (cA.length - 1) / 2;
+                      const offsetY = -130 + (t * t) * 4;  
                       return (
                         <div
                           key={s.id}
