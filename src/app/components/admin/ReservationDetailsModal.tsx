@@ -4,7 +4,7 @@ import {
   XCircle, Package, AlertCircle, Calendar, ShieldCheck, Tag
 } from 'lucide-react';
 import { Reservation, Stall } from '../../types';
-import { formatDate, getDaysRemaining, isExpired } from '../../utils/helpers';
+import { formatDate, getDaysRemaining, isExpired, getDisplayStallId } from '../../utils/helpers';
 import { approveReservation, rejectReservation, markAsOccupied, updateReservationAdmin, deleteReservation } from '../../utils/storage';
 
 interface ReservationDetailsModalProps {
@@ -143,7 +143,7 @@ export function ReservationDetailsModal({
               </h3>
               <div className={`mt-2 flex items-center gap-1.5 text-sm font-semibold ${cfg.headerText}`}>
                 <MapPin className="w-3.5 h-3.5 opacity-80 shrink-0" />
-                <span>Stall {reservation.stallId}</span>
+                <span>Stall {getDisplayStallId(reservation.stallId)}</span>
                 {stall && <span className={`font-normal text-xs ${cfg.subText}`}>— {stall.category}</span>}
               </div>
             </div>
