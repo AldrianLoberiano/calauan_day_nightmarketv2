@@ -311,7 +311,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               {/* INNER BOTTOM ROW (B/A) */}
               <div style={{ display:'flex', gap:0, marginTop:-65, marginBottom:2, position:'relative' }}>
                 <div style={{ width:52, flexShrink:0 }}/>
-                <div style={{ display:'flex', alignItems:'center', gap:2, flex:1 }}>
                   <CL t="B"/>
                   <div style={{ display:'flex', gap:-10, marginRight:6, marginTop:-310, alignItems:'flex-end', transform:'rotate(-120deg)', transformOrigin:'right bottom' }}>
                     {[...cB].reverse().map((s, idx) => {
