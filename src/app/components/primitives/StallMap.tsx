@@ -373,7 +373,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                         <div
                           key={s.id}
                           style={{
-                            transformOrigin:'-70% 60%'
                           }}
                         >
                           <CS s={s}/>
