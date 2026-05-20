@@ -346,7 +346,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                       );
                     })}
                   </div>
-                  <CL t="A"/>
                 </div>
                 <div style={{ width:350, flexShrink:0 }}/>
               </div>
