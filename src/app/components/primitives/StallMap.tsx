@@ -253,7 +253,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               <div style={{ display:'flex', gap:0, position:'relative' }}>
 
                 {/* Left paired columns */}
-                  <div style={{ display:'flex', gap:10, marginBottom:6 }}>
                     <div style={{ width:25, display:'flex', justifyContent:'center' }}>
                       <CL t="AA"/>
                     </div>
