@@ -260,6 +260,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                     </div>
                     <div style={{ width:25, display:'flex', justifyContent:'center' }}>
                       <CL t="BB"/>
+                  </div>
                   {range(0, pairs-1).map(i=>(
                     <div key={`lp${i}`} style={{ display:'flex', gap:10 }}>
                       <S s={lOut[i]} w={25} h={18}/>
