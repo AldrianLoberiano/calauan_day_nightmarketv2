@@ -23,6 +23,8 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
 
   // Groups
   const topOutL = range(1,37).map(g).filter(Boolean) as Stall[];
+  const topOutLLeft = topOutL.filter(s => s.number <= 18);
+  const topOutLRight = topOutL.filter(s => s.number >= 19);
   const topOutR = range(197,225).map(g).filter(Boolean) as Stall[];
   const inTop = range(1,39).map(g).filter(Boolean) as Stall[];
   const inTopLeft = inTop.filter(s => s.number <= 19);
