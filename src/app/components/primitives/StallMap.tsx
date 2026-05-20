@@ -198,6 +198,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               <div style={{ display:'flex', gap:55, marginBottom:2 }}>
                 <div style={{ marginLeft:140, display:'flex', gap:1, alignItems:'center' }}>
                   <HR ss={topOutLLeft} w={20} h={15}/>
+                  <div style={{ display:'flex', gap:1 }}>
                 </div>
                 <div style={{ marginLeft:10 }}>
                   <HR ss={topOutR} w={20} h={15}/>
