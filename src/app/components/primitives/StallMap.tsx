@@ -84,6 +84,12 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   const rColOffsetX = 280;
   const cA = ['A1','A2','A3','A4','A5'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
   const cB = ['B1','B2','B3','B4'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
+  const cornerBSlots: StallSlot[] = [
+    { stall: idMap.get(91), label: 'B41' },
+    { stall: idMap.get(90), label: 'B42' },
+    { stall: idMap.get(89), label: 'B43' },
+    { stall: idMap.get(88), label: 'B44' },
+  ];
   const cC = ['C1','C2','C3','C4'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
   const cD = ['D1','D2','D3','D4','D5','D6'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
 
@@ -124,11 +130,26 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   };
 
   // Corner stall
-  const CS = ({ s }: { s: Stall }) => (
-    <button onClick={()=>onStallClick(s)} title={`Corner ${s.id} · ${s.status}`}
-      style={{ width:22, height:19, border:'2px solid #ef4444', background:'#fef2f2', color:'#dc2626',
-        fontSize:7, fontWeight:900, cursor:'pointer', display:'inline-flex', alignItems:'center',
-        justifyContent:'center', flexShrink:0 }}>{s.id}</button>
+  const CS = ({ stall, label }: { stall?: Stall; label: string }) => (
+    <button
+      onClick={()=>{ if (stall) onStallClick(stall); }}
+      title={stall ? `Corner ${label} · ${stall.status}` : `Corner ${label}`}
+      style={{
+        width:22,
+        height:19,
+        border: `2px solid ${stall ? (statusBorder[stall.status] || '#ef4444') : '#ef4444'}`,
+        background: stall ? (statusColor[stall.status] || '#fef2f2') : '#fef2f2',
+        color: '#fff',
+        fontSize:7,
+        fontWeight:900,
+        cursor:'pointer',
+        display:'inline-flex',
+        alignItems:'center',
+        justifyContent:'center',
+        flexShrink:0,
+        opacity: stall ? 1 : 0.5,
+      }}
+    >{label}</button>
   );
 
   // Corner marker circle
@@ -286,7 +307,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                             transformOrigin:'50% 80%'
                           }}
                         >
-                          <CS s={s}/>
+                          <CS stall={s} label={s.id}/>
                         </div>
                       );
                     })}
@@ -319,7 +340,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                             transformOrigin:'50% 80%'
                           }}
                         >
-                          <CS s={s}/>
+                          <CS stall={s} label={s.id}/>
                         </div>
                       );
                     })}
@@ -401,19 +422,19 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                 </div>
                 <div style={{ display:'flex', alignItems:'center', gap:2, flex:1 }}>
                   <div style={{ display:'flex', gap:-10, marginRight:25, marginTop:-305, alignItems:'flex-end', transform:'rotate(-120deg)', transformOrigin:'right bottom' }}>
-                    {[...cB].reverse().map((s, idx) => {
-                      const t = idx - (cB.length - 1) / 2;
+                    {[...cornerBSlots].reverse().map((slot, idx) => {
+                      const t = idx - (cornerBSlots.length - 1) / 2;
                       const offsetY = -110 + (t * t) * 3;
                       const offsetX = -5;
                       return (
                         <div
-                          key={s.id}
+                          key={slot.stall?.id ?? `corner-b-${idx}`}
                           style={{
                             transform:`translate(${offsetX}px, ${offsetY}px) rotate(${t * 15}deg)`,
                             transformOrigin:'50% 80%'
                           }}
                         >
-                          <CS s={s}/>
+                          <CS stall={slot.stall} label={slot.label}/>
                         </div>
                       );
                     })}
@@ -434,7 +455,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                             transformOrigin:'-85% 60%'
                           }}
                         >
-                          <CS s={s}/>
+                          <CS stall={s} label={s.id}/>
                         </div>
                       );
                     })}
