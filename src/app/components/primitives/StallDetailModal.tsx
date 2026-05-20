@@ -1,7 +1,7 @@
 import React from 'react';
 import { X, MapPin, Tag, Ruler, ShoppingBag, CheckCircle, Clock, XCircle, MinusCircle } from 'lucide-react';
 import { Stall } from '../../types';
-import { formatPeso, getStatusTextClass, getStatusLabel } from '../../utils/helpers';
+import { formatPeso, getStatusTextClass, getStatusLabel, getDisplayStallId } from '../../utils/helpers';
 
 interface StallDetailModalProps {
   stall: Stall | null;
@@ -26,8 +26,9 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
     corner: '2 x 3 m',
   };
 
+  const displayStallId = getDisplayStallId(stall.id);
   const locationLabel = stall.number > 0
-    ? `Section ${stall.section}, Stall ${stall.id}`
+    ? `Section ${stall.section}, Stall ${displayStallId}`
     : `Section ${stall.section}`;
 
   return (
@@ -49,7 +50,7 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
 
           {/* Stall ID & Category */}
           <div className="absolute bottom-3 left-4">
-            <h2 className="text-white text-2xl font-black drop-shadow-sm">Stall {stall.id}</h2>
+            <h2 className="text-white text-2xl font-black drop-shadow-sm">Stall {displayStallId}</h2>
             <p className="text-white/80 text-sm font-medium">{stall.category}</p>
           </div>
 
