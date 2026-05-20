@@ -313,6 +313,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                 <div style={{ width:52, flexShrink:0 }}/>
                 <div style={{ position:'absolute', left:'30%', top:'-100%', transform:'translate(-50%, -50%)', zIndex:5 }}>
                   <CL t="B"/>
+                </div>
                   <div style={{ display:'flex', gap:-10, marginRight:6, marginTop:-310, alignItems:'flex-end', transform:'rotate(-120deg)', transformOrigin:'right bottom' }}>
                     {[...cB].reverse().map((s, idx) => {
                       const t = idx - (cB.length - 1) / 2;
