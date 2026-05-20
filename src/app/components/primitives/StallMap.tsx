@@ -209,6 +209,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                         </div>
                       ) : (
                         <S key={s.id} s={s} w={20} h={15}/>
+                      )
                 </div>
                 <div style={{ marginLeft:10 }}>
                   <HR ss={topOutR} w={20} h={15}/>
