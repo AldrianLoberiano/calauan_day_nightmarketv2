@@ -313,6 +313,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                             transformOrigin:'50% 80%'
                           }}
                         >
+                          <CS stall={s} label={cornerLabel(cCLabels, idx, s.id)}/>
                         </div>
                       );
                     })}
