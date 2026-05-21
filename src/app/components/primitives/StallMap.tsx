@@ -175,6 +175,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   const aaTopOffset = -100;
   const aaColumnSlots = lOut;
   const bbColumnSlots = [...lIn, ...lInTail];
+  const leftColumnRows = Math.max(aaColumnSlots.length, bbColumnSlots.length);
 
 
   return (
