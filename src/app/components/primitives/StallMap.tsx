@@ -366,6 +366,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                     <CL t="BB"/>
                   </div>
                   <div style={{ display:'flex', gap:10 }}>
+                    <div style={{ display:'flex', flexDirection:'column', gap:0, transform:`translateY(${aaTopOffset}px)` }}>
                     </div>
                   ))}
                   {Array.from({ length: tailRows }, (_, idx) => {
