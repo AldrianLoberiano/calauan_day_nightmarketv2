@@ -374,6 +374,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                     </div>
                     <div style={{ display:'flex', flexDirection:'column', gap:0 }}>
                       {Array.from({ length: leftColumnRows }, (_, idx) => {
+                        const slot = bbColumnSlots[idx];
                 </div>
 
                 {/* Center + right col */}
