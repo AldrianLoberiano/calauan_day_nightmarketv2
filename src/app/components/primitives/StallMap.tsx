@@ -369,6 +369,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                     <div style={{ display:'flex', flexDirection:'column', gap:0, transform:`translateY(${aaTopOffset}px)` }}>
                       {Array.from({ length: leftColumnRows }, (_, idx) => {
                         const slot = aaColumnSlots[idx];
+                        return slot ? <S key={slot.stall?.id ?? `aa-${idx}`} slot={slot} w={25} h={18}/> : <div key={`aa-empty-${idx}`} style={{ width:25, height:18 }} />;
                     </div>
                   ))}
                   {Array.from({ length: tailRows }, (_, idx) => {
