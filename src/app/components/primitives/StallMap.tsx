@@ -91,6 +91,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
     { stall: idMap.get(91), label: 'B44' },
   ];
   const cC = ['C1','C2','C3','C4'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
+  const cCLabels = ['BB31','BB32','BB33','BB34'];
   const cD = ['D1','D2','D3','D4','D5','D6'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
 
   const statusColor: Record<string,string> = {
