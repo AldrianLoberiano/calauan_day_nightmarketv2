@@ -233,7 +233,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               ))}
               {/* Inner walkway */}
               <rect x="5.5%" y="21%" width="53%" height="69.5%" rx="8" fill="none" stroke="#000000" strokeWidth="1" opacity="5"/>
-              <rect x="5.5%" y="21%" width="53%" height="69.5%" rx="8" fill="none" stroke="#000000" strokeWidth="1" opacity="5"/>
             </svg>
 
             <div style={{ position:'relative', zIndex:2, padding:'12px 14px' }}>
