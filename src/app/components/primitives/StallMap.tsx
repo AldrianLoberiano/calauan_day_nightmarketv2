@@ -377,6 +377,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                         const slot = bbColumnSlots[idx];
                         return slot ? <S key={slot.stall?.id ?? `bb-${idx}`} slot={slot} w={25} h={18}/> : <div key={`bb-empty-${idx}`} style={{ width:25, height:18 }} />;
                       })}
+                    </div>
                 </div>
 
                 {/* Center + right col */}
