@@ -372,7 +372,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                         return slot ? <S key={slot.stall?.id ?? `aa-${idx}`} slot={slot} w={25} h={18}/> : <div key={`aa-empty-${idx}`} style={{ width:25, height:18 }} />;
                       })}
                     </div>
-                  ))}
                   {Array.from({ length: tailRows }, (_, idx) => {
                     const outSlot = lOutTail[idx];
                     const inSlot = lInTail[idx];
