@@ -124,3 +124,4 @@ Reservations expire **3 days** after creation if not processed at the BPLO Offic
 
 ## 🛠️ Feature Enhancements
 - Add `applicant_email` to `reservations` for email notifications.
+- Implement password hashing for 'admin users' in production.
