@@ -121,3 +121,4 @@ Example: RES-2026-0001
 ```
 
 Reservations expire **3 days** after creation if not processed at the BPLO Office.
+
