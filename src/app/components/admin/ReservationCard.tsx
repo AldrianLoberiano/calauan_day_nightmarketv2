@@ -58,7 +58,6 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
   const expired    = isExpired(reservation.expiresAt);
   const cfg        = STATUS[reservation.status] ?? STATUS.rejected;
 
-    await new Promise(r => setTimeout(r, 600));
     markAsOccupied(reservation.id);
     setIsProcessing(false);
     onUpdate();
