@@ -113,7 +113,6 @@ Password : bplo2026
 
 ---
 
-## 📋 Reservation Number Format
 
 ```
 RES-{YEAR}-{4-digit counter}
