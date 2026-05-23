@@ -179,7 +179,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   );
 
   // Left paired rows
-  const pairs = Math.min(lOut.length, lIn.length);
   const lOutTail = lOut.slice(pairs);
   const lInTail = lBot;
   const tailRows = Math.max(lOutTail.length, lInTail.length);
