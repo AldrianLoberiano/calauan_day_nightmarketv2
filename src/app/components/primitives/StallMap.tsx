@@ -155,6 +155,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
         outlineOffset: stall && selectedStallId === stall.id ? 1 : 0,
         transform: stall && selectedStallId === stall.id ? 'scale(1.15)' : undefined,
         zIndex: stall && selectedStallId === stall.id ? 20 : undefined,
+        boxShadow: stall && selectedStallId === stall.id ? '0 0 8px rgba(59,130,246,0.5)' : '0 1px 2px rgba(0,0,0,0.15)',
       }}
     >{label}</button>
   );
