@@ -140,6 +140,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
       style={{
         width:22,
         height:19,
+        border: `2px solid ${stall ? (statusBorder[stall.status] || '#ef4444') : '#cbd5e1'}`,
         color: '#fff',
         fontSize:7,
         fontWeight:900,
