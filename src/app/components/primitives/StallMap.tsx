@@ -66,6 +66,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   const inTopLeft = inTopSlots.slice(0, 19);
   const inTopRight = inTopSlots.slice(19);
   const lOut = makeDirectionalSlots('AA', 92, 42, 'bottom');
+  const bbSlots = makeRangeSlots('BB', 134, 34);
   const lIn = bbSlots.slice(0, 30).reverse();
   const lBot = bbSlots.slice(30).reverse();
   const inBot = makeRangeSlots('B', 48, 40).reverse();
