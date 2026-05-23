@@ -309,7 +309,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                   <div style={{ display:'flex', gap:0, marginRight:-18, marginTop:-13, alignItems:'flex-end', transform:'rotate(-38deg)', transformOrigin:'right bottom', position:'relative', zIndex:10 }}>
                     {cC.map((s, idx) => {
                       const t = idx - (cC.length - 1) / 2;
-                      const offsetX = -15;
                       const offsetY = 0 + (t * t) * 2.4;
                       return (
                         <div
