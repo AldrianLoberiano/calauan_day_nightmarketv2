@@ -109,7 +109,6 @@ Username : admin
 Password : bplo2026
 ```
 
-> ⚠️ Change before deploying to production.
 
 ---
 
