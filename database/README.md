@@ -81,7 +81,6 @@ Single-row counter for generating sequential reservation numbers.
 
 ---
 
-## 💰 Pricing
 
 | Size | Monthly Rent |
 |------|-------------|
