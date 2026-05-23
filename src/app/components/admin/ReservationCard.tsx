@@ -120,7 +120,6 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
                 ? 'bg-orange-100 text-orange-600'
                 : 'bg-slate-100 text-slate-500'
             }`}>
-              {expired ? '⚠ Expired' : `${daysLeft}d left`}
             </span>
           )}
         </div>
