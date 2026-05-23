@@ -136,6 +136,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
     <button
       onClick={()=>{ if (stall) onStallClick(stall); }}
       title={stall ? `${label} · ${stall.status} · ${stall.category} · Price: To be discussed` : `${label} · Unavailable`}
+      disabled={!stall}
       style={{
         width:22,
         height:19,
