@@ -92,6 +92,7 @@ Single-row counter for generating sequential reservation numbers.
 
 ---
 
+## localStorage Keys (current implementation)
 
 ```
 pwesto_stalls           → Stall[] JSON array
