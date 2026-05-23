@@ -298,6 +298,7 @@ function FormField({
         </span>
         {children}
       </div>
+      {error && <p className="text-red-500 text-xs mt-1 flex items-center gap-1">Error: {error}</p>}
     </div>
   );
 }
