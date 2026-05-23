@@ -145,7 +145,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
         color: '#fff',
         fontSize:7,
         fontWeight:900,
-        cursor:'pointer',
         display:'inline-flex',
         alignItems:'center',
         justifyContent:'center',
