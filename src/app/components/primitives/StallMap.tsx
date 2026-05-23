@@ -151,6 +151,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
         justifyContent:'center',
         flexShrink:0,
         opacity: stall ? 1 : 0.5,
+        outline: stall && selectedStallId === stall.id ? '2.5px solid #3b82f6' : 'none',
       }}
     >{label}</button>
   );
