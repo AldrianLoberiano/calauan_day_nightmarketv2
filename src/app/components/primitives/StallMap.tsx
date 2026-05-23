@@ -303,6 +303,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               </div>
 
               {/* INNER TOP ROW (with C/D) */}
+              <div style={{ display:'flex', gap:0, marginBottom:2, position:'relative', zIndex:5 }}>
                 <div style={{ width:52, flexShrink:0 }}/>
                 <div style={{ display:'flex', alignItems:'center', gap:2, flex:1 }}>
                   <div style={{ display:'flex', gap:-10, marginRight:-18, marginTop:-13, alignItems:'flex-end', transform:'rotate(-38deg)', transformOrigin:'right bottom' }}>
