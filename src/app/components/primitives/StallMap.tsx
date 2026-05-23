@@ -316,6 +316,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                           key={s.id}
                           style={{
                             transform:`translate(${offsetX}px, ${offsetY}px) rotate(${t * 10.5}deg)`,
+                            transformOrigin:'50% 80%',
                           }}
                         >
                           <CS stall={s} label={cornerLabel(cCLabels, idx, s.id)}/>
