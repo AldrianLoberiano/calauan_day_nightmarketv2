@@ -1,4 +1,3 @@
-# 🗄️ Database — Calauan Day & Night Market
 
 Stall Reservation Mapping System · BPLO
 
