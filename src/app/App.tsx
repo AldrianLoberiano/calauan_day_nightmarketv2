@@ -1,4 +1,3 @@
-import React from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router';
 import { UserPage } from './pages/UserPage';
 import { AdminPage } from './pages/AdminPage';
