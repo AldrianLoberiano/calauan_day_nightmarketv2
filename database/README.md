@@ -63,6 +63,7 @@ Single-row counter for generating sequential reservation numbers.
 
 ---
 
+## Stall Layout (277 total)
 
 | Section | Stall IDs | Count |
 |---------|-----------|-------|
