@@ -153,6 +153,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
         opacity: stall ? 1 : 0.5,
         outline: stall && selectedStallId === stall.id ? '2.5px solid #3b82f6' : 'none',
         outlineOffset: stall && selectedStallId === stall.id ? 1 : 0,
+        transform: stall && selectedStallId === stall.id ? 'scale(1.15)' : undefined,
       }}
     >{label}</button>
   );
