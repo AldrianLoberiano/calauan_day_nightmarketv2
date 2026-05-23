@@ -58,7 +58,6 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
   const expired    = isExpired(reservation.expiresAt);
   const cfg        = STATUS[reservation.status] ?? STATUS.rejected;
 
-
   return (
     <div className="rounded-2xl overflow-hidden shadow-sm border border-slate-200 bg-white transition-all hover:shadow-md">
 
