@@ -102,7 +102,6 @@ pwesto_reservation_counter → integer counter
 
 ---
 
-## 🔐 Default Admin Credentials
 
 ```
 Username : admin
