@@ -158,6 +158,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
         boxShadow: stall && selectedStallId === stall.id ? '0 0 8px rgba(59,130,246,0.5)' : '0 1px 2px rgba(0,0,0,0.15)',
         transition: 'transform 0.1s, box-shadow 0.1s',
       }}
+      onMouseEnter={e=>{ if(stall && selectedStallId !== stall.id){ e.currentTarget.style.transform='scale(1.08)'; e.currentTarget.style.zIndex='10'; }}}
     >{label}</button>
   );
 
