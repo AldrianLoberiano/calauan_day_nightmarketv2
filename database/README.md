@@ -122,7 +122,6 @@ Example: RES-2026-0001
 
 Reservations expire **3 days** after creation if not processed at the BPLO Office.
 
-## 🛠️ Feature Enhancements
 ## Feature Enhancements
 - Add `applicant_email` to `reservations` for email notifications.
 - Implement password hashing for 'admin users' in production.
