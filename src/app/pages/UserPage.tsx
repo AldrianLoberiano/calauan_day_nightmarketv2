@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Info, Search, ChevronDown, Store, MapPin, Clock, ShieldCheck, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Info, Search, ChevronDown, Store, MapPin, Clock, ShieldCheck } from 'lucide-react';
 import { Stall, Reservation } from '../types';
 const headerImage = new URL('../components/public/header1.png', import.meta.url).href;
 const bploLogo = new URL('../components/public/bplo-modified.png', import.meta.url).href;
@@ -16,7 +16,6 @@ export function UserPage() {
   const [receiptData, setReceiptData] = useState<{ reservation: Reservation; stall: Stall } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [now, setNow] = useState(new Date());
-  const [showFullMap, setShowFullMap] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCategory, setFilterCategory] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
@@ -380,64 +379,6 @@ export function UserPage() {
           stall={receiptData.stall}
           onClose={() => { setReceiptData(null); void loadStalls(); }}
         />
-      )}
-      {showFullMap && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/60" onClick={() => setShowFullMap(false)} />
-          <div className="relative w-full max-w-6xl bg-white rounded-2xl shadow-xl overflow-hidden">
-            <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100">
-              <div>
-                <h3 className="text-sm font-bold text-slate-800">Full Stall Map</h3>
-                <p className="text-[11px] text-slate-500">Click a stall to view details.</p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowFullMap(false)}
-                className="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-slate-200 text-slate-500 hover:text-slate-700 hover:bg-slate-50 transition-colors"
-                aria-label="Close full map"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-            <div className="max-h-[80vh] overflow-auto">
-              <StallMap
-                stalls={stalls}
-                onStallClick={handleStallClick}
-                selectedStallId={selectedStall?.id}
-                maxHeight="80vh"
-              />
-            </div>
-          </div>
-        </div>
-      )}
-      {showFullMap && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="absolute inset-0 bg-black/60" onClick={() => setShowFullMap(false)} />
-          <div className="relative w-full h-full bg-white shadow-xl overflow-hidden">
-            <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100">
-              <div>
-                <h3 className="text-sm font-bold text-slate-800">Full Stall Map</h3>
-                <p className="text-[11px] text-slate-500">Use scroll and zoom controls to navigate.</p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowFullMap(false)}
-                className="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-slate-200 text-slate-500 hover:text-slate-700 hover:bg-slate-50 transition-colors"
-                aria-label="Close full map"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-            <div className="h-[calc(100vh-52px)] overflow-auto">
-              <StallMap
-                stalls={stalls}
-                onStallClick={handleStallClick}
-                selectedStallId={selectedStall?.id}
-                maxHeight="calc(100vh - 52px)"
-              />
-            </div>
-          </div>
-        </div>
       )}
     </div>
   );
