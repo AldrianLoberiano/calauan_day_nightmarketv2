@@ -59,7 +59,6 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
   const cfg        = STATUS[reservation.status] ?? STATUS.rejected;
 
   }
-
   async function handleMarkOccupied() {
     setIsProcessing(true);
     await new Promise(r => setTimeout(r, 600));
