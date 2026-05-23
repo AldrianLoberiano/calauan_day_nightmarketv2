@@ -135,7 +135,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   const CS = ({ stall, label }: { stall?: Stall; label: string }) => (
     <button
       onClick={()=>{ if (stall) onStallClick(stall); }}
-      title={stall ? `Corner ${label} · ${stall.status}` : `Corner ${label}`}
       style={{
         width:22,
         height:19,
