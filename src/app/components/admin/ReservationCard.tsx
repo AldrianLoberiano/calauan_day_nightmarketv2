@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   User, MapPin, Calendar, ChevronRight
 } from 'lucide-react';
