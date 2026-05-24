@@ -87,6 +87,7 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
 
       {/* ── Ticket perforation line ──────────────────────────── */}
       <div className="relative flex items-center">
+        <div className={`w-3 h-3 rounded-full -ml-1.5 ${cfg.headerBg} border-2 border-white z-10`} />
       </div>
 
       {/* ── White body ──────────────────────────────────────── */}
