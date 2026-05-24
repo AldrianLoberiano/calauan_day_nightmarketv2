@@ -280,7 +280,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                   fontSize:20, fontWeight:'bold', color:'#555', background:'#fff' }}>5</div>
               </div>
 
-                  <HR ss={topOutLLeft} w={20} h={15}/>
                   <div style={{ display:'flex', gap:1 }}>
                     {topOutLRight.map((slot, idx) => (
                       idx === 0 ? (
