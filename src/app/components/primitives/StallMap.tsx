@@ -62,7 +62,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   const topOutLSlots = makeRangeSlots('C', 168, 37);
   const topOutLLeft = topOutLSlots.slice(0, 18);
   const topOutLRight = topOutLSlots.slice(18);
-  const inTopSlots = makeRangeSlots('D', 205, 39);
+  const inTopSlots = makeRangeSlots('D', 205, 35);
   const inTopLeft = inTopSlots.slice(0, 19);
   const inTopRight = inTopSlots.slice(19);
   const lOut = makeDirectionalSlots('AA', 92, 42, 'bottom');
@@ -95,7 +95,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   const cCLabels = ['BB31','BB32','BB33','BB34'];
   const cCOffsetX = -20;
   const cornerLabel = (labels: string[], idx: number, fallback: string) => labels[idx] ?? fallback;
-  const cD = ['D1','D2','D3','D4','D5','D6'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
+  const cD = ['D1','D2','D3','D4'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
 
   const statusColor: Record<string,string> = {
     available:'#22c55e', pending:'#facc15', reserved:'#ef4444', occupied:'#6b7280'
@@ -245,8 +245,8 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                 <line key={`vm${i}`} x1={x} y1="3%" x2={x} y2="97%" stroke="#35d3de" strokeWidth={i?1.5:2.5} opacity={i?0.3:0.45}/>
               ))}
               {/* Inner walkway */}
-              <rect x="5.5%" y="20%" width="53%" height="70.5%" rx="8" fill="none" stroke="#000000" strokeWidth="1" opacity="5"/>
-              <rect x="5.5%" y="20%" width="53%" height="70.5%" rx="8" fill="none" stroke="#000000" strokeWidth="1" opacity="5"/>
+              <rect x="5.5%" y="20%" width="50%" height="70.5%" rx="8" fill="none" stroke="#000000" strokeWidth="1" opacity="5"/>
+              <rect x="5.5%" y="20%" width="50%" height="70.5%" rx="8" fill="none" stroke="#000000" strokeWidth="1" opacity="5"/>
             </svg>
 
             <div style={{ position:'relative', zIndex:2, padding:'12px 14px' }}>
@@ -324,7 +324,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                       )
                     ))}
                   </div>
-                  <div style={{ display:'flex', gap:-8, marginLeft:15, marginRight:10, marginTop:-35, alignItems:'flex-end', transform:'rotate(50deg)', transformOrigin:'left bottom' }}>
+                  <div style={{ display:'flex', gap:-8, marginLeft:8, marginRight:5, marginTop:-20, alignItems:'flex-end', transform:'rotate(30deg)', transformOrigin:'left bottom' }}>
                     {cD.map((s, idx) => {
                       const t = idx - (cD.length - 1) / 2;
                       const offsetY = 0 + (t * t) * 2.4;
