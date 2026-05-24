@@ -100,6 +100,7 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
             <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
               <User className="w-3 h-3 text-slate-500" />
             </div>
+            <span className="text-xs font-semibold text-slate-700 truncate">{reservation.fullName}</span>
           </div>
 
           {reservation.status === 'pending' && (
