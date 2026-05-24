@@ -92,6 +92,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   ];
   const cC = ['C1','C2','C3','C4'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
   const cCLabels = ['BB31','BB32','BB33','BB34'];
+  const cCOffsetX = -20;
   const cornerLabel = (labels: string[], idx: number, fallback: string) => labels[idx] ?? fallback;
   const cD = ['D1','D2','D3','D4','D5','D6'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
 
