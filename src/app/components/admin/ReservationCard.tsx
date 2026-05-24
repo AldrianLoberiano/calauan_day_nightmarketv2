@@ -98,6 +98,7 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-1.5 min-w-0">
             <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
+              <User className="w-3 h-3 text-slate-500" />
             </div>
             <span className="text-sm font-semibold text-slate-700 truncate">{reservation.fullName}</span>
           </div>
