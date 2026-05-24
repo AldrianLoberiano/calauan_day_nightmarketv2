@@ -118,6 +118,7 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
 
         {/* Date */}
         <div className="flex items-center gap-1 mt-1.5 mb-1">
+          <Calendar className="w-2.5 h-2.5 text-slate-300 shrink-0" />
         </div>
       </div>
 
