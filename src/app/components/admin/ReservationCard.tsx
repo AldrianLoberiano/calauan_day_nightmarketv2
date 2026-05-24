@@ -93,7 +93,6 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
       </div>
 
       {/* ── White body ──────────────────────────────────────── */}
-      <div className="px-4 pt-3 pb-1">
         {/* Applicant + expiry */}
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 min-w-0">
