@@ -62,7 +62,6 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
     <div className="rounded-xl overflow-hidden border border-slate-200 bg-white">
 
       {/* ── Colored ticket header ───────────────────────────── */}
-      <div className={`${cfg.headerBg} px-4 pt-4 pb-5 relative`}>
         {/* dot pattern overlay for texture */}
         <div
           className="absolute inset-0 opacity-10"
