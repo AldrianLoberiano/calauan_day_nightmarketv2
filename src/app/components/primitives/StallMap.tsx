@@ -183,6 +183,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   // Left paired rows
   const aaTopOffset = -100;
   const aaColumnSlots = lOut;
+  const bbColumnSlots = lIn;
   const leftColumnRows = Math.max(aaColumnSlots.length, bbColumnSlots.length);
 
 
