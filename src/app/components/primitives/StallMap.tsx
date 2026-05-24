@@ -96,6 +96,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   const cCOffsetX = -20;
   const cornerLabel = (labels: string[], idx: number, fallback: string) => labels[idx] ?? fallback;
   const cD = ['D1','D2','D3','D4'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
+  const cDExtra = ['D36','D37','D38','D39'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
 
   const statusColor: Record<string,string> = {
     available:'#22c55e', pending:'#facc15', reserved:'#ef4444', occupied:'#6b7280'
@@ -351,6 +352,20 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                         </div>
                       );
                     })}
+                    {cDExtra.length > 0 && (
+                      <div style={{ display:'flex', gap:-8, marginLeft:3, marginTop:-6, alignItems:'flex-end', transform:'rotate(-5deg)', transformOrigin:'left bottom' }}>
+                        {cDExtra.map((s, idx) => {
+                          const t = idx - (cDExtra.length - 1) / 2;
+                          const offsetY = 0 + (t * t) * 2.4;
+                          const offsetX = 0;
+                          return (
+                            <div key={s.id} style={{ transform:`translate(${offsetX}px, ${offsetY}px) rotate(${t * 10.5}deg)`, transformOrigin:'50% 80%' }}>
+                              <CS stall={s} label={s.id} />
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div style={{ width:350, flexShrink:0 }}/>
