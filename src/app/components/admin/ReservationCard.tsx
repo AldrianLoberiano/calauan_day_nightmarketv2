@@ -72,7 +72,6 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
               {reservation.reservationNumber}
             </h3>
           </div>
-          <span className={`text-xs font-bold px-3 py-1.5 rounded-full shadow-sm shrink-0 mt-0.5 ${cfg.badge}`}>
             {cfg.badgeText}
           </span>
         </div>
