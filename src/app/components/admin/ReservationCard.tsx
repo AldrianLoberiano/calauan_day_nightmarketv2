@@ -96,7 +96,6 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
       <div className="px-3 pt-2 pb-1">
         {/* Applicant + expiry */}
         <div className="flex items-center justify-between gap-2">
-              <User className="w-3.5 h-3.5 text-slate-500" />
             </div>
             <span className="text-sm font-semibold text-slate-700 truncate">{reservation.fullName}</span>
           </div>
