@@ -71,6 +71,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   const lBot = bbSlots.slice(30).reverse(); // BB31–BB34
   const inBot = makeRangeSlots('B', 48, 40).reverse();
   const outBL = makeRangeSlots('A', 1, 47).reverse();
+  const hiddenNumericIds = new Set([88, 89, 90, 91]);
 
   const remaining = numericStalls
     .filter((stall) => {
