@@ -126,7 +126,6 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
       {/* ── Expand toggle ───────────────────────────────────── */}
       <button
         onClick={onView}
-        className="w-full flex items-center justify-between px-4 py-2.5 bg-slate-50 border-t border-slate-100 text-xs font-semibold text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-colors"
       >
         <span>View Details</span>
         <ChevronRight className="w-4 h-4" />
