@@ -95,6 +95,8 @@ function getStatusForStall(num) {
 }
 
 function getCategoryForStall(num) {
+  // Treat the 'C' and 'D' directories (numeric IDs 168-243) as Non-Food
+  if (Number.isFinite(num) && num >= 168 && num <= 243) return 'Non-Food';
   return categoryOrder[(num - 1) % categoryOrder.length];
 }
 
