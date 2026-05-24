@@ -78,6 +78,7 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
         </div>
 
         {/* Stall info inside header */}
+        <div className={`mt-2 flex items-center gap-1 text-xs font-semibold ${cfg.headerText}`}>
           <span>Stall {getDisplayStallId(reservation.stallId)}</span>
           {stall && <span className={`font-normal text-xs ${cfg.subText}`}>— {stall.category}</span>}
         </div>
