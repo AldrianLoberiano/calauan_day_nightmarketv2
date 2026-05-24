@@ -183,7 +183,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   // Left paired rows
   const aaTopOffset = -100;
   const aaColumnSlots = lOut;
-  // lBot (BB31-BB34) are rendered in the curved arc via the slot system below
   const bbColumnSlots = [...lIn, ...lBot];
   const leftColumnRows = Math.max(aaColumnSlots.length, bbColumnSlots.length);
 
