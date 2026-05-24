@@ -78,7 +78,6 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
         </div>
 
         {/* Stall info inside header */}
-          <MapPin className="w-3.5 h-3.5 opacity-80 shrink-0" />
           <span>Stall {getDisplayStallId(reservation.stallId)}</span>
           {stall && <span className={`font-normal text-xs ${cfg.subText}`}>— {stall.category}</span>}
         </div>
