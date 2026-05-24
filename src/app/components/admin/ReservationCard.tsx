@@ -62,7 +62,6 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
     <div className="rounded-xl overflow-hidden border border-slate-200 bg-white">
 
       {/* ── Colored ticket header ───────────────────────────── */}
-        />
 
         <div className="relative flex items-start justify-between gap-2">
           <div>
