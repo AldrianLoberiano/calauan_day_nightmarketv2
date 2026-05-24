@@ -65,6 +65,7 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
       <div className={`${cfg.headerBg} px-3 pt-3 pb-3 relative`}>
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
+            <p className={`text-[9px] font-bold uppercase tracking-widest ${cfg.subText} mb-0.5`}>
               Reservation No.
             </p>
             <h3 className={`text-xl font-black tracking-wider leading-none ${cfg.headerText}`}>
