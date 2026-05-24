@@ -59,7 +59,6 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
   const cfg        = STATUS[reservation.status] ?? STATUS.rejected;
 
   return (
-    <div className="rounded-2xl overflow-hidden shadow-sm border border-slate-200 bg-white transition-all hover:shadow-md">
 
       {/* ── Colored ticket header ───────────────────────────── */}
       <div className={`${cfg.headerBg} px-4 pt-4 pb-5 relative`}>
