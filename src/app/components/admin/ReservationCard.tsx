@@ -62,6 +62,7 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
     <div className="rounded-xl overflow-hidden border border-slate-200 bg-white">
 
       {/* ── Colored ticket header ───────────────────────────── */}
+      <div className={`${cfg.headerBg} px-3 pt-3 pb-3 relative`}>
               Reservation No.
             </p>
             <h3 className={`text-xl font-black tracking-wider leading-none ${cfg.headerText}`}>
