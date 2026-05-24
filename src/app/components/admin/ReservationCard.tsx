@@ -81,7 +81,6 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
         <div className={`mt-2 flex items-center gap-1 text-xs font-semibold ${cfg.headerText}`}>
           <MapPin className="w-3 h-3 opacity-80 shrink-0" />
           <span>Stall {getDisplayStallId(reservation.stallId)}</span>
-          {stall && <span className={`font-normal text-xs ${cfg.subText}`}>— {stall.category}</span>}
         </div>
       </div>
 
