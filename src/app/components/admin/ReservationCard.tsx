@@ -104,6 +104,7 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
           </div>
 
           {reservation.status === 'pending' && (
+            <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0 ${
               expired
                 ? 'bg-red-100 text-red-600'
                 : daysLeft <= 1
