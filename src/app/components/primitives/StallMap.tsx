@@ -280,7 +280,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                   fontSize:20, fontWeight:'bold', color:'#555', background:'#fff' }}>5</div>
               </div>
 
-                          <div style={{ position:'absolute', inset:0, display:'flex', alignItems:'flex-start', justifyContent:'center', zIndex:6, pointerEvents:'none', marginTop:-25, transform:'translateY(-6px)' }}>
                             <CL t="C"/>
                           </div>
                         </div>
