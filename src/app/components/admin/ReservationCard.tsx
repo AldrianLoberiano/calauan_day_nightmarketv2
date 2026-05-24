@@ -62,7 +62,6 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
     <div className="rounded-xl overflow-hidden border border-slate-200 bg-white">
 
       {/* ── Colored ticket header ───────────────────────────── */}
-          className="absolute inset-0 opacity-10"
           style={{
             backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
             backgroundSize: '14px 14px',
