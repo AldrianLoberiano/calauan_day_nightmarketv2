@@ -117,7 +117,6 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
         </div>
 
         {/* Date */}
-        <div className="flex items-center gap-1.5 mt-3 mb-1">
           <span className="text-[11px] text-slate-400">Created: {formatDate(reservation.createdAt)}</span>
         </div>
       </div>
