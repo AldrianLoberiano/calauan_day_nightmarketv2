@@ -68,7 +68,6 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
             <p className={`text-[9px] font-bold uppercase tracking-widest ${cfg.subText} mb-0.5`}>
               Reservation No.
             </p>
-            <h3 className={`text-xl font-black tracking-wider leading-none ${cfg.headerText}`}>
               {reservation.reservationNumber}
             </h3>
           </div>
