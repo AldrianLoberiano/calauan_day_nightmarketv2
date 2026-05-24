@@ -280,7 +280,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                   fontSize:20, fontWeight:'bold', color:'#555', background:'#fff' }}>5</div>
               </div>
 
-              </div>
 
               {/* INNER TOP ROW (with C/D) */}
               <div style={{ display:'flex', gap:0, marginBottom:2, position:'relative', zIndex:5 }}>
