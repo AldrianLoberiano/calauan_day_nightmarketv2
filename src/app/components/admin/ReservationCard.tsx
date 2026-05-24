@@ -117,7 +117,6 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
         </div>
 
         {/* Date */}
-          <span className="text-[11px] text-slate-400">Created: {formatDate(reservation.createdAt)}</span>
         </div>
       </div>
 
