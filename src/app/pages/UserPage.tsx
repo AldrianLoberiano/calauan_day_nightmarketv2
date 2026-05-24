@@ -90,7 +90,6 @@ export function UserPage() {
   const directoryOrder = [
     ...directoryLayout.map(group => group.label),
     ...(cornerStalls.length ? ['Corner'] : []),
-    ...(unassigned.length ? ['Other'] : []),
   ];
   const groupedDirectory = directoryOrder
     .map((label) => {
@@ -108,9 +107,6 @@ export function UserPage() {
         })
         .map((stall) => {
           if (label === 'Corner') {
-            return { stall, displayId: stall.id };
-          }
-          if (label === 'Other') {
             return { stall, displayId: stall.id };
           }
           const meta = directoryAssignment.get(stall.id);
