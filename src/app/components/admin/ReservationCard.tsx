@@ -117,6 +117,7 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
         </div>
 
         {/* Date */}
+        <div className="flex items-center gap-1 mt-1.5 mb-1">
         </div>
       </div>
 
