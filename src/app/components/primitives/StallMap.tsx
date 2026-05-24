@@ -280,7 +280,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                   fontSize:20, fontWeight:'bold', color:'#555', background:'#fff' }}>5</div>
               </div>
 
-                    ))}
                   </div>
                 </div>
                 <div style={{ marginLeft:10, transform:'translateX(110px)' }}>
