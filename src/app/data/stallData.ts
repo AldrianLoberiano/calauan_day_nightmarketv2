@@ -140,7 +140,6 @@ export function generateInitialStalls(): Stall[] {
     { section: 'Corner A', prefix: 'A', count: 5 },
     { section: 'Corner B', prefix: 'B', count: 4 },
     { section: 'Corner C', prefix: 'C', count: 4 },
-    { section: 'Corner D', prefix: 'D', count: 6 },
   ];
 
   let cornerSeed = 1000;
@@ -162,6 +161,25 @@ export function generateInitialStalls(): Stall[] {
         reservationId: undefined,
       });
     }
+  }
+
+  const cornerDIds = ['D36', 'D37', 'D38', 'D39'];
+  for (let i = 0; i < cornerDIds.length; i++) {
+    const category: StallCategory = 'General Merchandise';
+    const status = getStatusForStall(cornerSeed++);
+
+    stalls.push({
+      id: cornerDIds[i],
+      section: 'Corner D',
+      number: 0,
+      status,
+      price: priceBySize.corner,
+      size: 'corner',
+      category,
+      description: getDescriptionForStall(i + 1, category),
+      image: categoryImages[category],
+      reservationId: undefined,
+    });
   }
 
   return stalls;
