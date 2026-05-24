@@ -166,11 +166,19 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   );
 
   // Corner marker circle
-  const CL = ({ t }: { t: string }) => (
-    <div style={{ width:28, height:28, borderRadius:'50%', border:'3px solid #dc2626', background:'#fff',
-      color:'#dc2626', fontWeight:900, fontSize:13, display:'inline-flex', alignItems:'center',
-      justifyContent:'center', flexShrink:0, boxShadow:'0 1px 3px rgba(0,0,0,0.2)' }}>{t}</div>
-  );
+  const CL = ({ t }: { t: string }) => {
+    const extraStyle: React.CSSProperties = {};
+    if (t === 'G') {
+      extraStyle.transform = 'translateY(36px) translateX(6px) rotate(-18deg)';
+      extraStyle.transformOrigin = 'center';
+      extraStyle.zIndex = 5;
+    }
+    return (
+      <div style={{ width:28, height:28, borderRadius:'50%', border:'3px solid #dc2626', background:'#fff',
+        color:'#dc2626', fontWeight:900, fontSize:13, display:'inline-flex', alignItems:'center',
+        justifyContent:'center', flexShrink:0, boxShadow:'0 1px 3px rgba(0,0,0,0.2)', ...extraStyle }}>{t}</div>
+    );
+  };
 
   // Helpers
   const HR = ({ ss, w, h }: { ss: StallSlot[]; w: number; h: number }) => (
@@ -283,8 +291,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               <div style={{ display:'flex', gap:8, marginBottom:2, alignItems:'center', marginLeft:120 }}>
                 <div style={{ display:'flex', alignItems:'center', gap:8 }}>
                   <CL t="C" />
-                  <div style={{ width:6 }} />
-                  <CL t="G" />
                 </div>
                 <HR ss={topOutLSlots} w={20} h={15} />
               </div>
@@ -459,6 +465,9 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                         </div>
                       );
                     })}
+                    <div style={{ position:'absolute', left: '-1%', top: '-70%', transform: 'translate(-40px, 78px) rotate(200deg)', zIndex:7 }}>
+                      <CL t="G" />
+                    </div>
                   </div>
                   <div style={{ width:28, flexShrink:0 }} />
                 </div>
