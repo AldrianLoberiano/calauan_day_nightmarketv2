@@ -76,7 +76,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   const remaining = numericStalls
     .filter((stall) => {
       const numericId = Number(stall.id);
-      return Number.isFinite(numericId) && !usedIds.has(numericId);
     })
     .sort((a, b) => Number(a.id) - Number(b.id));
   const topOutR = makeListSlots(remaining, 25);
