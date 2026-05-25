@@ -77,6 +77,7 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
             <InfoTile icon={<Tag className="w-4 h-4 text-blue-600" />} label="Monthly Rent" value={formatPeso(stall.price)} />
             <InfoTile icon={<Ruler className="w-4 h-4 text-blue-600" />} label="Size" value={sizeLabel[stall.size]} />
             <InfoTile icon={<MapPin className="w-4 h-4 text-blue-600" />} label="Location" value={locationLabel} />
+            <InfoTile icon={<ShoppingBag className="w-4 h-4 text-blue-600" />} label="Type" value={getDisplayCategoryById(stall.id, stall.category)} />
           </div>
 
           <p className="text-sm text-slate-600 leading-relaxed mb-4">{stall.description}</p>
