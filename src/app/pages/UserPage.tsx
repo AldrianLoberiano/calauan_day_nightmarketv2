@@ -117,7 +117,6 @@ export function UserPage() {
           if (!meta) {
             return { stall, displayId: stall.id };
           }
-          return { stall, displayId: `${label}${meta?.index ?? ''}` };
         });
 
       return { label, items };
