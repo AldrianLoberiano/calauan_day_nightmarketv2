@@ -245,7 +245,6 @@ app.post('/api/reservations', async (req, res, next) => {
 
     // determine stall section so counters are per-section
     const [stallInfoRows] = await connection.query('SELECT section FROM stalls WHERE id = ? FOR UPDATE', [payload.stallId]);
-    const section = stallInfoRows[0]?.section || 'X';
     const reservationNumber = await nextReservationNumberBySection(connection, section);
     const reservationId = crypto.randomUUID();
 
