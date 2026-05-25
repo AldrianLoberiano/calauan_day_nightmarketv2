@@ -33,6 +33,7 @@ export function UserPage() {
     // Subscribe to server-sent events for realtime updates
     const es = new EventSource('/api/events');
     const reload = () => { void loadStalls(); };
+    es.addEventListener('reservation-created', reload as EventListener);
     const interval = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(interval);
   }, []);
