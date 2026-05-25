@@ -104,7 +104,8 @@ export function ReservationDetailsModal({
     onUpdate();
   }
 
-  async function handleSaveChanges() {
+  async function handleSaveChanges(e?: React.FormEvent) {
+    try { e?.preventDefault?.(); } catch (err) {}
     setIsProcessing(true);
     const updated: Reservation = {
       ...editData,
@@ -271,31 +272,8 @@ export function ReservationDetailsModal({
                     className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
                   />
                 </div>
-                <div className="sm:col-span-2">
-                  <label className="block text-xs font-semibold text-slate-600">Admin Notes</label>
-                  <textarea
-                    required
-                    value={editData.adminNotes ?? ''}
-                    onChange={(e) => setEditData({ ...editData, adminNotes: e.target.value })}
-                    rows={2}
-                    className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
-                  />
-                </div>
-                <div className="sm:col-span-2 flex gap-2 pt-1">
-                  <button
-                    type="button"
-                    onClick={() => setIsEditing(false)}
-                    className="flex-1 border border-slate-300 text-slate-700 hover:bg-slate-50 text-xs font-bold py-2.5 rounded-xl transition-colors"
-                  >
-                    Cancel Edit
-                  </button>
-                  <button
-                    type="submit"
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2.5 rounded-xl transition-colors"
-                  >
-                    Save Changes
-                  </button>
-                </div>
+                {/* Admin Notes removed per request */}
+                {/* Inline form actions removed — use Admin Actions Save/Cancel controls */}
               </form>
             ) : (
               <>
@@ -330,11 +308,7 @@ export function ReservationDetailsModal({
             )}
           </div>
 
-          {reservation.adminNotes && (
-            <div className="bg-slate-50 rounded-xl p-3 text-sm text-slate-600 border border-slate-200">
-              <strong className="text-slate-700">Notes:</strong> {reservation.adminNotes}
-            </div>
-          )}
+          {/* Admin Notes display removed per request */}
 
           {/* Verification QR removed per admin preference */}
 
