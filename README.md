@@ -123,3 +123,11 @@ If you see `ECONNRESET` or the EventSource disconnects frequently in development
 
 1. Set `VITE_API_URL` to the backend origin and restart frontend so EventSource connects directly:
 
+```powershell
+$env:VITE_API_URL='http://localhost:5174'
+npm run dev
+```
+
+2. Otherwise, check `vite.config.ts` — the dev proxy is configured with `timeout: 0`, `proxyTimeout: 0`, and `Connection: keep-alive` to better support SSE.
+
+3. Verify the backend logs for SSE connect/disconnect and the `/api/health/details` output.
