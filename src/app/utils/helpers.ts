@@ -105,6 +105,7 @@ export function getDisplaySectionById(stallId: string, fallbackSection: string):
 
   const numericId = Number(stallId);
   if (numericId >= 1 && numericId <= 47) return 'A';
+  if (numericId >= 48 && numericId <= 91) return 'B';
 export function getCornerDisplayStallId(stallId: string): string {
   return getDisplayStallId(stallId);
 }
