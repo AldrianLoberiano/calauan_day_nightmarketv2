@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   X, User, Phone, MapPin, Clock, Building2, CheckCircle,
-  XCircle, Package, Calendar, ShieldCheck, Tag, AlertCircle
+  XCircle, Package, Calendar, ShieldCheck, Tag
 } from 'lucide-react';
 import { Reservation, Stall } from '../../types';
 import { formatDate, getDaysRemaining, isExpired, getDisplayStallId } from '../../utils/helpers';
@@ -79,6 +79,14 @@ export function ReservationDetailsModal({
   const expired = isExpired(reservation.expiresAt);
   const cfg = STATUS[reservation.status] ?? STATUS.rejected;
 
+  async function handleMarkOccupied() {
+    setIsProcessing(true);
+    await new Promise(r => setTimeout(r, 600));
+    await markAsOccupied(reservation.id);
+    setIsProcessing(false);
+    onUpdate();
+  }
+
   async function handleApprove() {
     setIsProcessing(true);
     await new Promise(r => setTimeout(r, 600));
@@ -93,14 +101,6 @@ export function ReservationDetailsModal({
     await rejectReservation(reservation.id, rejectNotes || 'Rejected by admin.');
     setIsProcessing(false);
     setShowRejectForm(false);
-    onUpdate();
-  }
-
-  async function handleMarkOccupied() {
-    setIsProcessing(true);
-    await new Promise(r => setTimeout(r, 600));
-    await markAsOccupied(reservation.id);
-    setIsProcessing(false);
     onUpdate();
   }
 
@@ -265,12 +265,19 @@ export function ReservationDetailsModal({
                 </div>
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-slate-600">Price</label>
-                  <input
+                  <select
                     required
-                    value={editData.price ?? ''}
-                    onChange={(e) => setEditData({ ...editData, price: e.target.value })}
-                    className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
-                  />
+                    value={(editData.price ?? '').toString()}
+                    onChange={(e) => setEditData({ ...editData, price: Number(e.target.value) })}
+                    className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white"
+                  >
+                    <option value="">Select price</option>
+                    <option value="1000">₱1,000</option>
+                    <option value="2000">₱2,000</option>
+                    <option value="3000">₱3,000</option>
+                    <option value="4000">₱4,000</option>
+                    <option value="5000">₱5,000</option>
+                  </select>
                 </div>
                 {/* Admin Notes removed per request */}
                 {/* Inline form actions removed — use Admin Actions Save/Cancel controls */}
@@ -393,8 +400,7 @@ export function ReservationDetailsModal({
           {showRejectForm && reservation.status === 'pending' && (
             <div className="bg-red-50 border border-red-200 rounded-xl p-3">
               <div className="flex items-center gap-1.5 mb-2">
-                <AlertCircle className="w-3.5 h-3.5 text-red-500" />
-                <p className="text-xs font-bold text-red-700">Rejection Reason (optional)</p>
+                <p className="text-xs font-bold text-red-700">Confirm rejection</p>
               </div>
               <textarea
                 value={rejectNotes}
@@ -419,6 +425,7 @@ export function ReservationDetailsModal({
               </div>
             </div>
           )}
+
         </div>
       </div>
       {showDeleteConfirm && (
