@@ -32,6 +32,7 @@ export function UserPage() {
 
     // Subscribe to server-sent events for realtime updates
     const apiBase = (import.meta.env.VITE_API_URL ?? '/api').replace(/\/$/, '');
+    const eventsUrl = `${apiBase}/events`;
     const reload = () => { void loadStalls(); };
     es.addEventListener('reservation-created', reload as EventListener);
     es.addEventListener('reservation-updated', reload as EventListener);
