@@ -67,6 +67,7 @@ function mapReservation(row) {
     address: row.address,
     status: row.status,
     adminNotes: row.admin_notes,
+    price: row.stall_price != null ? Number(row.stall_price) : undefined,
     createdAt: row.created_at,
     expiresAt: row.expires_at,
     updatedAt: row.updated_at,
@@ -343,7 +344,11 @@ app.put('/api/stalls/:id', async (req, res, next) => {
 app.get('/api/reservations', async (req, res, next) => {
   try {
     await expireReservations();
-    const [rows] = await pool.query('SELECT * FROM reservations');
+    const [rows] = await pool.query(
+      `SELECT r.*, s.price AS stall_price
+       FROM reservations r
+       LEFT JOIN stalls s ON s.id = r.stall_id`
+    );
     res.json(rows.map(mapReservation));
   } catch (err) {
     next(err);
@@ -352,7 +357,13 @@ app.get('/api/reservations', async (req, res, next) => {
 
 app.get('/api/reservations/:id', async (req, res, next) => {
   try {
-    const [rows] = await pool.query('SELECT * FROM reservations WHERE id = ?', [req.params.id]);
+    const [rows] = await pool.query(
+      `SELECT r.*, s.price AS stall_price
+       FROM reservations r
+       LEFT JOIN stalls s ON s.id = r.stall_id
+       WHERE r.id = ?`,
+      [req.params.id]
+    );
     if (rows.length === 0) return res.status(404).json({ message: 'Reservation not found' });
     res.json(mapReservation(rows[0]));
   } catch (err) {
@@ -412,6 +423,8 @@ app.post('/api/reservations', async (req, res, next) => {
 
     const createdReservation = mapReservation(reservationRows[0]);
     const createdStall = mapStall(stallRows[0]);
+    // ensure reservation DTO includes the stall price on create
+    if (createdStall && createdStall.price != null) createdReservation.price = createdStall.price;
 
     // Broadcast to SSE clients
     try { sendSseEvent('reservation-created', { reservation: createdReservation, stall: createdStall }); } catch (e) {}
@@ -497,7 +510,13 @@ app.put('/api/reservations/:id', async (req, res, next) => {
     }
 
     await connection.commit();
-    const [rows] = await pool.query('SELECT * FROM reservations WHERE id = ?', [req.params.id]);
+    const [rows] = await pool.query(
+      `SELECT r.*, s.price AS stall_price
+       FROM reservations r
+       LEFT JOIN stalls s ON s.id = r.stall_id
+       WHERE r.id = ?`,
+      [req.params.id]
+    );
     const updatedReservation = mapReservation(rows[0]);
 
     // try to fetch related stall
@@ -535,7 +554,13 @@ app.post('/api/reservations/:id/approve', async (req, res, next) => {
       [req.params.id]
     );
     await connection.commit();
-    const [rows] = await pool.query('SELECT * FROM reservations WHERE id = ?', [req.params.id]);
+    const [rows] = await pool.query(
+      `SELECT r.*, s.price AS stall_price
+       FROM reservations r
+       LEFT JOIN stalls s ON s.id = r.stall_id
+       WHERE r.id = ?`,
+      [req.params.id]
+    );
     const updatedReservation = mapReservation(rows[0]);
     // fetch stall affected
     let updatedStall = null;
@@ -572,7 +597,13 @@ app.post('/api/reservations/:id/reject', async (req, res, next) => {
       [req.params.id]
     );
     await connection.commit();
-    const [rows] = await pool.query('SELECT * FROM reservations WHERE id = ?', [req.params.id]);
+    const [rows] = await pool.query(
+      `SELECT r.*, s.price AS stall_price
+       FROM reservations r
+       LEFT JOIN stalls s ON s.id = r.stall_id
+       WHERE r.id = ?`,
+      [req.params.id]
+    );
     const updatedReservation = mapReservation(rows[0]);
     let updatedStall = null;
     try {
@@ -607,7 +638,13 @@ app.post('/api/reservations/:id/occupy', async (req, res, next) => {
       [req.params.id]
     );
     await connection.commit();
-    const [rows] = await pool.query('SELECT * FROM reservations WHERE id = ?', [req.params.id]);
+    const [rows] = await pool.query(
+      `SELECT r.*, s.price AS stall_price
+       FROM reservations r
+       LEFT JOIN stalls s ON s.id = r.stall_id
+       WHERE r.id = ?`,
+      [req.params.id]
+    );
     const updatedReservation = mapReservation(rows[0]);
     let updatedStall = null;
     try {
