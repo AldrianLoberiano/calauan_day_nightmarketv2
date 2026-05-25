@@ -80,6 +80,7 @@ export function UserPage() {
     directoryAssignment.set(stall.id, {
       label: group.label,
       index: numericId - group.start + 1,
+      displayStart: group.displayStart,
   }
   const assignedIds = new Set(directoryAssignment.keys());
   const unassigned = numberedStalls
