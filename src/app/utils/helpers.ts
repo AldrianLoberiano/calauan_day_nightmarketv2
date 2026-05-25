@@ -122,3 +122,4 @@ export function getDisplayCategoryById(stallId: string, category: string): strin
   if (!stallId) return category;
   // Treat corner A1-A5 as Non-Food for display purposes
   if (stallId === 'A1' || stallId === 'A2' || stallId === 'A3' || stallId === 'A4' || stallId === 'A5') {
+    return 'Non-Food';
