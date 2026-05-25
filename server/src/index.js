@@ -51,6 +51,7 @@ app.get('/api/events', (req, res) => {
     const id = sseHeartbeats.get(res);
     if (id) clearInterval(id);
     sseHeartbeats.delete(res);
+  });
 });
 
 function mapReservation(row) {
