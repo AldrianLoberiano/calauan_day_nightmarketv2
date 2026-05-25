@@ -309,7 +309,6 @@ export function ReservationDetailsModal({
             </div>
           )}
 
-              className="rounded-lg border border-slate-200 shrink-0"
             />
             <div>
               <p className="text-xs font-bold text-slate-700">Verification QR</p>
