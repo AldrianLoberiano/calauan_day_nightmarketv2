@@ -122,3 +122,4 @@ The frontend expects the API at `http://localhost:5174/api`. You can override th
 If you see `ECONNRESET` or the EventSource disconnects frequently in development:
 
 1. Set `VITE_API_URL` to the backend origin and restart frontend so EventSource connects directly:
+
