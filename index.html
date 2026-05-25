@@ -10,6 +10,7 @@
         // Defensive stub: some Chrome extensions or WebUI injectors expect `Mojo`.
         // This prevents `ReferenceError: Mojo is not defined` from external scripts
         // while having no effect on the app itself.
+        try {
       <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
     </head>
 
