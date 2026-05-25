@@ -125,4 +125,5 @@ export function getDisplayCategoryById(stallId: string, category: string): strin
     return 'Non-Food';
   }
   return category;
+}
 
