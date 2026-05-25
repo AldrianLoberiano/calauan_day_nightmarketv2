@@ -309,7 +309,6 @@ export function ReservationDetailsModal({
             </div>
           )}
 
-              )}&margin=5`}
               alt="QR Code"
               width={72}
               height={72}
