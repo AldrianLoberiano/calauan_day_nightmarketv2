@@ -30,6 +30,7 @@ export function UserPage() {
   useEffect(() => {
     void loadStalls();
 
+    // Subscribe to server-sent events for realtime updates
     const interval = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(interval);
   }, []);
