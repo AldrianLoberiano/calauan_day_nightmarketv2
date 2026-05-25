@@ -119,3 +119,4 @@ export function getCornerDisplayStallId(stallId: string): string {
 }
 
 export function getDisplayCategoryById(stallId: string, category: string): string {
+  if (!stallId) return category;
