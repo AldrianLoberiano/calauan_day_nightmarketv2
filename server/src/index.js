@@ -45,6 +45,7 @@ app.get('/api/events', (req, res) => {
       sseClients.delete(res);
     }
   }, 15000);
+  sseHeartbeats.set(res, hb);
 });
 
 function mapReservation(row) {
