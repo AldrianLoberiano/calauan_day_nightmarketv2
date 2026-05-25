@@ -46,6 +46,7 @@ export function UserPage() {
     return () => {
       clearInterval(interval);
       try { es.close(); } catch (e) {}
+    };
   }, []);
 
   const safeStalls = Array.isArray(stalls) ? stalls : [];
