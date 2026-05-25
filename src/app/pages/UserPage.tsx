@@ -55,7 +55,6 @@ export function UserPage() {
   });
 
   const directoryLayout = [
-    { label: 'BB', start: 134, end: 167 },
     { label: 'C', start: 168, end: 204 },
     { label: 'D', start: 205, end: 243 },
   ];
