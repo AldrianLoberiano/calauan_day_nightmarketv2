@@ -40,6 +40,7 @@ app.get('/api/events', (req, res) => {
   const hb = setInterval(() => {
     try {
       res.write(': heartbeat\n\n');
+    } catch (err) {
 });
 
 function mapReservation(row) {
