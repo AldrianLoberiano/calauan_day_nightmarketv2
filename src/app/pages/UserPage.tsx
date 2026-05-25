@@ -29,6 +29,7 @@ export function UserPage() {
 
   useEffect(() => {
     void loadStalls();
+
     const interval = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(interval);
   }, []);
