@@ -36,6 +36,7 @@ export function UserPage() {
     es.addEventListener('reservation-created', reload as EventListener);
     es.addEventListener('reservation-updated', reload as EventListener);
     es.addEventListener('reservation-deleted', reload as EventListener);
+    es.onerror = () => {
     const interval = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(interval);
   }, []);
