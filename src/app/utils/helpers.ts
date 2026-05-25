@@ -78,7 +78,6 @@ export function capitalize(str: string): string {
 
 export function getDisplayStallId(stallId: string): string {
   if (!stallId) return '';
-  // Display-only remapping: treat corner A1..A5 as G5..G1 (reverse order)
   if (/^A[1-5]$/.test(stallId)) {
     const n = Number(stallId.slice(1));
     return `G${6 - n}`;
