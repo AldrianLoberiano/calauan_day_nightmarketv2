@@ -132,3 +132,4 @@ export function getDisplaySectionByCategory(stallId: string, section: string, ca
   const displayCategory = getDisplayCategoryById(stallId, category);
   if (displayCategory === 'Non-Food') return 'G';
   return getDisplaySectionById(stallId, section);
+}
