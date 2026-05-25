@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   X, User, Phone, MapPin, Clock, Building2, CheckCircle,
   XCircle, Package, Calendar, ShieldCheck, Tag, AlertCircle
@@ -68,6 +68,12 @@ export function ReservationDetailsModal({
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState<Reservation>({ ...reservation });
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  useEffect(() => {
+    if (!isEditing) {
+      setEditData({ ...reservation });
+    }
+  }, [reservation, isEditing]);
 
   const daysLeft = getDaysRemaining(reservation.expiresAt);
   const expired = isExpired(reservation.expiresAt);
@@ -317,7 +323,12 @@ export function ReservationDetailsModal({
 
               <div className="flex gap-2">
                 <button
-                  onClick={() => setIsEditing((prev) => !prev)}
+                  onClick={() => {
+                    if (!isEditing) {
+                      setEditData({ ...reservation });
+                    }
+                    setIsEditing((prev) => !prev);
+                  }}
                   className="flex-1 border border-slate-300 text-slate-700 hover:bg-slate-50 text-xs font-bold py-2.5 rounded-xl transition-colors"
                 >
                   {isEditing ? 'Cancel Edit' : 'Edit'}
