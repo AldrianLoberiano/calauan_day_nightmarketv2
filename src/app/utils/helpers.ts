@@ -124,3 +124,4 @@ export function getDisplayCategoryById(stallId: string, category: string): strin
   if (stallId === 'A1' || stallId === 'A2' || stallId === 'A3' || stallId === 'A4' || stallId === 'A5') {
     return 'Non-Food';
   }
+  return category;
