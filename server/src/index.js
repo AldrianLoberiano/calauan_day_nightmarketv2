@@ -218,6 +218,65 @@ app.get('/api/health', (req, res) => {
   res.json({ ok: true });
 });
 
+// Detailed health endpoint for dev: DB connectivity, counts, SSE client count, memory, uptime
+async function getHealthDetails() {
+  const details = {
+    ok: true,
+    nodeVersion: process.version,
+    pid: process.pid,
+    uptimeSeconds: process.uptime(),
+    memory: process.memoryUsage(),
+    sseClients: sseClients.size,
+    timestamp: new Date().toISOString(),
+  };
+
+  try {
+    // quick DB check
+    await pool.query('SELECT 1');
+    details.db = { ok: true };
+  } catch (e) {
+    details.db = { ok: false, error: String(e) };
+  }
+
+  try {
+    const [stallRows] = await pool.query('SELECT COUNT(*) AS count FROM stalls');
+    details.stalls = stallRows[0]?.count ?? null;
+  } catch (e) {
+    details.stalls = null;
+  }
+
+  try {
+    const [resRows] = await pool.query('SELECT COUNT(*) AS count FROM reservations');
+    details.reservations = resRows[0]?.count ?? null;
+  } catch (e) {
+    details.reservations = null;
+  }
+
+  return details;
+}
+
+app.get('/api/health/details', async (req, res, next) => {
+  try {
+    const d = await getHealthDetails();
+    res.json(d);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Periodic console health log in development for visibility when running dev
+if ((process.env.NODE_ENV || 'development') !== 'production') {
+  setInterval(async () => {
+    try {
+      const d = await getHealthDetails();
+      // pretty-print a compact health line
+      console.log('[HEALTH]', JSON.stringify({ ts: d.timestamp, db: d.db?.ok, stalls: d.stalls, reservations: d.reservations, sseClients: d.sseClients, memRssMB: Math.round(d.memory.rss / 1024 / 1024) }));
+    } catch (e) {
+      console.error('[HEALTH] check failed', e);
+    }
+  }, 30000);
+}
+
 app.get('/api/stalls', async (req, res, next) => {
   try {
     await expireReservations();
