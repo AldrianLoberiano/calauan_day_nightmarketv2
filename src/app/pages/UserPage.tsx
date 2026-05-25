@@ -31,6 +31,7 @@ export function UserPage() {
     void loadStalls();
 
     // Subscribe to server-sent events for realtime updates
+    const es = new EventSource('/api/events');
     const interval = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(interval);
   }, []);
