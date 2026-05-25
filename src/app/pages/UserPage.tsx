@@ -111,6 +111,7 @@ export function UserPage() {
           }
           const meta = directoryAssignment.get(stall.id);
           if (label === 'A' && meta?.index !== undefined && meta.index >= 1 && meta.index <= 5) {
+            return { stall, displayId: `G${6 - meta.index}` };
           }
           return { stall, displayId: `${label}${meta?.index ?? ''}` };
         });
