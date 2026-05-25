@@ -80,6 +80,7 @@ export function getDisplayStallId(stallId: string): string {
   if (!stallId) return '';
   if (stallId === 'C1') return 'BB31';
   if (stallId === 'C2') return 'BB32';
+  if (stallId === 'C3') return 'BB33';
   if (!/^\d+$/.test(stallId)) return stallId;
   const numericId = Number(stallId);
   if (numericId >= 1 && numericId <= 47) return `A${numericId}`;
