@@ -102,6 +102,7 @@ export function getDisplaySectionById(stallId: string, fallbackSection: string):
   if (!stallId) return fallbackSection;
 
   if (!/^\d+$/.test(stallId)) return fallbackSection;
+
 export function getCornerDisplayStallId(stallId: string): string {
   return getDisplayStallId(stallId);
 }
