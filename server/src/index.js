@@ -44,6 +44,7 @@ app.get('/api/events', (req, res) => {
       clearInterval(hb);
       sseClients.delete(res);
     }
+  }, 15000);
 });
 
 function mapReservation(row) {
