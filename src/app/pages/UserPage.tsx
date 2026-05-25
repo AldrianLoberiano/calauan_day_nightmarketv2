@@ -117,6 +117,7 @@ export function UserPage() {
           if (!meta) {
             return { stall, displayId: stall.id };
           }
+          const displayNumber = (meta.displayStart - 1) + meta.index;
         });
 
       return { label, items };
