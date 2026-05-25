@@ -82,6 +82,7 @@ export function getDisplayStallId(stallId: string): string {
   if (/^A[1-5]$/.test(stallId)) {
     const n = Number(stallId.slice(1));
     return `G${6 - n}`;
+  }
   if (stallId === 'C1') return 'BB31';
   if (stallId === 'C2') return 'BB32';
   if (stallId === 'C3') return 'BB33';
