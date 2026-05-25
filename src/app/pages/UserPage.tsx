@@ -70,7 +70,6 @@ export function UserPage() {
     C: '1-37',
     D: '1-39',
   };
-  const directoryAssignment = new Map<string, { label: string; index: number }>();
   const numberedStalls = safeStalls.filter(s => s.number > 0);
   for (const stall of numberedStalls) {
     const numericId = Number(stall.id);
