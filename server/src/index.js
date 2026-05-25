@@ -161,6 +161,7 @@ function normalizeReservationSection(stallId, section) {
     if (numericId >= 205 && numericId <= 243) return 'D';
   }
   return (section || 'X').toString().toUpperCase();
+}
 async function legacyNextReservationNumber(connection, yearOverride) {
   const year = yearOverride ?? new Date().getFullYear();
   // Behave like the previous single-row counter implementation (id=1)
