@@ -448,6 +448,21 @@ app.put('/api/reservations/:id', async (req, res, next) => {
       ]
     );
 
+    // If admin edited the price, persist it to the related stall record
+    if (payload.price != null && payload.stallId) {
+      try {
+        await connection.query(
+          `UPDATE stalls
+           SET price = ?, updated_at = NOW()
+           WHERE id = ?`,
+          [payload.price, payload.stallId]
+        );
+      } catch (e) {
+        // non-fatal here; continue — we'll still commit reservation changes
+        console.warn('Failed to update stall price during reservation update:', e?.message || e);
+      }
+    }
+
     const status = payload.status;
     if (status) {
       if (status === 'rejected') {
