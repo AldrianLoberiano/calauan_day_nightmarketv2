@@ -100,6 +100,7 @@ export function UserPage() {
     .map((label) => {
       const items = filteredStalls
         .filter((stall) => {
+          if (label === 'G') return stall.number === 0;
           const meta = directoryAssignment.get(stall.id);
           return meta?.label === label;
         })
