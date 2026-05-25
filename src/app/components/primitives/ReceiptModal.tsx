@@ -22,6 +22,7 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
   const displayStallId = getDisplayStallId(stall.id);
   const displaySection = getDisplaySectionById(stall.id, stall.section);
   const locationLabel = stall.number > 0
+    ? `Section ${displaySection}, Stall ${displayStallId}`
 
   function handlePrint() {
     const printContents = receiptRef.current?.innerHTML ?? '';
