@@ -309,7 +309,6 @@ export function ReservationDetailsModal({
             </div>
           )}
 
-          </div>
 
           {!isProcessing && (
             <div className="border-t border-slate-100 pt-3 space-y-2">
