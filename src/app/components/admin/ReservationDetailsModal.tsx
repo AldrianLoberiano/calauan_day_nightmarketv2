@@ -309,7 +309,6 @@ export function ReservationDetailsModal({
             </div>
           )}
 
-              src={`https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=${encodeURIComponent(
                 reservation.reservationNumber + '|' + reservation.stallId
               )}&margin=5`}
               alt="QR Code"
