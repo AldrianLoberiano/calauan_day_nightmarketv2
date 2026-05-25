@@ -29,6 +29,7 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
   const displayStallId = getDisplayStallId(stall.id);
   const displaySection = getDisplaySectionById(stall.id, stall.section);
   const locationLabel = stall.number > 0
+    ? `Section ${displaySection}, Stall ${displayStallId}`
 
   return (
     <div
