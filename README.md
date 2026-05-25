@@ -117,3 +117,4 @@ The frontend expects the API at `http://localhost:5174/api`. You can override th
 
 - Admin edits: The Reservation Details edit form now uses native `required` validation for core fields (Full Name, Contact Number, Status, Address, Price, Admin Notes) to prevent accidental saves that would revert a reservation's status (for example, saving an `occupied` reservation back to `approved`).
 
+## Troubleshooting SSE / Dev Proxy
