@@ -35,6 +35,7 @@ export function UserPage() {
     const reload = () => { void loadStalls(); };
     es.addEventListener('reservation-created', reload as EventListener);
     es.addEventListener('reservation-updated', reload as EventListener);
+    es.addEventListener('reservation-deleted', reload as EventListener);
     const interval = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(interval);
   }, []);
