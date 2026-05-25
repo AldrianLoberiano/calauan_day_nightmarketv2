@@ -111,7 +111,6 @@ export function UserPage() {
           return (aMeta?.index ?? 0) - (bMeta?.index ?? 0);
         })
         .map((stall) => {
-            return { stall, displayId: stall.id };
           }
           const meta = directoryAssignment.get(stall.id);
           if (!meta) {
