@@ -112,6 +112,7 @@ export function UserPage() {
         })
         .map((stall) => {
           if (label === 'G') {
+            return { stall, displayId: getDisplayStallId(stall.id) };
           }
           const meta = directoryAssignment.get(stall.id);
           if (!meta) {
