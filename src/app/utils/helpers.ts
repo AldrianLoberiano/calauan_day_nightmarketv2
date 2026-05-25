@@ -78,7 +78,6 @@ export function capitalize(str: string): string {
 
 export function getDisplayStallId(stallId: string): string {
   if (!stallId) return '';
-  if (stallId === 'A1') return 'G1';
   if (stallId === 'A2') return 'G2';
   if (stallId === 'A3') return 'G3';
   if (stallId === 'A4') return 'G4';
