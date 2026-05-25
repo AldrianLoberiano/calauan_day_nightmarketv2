@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { X, Printer, CheckCircle, MapPin, Phone, User, Calendar, Building2, Clock } from 'lucide-react';
+import React from 'react';
+import { X, CheckCircle, MapPin, Phone, User, Calendar, Building2, Clock } from 'lucide-react';
 import { Reservation, Stall } from '../../types';
 import { formatDate, formatPeso, getDisplayStallId, getDisplaySectionByCategory, getDisplayCategoryById } from '../../utils/helpers';
 
@@ -10,15 +10,13 @@ interface ReceiptModalProps {
 }
 
 export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps) {
-  const receiptRef = useRef<HTMLDivElement>(null);
-
   if (!reservation || !stall) return null;
 
+  const activeReservation = reservation;
+  const activeStall = stall;
+
   const reservationNumber = reservation?.reservationNumber ?? 'Reservation';
-  const qrData = encodeURIComponent(
-    `RES:${reservation.reservationNumber}|STALL:${reservation.stallId}|NAME:${reservation.fullName}|TEL:${reservation.contactNumber}`
-  );
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${qrData}&margin=10`;
+  // QR removed per print/plain request
   const displayStallId = getDisplayStallId(stall.id);
   const displaySection = getDisplaySectionByCategory(stall.id, stall.section, stall.category);
   const locationLabel = stall.number > 0
@@ -26,44 +24,102 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
     : `Section ${displaySection}`;
 
   function handlePrint() {
-    const printContents = receiptRef.current?.innerHTML ?? '';
-    const win = window.open('', '_blank');
-    if (!win) return;
-    win.document.write(`
-      <html>
-        <head>
-          <title>Reservation Receipt — ${reservationNumber}</title>
-          <style>
-            body { font-family: Arial, sans-serif; margin: 20px; color: #111; }
-            .receipt { max-width: 500px; margin: auto; border: 2px solid #1d4ed8; border-radius: 12px; padding: 24px; }
-            .header { text-align: center; border-bottom: 2px dashed #93c5fd; padding-bottom: 16px; margin-bottom: 16px; }
-            .title { font-size: 22px; font-weight: bold; color: #1d4ed8; }
-            .res-num { font-size: 28px; font-weight: bold; letter-spacing: 2px; color: #111; margin: 8px 0; }
-            .badge { background: #dcfce7; color: #15803d; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block; }
-            .row { display: flex; justify-content: space-between; margin: 8px 0; font-size: 14px; }
-            .label { color: #6b7280; }
-            .value { font-weight: bold; }
-            .qr { text-align: center; margin: 16px 0; }
-            .notice { background: #eff6ff; border: 1px solid #93c5fd; border-radius: 8px; padding: 12px; font-size: 13px; color: #1e40af; margin-top: 16px; }
-            .footer { text-align: center; color: #9ca3af; font-size: 12px; margin-top: 16px; border-top: 1px dashed #d1d5db; padding-top: 12px; }
-          </style>
-        </head>
-        <body>${printContents}</body>
-      </html>
-    `);
-    win.document.close();
-    win.print();
+    window.print();
   }
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+      className="receipt-modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[95vh] overflow-y-auto">
+      <style>{`
+        @media print {
+          /* Force Bondpaper (Letter) size and tighten margins */
+          @page { size: 8.5in 11in; margin: 12mm; }
+          body { background: #fff !important; }
+
+          /* Hide everything except the modal */
+          body * { visibility: hidden !important; }
+          .receipt-modal-overlay,
+          .receipt-modal-overlay * { visibility: visible !important; }
+
+          /* Make the modal flow as the document body for printing */
+          .receipt-modal-overlay {
+            position: static !important;
+            inset: auto !important;
+            display: block !important;
+            padding: 0 !important;
+            background: #fff !important;
+            backdrop-filter: none !important;
+          }
+
+          /* Expand shell to full page */
+          .receipt-modal-shell {
+            width: 100% !important;
+            max-width: none !important;
+            max-height: none !important;
+            overflow: visible !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            padding: 0 !important;
+          }
+
+          /* Hide header and action buttons to simplify printed output */
+          .receipt-modal-header,
+          .receipt-modal-actions,
+          .receipt-modal-close {
+            display: none !important;
+          }
+
+          /* Compact the printable area */
+          .receipt-modal-printable {
+            padding: 6mm !important;
+            font-size: 11px !important;
+            line-height: 1.35 !important;
+          }
+
+          /* Simplify visual styling for print (black & white) */
+          .receipt-modal-printable * {
+            color: #000 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+          }
+
+          /* Remove icons and decorative elements to save space */
+          .receipt-modal-printable svg,
+          .receipt-modal-printable .w-10,
+          .receipt-modal-printable .rounded-xl {
+            display: none !important;
+          }
+
+          /* Shrink QR and make layout compact to fit a single page */
+          .receipt-modal-printable img {
+            width: 80px !important;
+            height: 80px !important;
+            display: block !important;
+            margin: 6px auto !important;
+            border: none !important;
+          }
+
+          /* Remove large paddings and borders */
+          .receipt-modal-printable .p-4,
+          .receipt-modal-printable .p-5,
+          .receipt-modal-printable .py-5,
+          .receipt-modal-printable .px-4 {
+            padding: 4px !important;
+          }
+
+          .receipt-modal-printable .text-3xl { font-size: 20px !important; }
+
+          /* Prevent page breaks inside the receipt */
+          .receipt-modal-printable { page-break-inside: avoid; }
+          .receipt-modal-printable * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+      `}</style>
+      <div className="receipt-modal-shell bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[95vh] overflow-y-auto">
 
         {/* Success header — solid green, no gradient */}
-        <div className="bg-green-700 text-white px-5 py-4 rounded-t-2xl flex items-center justify-between">
+        <div className="receipt-modal-header bg-green-700 text-white px-5 py-4 rounded-t-2xl flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white/15 rounded-xl flex items-center justify-center">
               <CheckCircle className="w-6 h-6 text-white" />
@@ -75,14 +131,14 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
           </div>
           <button
             onClick={onClose}
-            className="text-green-300 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-xl p-1.5"
+            className="receipt-modal-close text-green-300 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-xl p-1.5"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Receipt body */}
-        <div ref={receiptRef} className="p-5">
+        <div className="receipt-modal-printable p-5">
           <div className="border-2 border-blue-700 rounded-xl overflow-hidden">
 
             {/* Receipt header — solid blue */}
@@ -139,18 +195,7 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
               </div>
             </div>
 
-            {/* QR Code */}
-            <div className="border-t-2 border-dashed border-blue-300 py-5 flex flex-col items-center gap-2 bg-slate-50">
-              <p className="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Scan for Verification</p>
-              <img
-                src={qrUrl}
-                alt="Reservation QR Code"
-                width={120}
-                height={120}
-                className="rounded-xl border-2 border-slate-200"
-              />
-              <p className="text-xs text-slate-400">Show this QR at the BPLO Office</p>
-            </div>
+            {/* QR Code removed for simplified print */}
 
             {/* Instructions */}
             <div className="bg-blue-50 border-t-2 border-blue-200 p-4">
@@ -172,14 +217,7 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
         </div>
 
         {/* Action buttons */}
-        <div className="px-5 pb-5 flex gap-2.5">
-          <button
-            onClick={handlePrint}
-            className="flex-1 flex items-center justify-center gap-2 border border-blue-700 text-blue-700 hover:bg-blue-50 rounded-xl py-2.5 text-sm font-semibold transition-colors"
-          >
-            <Printer className="w-4 h-4" />
-            Print Receipt
-          </button>
+          <div className="receipt-modal-actions px-5 pb-5 flex gap-2.5">
           <button
             onClick={onClose}
             className="flex-1 bg-blue-700 hover:bg-blue-800 text-white rounded-xl py-2.5 text-sm font-bold transition-colors"
