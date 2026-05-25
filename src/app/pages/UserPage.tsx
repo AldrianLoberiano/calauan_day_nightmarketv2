@@ -105,6 +105,7 @@ export function UserPage() {
           return meta?.label === label;
         })
         .sort((a, b) => {
+          if (label === 'G') return a.id.localeCompare(b.id);
           const aMeta = directoryAssignment.get(a.id);
           const bMeta = directoryAssignment.get(b.id);
           return (aMeta?.index ?? 0) - (bMeta?.index ?? 0);
