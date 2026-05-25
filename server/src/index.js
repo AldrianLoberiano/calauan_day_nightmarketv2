@@ -38,6 +38,7 @@ app.get('/api/events', (req, res) => {
   sseClients.add(res);
   // write a heartbeat every 15s to keep proxies from closing the connection
   const hb = setInterval(() => {
+    try {
 });
 
 function mapReservation(row) {
