@@ -92,3 +92,4 @@ export function getDisplayStallId(stallId: string): string {
   if (numericId >= 205 && numericId <= 243) return `D${numericId - 204}`;
   return stallId;
 }
+
