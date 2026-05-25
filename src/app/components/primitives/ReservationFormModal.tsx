@@ -95,6 +95,7 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
         {/* Header — solid color, no gradient */}
         <div className="bg-blue-800 text-white px-3.5 py-2.5 flex items-center justify-between">
           <div>
+            <p className="text-blue-300 text-[11px] font-semibold uppercase tracking-wider mb-0.5">Stall {getCornerDisplayStallId(stall.id)}</p>
             <h2 className="text-[15px] font-bold leading-tight">Reserve This Stall</h2>
             <div className="flex items-center gap-2 mt-1">
               <span className="text-blue-300 text-[11px]">{stall.category}</span>
