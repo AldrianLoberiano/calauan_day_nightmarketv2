@@ -88,7 +88,6 @@ export function UserPage() {
     .filter(stall => !assignedIds.has(stall.id))
     .sort((a, b) => a.number - b.number || a.id.localeCompare(b.id));
   unassigned.forEach((stall, idx) => {
-    directoryAssignment.set(stall.id, { label: 'Other', index: idx + 1 });
   });
   const cornerStalls = safeStalls.filter(s => s.number === 0);
   const directoryOrder = [
