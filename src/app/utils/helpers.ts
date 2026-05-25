@@ -127,3 +127,4 @@ export function getDisplayCategoryById(stallId: string, category: string): strin
   return category;
 }
 
+  // If the category is Non-Food (or displayed Non-Food), show Section G
