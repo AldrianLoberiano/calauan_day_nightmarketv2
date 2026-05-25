@@ -21,7 +21,6 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${qrData}&margin=10`;
   const displayStallId = getDisplayStallId(stall.id);
   const locationLabel = stall.number > 0
-    ? `Section ${stall.section}, Stall ${displayStallId}`
     : `Section ${stall.section}`;
 
   function handlePrint() {
