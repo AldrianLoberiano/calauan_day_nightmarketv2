@@ -15,6 +15,7 @@ app.use(express.json());
 
 // --- Simple SSE (Server-Sent Events) broadcaster for real-time updates ---
 const sseClients = new Set();
+const sseHeartbeats = new Map();
 
 function sendSseEvent(event, data) {
   const payload = `event: ${event}\n` + `data: ${JSON.stringify(data)}\n\n`;
