@@ -103,6 +103,7 @@ export function getDisplaySectionById(stallId: string, fallbackSection: string):
 
   if (!/^\d+$/.test(stallId)) return fallbackSection;
 
+  const numericId = Number(stallId);
 export function getCornerDisplayStallId(stallId: string): string {
   return getDisplayStallId(stallId);
 }
