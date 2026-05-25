@@ -13,6 +13,31 @@ const port = Number(process.env.PORT || 5174);
 app.use(cors());
 app.use(express.json());
 
+// --- Simple SSE (Server-Sent Events) broadcaster for real-time updates ---
+const sseClients = new Set();
+
+function sendSseEvent(event, data) {
+  const payload = `event: ${event}\n` + `data: ${JSON.stringify(data)}\n\n`;
+  for (const res of sseClients) {
+    try {
+      res.write(payload);
+    } catch (err) {
+      // ignore broken pipe — remove client
+      sseClients.delete(res);
+    }
+  }
+}
+
+app.get('/api/events', (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders && res.flushHeaders();
+  res.write('\n');
+  sseClients.add(res);
+  req.on('close', () => { sseClients.delete(res); });
+});
+
 function mapReservation(row) {
   return {
     id: row.id,
@@ -207,7 +232,9 @@ app.put('/api/stalls/:id', async (req, res, next) => {
       [payload.status, payload.reservationId || null, req.params.id]
     );
     const [rows] = await pool.query('SELECT * FROM stalls WHERE id = ?', [req.params.id]);
-    res.json(mapStall(rows[0]));
+    const updated = mapStall(rows[0]);
+    try { sendSseEvent('stall-updated', { stall: updated }); } catch (e) {}
+    res.json(updated);
   } catch (err) {
     next(err);
   }
@@ -280,10 +307,13 @@ app.post('/api/reservations', async (req, res, next) => {
     const [reservationRows] = await pool.query('SELECT * FROM reservations WHERE id = ?', [reservationId]);
     const [stallRows] = await pool.query('SELECT * FROM stalls WHERE id = ?', [payload.stallId]);
 
-    res.status(201).json({
-      reservation: mapReservation(reservationRows[0]),
-      stall: mapStall(stallRows[0]),
-    });
+    const createdReservation = mapReservation(reservationRows[0]);
+    const createdStall = mapStall(stallRows[0]);
+
+    // Broadcast to SSE clients
+    try { sendSseEvent('reservation-created', { reservation: createdReservation, stall: createdStall }); } catch (e) {}
+
+    res.status(201).json({ reservation: createdReservation, stall: createdStall });
   } catch (err) {
     await connection.rollback();
     next(err);
@@ -348,7 +378,18 @@ app.put('/api/reservations/:id', async (req, res, next) => {
 
     await connection.commit();
     const [rows] = await pool.query('SELECT * FROM reservations WHERE id = ?', [req.params.id]);
-    res.json(mapReservation(rows[0]));
+    const updatedReservation = mapReservation(rows[0]);
+
+    // try to fetch related stall
+    let updatedStall = null;
+    try {
+      const [stallRows] = await pool.query('SELECT * FROM stalls WHERE reservation_id = ? OR id = ?', [req.params.id, req.body.stallId]);
+      if (stallRows && stallRows.length > 0) updatedStall = mapStall(stallRows[0]);
+    } catch (e) {}
+
+    try { sendSseEvent('reservation-updated', { reservation: updatedReservation, stall: updatedStall }); } catch (e) {}
+
+    res.json(updatedReservation);
   } catch (err) {
     await connection.rollback();
     next(err);
@@ -375,7 +416,16 @@ app.post('/api/reservations/:id/approve', async (req, res, next) => {
     );
     await connection.commit();
     const [rows] = await pool.query('SELECT * FROM reservations WHERE id = ?', [req.params.id]);
-    res.json(mapReservation(rows[0]));
+    const updatedReservation = mapReservation(rows[0]);
+    // fetch stall affected
+    let updatedStall = null;
+    try {
+      const [stallRows] = await pool.query('SELECT * FROM stalls WHERE reservation_id = ? OR id = (SELECT stall_id FROM reservations WHERE id = ?)', [req.params.id, req.params.id]);
+      if (stallRows && stallRows.length > 0) updatedStall = mapStall(stallRows[0]);
+    } catch (e) {}
+    try { sendSseEvent('reservation-updated', { reservation: updatedReservation, stall: updatedStall }); } catch (e) {}
+
+    res.json(updatedReservation);
   } catch (err) {
     await connection.rollback();
     next(err);
@@ -403,7 +453,15 @@ app.post('/api/reservations/:id/reject', async (req, res, next) => {
     );
     await connection.commit();
     const [rows] = await pool.query('SELECT * FROM reservations WHERE id = ?', [req.params.id]);
-    res.json(mapReservation(rows[0]));
+    const updatedReservation = mapReservation(rows[0]);
+    let updatedStall = null;
+    try {
+      const [stallRows] = await pool.query('SELECT * FROM stalls WHERE reservation_id = ? OR id = (SELECT stall_id FROM reservations WHERE id = ?)', [req.params.id, req.params.id]);
+      if (stallRows && stallRows.length > 0) updatedStall = mapStall(stallRows[0]);
+    } catch (e) {}
+    try { sendSseEvent('reservation-updated', { reservation: updatedReservation, stall: updatedStall }); } catch (e) {}
+
+    res.json(updatedReservation);
   } catch (err) {
     await connection.rollback();
     next(err);
@@ -430,7 +488,15 @@ app.post('/api/reservations/:id/occupy', async (req, res, next) => {
     );
     await connection.commit();
     const [rows] = await pool.query('SELECT * FROM reservations WHERE id = ?', [req.params.id]);
-    res.json(mapReservation(rows[0]));
+    const updatedReservation = mapReservation(rows[0]);
+    let updatedStall = null;
+    try {
+      const [stallRows] = await pool.query('SELECT * FROM stalls WHERE reservation_id = ? OR id = (SELECT stall_id FROM reservations WHERE id = ?)', [req.params.id, req.params.id]);
+      if (stallRows && stallRows.length > 0) updatedStall = mapStall(stallRows[0]);
+    } catch (e) {}
+    try { sendSseEvent('reservation-updated', { reservation: updatedReservation, stall: updatedStall }); } catch (e) {}
+
+    res.json(updatedReservation);
   } catch (err) {
     await connection.rollback();
     next(err);
@@ -497,6 +563,13 @@ app.delete('/api/reservations/:id', async (req, res, next) => {
     );
     const [result] = await connection.query('DELETE FROM reservations WHERE id = ?', [req.params.id]);
     await connection.commit();
+    // broadcast deletion so clients can refresh
+    try {
+      // try to find the stall that was freed
+      const [stallRows] = await pool.query('SELECT * FROM stalls WHERE reservation_id IS NULL AND updated_at > DATE_SUB(NOW(), INTERVAL 1 MINUTE)');
+      const stall = (stallRows && stallRows.length > 0) ? mapStall(stallRows[0]) : null;
+      sendSseEvent('reservation-deleted', { id: req.params.id, stall });
+    } catch (e) {}
     res.json({ removed: result.affectedRows > 0 });
   } catch (err) {
     await connection.rollback();
