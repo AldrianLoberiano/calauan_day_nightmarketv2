@@ -39,6 +39,7 @@ app.get('/api/events', (req, res) => {
   // write a heartbeat every 15s to keep proxies from closing the connection
   const hb = setInterval(() => {
     try {
+      res.write(': heartbeat\n\n');
 });
 
 function mapReservation(row) {
