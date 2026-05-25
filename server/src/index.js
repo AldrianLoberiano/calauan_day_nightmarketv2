@@ -46,6 +46,7 @@ app.get('/api/events', (req, res) => {
     }
   }, 15000);
   sseHeartbeats.set(res, hb);
+  req.on('close', () => {
 });
 
 function mapReservation(row) {
