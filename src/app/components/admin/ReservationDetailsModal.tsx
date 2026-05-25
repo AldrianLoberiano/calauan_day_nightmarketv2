@@ -309,6 +309,7 @@ export function ReservationDetailsModal({
             </div>
           )}
 
+          {/* Verification QR removed per admin preference */}
 
           {!isProcessing && (
             <div className="border-t border-slate-100 pt-3 space-y-2">
