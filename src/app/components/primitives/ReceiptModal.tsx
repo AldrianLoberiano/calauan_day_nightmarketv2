@@ -103,6 +103,7 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
 
             {/* Details */}
             <div className="p-4 space-y-2.5">
+              <DetailRow icon={<MapPin className="w-4 h-4 text-blue-600" />} label="Stall ID"    value={`Stall ${displayStallId} — ${getDisplayCategoryById(stall.id, stall.category)}`} />
               <DetailRow icon={<MapPin className="w-4 h-4 text-blue-600" />} label="Location"   value={locationLabel} />
               <DetailRow icon={<User className="w-4 h-4 text-blue-600" />}   label="Applicant"  value={reservation.fullName} />
               <DetailRow icon={<Phone className="w-4 h-4 text-blue-600" />}  label="Contact"    value={reservation.contactNumber} />
