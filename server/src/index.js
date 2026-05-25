@@ -43,6 +43,7 @@ app.get('/api/events', (req, res) => {
     } catch (err) {
       clearInterval(hb);
       sseClients.delete(res);
+    }
 });
 
 function mapReservation(row) {
