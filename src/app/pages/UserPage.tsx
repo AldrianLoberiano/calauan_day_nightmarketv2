@@ -94,6 +94,7 @@ export function UserPage() {
   const cornerStalls = safeStalls.filter(s => s.number === 0);
   const directoryOrder = [
     ...directoryLayout.map(group => group.label),
+    ...(cornerStalls.length ? ['G'] : []),
   ];
   const groupedDirectory = directoryOrder
     .map((label) => {
