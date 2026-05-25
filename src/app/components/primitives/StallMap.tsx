@@ -114,6 +114,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
     const label = slot.label;
     return (
       <button onClick={()=>{ if (!disabled && stall) onStallClick(stall); }}
+        title={stall ? `Stall ${getCornerDisplayStallId(stall.id)} · ${stall.status} · ${getDisplayCategoryById(stall.id, stall.category)} · Price: To be discussed` : 'Unavailable'}
         style={{
           width:w, height:h, fontSize: Math.max(7, Math.min(w,h)*0.42),
           background: stall ? (statusColor[stall.status]||'#ccc') : '#e5e7eb',
