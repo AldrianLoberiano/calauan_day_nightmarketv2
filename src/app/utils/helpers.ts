@@ -78,6 +78,7 @@ export function capitalize(str: string): string {
 
 export function getDisplayStallId(stallId: string): string {
   if (!stallId) return '';
+  if (stallId === 'C1') return 'BB31';
   if (!/^\d+$/.test(stallId)) return stallId;
   const numericId = Number(stallId);
   if (numericId >= 1 && numericId <= 47) return `A${numericId}`;
