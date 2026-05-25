@@ -43,7 +43,6 @@ export function UserPage() {
     };
 
     const interval = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(interval);
   }, []);
 
   const safeStalls = Array.isArray(stalls) ? stalls : [];
