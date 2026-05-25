@@ -42,6 +42,7 @@ app.get('/api/events', (req, res) => {
       res.write(': heartbeat\n\n');
     } catch (err) {
       clearInterval(hb);
+      sseClients.delete(res);
 });
 
 function mapReservation(row) {
