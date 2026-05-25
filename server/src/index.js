@@ -36,7 +36,6 @@ app.get('/api/events', (req, res) => {
   res.flushHeaders && res.flushHeaders();
   res.write('\n');
   sseClients.add(res);
-  req.on('close', () => { sseClients.delete(res); });
 });
 
 function mapReservation(row) {
