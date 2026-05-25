@@ -52,6 +52,7 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
           {/* Stall ID & Category */}
           <div className="absolute bottom-3 left-4">
             <h2 className="text-white text-2xl font-black drop-shadow-sm">Stall {displayStallId}</h2>
+            <p className="text-white/80 text-sm font-medium">{getDisplayCategoryById(stall.id, stall.category)}</p>
           </div>
 
           {/* Status badge */}
