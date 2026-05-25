@@ -98,7 +98,6 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
             <p className="text-blue-300 text-[11px] font-semibold uppercase tracking-wider mb-0.5">Stall {getCornerDisplayStallId(stall.id)}</p>
             <h2 className="text-[15px] font-bold leading-tight">Reserve This Stall</h2>
             <div className="flex items-center gap-2 mt-1">
-              <span className="text-blue-300 text-[11px]">{stall.category}</span>
               <span className="w-1 h-1 rounded-full bg-blue-500" />
               <span className="text-blue-200 text-[10px] font-semibold">{formatPeso(stall.price)}</span>
             </div>
