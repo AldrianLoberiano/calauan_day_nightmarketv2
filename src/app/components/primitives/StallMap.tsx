@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Stall } from '../../types';
+import { getCornerDisplayStallId, getStallColorClass, getDisplayCategoryById } from '../../utils/helpers';
 
 interface StallMapProps {
   stalls: Stall[];
