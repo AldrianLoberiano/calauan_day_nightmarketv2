@@ -445,7 +445,6 @@ function StallBrowserCard({ stall, onClick, displayId }: { stall: Stall; onClick
       {displayId && displayId !== stall.id ? (
         <p className="text-[10px] text-slate-400">ID {stall.id}</p>
       ) : null}
-      <p className="text-[11px] text-slate-500 line-clamp-1 mb-1.5">{stall.category}</p>
       <span className={`inline-block text-[10px] font-bold px-1.5 py-0.5 rounded-md ${cfg.badge}`}>
         {stall.status === 'available' ? 'To be discussed' : cfg.badgeText}
       </span>
