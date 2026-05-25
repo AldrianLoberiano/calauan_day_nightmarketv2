@@ -117,3 +117,4 @@ export function getDisplaySectionById(stallId: string, fallbackSection: string):
 export function getCornerDisplayStallId(stallId: string): string {
   return getDisplayStallId(stallId);
 }
+
