@@ -114,3 +114,4 @@ The frontend expects the API at `http://localhost:5174/api`. You can override th
 - Health endpoint: `GET /api/health/details` provides a quick development view of DB connectivity, stall/reservation counts, SSE client count, memory usage and uptime. The server also logs a compact health line every 30s in dev mode.
 
 - Printing: Receipt printing is implemented via an in-place modal and `@media print` rules. The printable view targets Letter size and is simplified (no QR, removed print button) to match BPLO requirements.
+
