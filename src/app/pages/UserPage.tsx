@@ -114,6 +114,7 @@ export function UserPage() {
             return { stall, displayId: stall.id };
           }
           const meta = directoryAssignment.get(stall.id);
+          if (!meta) {
           }
           return { stall, displayId: `${label}${meta?.index ?? ''}` };
         });
