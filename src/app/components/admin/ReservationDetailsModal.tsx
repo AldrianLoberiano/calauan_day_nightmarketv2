@@ -309,7 +309,6 @@ export function ReservationDetailsModal({
             </div>
           )}
 
-              height={72}
               className="rounded-lg border border-slate-200 shrink-0"
             />
             <div>
