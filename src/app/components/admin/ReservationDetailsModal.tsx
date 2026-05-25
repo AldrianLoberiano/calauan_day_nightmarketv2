@@ -309,7 +309,6 @@ export function ReservationDetailsModal({
             </div>
           )}
 
-              <p className="text-xs font-bold text-slate-700">Verification QR</p>
               <p className="text-xs text-slate-400 mt-0.5">Scan to verify reservation</p>
               <p className="text-[11px] text-slate-400 mt-1">Updated: {formatDate(reservation.updatedAt)}</p>
             </div>
