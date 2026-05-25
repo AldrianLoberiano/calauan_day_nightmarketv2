@@ -112,3 +112,4 @@ The frontend expects the API at `http://localhost:5174/api`. You can override th
 - Realtime updates: the backend exposes an SSE endpoint at `/api/events`. The frontend subscribes and reloads stalls/reservations automatically when admin actions occur. To avoid Vite dev-proxy resets for long-lived SSE connections, set `VITE_API_URL` to the backend origin (e.g. `http://localhost:5174`) or rely on the tuned proxy in `vite.config.ts`.
 
 - Health endpoint: `GET /api/health/details` provides a quick development view of DB connectivity, stall/reservation counts, SSE client count, memory usage and uptime. The server also logs a compact health line every 30s in dev mode.
+
