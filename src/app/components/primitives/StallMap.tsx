@@ -512,7 +512,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
             ))}
             <div style={{ display:'flex', alignItems:'center', gap:6 }}>
               <div style={{ width:22, height:19, border:'2px solid #ef4444', background:'#fef2f2',
-                display:'flex', alignItems:'center', justifyContent:'center', fontSize:7, fontWeight:900, color:'#dc2626' }}>A1</div>
               <span style={{ fontSize:12, color:'#555' }}>Corner Stall</span>
             </div>
             <div style={{ display:'flex', alignItems:'center', gap:6 }}>
