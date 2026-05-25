@@ -62,6 +62,8 @@ function mapReservation(row) {
     fullName: row.full_name,
     contactNumber: row.contact_number,
     businessName: row.business_name,
+    dtiNumber: row.dti_number,
+    cedulaNumber: row.cedula_number,
     address: row.address,
     status: row.status,
     adminNotes: row.admin_notes,
@@ -111,6 +113,29 @@ async function ensureStallsSeeded() {
      VALUES ?`,
     [values]
   );
+}
+
+// Ensure reservation columns for DTI and cedula exist (adds columns if missing)
+async function ensureReservationColumns() {
+  try {
+    const [cols] = await pool.query(
+      `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'reservations' AND COLUMN_NAME IN ('dti_number','cedula_number')`
+    );
+    const existing = new Set(cols.map(c => c.COLUMN_NAME));
+    const queries = [];
+    if (!existing.has('dti_number')) {
+      queries.push(`ALTER TABLE reservations ADD COLUMN dti_number VARCHAR(64) NULL`);
+    }
+    if (!existing.has('cedula_number')) {
+      queries.push(`ALTER TABLE reservations ADD COLUMN cedula_number VARCHAR(64) NULL`);
+    }
+    for (const q of queries) {
+      await pool.query(q);
+    }
+  } catch (e) {
+    // non-fatal: log and continue
+    console.warn('Could not ensure reservation columns:', e?.message || e);
+  }
 }
 
 async function expireReservations() {
@@ -354,8 +379,8 @@ app.post('/api/reservations', async (req, res, next) => {
 
     await connection.query(
       `INSERT INTO reservations
-        (id, reservation_number, stall_id, full_name, contact_number, business_name, address, status, created_at, expires_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?, ?)`,
+        (id, reservation_number, stall_id, full_name, contact_number, business_name, dti_number, cedula_number, address, status, created_at, expires_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?, ?)`,
       [
         reservationId,
         reservationNumber,
@@ -363,12 +388,15 @@ app.post('/api/reservations', async (req, res, next) => {
         payload.fullName,
         payload.contactNumber,
         payload.businessName || null,
+        payload.dtiNumber || null,
+        payload.cedulaNumber || null,
         payload.address || null,
         now,
         expiresAt,
         now,
       ]
     );
+
 
     await connection.query(
       `UPDATE stalls
@@ -405,12 +433,14 @@ app.put('/api/reservations/:id', async (req, res, next) => {
 
     await connection.query(
       `UPDATE reservations
-       SET full_name = ?, contact_number = ?, business_name = ?, address = ?, status = ?, admin_notes = ?, updated_at = NOW()
+       SET full_name = ?, contact_number = ?, business_name = ?, dti_number = ?, cedula_number = ?, address = ?, status = ?, admin_notes = ?, updated_at = NOW()
        WHERE id = ?`,
       [
         payload.fullName,
         payload.contactNumber,
         payload.businessName || null,
+        payload.dtiNumber || null,
+        payload.cedulaNumber || null,
         payload.address || null,
         payload.status,
         payload.adminNotes || null,
@@ -672,7 +702,10 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Server error' });
 });
 
-ensureStallsSeeded()
+// Ensure DB schema additions then start
+Promise.resolve()
+  .then(() => ensureReservationColumns())
+  .then(() => ensureStallsSeeded())
   .then(() => {
     app.listen(port, () => {
       console.log(`API running on http://localhost:${port}`);
