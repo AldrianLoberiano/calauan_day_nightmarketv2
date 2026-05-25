@@ -30,7 +30,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
       const id = startId + i;
       const stall = idMap.get(id);
       if (stall) usedIds.add(id);
-      slots.push({ stall, label: `${prefix}${i + 1}`, disabled: !stall });
     }
     return slots;
   };
