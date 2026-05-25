@@ -49,6 +49,7 @@ app.get('/api/events', (req, res) => {
   req.on('close', () => {
     sseClients.delete(res);
     const id = sseHeartbeats.get(res);
+    if (id) clearInterval(id);
 });
 
 function mapReservation(row) {
