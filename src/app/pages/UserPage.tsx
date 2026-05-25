@@ -77,7 +77,6 @@ export function UserPage() {
     if (!Number.isFinite(numericId)) continue;
     const group = directoryLayout.find(g => numericId >= g.start && numericId <= g.end);
     if (!group) continue;
-    directoryAssignment.set(stall.id, { label: group.label, index: numericId - group.start + 1 });
   }
   const assignedIds = new Set(directoryAssignment.keys());
   const unassigned = numberedStalls
