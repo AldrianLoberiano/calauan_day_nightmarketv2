@@ -151,6 +151,7 @@ async function nextReservationNumberBySection(connection, section) {
 
 function normalizeReservationSection(stallId, section) {
   const id = (stallId || '').toString().toUpperCase();
+  if (/^\d+$/.test(id)) {
 async function legacyNextReservationNumber(connection, yearOverride) {
   const year = yearOverride ?? new Date().getFullYear();
   // Behave like the previous single-row counter implementation (id=1)
