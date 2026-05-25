@@ -309,7 +309,6 @@ export function ReservationDetailsModal({
             </div>
           )}
 
-              alt="QR Code"
               width={72}
               height={72}
               className="rounded-lg border border-slate-200 shrink-0"
