@@ -132,6 +132,7 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
           >
             <input
               type="text"
+              required
               value={formData.fullName}
               onChange={(e) => handleChange('fullName', e.target.value)}
               placeholder="Juan Dela Cruz"
@@ -151,6 +152,7 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
           >
             <input
               type="tel"
+              required
               value={formData.contactNumber}
               onChange={(e) => handleChange('contactNumber', e.target.value)}
               placeholder="09XXXXXXXXX"
