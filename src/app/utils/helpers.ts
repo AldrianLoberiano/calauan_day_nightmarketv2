@@ -129,3 +129,4 @@ export function getDisplayCategoryById(stallId: string, category: string): strin
 
 export function getDisplaySectionByCategory(stallId: string, section: string, category: string): string {
   // If the category is Non-Food (or displayed Non-Food), show Section G
+  const displayCategory = getDisplayCategoryById(stallId, category);
