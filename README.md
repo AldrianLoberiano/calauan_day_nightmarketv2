@@ -106,3 +106,4 @@ The frontend expects the API at `http://localhost:5174/api`. You can override th
 - `npm run dev` - Start the Vite dev server
 - `npm run build` - Build for production
 - `npm run preview` - Preview the production build
+
