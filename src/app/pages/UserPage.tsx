@@ -55,7 +55,6 @@ export function UserPage() {
   });
 
   const directoryLayout = [
-    { label: 'D', start: 205, end: 243 },
   ];
   const directoryRanges: Record<string, string> = {
     A: '1-47',
