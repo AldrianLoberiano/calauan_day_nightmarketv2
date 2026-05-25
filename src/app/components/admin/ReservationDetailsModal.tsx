@@ -196,10 +196,11 @@ export function ReservationDetailsModal({
 
           <div className="border-t border-slate-100 pt-3 space-y-2.5">
             {isEditing ? (
-              <div className="grid gap-3 sm:grid-cols-2">
+              <form className="grid gap-3 sm:grid-cols-2" onSubmit={handleSaveChanges}>
                 <div>
                   <label className="block text-xs font-semibold text-slate-600">Full Name</label>
                   <input
+                    required
                     value={editData.fullName}
                     onChange={(e) => setEditData({ ...editData, fullName: e.target.value })}
                     className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
@@ -208,6 +209,7 @@ export function ReservationDetailsModal({
                 <div>
                   <label className="block text-xs font-semibold text-slate-600">Contact Number</label>
                   <input
+                    required
                     value={editData.contactNumber}
                     onChange={(e) => setEditData({ ...editData, contactNumber: e.target.value })}
                     className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
@@ -240,6 +242,7 @@ export function ReservationDetailsModal({
                 <div>
                   <label className="block text-xs font-semibold text-slate-600">Status</label>
                   <select
+                    required
                     value={editData.status}
                     onChange={(e) => setEditData({ ...editData, status: e.target.value as Reservation['status'] })}
                     className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white"
@@ -253,6 +256,7 @@ export function ReservationDetailsModal({
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-slate-600">Address</label>
                   <input
+                    required
                     value={editData.address ?? ''}
                     onChange={(e) => setEditData({ ...editData, address: e.target.value })}
                     className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
@@ -261,6 +265,7 @@ export function ReservationDetailsModal({
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-slate-600">Price</label>
                   <input
+                    required
                     value={editData.price ?? ''}
                     onChange={(e) => setEditData({ ...editData, price: e.target.value })}
                     className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
@@ -269,13 +274,29 @@ export function ReservationDetailsModal({
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-slate-600">Admin Notes</label>
                   <textarea
+                    required
                     value={editData.adminNotes ?? ''}
                     onChange={(e) => setEditData({ ...editData, adminNotes: e.target.value })}
                     rows={2}
                     className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
                   />
                 </div>
-              </div>
+                <div className="sm:col-span-2 flex gap-2 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => setIsEditing(false)}
+                    className="flex-1 border border-slate-300 text-slate-700 hover:bg-slate-50 text-xs font-bold py-2.5 rounded-xl transition-colors"
+                  >
+                    Cancel Edit
+                  </button>
+                  <button
+                    type="submit"
+                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2.5 rounded-xl transition-colors"
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              </form>
             ) : (
               <>
                 <InfoRow icon={<Phone className="w-3.5 h-3.5 text-slate-400" />} value={reservation.contactNumber} />
