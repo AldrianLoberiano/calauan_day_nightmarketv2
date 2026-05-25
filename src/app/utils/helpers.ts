@@ -94,3 +94,4 @@ export function getDisplayStallId(stallId: string): string {
 }
 
 export function getCornerDisplayStallId(stallId: string): string {
+  return getDisplayStallId(stallId);
