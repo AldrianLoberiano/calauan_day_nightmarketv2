@@ -100,6 +100,7 @@ export function getDisplayStallId(stallId: string): string {
 
 export function getDisplaySectionById(stallId: string, fallbackSection: string): string {
   if (!stallId) return fallbackSection;
+
 export function getCornerDisplayStallId(stallId: string): string {
   return getDisplayStallId(stallId);
 }
