@@ -477,6 +477,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                             zIndex:5,
                           }}
                         >
+                          <CS stall={s} label={getCornerDisplayStallId(s.id)}/>
                         </div>
                       );
                     })}
