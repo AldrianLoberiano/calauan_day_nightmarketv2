@@ -309,7 +309,6 @@ export function ReservationDetailsModal({
             </div>
           )}
 
-              <p className="text-[11px] text-slate-400 mt-1">Updated: {formatDate(reservation.updatedAt)}</p>
             </div>
           </div>
 
