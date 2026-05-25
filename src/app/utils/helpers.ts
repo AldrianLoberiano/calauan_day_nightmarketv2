@@ -112,6 +112,7 @@ export function getDisplaySectionById(stallId: string, fallbackSection: string):
   if (numericId >= 205 && numericId <= 243) return 'D';
 
   return fallbackSection;
+}
 export function getCornerDisplayStallId(stallId: string): string {
   return getDisplayStallId(stallId);
 }
