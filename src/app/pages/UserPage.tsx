@@ -38,6 +38,7 @@ export function UserPage() {
     es.addEventListener('reservation-deleted', reload as EventListener);
     es.onerror = () => {
       // EventSource will auto-retry; no-op here. Could add backoff/logging.
+    };
     const interval = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(interval);
   }, []);
