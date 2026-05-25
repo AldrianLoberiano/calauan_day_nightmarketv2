@@ -118,6 +118,7 @@ export function UserPage() {
             return { stall, displayId: stall.id };
           }
           const displayNumber = (meta.displayStart - 1) + meta.index;
+          return { stall, displayId: `${label}${displayNumber}` };
         });
 
       return { label, items };
