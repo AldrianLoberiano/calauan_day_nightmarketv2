@@ -120,3 +120,4 @@ The frontend expects the API at `http://localhost:5174/api`. You can override th
 ## Troubleshooting SSE / Dev Proxy
 
 If you see `ECONNRESET` or the EventSource disconnects frequently in development:
+
