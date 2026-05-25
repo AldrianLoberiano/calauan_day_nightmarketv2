@@ -41,6 +41,7 @@ app.get('/api/events', (req, res) => {
     try {
       res.write(': heartbeat\n\n');
     } catch (err) {
+      clearInterval(hb);
 });
 
 function mapReservation(row) {
