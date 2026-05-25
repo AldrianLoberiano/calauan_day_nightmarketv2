@@ -81,6 +81,7 @@ export function UserPage() {
       label: group.label,
       index: numericId - group.start + 1,
       displayStart: group.displayStart,
+    });
   }
   const assignedIds = new Set(directoryAssignment.keys());
   const unassigned = numberedStalls
