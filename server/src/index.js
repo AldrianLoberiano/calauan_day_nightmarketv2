@@ -155,6 +155,7 @@ function normalizeReservationSection(stallId, section) {
     const numericId = Number(id);
     if (numericId >= 1 && numericId <= 47) return 'A';
     if (numericId >= 48 && numericId <= 91) return 'B';
+    if (numericId >= 92 && numericId <= 133) return 'AA';
 async function legacyNextReservationNumber(connection, yearOverride) {
   const year = yearOverride ?? new Date().getFullYear();
   // Behave like the previous single-row counter implementation (id=1)
