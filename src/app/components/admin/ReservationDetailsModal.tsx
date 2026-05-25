@@ -309,7 +309,6 @@ export function ReservationDetailsModal({
             </div>
           )}
 
-            </div>
           </div>
 
           {!isProcessing && (
