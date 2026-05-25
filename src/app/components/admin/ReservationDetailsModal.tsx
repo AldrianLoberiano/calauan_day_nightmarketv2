@@ -309,7 +309,6 @@ export function ReservationDetailsModal({
             </div>
           )}
 
-          <div className="flex items-center gap-3 bg-slate-50 rounded-xl p-3 border border-slate-200">
             <img
               src={`https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=${encodeURIComponent(
                 reservation.reservationNumber + '|' + reservation.stallId
