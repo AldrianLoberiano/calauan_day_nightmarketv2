@@ -309,7 +309,6 @@ export function ReservationDetailsModal({
             </div>
           )}
 
-                reservation.reservationNumber + '|' + reservation.stallId
               )}&margin=5`}
               alt="QR Code"
               width={72}
