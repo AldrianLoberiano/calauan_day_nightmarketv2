@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { X, User, Phone, Building2, MapPin, Loader2, Tag, Info, ShieldCheck } from 'lucide-react';
 import { Stall, Reservation } from '../../types';
 import { formatPeso, getCornerDisplayStallId, getDisplayCategoryById } from '../../utils/helpers';
 import { addReservation } from '../../utils/storage';
