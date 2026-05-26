@@ -458,7 +458,6 @@ function StallBrowserCard({ stall, onClick, displayId }: { stall: Stall; onClick
         <span className="text-sm font-black text-slate-800 tracking-wide">{displayId ?? stall.id}</span>
         <span className={`w-2 h-2 rounded-full shrink-0 mt-1 ${cfg.dot}`} />
       </div>
-        <p className="text-[10px] text-slate-400">ID {stall.id}</p>
       ) : null}
       <p className="text-[11px] text-slate-500 line-clamp-1 mb-1.5">{getDisplayCategoryById(stall.id, stall.category)}</p>
       <span className={`inline-block text-[10px] font-bold px-1.5 py-0.5 rounded-md ${cfg.badge}`}>
