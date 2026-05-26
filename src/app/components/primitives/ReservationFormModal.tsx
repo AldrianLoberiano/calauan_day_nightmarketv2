@@ -209,7 +209,6 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
           </FormField>
 
             optional
-            icon={<Tag className="w-4 h-4 text-slate-400" />}
           >
             <input
               type="text"
