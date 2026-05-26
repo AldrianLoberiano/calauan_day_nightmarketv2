@@ -189,6 +189,7 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
                 <DetailRow
                   icon={<span className="text-blue-600 font-bold text-sm">₱</span>}
                   label="Price"
+                  value="To be discussed"
                   valueClass="text-blue-700 font-black"
                 />
               </div>
