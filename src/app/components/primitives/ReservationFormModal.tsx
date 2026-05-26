@@ -208,7 +208,6 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
             />
           </FormField>
 
-              type="text"
               value={formData.price}
               onChange={(e) => handleChange('price', e.target.value)}
               placeholder="To be discussed"
