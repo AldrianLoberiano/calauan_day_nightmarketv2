@@ -350,6 +350,7 @@ export function ReservationDetailsModal({
                 </button>
               )}
 
+              {!isEditing && reservation.status === 'pending' && (
                 <div className="flex gap-2">
                   <button
                     onClick={handleApprove}
