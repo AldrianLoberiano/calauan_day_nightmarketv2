@@ -208,7 +208,6 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
             />
           </FormField>
 
-
           {/* Address */}
           <FormField
             label="Home Address"
