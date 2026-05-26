@@ -16,7 +16,6 @@ interface FormData {
   businessName: string;
   dtiNumber: string;
   cedulaNumber: string;
-  price: string;
   address: string;
 }
 
