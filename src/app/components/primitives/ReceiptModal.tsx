@@ -1,7 +1,6 @@
 import React from 'react';
 import { X, CheckCircle, MapPin, Phone, User, Calendar, Building2, Clock } from 'lucide-react';
 import { Reservation, Stall } from '../../types';
-import { formatDate, formatPeso, getDisplayStallId, getDisplaySectionByCategory, getDisplayCategoryById } from '../../utils/helpers';
 
 interface ReceiptModalProps {
   reservation: Reservation | null;
