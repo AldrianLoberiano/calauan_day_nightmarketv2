@@ -87,6 +87,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   const cA = ['A1','A2','A3','A4','A5'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
   const cB = ['B1','B2','B3','B4'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
   const cornerBSlots: StallSlot[] = [
+    { stall: idMap.get(88), label: 'B44' },
   ];
   const cC = ['C1','C2','C3','C4'].map(id=>cm.get(id)).filter(Boolean) as Stall[];
   const cCLabels = ['BB31','BB32','BB33','BB34'];
