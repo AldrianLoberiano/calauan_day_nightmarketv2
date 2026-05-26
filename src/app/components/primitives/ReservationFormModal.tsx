@@ -208,7 +208,6 @@ export function ReservationFormModal({ stall, onClose, onSuccess }: ReservationF
             />
           </FormField>
 
-              value={formData.price}
               onChange={(e) => handleChange('price', e.target.value)}
               placeholder="To be discussed"
               className="w-full pl-8 pr-3 py-1.5 border border-slate-200 rounded-xl text-[12px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-slate-50 focus:bg-white"
