@@ -89,12 +89,13 @@ export function getDisplayStallId(stallId: string): string {
   if (stallId === 'C4') return 'BB34';
   if (!/^\d+$/.test(stallId)) return stallId;
   const numericId = Number(stallId);
-  if (numericId >= 1 && numericId <= 47) return `A${numericId}`;
-  if (numericId >= 48 && numericId <= 91) return `B${numericId - 47}`;
-  if (numericId >= 92 && numericId <= 133) return `AA${numericId - 91}`;
+  if (numericId >= 1   && numericId <= 47)  return `A${numericId}`;
+  if (numericId >= 48  && numericId <= 91)  return `B${numericId - 47}`;
+  if (numericId >= 92  && numericId <= 133) return `AA${numericId - 91}`;
   if (numericId >= 134 && numericId <= 167) return `BB${numericId - 133}`;
   if (numericId >= 168 && numericId <= 204) return `C${numericId - 167}`;
   if (numericId >= 205 && numericId <= 243) return `D${numericId - 204}`;
+  if (numericId >= 244 && numericId <= 300) return `R${numericId - 243}`;
   return stallId;
 }
 
@@ -104,12 +105,13 @@ export function getDisplaySectionById(stallId: string, fallbackSection: string):
   if (!/^\d+$/.test(stallId)) return fallbackSection;
 
   const numericId = Number(stallId);
-  if (numericId >= 1 && numericId <= 47) return 'A';
-  if (numericId >= 48 && numericId <= 91) return 'B';
-  if (numericId >= 92 && numericId <= 133) return 'AA';
+  if (numericId >= 1   && numericId <= 47)  return 'A';
+  if (numericId >= 48  && numericId <= 91)  return 'B';
+  if (numericId >= 92  && numericId <= 133) return 'AA';
   if (numericId >= 134 && numericId <= 167) return 'BB';
   if (numericId >= 168 && numericId <= 204) return 'C';
   if (numericId >= 205 && numericId <= 243) return 'D';
+  if (numericId >= 244 && numericId <= 300) return 'R';
 
   return fallbackSection;
 }
