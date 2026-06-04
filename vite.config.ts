@@ -36,7 +36,7 @@ export default defineConfig({
       // Proxy API requests to backend. Configure options to better support
       // long-lived Server-Sent Events (SSE) connections used by /api/events.
       '/api': {
-        target: 'http://localhost:5174',
+        target: 'http://localhost:3001',
         changeOrigin: true,
         secure: false,
         // Allow very long-lived connections; prevent http-proxy from timing out
