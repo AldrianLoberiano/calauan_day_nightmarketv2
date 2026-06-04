@@ -220,12 +220,13 @@ function normalizeReservationSection(stallId, section) {
   const id = (stallId || '').toString().toUpperCase();
   if (/^\d+$/.test(id)) {
     const numericId = Number(id);
-    if (numericId >= 1 && numericId <= 47) return 'A';
-    if (numericId >= 48 && numericId <= 91) return 'B';
-    if (numericId >= 92 && numericId <= 133) return 'AA';
+    if (numericId >= 1   && numericId <= 47)  return 'A';
+    if (numericId >= 48  && numericId <= 91)  return 'B';
+    if (numericId >= 92  && numericId <= 133) return 'AA';
     if (numericId >= 134 && numericId <= 167) return 'BB';
     if (numericId >= 168 && numericId <= 204) return 'C';
     if (numericId >= 205 && numericId <= 243) return 'D';
+    if (numericId >= 244 && numericId <= 300) return 'R';
   }
   return (section || 'X').toString().toUpperCase();
 }
