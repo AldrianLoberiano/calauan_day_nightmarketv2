@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Info, Search, ChevronDown, Store, MapPin, Clock, ShieldCheck } from 'lucide-react';
+import { Info, Search, ChevronDown, Store, MapPin, Clock, ShieldCheck, LayoutGrid, Map as MapIcon } from 'lucide-react';
 import { Stall, Reservation } from '../types';
 const headerImage = new URL('../components/public/header1.png', import.meta.url).href;
 const bploLogo = new URL('../components/public/bplo-modified.png', import.meta.url).href;
 import { checkAndExpireReservations } from '../utils/storage';
 import { getDisplayStallId, getDisplayCategoryById } from '../utils/helpers';
 import { StallMap } from '../components/primitives/StallMap';
+import { StallGridView } from '../components/primitives/StallGridView';
 import { StallDetailModal } from '../components/primitives/StallDetailModal';
 import { ReservationFormModal } from '../components/primitives/ReservationFormModal';
 import { ReceiptModal } from '../components/primitives/ReceiptModal';
@@ -20,6 +21,7 @@ export function UserPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCategory, setFilterCategory] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [mapView, setMapView] = useState<'design' | 'grid'>('design');
 
   async function loadStalls() {
     const updated = await checkAndExpireReservations();
@@ -216,16 +218,49 @@ export function UserPage() {
 
         {/* Interactive Map */}
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
-            <div>
-              <h2 className="text-base font-bold text-slate-800">Interactive Stall Map — Night Market</h2>
-              <p className="text-xs text-slate-500 mt-0.5">Click on any stall to view details and availability</p>
+          {/* Map section header */}
+          <div className="px-4 py-3 border-b border-slate-100">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div>
+                <h2 className="text-base font-bold text-slate-800">Interactive Stall Map — Night Market</h2>
+                <p className="text-xs text-slate-500 mt-0.5">Click on any stall to view details and availability</p>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 text-[11px] text-slate-500 hidden sm:flex">
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-green-500 inline-block" />Available</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-amber-400 inline-block" />Pending</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-red-500 inline-block" />Reserved</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-slate-400 inline-block" />Occupied</span>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center gap-4 text-[11px] text-slate-500 hidden sm:flex">
-              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-green-500 inline-block" />Available</span>
-              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-amber-400 inline-block" />Pending</span>
-              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-red-500 inline-block" />Reserved</span>
-              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-slate-400 inline-block" />Occupied</span>
+
+            {/* View toggle tabs */}
+            <div className="mt-3 flex gap-2">
+              <button
+                id="map-view-design-tab"
+                onClick={() => setMapView('design')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                  mapView === 'design'
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
+                    : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700'
+                }`}
+              >
+                <MapIcon className="w-4 h-4" />
+                Design Map
+              </button>
+              <button
+                id="map-view-grid-tab"
+                onClick={() => setMapView('grid')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                  mapView === 'grid'
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
+                    : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700'
+                }`}
+              >
+                <LayoutGrid className="w-4 h-4" />
+                All Stalls (1–300)
+              </button>
             </div>
           </div>
 
@@ -236,8 +271,14 @@ export function UserPage() {
                 <p className="text-slate-500 text-sm font-medium">Loading stall map...</p>
               </div>
             </div>
-          ) : (
+          ) : mapView === 'design' ? (
             <StallMap
+              stalls={stalls}
+              onStallClick={handleStallClick}
+              selectedStallId={selectedStall?.id}
+            />
+          ) : (
+            <StallGridView
               stalls={stalls}
               onStallClick={handleStallClick}
               selectedStallId={selectedStall?.id}
