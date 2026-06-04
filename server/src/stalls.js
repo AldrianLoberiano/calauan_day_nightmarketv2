@@ -106,18 +106,19 @@ function getDescriptionForStall(num, category) {
 }
 
 function getSectionForNumber(num) {
-  if (num <= 71) return 'Bottom Row';
-  if (num <= 134) return 'Left Column';
-  if (num === 135) return 'Top Left Corner';
-  if (num <= 196) return 'Top Row';
-  if (num <= 225) return 'Upper Right Row';
+  if (num <= 47)  return 'Section A';
+  if (num <= 91)  return 'Section B';
+  if (num <= 133) return 'Section AA';
+  if (num <= 167) return 'Section BB';
+  if (num <= 204) return 'Section C';
+  if (num <= 243) return 'Section D';
   return 'Right Column';
 }
 
 export function generateInitialStalls() {
   const stalls = [];
 
-  for (let i = 1; i <= 258; i++) {
+  for (let i = 1; i <= 300; i++) {
     const category = getCategoryForStall(i);
     const size = getSizeForStall(i);
     const status = getStatusForStall(i);
