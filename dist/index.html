@@ -4,11 +4,37 @@
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <link rel="icon" href="/favicon.ico" />
+      <link rel="icon" type="image/png" href="/assets/logo-C2pxfqIK.png" />
       <title>Stall Reservation Mapping System</title>
+      <script>
+        // Defensive stub: some Chrome extensions or WebUI injectors expect `Mojo`.
+        // This prevents `ReferenceError: Mojo is not defined` from external scripts
+        // while having no effect on the app itself.
+        try {
+          if (typeof window !== 'undefined' && typeof window.Mojo === 'undefined') {
+            // Minimal no-op implementation to satisfy injected code paths
+            // Keep names and nesting the injector looks for so it doesn't throw.
+            // eslint-disable-next-line no-undef
+            window.Mojo = {
+              internal: {
+                interfaceSupport: {
+                  InterfaceRemoteBase: {
+                    bindNewPipeAndPassReceiver: function () { /* noop */ },
+                  },
+                  InterfaceRemoteBaseWrapper: {
+                    bindNewPipeAndPassReceiver: function () { /* noop */ },
+                  },
+                },
+              },
+            };
+          }
+        } catch (e) {
+          /* swallow any errors in the stub creation */
+        }
+      </script>
       <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
-      <script type="module" crossorigin src="/assets/index-DIB3JZyS.js"></script>
-      <link rel="stylesheet" crossorigin href="/assets/index-UzP-eISH.css">
+      <script type="module" crossorigin src="/assets/index-ClFjeh6G.js"></script>
+      <link rel="stylesheet" crossorigin href="/assets/index-BewEjs2g.css">
     </head>
 
     <body>
