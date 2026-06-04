@@ -10,3 +10,4 @@ database/migrations/20260524_set_section_c_non_food.sql
 database/schema.sql
 .env
 .env
+database/migrations/20260605_add_stalls_277_to_300.sql
