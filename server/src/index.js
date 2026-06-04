@@ -8,7 +8,7 @@ import { generateInitialStalls } from './stalls.js';
 dotenv.config();
 
 const app = express();
-const port = Number(process.env.PORT || 5174);
+const port = Number(process.env.PORT || 3001);
 
 app.use(cors());
 app.use(express.json());
@@ -109,7 +109,7 @@ async function ensureStallsSeeded() {
   ]);
 
   await pool.query(
-    `INSERT INTO stalls
+    `INSERT IGNORE INTO stalls
       (id, section, number, status, price, size, category, description, image_url, reservation_id)
      VALUES ?`,
     [values]
