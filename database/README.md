@@ -79,7 +79,6 @@ Defines which stalls belong to each map category.
 
 ## Stall Layout (277 total)
 
-| Top Left Corner | 135 | 1 |
 | Top Row | 136 – 196 | 61 |
 | Upper Right Row | 197 – 225 | 29 |
 | Right Column | 226 – 258 | 33 |
