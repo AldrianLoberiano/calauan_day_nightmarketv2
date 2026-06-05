@@ -58,6 +58,7 @@ Authorized BPLO staff accounts.
 | Column     | Type        | Description                     |
 | ---------- | ----------- | ------------------------------- |
 | `username` | TEXT UNIQUE | Login username                  |
+| `password` | TEXT        | Plain text (hash in production) |
 
 ### `reservation_counter`
 Single-row counter for generating sequential reservation numbers.
