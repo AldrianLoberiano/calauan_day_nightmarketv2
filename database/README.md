@@ -36,6 +36,7 @@ Master list of all 277 market stalls.
 
 Every reservation request submitted by applicants.
 
+| Column               | Type        | Description                                      |
 
 ### `admin_users`
 Authorized BPLO staff accounts.
