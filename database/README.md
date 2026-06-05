@@ -97,7 +97,6 @@ Defines which stalls belong to each map category.
 
 ## Pricing
 
-| Corner (20 sqm) | ₱4,500 |
 
 ---
 
