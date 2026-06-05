@@ -62,6 +62,7 @@ Authorized BPLO staff accounts.
 | `role`     | TEXT        | `admin` · `staff`               |
 
 ### `reservation_counter`
+
 Single-row counter for generating sequential reservation numbers.
 
 ---
