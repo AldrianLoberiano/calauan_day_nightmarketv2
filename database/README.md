@@ -99,6 +99,7 @@ Defines which stalls belong to each map category.
 
 | Size            | Monthly Rent |
 | --------------- | ------------ |
+| Small (6 sqm)   | ₱1,500       |
 
 ---
 
