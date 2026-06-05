@@ -82,6 +82,7 @@ Defines which stalls belong to each map category.
 | Section         | Stall IDs | Count   |
 | --------------- | --------- | ------- |
 | Bottom Row      | 1 – 71    | 71      |
+| Left Column     | 72 – 134  | 63      |
 
 ---
 
