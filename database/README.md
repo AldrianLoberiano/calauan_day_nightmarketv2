@@ -90,6 +90,7 @@ Defines which stalls belong to each map category.
 | Corner A        | A1 – A5   | 5       |
 | Corner B        | B1 – B4   | 4       |
 | Corner C        | C1 – C4   | 4       |
+| Corner D        | D1 – D6   | 6       |
 
 ---
 
