@@ -55,7 +55,6 @@ Every reservation request submitted by applicants.
 
 Authorized BPLO staff accounts.
 
-| `username` | TEXT UNIQUE | Login username |
 | `password` | TEXT | Plain text (hash in production) |
 | `role` | TEXT | `admin` · `staff` |
 
