@@ -74,6 +74,7 @@ Defines which stalls belong to each map category.
 | `map_name`   | TEXT    | Map category (e.g. `design_map`, `all_stalls`) |
 | `stall_id`   | TEXT FK | References `stalls.id`                         |
 | `created_at` | TEXT    | Timestamp                                      |
+
 ---
 
 ## Stall Layout (277 total)
