@@ -11,3 +11,4 @@ database/schema.sql
 .env
 .env
 database/migrations/20260605_add_stalls_277_to_300.sql
+database/migrations/20260605_add_stall_maps.sql
