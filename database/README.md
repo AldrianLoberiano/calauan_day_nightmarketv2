@@ -36,7 +36,6 @@ Master list of all 277 market stalls.
 
 Every reservation request submitted by applicants.
 
-| `contact_number` | TEXT | Philippine mobile number |
 | `business_name` | TEXT | Optional |
 | `address` | TEXT | Optional |
 | `status` | TEXT | `pending` · `approved` · `rejected` · `occupied` |
