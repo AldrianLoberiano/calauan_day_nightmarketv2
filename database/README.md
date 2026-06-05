@@ -24,6 +24,7 @@ Master list of all 277 market stalls.
 | `id`             | TEXT PK | Stall ID (e.g. `"1"`, `"A1"`)                     |
 | `section`        | TEXT    | Market section name                               |
 | `number`         | INTEGER | Row number (0 = corner stall)                     |
+| `status`         | TEXT    | `available` · `pending` · `reserved` · `occupied` |
 
 ### `reservations`
 Every reservation request submitted by applicants.
