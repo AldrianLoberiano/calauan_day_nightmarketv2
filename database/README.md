@@ -40,6 +40,7 @@ Every reservation request submitted by applicants.
 | -------------------- | ----------- | ------------------------------------------------ |
 | `id`                 | TEXT PK     | UUID v4                                          |
 | `reservation_number` | TEXT UNIQUE | e.g. `RES-2026-0001`                             |
+| `stall_id`           | TEXT FK     | References `stalls.id`                           |
 
 ### `admin_users`
 Authorized BPLO staff accounts.
