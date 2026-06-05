@@ -29,6 +29,7 @@ Master list of all 277 market stalls.
 | `size`           | TEXT    | `small` · `medium` · `large` · `corner`           |
 | `category`       | TEXT    | One of 5 stall categories                         |
 | `description`    | TEXT    | Stall description text                            |
+| `image_url`      | TEXT    | Unsplash image URL                                |
 
 ### `reservations`
 Every reservation request submitted by applicants.
