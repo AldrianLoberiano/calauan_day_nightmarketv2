@@ -87,6 +87,7 @@ Defines which stalls belong to each map category.
 | Top Row         | 136 – 196 | 61      |
 | Upper Right Row | 197 – 225 | 29      |
 | Right Column    | 226 – 258 | 33      |
+| Corner A        | A1 – A5   | 5       |
 
 ---
 
