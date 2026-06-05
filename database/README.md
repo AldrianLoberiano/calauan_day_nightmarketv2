@@ -45,6 +45,7 @@ Every reservation request submitted by applicants.
 | `contact_number`     | TEXT        | Philippine mobile number                         |
 | `business_name`      | TEXT        | Optional                                         |
 | `address`            | TEXT        | Optional                                         |
+| `status`             | TEXT        | `pending` · `approved` · `rejected` · `occupied` |
 
 ### `admin_users`
 Authorized BPLO staff accounts.
