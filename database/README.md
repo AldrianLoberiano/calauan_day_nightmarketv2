@@ -19,7 +19,6 @@ Stall Reservation Mapping System · BPLO
 
 Master list of all 277 market stalls.
 
-| `description` | TEXT | Stall description text |
 | `image_url` | TEXT | Unsplash image URL |
 | `reservation_id` | TEXT FK | Active reservation (nullable) |
 
