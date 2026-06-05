@@ -6,7 +6,6 @@ Stall Reservation Mapping System · BPLO
 
 ## Files
 
-| `seed.json` | Seed data — config, rules, admin users, reference values |
 
 ---
 
