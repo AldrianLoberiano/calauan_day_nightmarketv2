@@ -98,6 +98,7 @@ Defines which stalls belong to each map category.
 ## Pricing
 
 | Size            | Monthly Rent |
+| --------------- | ------------ |
 
 ---
 
