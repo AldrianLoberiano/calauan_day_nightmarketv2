@@ -19,7 +19,6 @@ Stall Reservation Mapping System · BPLO
 
 Master list of all 277 market stalls.
 
-| Column | Type | Description |
 |--------|------|-------------|
 | `id` | TEXT PK | Stall ID (e.g. `"1"`, `"A1"`) |
 | `section` | TEXT | Market section name |
