@@ -43,6 +43,7 @@ Every reservation request submitted by applicants.
 | `stall_id`           | TEXT FK     | References `stalls.id`                           |
 | `full_name`          | TEXT        | Applicant full name                              |
 | `contact_number`     | TEXT        | Philippine mobile number                         |
+| `business_name`      | TEXT        | Optional                                         |
 
 ### `admin_users`
 Authorized BPLO staff accounts.
