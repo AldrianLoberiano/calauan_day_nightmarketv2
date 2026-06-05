@@ -70,6 +70,7 @@ Single-row counter for generating sequential reservation numbers.
 Defines which stalls belong to each map category.
 
 | Column       | Type    | Description                                    |
+| ------------ | ------- | ---------------------------------------------- |
 ---
 
 ## Stall Layout (277 total)
