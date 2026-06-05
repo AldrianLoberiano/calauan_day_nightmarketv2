@@ -47,6 +47,7 @@ Every reservation request submitted by applicants.
 | `address`            | TEXT        | Optional                                         |
 | `status`             | TEXT        | `pending` · `approved` · `rejected` · `occupied` |
 | `admin_notes`        | TEXT        | Rejection reason or admin remarks                |
+| `created_at`         | TEXT        | ISO 8601 timestamp                               |
 
 ### `admin_users`
 Authorized BPLO staff accounts.
