@@ -68,6 +68,7 @@ Single-row counter for generating sequential reservation numbers.
 ### `stall_maps`
 
 Defines which stalls belong to each map category.
+
 ---
 
 ## Stall Layout (277 total)
