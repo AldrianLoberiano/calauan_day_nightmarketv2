@@ -83,6 +83,7 @@ Defines which stalls belong to each map category.
 | --------------- | --------- | ------- |
 | Bottom Row      | 1 – 71    | 71      |
 | Left Column     | 72 – 134  | 63      |
+| Top Left Corner | 135       | 1       |
 
 ---
 
