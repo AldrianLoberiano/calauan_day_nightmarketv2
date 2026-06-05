@@ -36,7 +36,6 @@ Master list of all 277 market stalls.
 
 Every reservation request submitted by applicants.
 
-| `business_name` | TEXT | Optional |
 | `address` | TEXT | Optional |
 | `status` | TEXT | `pending` · `approved` · `rejected` · `occupied` |
 | `admin_notes` | TEXT | Rejection reason or admin remarks |
