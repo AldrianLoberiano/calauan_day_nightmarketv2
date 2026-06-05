@@ -49,6 +49,7 @@ Every reservation request submitted by applicants.
 | `admin_notes`        | TEXT        | Rejection reason or admin remarks                |
 | `created_at`         | TEXT        | ISO 8601 timestamp                               |
 | `expires_at`         | TEXT        | `created_at` + 3 days                            |
+| `updated_at`         | TEXT        | Last modified timestamp                          |
 
 ### `admin_users`
 Authorized BPLO staff accounts.
