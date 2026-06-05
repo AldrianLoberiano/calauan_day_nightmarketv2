@@ -38,6 +38,7 @@ Every reservation request submitted by applicants.
 
 | Column               | Type        | Description                                      |
 | -------------------- | ----------- | ------------------------------------------------ |
+| `id`                 | TEXT PK     | UUID v4                                          |
 
 ### `admin_users`
 Authorized BPLO staff accounts.
