@@ -9,6 +9,7 @@ Stall Reservation Mapping System · BPLO
 | File         | Purpose                                                  |
 | ------------ | -------------------------------------------------------- |
 | `schema.sql` | Full SQL schema — tables, indexes, views, triggers       |
+| `seed.json`  | Seed data — config, rules, admin users, reference values |
 
 ---
 
