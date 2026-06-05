@@ -46,6 +46,7 @@ Every reservation request submitted by applicants.
 | `business_name`      | TEXT        | Optional                                         |
 | `address`            | TEXT        | Optional                                         |
 | `status`             | TEXT        | `pending` · `approved` · `rejected` · `occupied` |
+| `admin_notes`        | TEXT        | Rejection reason or admin remarks                |
 
 ### `admin_users`
 Authorized BPLO staff accounts.
