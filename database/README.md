@@ -65,6 +65,7 @@ Authorized BPLO staff accounts.
 
 Single-row counter for generating sequential reservation numbers.
 
+### `stall_maps`
 ---
 
 ## Stall Layout (277 total)
