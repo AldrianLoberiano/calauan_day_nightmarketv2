@@ -25,6 +25,7 @@ Master list of all 277 market stalls.
 | `section`        | TEXT    | Market section name                               |
 | `number`         | INTEGER | Row number (0 = corner stall)                     |
 | `status`         | TEXT    | `available` · `pending` · `reserved` · `occupied` |
+| `price`          | REAL    | Monthly rent in PHP                               |
 
 ### `reservations`
 Every reservation request submitted by applicants.
