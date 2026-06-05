@@ -27,6 +27,7 @@ Master list of all 277 market stalls.
 | `status`         | TEXT    | `available` · `pending` · `reserved` · `occupied` |
 | `price`          | REAL    | Monthly rent in PHP                               |
 | `size`           | TEXT    | `small` · `medium` · `large` · `corner`           |
+| `category`       | TEXT    | One of 5 stall categories                         |
 
 ### `reservations`
 Every reservation request submitted by applicants.
