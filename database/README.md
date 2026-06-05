@@ -52,6 +52,7 @@ Every reservation request submitted by applicants.
 | `updated_at`         | TEXT        | Last modified timestamp                          |
 
 ### `admin_users`
+
 Authorized BPLO staff accounts.
 
 | Column | Type | Description |
