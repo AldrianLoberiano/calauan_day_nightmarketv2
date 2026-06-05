@@ -55,6 +55,7 @@ Every reservation request submitted by applicants.
 
 Authorized BPLO staff accounts.
 
+| Column     | Type        | Description                     |
 
 ### `reservation_counter`
 Single-row counter for generating sequential reservation numbers.
