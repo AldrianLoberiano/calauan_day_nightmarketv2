@@ -35,6 +35,7 @@ export function StallGridView({ stalls, onStallClick, selectedStallId }: StallGr
   // Save & restore scroll position when a stall modal opens/closes
   const savedScrollRef = useRef<number>(0);
 
+  useEffect(() => {
   const idMap = new Map(
     stalls
       .filter(s => s.number > 0 && /^\d+$/.test(s.id))
