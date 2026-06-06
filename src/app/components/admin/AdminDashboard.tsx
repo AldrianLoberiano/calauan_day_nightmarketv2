@@ -445,6 +445,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                   onStallClick={(stall) => setSelectedStall(stall)}
                 />
               ) : (
+                <StallGridView
             </div>
           </div>
         )}
