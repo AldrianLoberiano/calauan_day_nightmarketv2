@@ -439,6 +439,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                   </div>
                 </div>
               </div>
+              {mapView === 'design' ? (
             </div>
           </div>
         )}
