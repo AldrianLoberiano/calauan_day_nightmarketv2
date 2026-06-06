@@ -402,6 +402,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
             <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
               {/* View toggle tabs */}
               <div className="px-4 pt-3 pb-0 border-b border-slate-100">
+                <div className="flex items-center justify-between mb-3">
             </div>
           </div>
         )}
