@@ -105,6 +105,7 @@ CREATE TABLE IF NOT EXISTS reservation_counter (
 -- =============================================================
 CREATE TABLE IF NOT EXISTS stall_maps (
     map_name VARCHAR(32) NOT NULL,
+    stall_id VARCHAR(8) NOT NULL,
 -- Optional: seed a default section if desired. Application will create rows on demand.
 
 -- =============================================================
