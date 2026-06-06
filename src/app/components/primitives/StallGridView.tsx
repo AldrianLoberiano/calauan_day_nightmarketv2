@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Stall } from '../../types';
 import { getDisplayCategoryById } from '../../utils/helpers';
 
@@ -6,6 +6,7 @@ interface StallGridViewProps {
   stalls: Stall[];
   onStallClick: (stall: Stall) => void;
   selectedStallId?: string;
+  activeSection?: string; // 'all' | 'A' | 'B' | 'AA' | 'BB' | 'C' | 'D' | 'R'
 }
 
 // ─── Actual section boundaries matching the DB & Design Map ───
@@ -29,17 +30,34 @@ function range(a: number, b: number) {
   return Array.from({ length: b - a + 1 }, (_, i) => a + i);
 }
 
-export function StallGridView({ stalls, onStallClick, selectedStallId }: StallGridViewProps) {
+export function StallGridView({ stalls, onStallClick, selectedStallId, activeSection = 'all' }: StallGridViewProps) {
   const [zoom, setZoom] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
   // Save & restore scroll position when a stall modal opens/closes
   const savedScrollRef = useRef<number>(0);
+
+  // Refs for each section so we can scroll-to them
+  const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({
+    A: null, B: null, AA: null, BB: null, C: null, D: null, R: null,
+  });
 
   useEffect(() => {
     if (containerRef.current) {
       containerRef.current.scrollTop = savedScrollRef.current;
     }
   }, [selectedStallId]);
+
+  // Scroll to the active section when it changes
+  useEffect(() => {
+    if (!activeSection || activeSection === 'all') return;
+    const target = sectionRefs.current[activeSection];
+    if (target && containerRef.current) {
+      const containerTop = containerRef.current.getBoundingClientRect().top;
+      const targetTop = target.getBoundingClientRect().top;
+      const offset = targetTop - containerTop + containerRef.current.scrollTop - 12;
+      containerRef.current.scrollTo({ top: offset, behavior: 'smooth' });
+    }
+  }, [activeSection]);
 
   function handleStallClick(stall: Stall) {
     if (containerRef.current) {
@@ -136,6 +154,12 @@ export function StallGridView({ stalls, onStallClick, selectedStallId }: StallGr
 
   const W = 22, H = 16; // stall button dimensions
 
+  // Helper: dim a section wrapper when another section is active
+  const sectionStyle = (key: string): React.CSSProperties =>
+    activeSection !== 'all' && activeSection !== key
+      ? { opacity: 0.25, transition: 'opacity 0.25s' }
+      : { opacity: 1,    transition: 'opacity 0.25s' };
+
   // Helper: how many in a section have a given status
   const countStatus = (nums: number[], status: string) =>
     nums.filter(n => idMap.get(n)?.status === status).length;
@@ -220,7 +244,7 @@ export function StallGridView({ stalls, onStallClick, selectedStallId }: StallGr
               </div>
 
               {/* ═══ TOP OUTER ROW — C (168–204) ═══ */}
-              <div style={{ display: 'flex', gap: 6, marginBottom: 2, alignItems: 'center', marginLeft: 48 }}>
+              <div ref={el => { sectionRefs.current['C'] = el; }} style={{ display: 'flex', gap: 6, marginBottom: 2, alignItems: 'center', marginLeft: 48, ...sectionStyle('C') }}>
                 <CL t="C" color="#10b981" />
                 <div>
                   <div style={{ fontSize: 9, color: '#6b7280', marginBottom: 1, marginLeft: 2 }}>
@@ -231,7 +255,7 @@ export function StallGridView({ stalls, onStallClick, selectedStallId }: StallGr
               </div>
 
               {/* ═══ INNER TOP ROW — D (205–243) ═══ */}
-              <div style={{ display: 'flex', gap: 6, marginBottom: 4, alignItems: 'center', marginLeft: 48 }}>
+              <div ref={el => { sectionRefs.current['D'] = el; }} style={{ display: 'flex', gap: 6, marginBottom: 4, alignItems: 'center', marginLeft: 48, ...sectionStyle('D') }}>
                 <CL t="D" color="#ef4444" />
                 <div>
                   <div style={{ fontSize: 9, color: '#6b7280', marginBottom: 1, marginLeft: 2 }}>
@@ -255,8 +279,12 @@ export function StallGridView({ stalls, onStallClick, selectedStallId }: StallGr
                     92–133 · 134–167
                   </div>
                   <div style={{ display: 'flex', gap: 4 }}>
-                    <VC nums={leftOuter} w={W} h={H} />
-                    <VC nums={leftInner} w={W} h={H} />
+                    <div ref={el => { sectionRefs.current['AA'] = el; }} style={sectionStyle('AA')}>
+                      <VC nums={leftOuter} w={W} h={H} />
+                    </div>
+                    <div ref={el => { sectionRefs.current['BB'] = el; }} style={sectionStyle('BB')}>
+                      <VC nums={leftInner} w={W} h={H} />
+                    </div>
                   </div>
                 </div>
 
@@ -281,7 +309,7 @@ export function StallGridView({ stalls, onStallClick, selectedStallId }: StallGr
                 </div>
 
                 {/* Right column R (244–300) */}
-                <div style={{ flexShrink: 0, marginLeft: 8, position: 'relative', display: 'flex', flexDirection: 'column' }}>
+                <div ref={el => { sectionRefs.current['R'] = el; }} style={{ flexShrink: 0, marginLeft: 8, position: 'relative', display: 'flex', flexDirection: 'column', ...sectionStyle('R') }}>
                   <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 4 }}>
                     <CL t="R" color="#8b5cf6" />
                   </div>
@@ -294,7 +322,7 @@ export function StallGridView({ stalls, onStallClick, selectedStallId }: StallGr
               </div>
 
               {/* ═══ INNER BOTTOM ROW — B (48–91) ═══ */}
-              <div style={{ display: 'flex', gap: 6, marginTop: 4, marginBottom: 2, alignItems: 'center', marginLeft: 48 }}>
+              <div ref={el => { sectionRefs.current['B'] = el; }} style={{ display: 'flex', gap: 6, marginTop: 4, marginBottom: 2, alignItems: 'center', marginLeft: 48, ...sectionStyle('B') }}>
                 <CL t="B" color="#8b5cf6" />
                 <div>
                   <div style={{ fontSize: 9, color: '#6b7280', marginBottom: 1, marginLeft: 2 }}>
@@ -305,7 +333,7 @@ export function StallGridView({ stalls, onStallClick, selectedStallId }: StallGr
               </div>
 
               {/* ═══ BOTTOM OUTER ROW — A (1–47) ═══ */}
-              <div style={{ display: 'flex', gap: 6, marginTop: 2, alignItems: 'center', marginLeft: 48 }}>
+              <div ref={el => { sectionRefs.current['A'] = el; }} style={{ display: 'flex', gap: 6, marginTop: 2, alignItems: 'center', marginLeft: 48, ...sectionStyle('A') }}>
                 <CL t="A" color="#3b82f6" />
                 <div>
                   <div style={{ fontSize: 9, color: '#6b7280', marginBottom: 1, marginLeft: 2 }}>
