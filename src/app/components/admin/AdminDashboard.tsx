@@ -413,6 +413,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 <div className="pb-3 overflow-x-auto">
                   <div className="flex gap-2 min-w-max">
                     <button
+                      id="admin-map-view-design-tab"
             </div>
           </div>
         )}
