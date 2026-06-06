@@ -176,6 +176,7 @@ BEGIN
       AND  status = 'pending';
   END IF;
 END
+/
 
 DELIMITER;
 
