@@ -400,7 +400,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
               <p className="text-sm text-slate-500">Click on any stall to view details or manage its reservation.</p>
             </div>
             <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-              <StallMap
                 stalls={stalls}
                 onStallClick={(stall) => setSelectedStall(stall)}
               />
