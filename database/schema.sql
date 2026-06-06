@@ -242,7 +242,6 @@ BEGIN
            updated_at = NOW()
     WHERE  id = NEW.stall_id;
   END IF;
-END//
 
 DELIMITER;
 
