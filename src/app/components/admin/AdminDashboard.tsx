@@ -31,6 +31,7 @@ type FilterStatus = 'all' | 'pending' | 'approved' | 'rejected' | 'occupied';
 
 export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [activeTab, setActiveTab] = useState<TabId>('dashboard');
+  const [mapView, setMapView] = useState<'design' | 'grid'>('design');
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [stalls, setStalls] = useState<Stall[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
