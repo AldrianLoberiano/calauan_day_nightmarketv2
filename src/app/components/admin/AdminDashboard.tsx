@@ -446,6 +446,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 />
               ) : (
                 <StallGridView
+                  stalls={stalls}
             </div>
           </div>
         )}
