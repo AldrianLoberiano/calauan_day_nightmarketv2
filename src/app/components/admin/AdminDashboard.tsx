@@ -425,6 +425,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                       Design Map
                     </button>
                     <button
+                      id="admin-map-view-grid-tab"
             </div>
           </div>
         )}
