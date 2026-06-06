@@ -435,6 +435,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                     >
                       <LayoutGrid className="w-4 h-4" />
                       All Stalls (1–300)
+                    </button>
             </div>
           </div>
         )}
