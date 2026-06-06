@@ -440,6 +440,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 </div>
               </div>
               {mapView === 'design' ? (
+                <StallMap
             </div>
           </div>
         )}
