@@ -14,6 +14,7 @@ import {
 import { ReservationCard } from './ReservationCard';
 import { ReservationDetailsModal } from './ReservationDetailsModal';
 import { StallMap } from '../primitives/StallMap';
+import { StallGridView } from '../primitives/StallGridView';
 import { StallDetailModal } from '../primitives/StallDetailModal';
 import { ReservationFormModal } from '../primitives/ReservationFormModal';
 import { ReceiptModal } from '../primitives/ReceiptModal';
