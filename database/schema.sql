@@ -99,6 +99,7 @@ CREATE TABLE IF NOT EXISTS reservation_counter (
     counter INT NOT NULL DEFAULT 0
 ) ENGINE = InnoDB;
 
+-- =============================================================
 -- Optional: seed a default section if desired. Application will create rows on demand.
 
 -- =============================================================
