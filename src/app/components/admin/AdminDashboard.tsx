@@ -418,6 +418,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                       className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
                         mapView === 'design'
                           ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
+                          : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700'
             </div>
           </div>
         )}
