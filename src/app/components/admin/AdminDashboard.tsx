@@ -415,6 +415,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                     <button
                       id="admin-map-view-design-tab"
                       onClick={() => setMapView('design')}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
             </div>
           </div>
         )}
