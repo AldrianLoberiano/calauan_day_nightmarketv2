@@ -104,6 +104,7 @@ CREATE TABLE IF NOT EXISTS reservation_counter (
 --  Defines which stalls appear in each map category.
 -- =============================================================
 CREATE TABLE IF NOT EXISTS stall_maps (
+    map_name VARCHAR(32) NOT NULL,
 -- Optional: seed a default section if desired. Application will create rows on demand.
 
 -- =============================================================
