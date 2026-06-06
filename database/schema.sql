@@ -229,6 +229,7 @@ DELIMITER;
 -- =============================================================
 --  TRIGGER: update_stall_on_occupied
 -- =============================================================
+DELIMITER /
 
 CREATE TRIGGER update_stall_on_occupied
 AFTER UPDATE ON reservations
