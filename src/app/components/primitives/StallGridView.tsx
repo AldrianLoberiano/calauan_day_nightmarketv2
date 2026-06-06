@@ -61,6 +61,7 @@ export function StallGridView({ stalls, onStallClick, selectedStallId }: StallGr
     const disabled = !stall;
     return (
       <button
+        onClick={() => { if (!disabled && stall) handleStallClick(stall); }}
         title={
           stall
             ? `Stall ${num} · ${stall.status} · ${getDisplayCategoryById(stall.id, stall.category)} · Price: To be discussed`
