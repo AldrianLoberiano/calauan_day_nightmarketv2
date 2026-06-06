@@ -414,6 +414,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                   <div className="flex gap-2 min-w-max">
                     <button
                       id="admin-map-view-design-tab"
+                      onClick={() => setMapView('design')}
             </div>
           </div>
         )}
