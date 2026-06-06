@@ -184,6 +184,7 @@ DELIMITER;
 -- =============================================================
 --  TRIGGER: update_stall_on_approve
 -- =============================================================
+DELIMITER /
 
 CREATE TRIGGER update_stall_on_approve
 AFTER UPDATE ON reservations
