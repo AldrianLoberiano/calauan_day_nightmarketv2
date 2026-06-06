@@ -411,6 +411,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                   </div>
                 </div>
                 <div className="pb-3 overflow-x-auto">
+                  <div className="flex gap-2 min-w-max">
             </div>
           </div>
         )}
