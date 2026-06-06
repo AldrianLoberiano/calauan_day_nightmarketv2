@@ -100,6 +100,7 @@ CREATE TABLE IF NOT EXISTS reservation_counter (
 ) ENGINE = InnoDB;
 
 -- =============================================================
+--  TABLE: stall_maps
 -- Optional: seed a default section if desired. Application will create rows on demand.
 
 -- =============================================================
