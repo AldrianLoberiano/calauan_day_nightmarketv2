@@ -429,6 +429,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                       onClick={() => setMapView('grid')}
                       className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
                         mapView === 'grid'
+                          ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
             </div>
           </div>
         )}
