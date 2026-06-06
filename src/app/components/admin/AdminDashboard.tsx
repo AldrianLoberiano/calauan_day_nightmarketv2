@@ -420,6 +420,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                           ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
                           : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700'
                       }`}
+                    >
             </div>
           </div>
         )}
