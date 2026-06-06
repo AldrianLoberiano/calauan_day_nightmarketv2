@@ -437,6 +437,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                       All Stalls (1–300)
                     </button>
                   </div>
+                </div>
             </div>
           </div>
         )}
