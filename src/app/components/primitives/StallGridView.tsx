@@ -33,6 +33,7 @@ export function StallGridView({ stalls, onStallClick, selectedStallId }: StallGr
   const [zoom, setZoom] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
   // Save & restore scroll position when a stall modal opens/closes
+  const savedScrollRef = useRef<number>(0);
 
   const idMap = new Map(
     stalls
