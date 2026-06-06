@@ -433,6 +433,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                           : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700'
                       }`}
                     >
+                      <LayoutGrid className="w-4 h-4" />
             </div>
           </div>
         )}
