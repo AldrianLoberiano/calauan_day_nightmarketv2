@@ -111,6 +111,7 @@ CREATE TABLE IF NOT EXISTS stall_maps (
     INDEX idx_stall_maps_map (map_name),
     INDEX idx_stall_maps_stall (stall_id),
     CONSTRAINT fk_stall_maps_stall_id FOREIGN KEY (stall_id) REFERENCES stalls (id) ON DELETE CASCADE
+) ENGINE = InnoDB;
 -- Optional: seed a default section if desired. Application will create rows on demand.
 
 -- =============================================================
