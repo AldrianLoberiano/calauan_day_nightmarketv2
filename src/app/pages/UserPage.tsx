@@ -22,6 +22,7 @@ export function UserPage() {
   const [filterCategory, setFilterCategory] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
   const [mapView, setMapView] = useState<'design' | 'grid'>('design');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   async function loadStalls() {
     const updated = await checkAndExpireReservations();
@@ -235,32 +236,93 @@ export function UserPage() {
               </div>
             </div>
 
-            {/* View toggle tabs */}
-            <div className="mt-3 flex gap-2">
-              <button
-                id="map-view-design-tab"
-                onClick={() => setMapView('design')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
-                  mapView === 'design'
-                    ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
-                    : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700'
-                }`}
-              >
-                <MapIcon className="w-4 h-4" />
-                Design Map
-              </button>
-              <button
-                id="map-view-grid-tab"
-                onClick={() => setMapView('grid')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
-                  mapView === 'grid'
-                    ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
-                    : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700'
-                }`}
-              >
-                <LayoutGrid className="w-4 h-4" />
-                All Stalls (1–300)
-              </button>
+            {/* View selector dropdown */}
+            <div className="mt-3">
+              <div className="relative inline-block" id="map-view-dropdown-wrapper" style={{ zIndex: 1000 }}>
+                <button
+                  id="map-view-selector"
+                  onClick={() => setDropdownOpen(o => !o)}
+                  style={{ color: '#334155' }}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 hover:bg-slate-200 transition-all duration-200 border border-slate-200"
+                >
+                  {mapView === 'design' ? (
+                    <MapIcon className="w-4 h-4 text-blue-600" />
+                  ) : (
+                    <LayoutGrid className="w-4 h-4 text-blue-600" />
+                  )}
+                  <span>{mapView === 'design' ? 'Design Map' : 'All Stalls (1–300)'}</span>
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 text-slate-500 transition-transform duration-200 ${
+                      dropdownOpen ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+
+                {dropdownOpen && (
+                  <>
+                    <div
+                      className="fixed inset-0"
+                      style={{ zIndex: 999 }}
+                      onClick={() => setDropdownOpen(false)}
+                    />
+                    <div
+                      className="absolute left-0 top-full mt-1.5 bg-white rounded-xl shadow-xl border border-slate-200 py-1 min-w-[200px] overflow-hidden"
+                      style={{ animation: 'fadeSlideDown 0.15s ease', zIndex: 1000 }}
+                    >
+                      <button
+                        id="map-view-design-tab"
+                        onClick={() => { setMapView('design'); setDropdownOpen(false); }}
+                        style={{
+                          width: '100%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '10px',
+                          padding: '10px 16px',
+                          fontSize: '13px',
+                          fontWeight: 500,
+                          color: '#1e293b',
+                          background: mapView === 'design' ? '#f1f5f9' : 'transparent',
+                          border: 'none',
+                          borderLeft: mapView === 'design' ? '3px solid #3b82f6' : '3px solid transparent',
+                          cursor: 'pointer',
+                          textAlign: 'left',
+                          transition: 'background 0.12s',
+                        }}
+                        onMouseEnter={e => { e.currentTarget.style.background = '#f8fafc'; }}
+                        onMouseLeave={e => { e.currentTarget.style.background = mapView === 'design' ? '#f1f5f9' : 'transparent'; }}
+                      >
+                        <MapIcon style={{ width: 16, height: 16, flexShrink: 0, color: '#3b82f6' }} />
+                        Design Map
+                      </button>
+                      <button
+                        id="map-view-grid-tab"
+                        onClick={() => { setMapView('grid'); setDropdownOpen(false); }}
+                        style={{
+                          width: '100%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '10px',
+                          padding: '10px 16px',
+                          fontSize: '13px',
+                          fontWeight: 500,
+                          color: '#1e293b',
+                          background: mapView === 'grid' ? '#f1f5f9' : 'transparent',
+                          border: 'none',
+                          borderLeft: mapView === 'grid' ? '3px solid #3b82f6' : '3px solid transparent',
+                          cursor: 'pointer',
+                          textAlign: 'left',
+                          transition: 'background 0.12s',
+                        }}
+                        onMouseEnter={e => { e.currentTarget.style.background = '#f8fafc'; }}
+                        onMouseLeave={e => { e.currentTarget.style.background = mapView === 'grid' ? '#f1f5f9' : 'transparent'; }}
+                      >
+                        <LayoutGrid style={{ width: 16, height: 16, flexShrink: 0, color: '#3b82f6' }} />
+                        All Stalls (1–300)
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           </div>
 
