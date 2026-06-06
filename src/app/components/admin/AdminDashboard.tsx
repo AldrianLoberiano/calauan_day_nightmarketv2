@@ -443,6 +443,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 <StallMap
                   stalls={stalls}
                   onStallClick={(stall) => setSelectedStall(stall)}
+                />
             </div>
           </div>
         )}
