@@ -47,6 +47,7 @@ export function StallGridView({ stalls, onStallClick, selectedStallId }: StallGr
     }
     onStallClick(stall);
   }
+
   const idMap = new Map(
     stalls
       .filter(s => s.number > 0 && /^\d+$/.test(s.id))
