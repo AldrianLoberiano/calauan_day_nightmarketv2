@@ -107,6 +107,7 @@ CREATE TABLE IF NOT EXISTS stall_maps (
     map_name VARCHAR(32) NOT NULL,
     stall_id VARCHAR(8) NOT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (map_name, stall_id),
 -- Optional: seed a default section if desired. Application will create rows on demand.
 
 -- =============================================================
