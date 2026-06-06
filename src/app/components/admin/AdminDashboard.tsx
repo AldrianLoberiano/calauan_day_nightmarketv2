@@ -450,6 +450,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                   onStallClick={(stall) => setSelectedStall(stall)}
                   selectedStallId={selectedStall?.id}
                 />
+              )}
             </div>
           </div>
         )}
