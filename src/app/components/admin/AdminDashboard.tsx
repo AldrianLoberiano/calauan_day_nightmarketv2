@@ -442,6 +442,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
               {mapView === 'design' ? (
                 <StallMap
                   stalls={stalls}
+                  onStallClick={(stall) => setSelectedStall(stall)}
             </div>
           </div>
         )}
