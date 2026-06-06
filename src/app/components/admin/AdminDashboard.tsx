@@ -404,6 +404,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
               <div className="px-4 pt-3 pb-0 border-b border-slate-100">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-4 text-[11px] text-slate-500">
+                    <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-green-500 inline-block" />Available</span>
             </div>
           </div>
         )}
