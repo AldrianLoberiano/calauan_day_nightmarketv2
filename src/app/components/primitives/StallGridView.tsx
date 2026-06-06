@@ -32,6 +32,7 @@ function range(a: number, b: number) {
 export function StallGridView({ stalls, onStallClick, selectedStallId }: StallGridViewProps) {
   const [zoom, setZoom] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
+  // Save & restore scroll position when a stall modal opens/closes
 
   const idMap = new Map(
     stalls
