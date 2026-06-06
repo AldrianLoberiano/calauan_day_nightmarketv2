@@ -198,6 +198,7 @@ BEGIN
     WHERE  id = NEW.stall_id;
   END IF;
 END
+/
 
 DELIMITER;
 
