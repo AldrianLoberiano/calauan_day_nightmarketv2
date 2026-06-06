@@ -36,6 +36,7 @@ export function StallGridView({ stalls, onStallClick, selectedStallId }: StallGr
   const savedScrollRef = useRef<number>(0);
 
   useEffect(() => {
+    if (containerRef.current) {
   const idMap = new Map(
     stalls
       .filter(s => s.number > 0 && /^\d+$/.test(s.id))
