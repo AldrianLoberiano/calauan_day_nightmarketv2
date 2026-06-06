@@ -175,6 +175,7 @@ BEGIN
     WHERE  id = NEW.stall_id
       AND  status = 'pending';
   END IF;
+END
 
 DELIMITER;
 
