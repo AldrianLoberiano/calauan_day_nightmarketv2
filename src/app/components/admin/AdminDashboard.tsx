@@ -424,6 +424,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                       <MapIcon className="w-4 h-4" />
                       Design Map
                     </button>
+                    <button
             </div>
           </div>
         )}
