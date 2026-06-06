@@ -408,6 +408,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                     <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-amber-400 inline-block" />Pending</span>
                     <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-red-500 inline-block" />Reserved</span>
                     <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-slate-400 inline-block" />Occupied</span>
+                  </div>
             </div>
           </div>
         )}
