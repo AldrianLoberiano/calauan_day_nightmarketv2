@@ -154,7 +154,6 @@ ORDER BY r.created_at ASC;
 -- =============================================================
 --  TRIGGER: auto_expire_reservations
 -- =============================================================
-DELIMITER / /
 
 CREATE TRIGGER auto_expire_reservations
 AFTER UPDATE ON reservations
