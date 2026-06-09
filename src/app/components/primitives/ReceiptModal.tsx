@@ -202,7 +202,7 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
               <p className="text-sm font-bold text-blue-800 mb-2">Next Steps:</p>
               <ol className="text-sm text-blue-700 space-y-1.5 list-decimal list-inside">
                 <li>Take a screenshot or capture this receipt.</li>
-                <li>Visit the <strong>BPLO Office</strong> within <strong>3 days</strong>.</li>
+                <li>Visit the <strong>BPLO Office</strong> within <strong>4 to 5 days</strong>.</li>
                 <li>Present your Reservation Number: <strong>{reservation.reservationNumber}</strong></li>
                 <li>Complete your business permit application.</li>
               </ol>
