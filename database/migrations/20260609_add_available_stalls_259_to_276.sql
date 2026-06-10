@@ -20,3 +20,4 @@ VALUES
      'General Merchandise',
      'Great for personal care products and hygiene goods.',
      'https://images.unsplash.com/photo-1542838132-92c53300491e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400',
+     NULL),
