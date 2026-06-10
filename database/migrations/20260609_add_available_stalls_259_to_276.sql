@@ -15,3 +15,4 @@ VALUES
      'Clothing & Apparel',
      'Ideal for school uniforms, casual wear, and workwear.',
      'https://images.unsplash.com/photo-1441986300917-64674bd600d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400',
+     NULL),
