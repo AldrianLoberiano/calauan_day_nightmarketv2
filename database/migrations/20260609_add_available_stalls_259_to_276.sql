@@ -13,3 +13,4 @@ INSERT IGNORE INTO stalls
 VALUES
     ('259', 'Right Column', 259, 'available', 3500, 'large',
      'Clothing & Apparel',
+     'Ideal for school uniforms, casual wear, and workwear.',
