@@ -25,3 +25,4 @@ VALUES
      'Cooked Food',
      'Corner stall with extra space for cooking equipment and display.',
      'https://images.unsplash.com/photo-1504674900247-0877df9cc836?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400',
+     NULL),
