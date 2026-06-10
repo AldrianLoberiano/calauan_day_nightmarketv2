@@ -31,3 +31,4 @@ VALUES
      'Corner stall with wide display area for colorful produce.',
      'https://images.unsplash.com/photo-1540420773420-3366772f4999?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400',
      NULL),
+    ('263', 'Right Column', 263, 'available', 2500, 'medium',
