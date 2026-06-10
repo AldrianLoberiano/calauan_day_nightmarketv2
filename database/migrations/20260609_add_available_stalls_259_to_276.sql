@@ -10,3 +10,4 @@ USE nightmarket;
 
 INSERT IGNORE INTO stalls
     (id, section, number, status, price, size, category, description, image_url, reservation_id)
+VALUES
