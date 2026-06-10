@@ -22,3 +22,4 @@ VALUES
      'https://images.unsplash.com/photo-1542838132-92c53300491e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400',
      NULL),
     ('261', 'Right Column', 261, 'available', 1500, 'small',
+     'Cooked Food',
