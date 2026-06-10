@@ -18,3 +18,4 @@ VALUES
      NULL),
     ('260', 'Right Column', 260, 'available', 2500, 'medium',
      'General Merchandise',
+     'Great for personal care products and hygiene goods.',
