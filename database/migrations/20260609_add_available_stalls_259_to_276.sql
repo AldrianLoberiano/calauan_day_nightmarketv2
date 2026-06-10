@@ -29,3 +29,4 @@ VALUES
     ('262', 'Right Column', 262, 'available', 2500, 'medium',
      'Vegetables & Fruits',
      'Corner stall with wide display area for colorful produce.',
+     'https://images.unsplash.com/photo-1540420773420-3366772f4999?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400',
