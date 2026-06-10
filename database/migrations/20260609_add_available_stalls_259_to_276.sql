@@ -23,3 +23,4 @@ VALUES
      NULL),
     ('261', 'Right Column', 261, 'available', 1500, 'small',
      'Cooked Food',
+     'Corner stall with extra space for cooking equipment and display.',
