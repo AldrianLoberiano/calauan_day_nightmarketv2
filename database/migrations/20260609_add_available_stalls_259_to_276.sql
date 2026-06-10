@@ -28,3 +28,4 @@ VALUES
      NULL),
     ('262', 'Right Column', 262, 'available', 2500, 'medium',
      'Vegetables & Fruits',
+     'Corner stall with wide display area for colorful produce.',
