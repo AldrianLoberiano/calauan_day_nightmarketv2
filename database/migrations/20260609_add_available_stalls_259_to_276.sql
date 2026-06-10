@@ -8,3 +8,4 @@
 
 USE nightmarket;
 
+INSERT IGNORE INTO stalls
