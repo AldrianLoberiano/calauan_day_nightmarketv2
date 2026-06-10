@@ -1,2 +1,3 @@
 -- =============================================================
 --  MIGRATION: Add available stalls 259-276 (Right Column)
+--  Database : nightmarket
