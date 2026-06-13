@@ -798,6 +798,7 @@ app.use((err, req, res, next) => {
 Promise.resolve()
   .then(() => ensureReservationColumns())
   .then(() => ensureStallsSeeded())
+  .then(() => ensureAvailableStalls259To276())
   .then(() => {
     app.listen(port, () => {
       console.log(`API running on http://localhost:${port}`);
