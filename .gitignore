@@ -19,3 +19,4 @@ database/schema.sql
 database/schema.sql
 database/schema.sql
 database/schema.sql
+database/migrations/20260609_add_available_stalls_259_to_276.sql
