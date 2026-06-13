@@ -139,6 +139,7 @@ async function ensureAvailableStalls259To276() {
   const stallIds = stalls.map((s) => s.id);
 
   await pool.query(
+    `INSERT IGNORE INTO stalls
 // Ensure reservation columns for DTI and cedula exist (adds columns if missing)
 async function ensureReservationColumns() {
   try {
