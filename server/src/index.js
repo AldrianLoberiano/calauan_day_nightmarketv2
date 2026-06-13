@@ -153,6 +153,7 @@ async function ensureAvailableStalls259To276() {
        AND reservation_id IS NULL`,
     [stallIds]
   );
+}
 // Ensure reservation columns for DTI and cedula exist (adds columns if missing)
 async function ensureReservationColumns() {
   try {
