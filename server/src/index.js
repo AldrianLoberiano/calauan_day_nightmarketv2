@@ -140,6 +140,7 @@ async function ensureAvailableStalls259To276() {
 
   await pool.query(
     `INSERT IGNORE INTO stalls
+      (id, section, number, status, price, size, category, description, image_url, reservation_id)
 // Ensure reservation columns for DTI and cedula exist (adds columns if missing)
 async function ensureReservationColumns() {
   try {
