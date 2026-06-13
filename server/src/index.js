@@ -148,6 +148,7 @@ async function ensureAvailableStalls259To276() {
   await pool.query(
     `UPDATE stalls
        SET status = 'available',
+           updated_at = NOW()
 // Ensure reservation columns for DTI and cedula exist (adds columns if missing)
 async function ensureReservationColumns() {
   try {
