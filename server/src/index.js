@@ -119,6 +119,7 @@ async function ensureStallsSeeded() {
 async function ensureAvailableStalls259To276() {
   const stalls = generateInitialStalls().filter((stall) => {
     const numericId = Number(stall.id);
+    return Number.isFinite(numericId) && numericId >= 259 && numericId <= 276;
 // Ensure reservation columns for DTI and cedula exist (adds columns if missing)
 async function ensureReservationColumns() {
   try {
