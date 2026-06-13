@@ -132,6 +132,7 @@ async function ensureAvailableStalls259To276() {
     s.price,
     s.size,
     s.category,
+    s.description,
 // Ensure reservation columns for DTI and cedula exist (adds columns if missing)
 async function ensureReservationColumns() {
   try {
