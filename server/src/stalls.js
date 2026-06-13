@@ -89,6 +89,7 @@ function getSizeForStall(num) {
 }
 
 function getStatusForStall(num) {
+  if (num >= 259 && num <= 276) return 'available';
   if (num % 29 === 0) return 'occupied';
   if (num % 17 === 0) return 'reserved';
   return 'available';
