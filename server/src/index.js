@@ -124,6 +124,7 @@ async function ensureAvailableStalls259To276() {
 
   if (stalls.length === 0) return;
 
+  const values = stalls.map((s) => [
 // Ensure reservation columns for DTI and cedula exist (adds columns if missing)
 async function ensureReservationColumns() {
   try {
