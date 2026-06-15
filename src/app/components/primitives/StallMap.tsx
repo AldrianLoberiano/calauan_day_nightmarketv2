@@ -237,7 +237,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
         </div>
       </div>
 
-        <div style={{ transform:`scale(${zoom})`, transformOrigin:'top left', minWidth:1750,
           padding:14, background:'#fff', fontFamily:"'Courier New',monospace", position:'relative',
           width:'fit-content' }}>
 
