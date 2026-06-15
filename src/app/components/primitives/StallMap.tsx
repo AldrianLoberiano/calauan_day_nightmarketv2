@@ -247,6 +247,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
             backgroundImage:'repeating-linear-gradient(0deg,#1a1a6e 0,#1a1a6e 1px,transparent 1px,transparent 30px),repeating-linear-gradient(90deg,#1a1a6e 0,#1a1a6e 1px,transparent 1px,transparent 30px)' }}/>
 
             {/* Outer border */}
+            <div style={{ position:'relative', border:'3px solid #1a1a6e', overflow:'visible' }}>
 
             {/* Road SVG */}
             <svg
