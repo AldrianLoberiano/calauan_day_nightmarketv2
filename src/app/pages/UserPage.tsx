@@ -259,7 +259,6 @@ export function UserPage() {
                 </button>
 
                 {dropdownOpen && (
-                      onClick={() => setDropdownOpen(false)}
                     />
                     <div
                       className="absolute left-0 top-full mt-1.5 bg-white rounded-xl shadow-xl border border-slate-200 py-1 min-w-[200px] overflow-hidden"
