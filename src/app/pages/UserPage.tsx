@@ -274,6 +274,7 @@ export function UserPage() {
                         padding: '10px 16px',
                         fontSize: '13px',
                         fontWeight: 500,
+                        color: '#1e293b',
                     >
                       <button
                         id="map-view-design-tab"
