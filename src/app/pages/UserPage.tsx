@@ -259,6 +259,7 @@ export function UserPage() {
                 </button>
 
                 {dropdownOpen && (
+                  <div
                     >
                       <button
                         id="map-view-design-tab"
