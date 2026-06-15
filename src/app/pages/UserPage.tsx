@@ -281,6 +281,7 @@ export function UserPage() {
                         cursor: 'pointer',
                         textAlign: 'left',
                         transition: 'background 0.12s',
+                      }}
                     >
                       <button
                         id="map-view-design-tab"
