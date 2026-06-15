@@ -264,6 +264,7 @@ export function UserPage() {
                     style={{ animation: 'fadeSlideDown 0.15s ease', zIndex: 50 }}
                   >
                     <button
+                      id="map-view-design-tab"
                     >
                       <button
                         id="map-view-design-tab"
