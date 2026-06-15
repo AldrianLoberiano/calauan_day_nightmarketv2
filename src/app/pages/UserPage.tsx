@@ -283,6 +283,7 @@ export function UserPage() {
                         transition: 'background 0.12s',
                       }}
                       onMouseEnter={e => { e.currentTarget.style.background = '#f8fafc'; }}
+                      onMouseLeave={e => { e.currentTarget.style.background = mapView === 'design' ? '#f1f5f9' : 'transparent'; }}
                     >
                       <button
                         id="map-view-design-tab"
