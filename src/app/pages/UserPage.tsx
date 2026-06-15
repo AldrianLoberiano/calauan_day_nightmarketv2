@@ -273,6 +273,7 @@ export function UserPage() {
                         gap: '10px',
                         padding: '10px 16px',
                         fontSize: '13px',
+                        fontWeight: 500,
                     >
                       <button
                         id="map-view-design-tab"
