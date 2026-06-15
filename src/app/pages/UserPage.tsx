@@ -285,31 +285,9 @@ export function UserPage() {
                       onMouseEnter={e => { e.currentTarget.style.background = '#f8fafc'; }}
                       onMouseLeave={e => { e.currentTarget.style.background = mapView === 'design' ? '#f1f5f9' : 'transparent'; }}
                     >
-                      <button
-                        id="map-view-design-tab"
-                        onClick={() => { setMapView('design'); setDropdownOpen(false); }}
-                        style={{
-                          width: '100%',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '10px',
-                          padding: '10px 16px',
-                          fontSize: '13px',
-                          fontWeight: 500,
-                          color: '#1e293b',
-                          background: mapView === 'design' ? '#f1f5f9' : 'transparent',
-                          border: 'none',
-                          borderLeft: mapView === 'design' ? '3px solid #3b82f6' : '3px solid transparent',
-                          cursor: 'pointer',
-                          textAlign: 'left',
-                          transition: 'background 0.12s',
-                        }}
-                        onMouseEnter={e => { e.currentTarget.style.background = '#f8fafc'; }}
-                        onMouseLeave={e => { e.currentTarget.style.background = mapView === 'design' ? '#f1f5f9' : 'transparent'; }}
-                      >
-                        <MapIcon style={{ width: 16, height: 16, flexShrink: 0, color: '#3b82f6' }} />
-                        Design Map
-                      </button>
+                      <MapIcon style={{ width: 16, height: 16, flexShrink: 0, color: '#3b82f6' }} />
+                      Design Map
+                    </button>
                       <button
                         id="map-view-grid-tab"
                         onClick={() => { setMapView('grid'); setDropdownOpen(false); }}
@@ -336,7 +314,6 @@ export function UserPage() {
                         All Stalls (1–300)
                       </button>
                     </div>
-                  </>
                 )}
               </div>
             </div>
