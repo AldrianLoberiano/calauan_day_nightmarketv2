@@ -267,6 +267,7 @@ export function UserPage() {
                       id="map-view-design-tab"
                       onClick={() => { setMapView('design'); setDropdownOpen(false); }}
                       style={{
+                        width: '100%',
                     >
                       <button
                         id="map-view-design-tab"
