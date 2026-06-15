@@ -276,6 +276,7 @@ export function UserPage() {
                         fontWeight: 500,
                         color: '#1e293b',
                         background: mapView === 'design' ? '#f1f5f9' : 'transparent',
+                        border: 'none',
                     >
                       <button
                         id="map-view-design-tab"
