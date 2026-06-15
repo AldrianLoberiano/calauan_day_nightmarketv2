@@ -237,6 +237,7 @@ export function UserPage() {
             </div>
 
             {/* View selector dropdown */}
+            <div className="mt-3 relative">
                 <button
                   id="map-view-selector"
                   onClick={() => setDropdownOpen(o => !o)}
