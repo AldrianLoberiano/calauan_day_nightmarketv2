@@ -282,6 +282,7 @@ export function UserPage() {
                         textAlign: 'left',
                         transition: 'background 0.12s',
                       }}
+                      onMouseEnter={e => { e.currentTarget.style.background = '#f8fafc'; }}
                     >
                       <button
                         id="map-view-design-tab"
