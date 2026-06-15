@@ -279,6 +279,7 @@ export function UserPage() {
                         border: 'none',
                         borderLeft: mapView === 'design' ? '3px solid #3b82f6' : '3px solid transparent',
                         cursor: 'pointer',
+                        textAlign: 'left',
                     >
                       <button
                         id="map-view-design-tab"
