@@ -402,6 +402,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                   <div style={{ position:'absolute', left:-30, top:'50%', transform:'translateY(-50%)', zIndex:5 }}>
                     <CL t="AA"/>
                   </div>
+                  <div style={{ position:'absolute', left:68, top:'50%', transform:'translateY(-50%)', zIndex:5 }}>
                     <CL t="BB"/>
                   </div>
                   <div style={{ display:'flex', gap:10 }}>
