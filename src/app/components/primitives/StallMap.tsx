@@ -397,7 +397,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               <div style={{ display:'flex', gap:0, position:'relative', overflow:'visible' }}>
 
                 {/* Left paired columns */}
-                <div style={{ flexShrink:0, marginLeft:0, marginRight:3, marginTop:25, display:'flex', flexDirection:'column', gap:0, position:'relative' }}>
                   <div style={{ height:28, marginBottom:6 }} />
                   <div style={{ position:'absolute', left:-30, top:'50%', transform:'translateY(-50%)', zIndex:5 }}>
                     <CL t="AA"/>
