@@ -272,6 +272,7 @@ export function UserPage() {
                         alignItems: 'center',
                         gap: '10px',
                         padding: '10px 16px',
+                        fontSize: '13px',
                     >
                       <button
                         id="map-view-design-tab"
