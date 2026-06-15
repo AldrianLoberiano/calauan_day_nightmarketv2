@@ -259,7 +259,6 @@ export function UserPage() {
                 </button>
 
                 {dropdownOpen && (
-                      style={{ animation: 'fadeSlideDown 0.15s ease', zIndex: 1000 }}
                     >
                       <button
                         id="map-view-design-tab"
