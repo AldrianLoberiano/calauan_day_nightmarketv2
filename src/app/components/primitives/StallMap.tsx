@@ -238,6 +238,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
       </div>
 
       <div ref={containerRef} className="w-full overflow-auto" style={{ maxHeight: maxHeight ?? '80vh', overflow:'auto' }}>
+        <div style={{ transform:`scale(${zoom})`, transformOrigin:'top left', minWidth:1850,
           padding:14, background:'#fff', fontFamily:"'Courier New',monospace", position:'relative',
           width:'fit-content' }}>
 
