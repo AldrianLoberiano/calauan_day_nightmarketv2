@@ -237,7 +237,6 @@ export function UserPage() {
             </div>
 
             {/* View selector dropdown */}
-            <div className="mt-3">
               <div className="relative inline-block" id="map-view-dropdown-wrapper" style={{ zIndex: 1000 }}>
                 <button
                   id="map-view-selector"
