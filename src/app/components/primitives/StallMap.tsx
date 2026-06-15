@@ -276,8 +276,8 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                 <line key={`vm${i}`} x1={x} y1="3%" x2={x} y2="97%" stroke="#35d3de" strokeWidth={i?1.5:2.5} opacity={i?0.3:0.45}/>
               ))}
               {/* Inner walkway */}
-              <rect x="5.5%" y="20%" width="50%" height="70.5%" rx="8" fill="none" stroke="#000000" strokeWidth="1" opacity="5"/>
-              <rect x="5.5%" y="20%" width="50%" height="70.5%" rx="8" fill="none" stroke="#000000" strokeWidth="1" opacity="5"/>
+              <rect x="5.1" y="20%" width="50%" height="70.5%" rx="8" fill="none" stroke="#000000" strokeWidth="1" opacity="5"/>
+              <rect x="5.1%" y="20%" width="50%" height="70.5%" rx="8" fill="none" stroke="#000000" strokeWidth="1" opacity="5"/>
             </svg>
 
             <div style={{ position:'relative', zIndex:2, padding:'12px 14px' }}>
@@ -397,7 +397,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               <div style={{ display:'flex', gap:0, position:'relative', overflow:'visible' }}>
 
                 {/* Left paired columns */}
-                <div style={{ flexShrink:0, marginLeft:35, marginRight:3, marginTop:25, display:'flex', flexDirection:'column', gap:0, position:'relative', overflow:'visible' }}>
+                <div style={{ flexShrink:0, marginLeft:1, marginRight:3, marginTop:25, display:'flex', flexDirection:'column', gap:0, position:'relative', overflow:'visible' }}>
                   <div style={{ height:28, marginBottom:6 }} />
                   <div style={{ position:'absolute', left:-30, top:'50%', transform:'translateY(-50%)', zIndex:5 }}>
                     <CL t="AA"/>
@@ -515,7 +515,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               <div style={{ display:'flex', gap:8, marginTop:-3, alignItems:'center' }}>
                 <div style={{ marginLeft:70, display:'flex', alignItems:'center', gap:8 }}>
                   <CL t="A"/>
-                  <HR ss={outBL} w={17} h={15}/>
+                  <HR ss={outBL} w={24} h={18}/>
                 </div>
               </div>
             </div>
