@@ -260,6 +260,7 @@ export function UserPage() {
 
                 {dropdownOpen && (
                   <div
+                    className="absolute left-0 top-full mt-1.5 bg-white rounded-xl shadow-xl border border-slate-200 py-1 min-w-[200px] overflow-hidden"
                     >
                       <button
                         id="map-view-design-tab"
