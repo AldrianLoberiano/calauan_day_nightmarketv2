@@ -259,7 +259,6 @@ export function UserPage() {
                 </button>
 
                 {dropdownOpen && (
-                      style={{ zIndex: 999 }}
                       onClick={() => setDropdownOpen(false)}
                     />
                     <div
