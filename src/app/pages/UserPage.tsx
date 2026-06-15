@@ -243,7 +243,6 @@ export function UserPage() {
                   id="map-view-selector"
                   onClick={() => setDropdownOpen(o => !o)}
                   style={{ color: '#334155' }}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 hover:bg-slate-200 transition-all duration-200 border border-slate-200"
                 >
                   {mapView === 'design' ? (
                     <MapIcon className="w-4 h-4 text-blue-600" />
