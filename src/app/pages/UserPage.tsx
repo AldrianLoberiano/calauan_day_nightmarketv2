@@ -263,6 +263,7 @@ export function UserPage() {
                     className="absolute left-0 top-full mt-1.5 bg-white rounded-xl shadow-xl border border-slate-200 py-1 min-w-[200px] overflow-hidden"
                     style={{ animation: 'fadeSlideDown 0.15s ease', zIndex: 50 }}
                   >
+                    <button
                     >
                       <button
                         id="map-view-design-tab"
