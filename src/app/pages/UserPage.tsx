@@ -269,6 +269,7 @@ export function UserPage() {
                       style={{
                         width: '100%',
                         display: 'flex',
+                        alignItems: 'center',
                     >
                       <button
                         id="map-view-design-tab"
