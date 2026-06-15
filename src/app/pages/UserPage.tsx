@@ -259,7 +259,6 @@ export function UserPage() {
                 </button>
 
                 {dropdownOpen && (
-                      className="fixed inset-0"
                       style={{ zIndex: 999 }}
                       onClick={() => setDropdownOpen(false)}
                     />
