@@ -237,7 +237,6 @@ export function UserPage() {
             </div>
 
             {/* View selector dropdown */}
-              <div className="relative inline-block" id="map-view-dropdown-wrapper" style={{ zIndex: 1000 }}>
                 <button
                   id="map-view-selector"
                   onClick={() => setDropdownOpen(o => !o)}
