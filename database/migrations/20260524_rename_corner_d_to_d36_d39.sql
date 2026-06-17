@@ -1,4 +1,3 @@
-UPDATE reservations
 SET stall_id = CASE stall_id
   WHEN 'D1' THEN 'D36'
   WHEN 'D2' THEN 'D37'
