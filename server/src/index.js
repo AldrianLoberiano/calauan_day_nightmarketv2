@@ -104,6 +104,7 @@ function mapViewReservation(row) {
     status: row.status,
     adminNotes: row.admin_notes,
     price: row.stall_price != null ? Number(row.stall_price) : undefined,
+    source: row.source,
     createdAt: row.created_at,
     expiresAt: row.expires_at,
     updatedAt: row.updated_at,
