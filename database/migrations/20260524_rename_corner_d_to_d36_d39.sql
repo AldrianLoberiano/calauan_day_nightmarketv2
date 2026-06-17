@@ -1,3 +1,2 @@
-COMMIT;
 
 -- End of migration
