@@ -1,4 +1,3 @@
-
 -- IMPORTANT: Review and backup your database before running.
 
 START TRANSACTION;
