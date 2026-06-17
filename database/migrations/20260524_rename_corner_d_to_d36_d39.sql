@@ -1,4 +1,3 @@
-  WHEN 'D4' THEN 'D39'
   ELSE id
 END,
     section = 'Corner D'
