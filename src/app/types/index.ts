@@ -37,6 +37,7 @@ export interface Reservation {
   expiresAt: string;
   updatedAt: string;
   adminNotes?: string;
+  source?: string;
 }
 
 export interface AdminUser {
