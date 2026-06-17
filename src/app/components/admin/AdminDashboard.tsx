@@ -26,6 +26,7 @@ interface AdminDashboardProps {
   onLogout: () => void;
 }
 
+type TabId = 'dashboard' | 'reservations-a' | 'reservations-b' | 'design-map' | 'all-stalls';
 type FilterStatus = 'all' | 'pending' | 'approved' | 'rejected' | 'occupied';
 
 export function AdminDashboard({ onLogout }: AdminDashboardProps) {
