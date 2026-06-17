@@ -24,20 +24,22 @@ export function UserPage() {
   const [mapView, setMapView] = useState<'design' | 'grid'>('design');
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  async function loadStalls() {
-    const updated = await checkAndExpireReservations();
+  async function loadStalls(source?: string) {
+    const updated = await checkAndExpireReservations(source);
     setStalls(Array.isArray(updated) ? updated : []);
     setIsLoading(false);
   }
 
+  const source = mapView === 'design' ? 'design_map' : 'all_stalls';
+
   useEffect(() => {
-    void loadStalls();
+    void loadStalls(source);
 
     // Subscribe to server-sent events for realtime updates
     const apiBase = (import.meta.env.VITE_API_URL ?? '/api').replace(/\/$/, '');
     const eventsUrl = `${apiBase}/events`;
     const es = new EventSource(eventsUrl);
-    const reload = () => { void loadStalls(); };
+    const reload = () => { void loadStalls(source); };
     es.addEventListener('reservation-created', reload as EventListener);
     es.addEventListener('reservation-updated', reload as EventListener);
     es.addEventListener('reservation-deleted', reload as EventListener);
@@ -50,7 +52,11 @@ export function UserPage() {
       clearInterval(interval);
       try { es.close(); } catch (e) {}
     };
-  }, []);
+  }, [source]);
+
+  useEffect(() => {
+    void loadStalls(source);
+  }, [source]);
 
   const safeStalls = Array.isArray(stalls) ? stalls : [];
   const availableCount = safeStalls.filter(s => s.status === 'available').length;
@@ -153,7 +159,7 @@ export function UserPage() {
   function handleReservationSuccess(reservation: Reservation, updatedStall: Stall) {
     setReserveStall(null);
     setReceiptData({ reservation, stall: updatedStall });
-    loadStalls();
+    void loadStalls(source);
   }
 
   return (
@@ -223,7 +229,7 @@ export function UserPage() {
           <div className="px-4 py-3 border-b border-slate-100">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div>
-                <h2 className="text-base font-bold text-slate-800">Interactive Stall Map — Night Market</h2>
+                <h2 className="text-base font-bold text-slate-800">Map A — Night Market</h2>
                 <p className="text-xs text-slate-500 mt-0.5">Click on any stall to view details and availability</p>
               </div>
               <div className="flex items-center gap-4">
@@ -250,7 +256,7 @@ export function UserPage() {
                   ) : (
                     <LayoutGrid className="w-4 h-4 text-blue-600" />
                   )}
-                  <span>{mapView === 'design' ? 'Design Map' : 'All Stalls (1–300)'}</span>
+                  <span>{mapView === 'design' ? 'Map A' : 'Map B (1–300)'}</span>
                   <ChevronDown
                     className={`w-3.5 h-3.5 text-slate-500 transition-transform duration-200 ${
                       dropdownOpen ? 'rotate-180' : ''
@@ -286,7 +292,7 @@ export function UserPage() {
                       onMouseLeave={e => { e.currentTarget.style.background = mapView === 'design' ? '#f1f5f9' : 'transparent'; }}
                     >
                       <MapIcon style={{ width: 16, height: 16, flexShrink: 0, color: '#3b82f6' }} />
-                      Design Map
+                      Map A
                     </button>
                       <button
                         id="map-view-grid-tab"
@@ -311,7 +317,7 @@ export function UserPage() {
                         onMouseLeave={e => { e.currentTarget.style.background = mapView === 'grid' ? '#f1f5f9' : 'transparent'; }}
                       >
                         <LayoutGrid style={{ width: 16, height: 16, flexShrink: 0, color: '#3b82f6' }} />
-                        All Stalls (1–300)
+                        Map B (1–300)
                       </button>
                     </div>
                 )}
@@ -495,7 +501,7 @@ export function UserPage() {
         <ReceiptModal
           reservation={receiptData.reservation}
           stall={receiptData.stall}
-          onClose={() => { setReceiptData(null); void loadStalls(); }}
+          onClose={() => { setReceiptData(null); void loadStalls(source); }}
         />
       )}
     </div>
