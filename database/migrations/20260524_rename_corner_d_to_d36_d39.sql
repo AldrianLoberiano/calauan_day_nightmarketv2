@@ -1,5 +1,4 @@
   WHEN 'D2' THEN 'D37'
-  WHEN 'D4' THEN 'D39'
   ELSE stall_id
 END
 WHERE stall_id IN ('D1','D2','D3','D4');
