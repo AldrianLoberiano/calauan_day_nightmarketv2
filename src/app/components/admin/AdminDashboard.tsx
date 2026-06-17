@@ -105,11 +105,16 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   }
 
   const stats = useMemo(() => {
+    const reservationsA = reservations.filter(r => r.source === 'design_map' || !r.source);
+    const reservationsB = reservations.filter(r => r.source === 'all_stalls');
+
     const total = reservations.length;
     const pending = reservations.filter(r => r.status === 'pending').length;
     const approved = reservations.filter(r => r.status === 'approved').length;
     const rejected = reservations.filter(r => r.status === 'rejected').length;
     const occupied = reservations.filter(r => r.status === 'occupied').length;
+    const pendingA = reservationsA.filter(r => r.status === 'pending').length;
+    const pendingB = reservationsB.filter(r => r.status === 'pending').length;
 
     const availableStalls = stalls.filter(s => s.status === 'available').length;
     const totalStalls = stalls.length;
@@ -117,12 +122,15 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
     const pendingStalls = stalls.filter(s => s.status === 'pending').length;
     const reservedStalls = stalls.filter(s => s.status === 'reserved').length;
 
-    return { total, pending, approved, rejected, occupied, availableStalls, totalStalls, occupiedStalls, pendingStalls, reservedStalls };
+    return { total, pending, approved, rejected, occupied, pendingA, pendingB, availableStalls, totalStalls, occupiedStalls, pendingStalls, reservedStalls };
   }, [reservations, stalls]);
 
   const filteredReservations = useMemo(() => {
+    const source = activeTab === 'reservations-b' ? 'all_stalls' : 'design_map';
     return reservations
       .filter(r => {
+        if (activeTab === 'reservations-a' && r.source !== 'design_map') return false;
+        if (activeTab === 'reservations-b' && r.source !== 'all_stalls') return false;
         if (filterStatus !== 'all' && r.status !== filterStatus) return false;
         if (searchQuery.trim()) {
           const q = searchQuery.toLowerCase();
@@ -137,15 +145,20 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
         return true;
       })
       .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-  }, [reservations, filterStatus, searchQuery]);
+  }, [reservations, filterStatus, searchQuery, activeTab]);
 
   function getStallForReservation(res: Reservation): Stall | undefined {
-    return stalls.find(s => s.id === res.stallId);
+    const source = (res as any).source;
+    if (source === 'all_stalls') {
+      return stallsAllStalls.find(s => s.id === res.stallId);
+    }
+    return stallsDesignMap.find(s => s.id === res.stallId);
   }
 
   const tabs = [
     { id: 'dashboard' as TabId, label: 'Dashboard', icon: <LayoutDashboard className="w-4 h-4" /> },
-    { id: 'reservations' as TabId, label: 'Reservations', icon: <ClipboardList className="w-4 h-4" />, badge: stats.pending > 0 ? stats.pending : undefined },
+    { id: 'reservations-a' as TabId, label: 'Map A Reservations', icon: <ClipboardList className="w-4 h-4" />, badge: stats.pendingA > 0 ? stats.pendingA : undefined },
+    { id: 'reservations-b' as TabId, label: 'Map B Reservations', icon: <ClipboardList className="w-4 h-4" />, badge: stats.pendingB > 0 ? stats.pendingB : undefined },
     { id: 'design-map' as TabId, label: 'Map A', icon: <MapIcon className="w-4 h-4" /> },
     { id: 'all-stalls' as TabId, label: 'Map B (1-300)', icon: <LayoutGrid className="w-4 h-4" /> },
   ];
@@ -348,12 +361,12 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
         )}
 
         {/* Reservations Tab */}
-        {activeTab === 'reservations' && (
+        {(activeTab === 'reservations-a' || activeTab === 'reservations-b') && (
           <div className="space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div>
-                <h2 className="text-xl font-black text-slate-800">All Reservations</h2>
-                <p className="text-sm text-slate-500">{filteredReservations.length} of {reservations.length} records</p>
+                <h2 className="text-xl font-black text-slate-800">{activeTab === 'reservations-a' ? 'Map A Reservations' : 'Map B Reservations'}</h2>
+                <p className="text-sm text-slate-500">{filteredReservations.length} of {activeTab === 'reservations-a' ? reservations.filter(r => r.source === 'design_map').length : reservations.filter(r => r.source === 'all_stalls').length} records</p>
               </div>
             </div>
 
