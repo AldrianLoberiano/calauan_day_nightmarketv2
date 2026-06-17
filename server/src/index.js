@@ -258,35 +258,25 @@ async function expireReservations() {
   try {
     await connection.beginTransaction();
 
-    const [expiredRows] = await connection.query(
-      'SELECT id, stall_id FROM reservations WHERE status = "pending" AND expires_at < NOW()'
-    );
+    const tables = ['design_map_reservations', 'all_stalls_reservations'];
+    for (const table of tables) {
+      const [expiredRows] = await connection.query(
+        `SELECT id, stall_id FROM ${table} WHERE status = 'pending' AND expires_at < NOW()`
+      );
 
-    if (expiredRows.length === 0) {
-      await connection.commit();
-      return;
+      if (expiredRows.length === 0) continue;
+
+      const expiredIds = expiredRows.map((row) => row.id);
+
+      await connection.query(
+        `UPDATE ${table}
+           SET status = 'rejected',
+             admin_notes = 'Auto-cancelled: Reservation expired after 4 days.',
+             updated_at = NOW()
+         WHERE id IN (?)`,
+        [expiredIds]
+      );
     }
-
-    const expiredIds = expiredRows.map((row) => row.id);
-    const expiredStalls = expiredRows.map((row) => row.stall_id);
-
-    await connection.query(
-      `UPDATE reservations
-         SET status = 'rejected',
-           admin_notes = 'Auto-cancelled: Reservation expired after 4 days.',
-           updated_at = NOW()
-       WHERE id IN (?)`,
-      [expiredIds]
-    );
-
-    await connection.query(
-      `UPDATE stalls
-       SET status = 'available',
-           reservation_id = NULL,
-           updated_at = NOW()
-       WHERE id IN (?) AND status = 'pending'`,
-      [expiredStalls]
-    );
 
     await connection.commit();
   } catch (err) {
@@ -295,6 +285,38 @@ async function expireReservations() {
   } finally {
     connection.release();
   }
+}
+
+async function findReservationById(id) {
+  const [designRows] = await pool.query('SELECT * FROM design_map_reservations WHERE id = ?', [id]);
+  if (designRows.length > 0) return { row: designRows[0], table: 'design_map_reservations' };
+  const [allRows] = await pool.query('SELECT * FROM all_stalls_reservations WHERE id = ?', [id]);
+  if (allRows.length > 0) return { row: allRows[0], table: 'all_stalls_reservations' };
+  return { row: null, table: null };
+}
+
+async function updateReservationById(connection, id, fields) {
+  const result1 = await connection.query(
+    `UPDATE design_map_reservations SET ${fields} WHERE id = ?`, [id]
+  );
+  const result2 = await connection.query(
+    `UPDATE all_stalls_reservations SET ${fields} WHERE id = ?`, [id]
+  );
+  return (result1[0].affectedRows + result2[0].affectedRows) > 0;
+}
+
+async function selectReservationWithStall(id) {
+  let [rows] = await pool.query(
+    `SELECT d.*, s.price AS stall_price FROM design_map_reservations d
+     LEFT JOIN stalls s ON s.id = d.stall_id WHERE d.id = ?`, [id]
+  );
+  if (rows.length > 0) return mapViewReservation(rows[0]);
+  [rows] = await pool.query(
+    `SELECT a.*, s.price AS stall_price FROM all_stalls_reservations a
+     LEFT JOIN stalls s ON s.id = a.stall_id WHERE a.id = ?`, [id]
+  );
+  if (rows.length > 0) return mapViewReservation(rows[0]);
+  return null;
 }
 
 async function nextReservationNumber(connection) {
@@ -387,8 +409,9 @@ async function getHealthDetails() {
   }
 
   try {
-    const [resRows] = await pool.query('SELECT COUNT(*) AS count FROM reservations');
-    details.reservations = resRows[0]?.count ?? null;
+    const [res1] = await pool.query('SELECT COUNT(*) AS count FROM design_map_reservations');
+    const [res2] = await pool.query('SELECT COUNT(*) AS count FROM all_stalls_reservations');
+    details.reservations = (res1[0]?.count ?? 0) + (res2[0]?.count ?? 0);
   } catch (e) {
     details.reservations = null;
   }
@@ -421,7 +444,33 @@ if ((process.env.NODE_ENV || 'development') !== 'production') {
 app.get('/api/stalls', async (req, res, next) => {
   try {
     await expireReservations();
-    const [rows] = await pool.query('SELECT * FROM stalls');
+    const source = req.query.source;
+    let rows;
+    if (source === 'design_map') {
+      [rows] = await pool.query(
+        `SELECT s.*,
+           COALESCE(
+             (SELECT d.status FROM design_map_reservations d
+              WHERE d.stall_id = s.id AND d.status IN ('pending', 'approved', 'occupied')
+              ORDER BY d.created_at DESC LIMIT 1),
+             s.status
+           ) AS status
+         FROM stalls s`
+      );
+    } else if (source === 'all_stalls') {
+      [rows] = await pool.query(
+        `SELECT s.*,
+           COALESCE(
+             (SELECT a.status FROM all_stalls_reservations a
+              WHERE a.stall_id = s.id AND a.status IN ('pending', 'approved', 'occupied')
+              ORDER BY a.created_at DESC LIMIT 1),
+             s.status
+           ) AS status
+         FROM stalls s`
+      );
+    } else {
+      [rows] = await pool.query('SELECT * FROM stalls');
+    }
     res.json(rows.map(mapStall));
   } catch (err) {
     next(err);
@@ -459,12 +508,19 @@ app.put('/api/stalls/:id', async (req, res, next) => {
 app.get('/api/reservations', async (req, res, next) => {
   try {
     await expireReservations();
-    const [rows] = await pool.query(
-      `SELECT r.*, s.price AS stall_price
-       FROM reservations r
-       LEFT JOIN stalls s ON s.id = r.stall_id`
+    const [designRows] = await pool.query(
+      `SELECT d.*, s.price AS stall_price, 'design_map' AS source
+       FROM design_map_reservations d
+       LEFT JOIN stalls s ON s.id = d.stall_id`
     );
-    res.json(rows.map(mapReservation));
+    const [allStallsRows] = await pool.query(
+      `SELECT a.*, s.price AS stall_price, 'all_stalls' AS source
+       FROM all_stalls_reservations a
+       LEFT JOIN stalls s ON s.id = a.stall_id`
+    );
+    const all = [...designRows.map(mapViewReservation), ...allStallsRows.map(mapViewReservation)]
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    res.json(all);
   } catch (err) {
     next(err);
   }
@@ -472,15 +528,27 @@ app.get('/api/reservations', async (req, res, next) => {
 
 app.get('/api/reservations/:id', async (req, res, next) => {
   try {
-    const [rows] = await pool.query(
-      `SELECT r.*, s.price AS stall_price
-       FROM reservations r
-       LEFT JOIN stalls s ON s.id = r.stall_id
-       WHERE r.id = ?`,
+    // Search in design_map_reservations first
+    let [rows] = await pool.query(
+      `SELECT d.*, s.price AS stall_price
+       FROM design_map_reservations d
+       LEFT JOIN stalls s ON s.id = d.stall_id
+       WHERE d.id = ?`,
+      [req.params.id]
+    );
+    if (rows.length > 0) {
+      return res.json(mapViewReservation(rows[0]));
+    }
+    // Search in all_stalls_reservations
+    [rows] = await pool.query(
+      `SELECT a.*, s.price AS stall_price
+       FROM all_stalls_reservations a
+       LEFT JOIN stalls s ON s.id = a.stall_id
+       WHERE a.id = ?`,
       [req.params.id]
     );
     if (rows.length === 0) return res.status(404).json({ message: 'Reservation not found' });
-    res.json(mapReservation(rows[0]));
+    res.json(mapViewReservation(rows[0]));
   } catch (err) {
     next(err);
   }
@@ -531,10 +599,13 @@ app.post('/api/reservations', async (req, res, next) => {
     const reservationNumber = await nextReservationNumberBySection(connection, section);
     const reservationId = crypto.randomUUID();
 
+    // Insert into view-specific table based on source
+    const source = payload.source;
+    const viewTable = source === 'all_stalls' ? 'all_stalls_reservations' : 'design_map_reservations';
     await connection.query(
-      `INSERT INTO reservations
-        (id, reservation_number, stall_id, full_name, contact_number, business_name, dti_number, cedula_number, address, status, created_at, expires_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?, ?)`,
+      `INSERT INTO ${viewTable}
+        (id, reservation_number, stall_id, full_name, contact_number, business_name, dti_number, cedula_number, address, stall_usage_type, status, created_at, expires_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?, ?)`,
       [
         reservationId,
         reservationNumber,
@@ -545,51 +616,19 @@ app.post('/api/reservations', async (req, res, next) => {
         payload.dtiNumber || null,
         payload.cedulaNumber || null,
         payload.address || null,
+        payload.stallUsageType || null,
         now,
         expiresAt,
         now,
       ]
     );
 
-    // Insert into view-specific table based on source
-    const source = payload.source;
-    if (source === 'design_map' || source === 'all_stalls') {
-      const viewTable = source === 'design_map' ? 'design_map_reservations' : 'all_stalls_reservations';
-      await connection.query(
-        `INSERT INTO ${viewTable}
-          (id, reservation_number, stall_id, full_name, contact_number, business_name, dti_number, cedula_number, address, stall_usage_type, status, created_at, expires_at, updated_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?, ?)`,
-        [
-          reservationId,
-          reservationNumber,
-          payload.stallId,
-          payload.fullName,
-          payload.contactNumber,
-          payload.businessName || null,
-          payload.dtiNumber || null,
-          payload.cedulaNumber || null,
-          payload.address || null,
-          payload.stallUsageType || null,
-          now,
-          expiresAt,
-          now,
-        ]
-      );
-    }
-
-    await connection.query(
-      `UPDATE stalls
-       SET status = 'pending', reservation_id = ?, updated_at = NOW()
-       WHERE id = ?`,
-      [reservationId, payload.stallId]
-    );
-
     await connection.commit();
 
-    const [reservationRows] = await pool.query('SELECT * FROM reservations WHERE id = ?', [reservationId]);
+    const [reservationRows] = await pool.query(`SELECT * FROM ${viewTable} WHERE id = ?`, [reservationId]);
     const [stallRows] = await pool.query('SELECT * FROM stalls WHERE id = ?', [payload.stallId]);
 
-    const createdReservation = mapReservation(reservationRows[0]);
+    const createdReservation = mapViewReservation(reservationRows[0]);
     const createdStall = mapStall(stallRows[0]);
     // ensure reservation DTO includes the stall price on create
     if (createdStall && createdStall.price != null) createdReservation.price = createdStall.price;
@@ -612,21 +651,29 @@ app.put('/api/reservations/:id', async (req, res, next) => {
     const payload = req.body;
     await connection.beginTransaction();
 
+    // Update both map tables
+    const updateParams = [
+      payload.fullName,
+      payload.contactNumber,
+      payload.businessName || null,
+      payload.dtiNumber || null,
+      payload.cedulaNumber || null,
+      payload.address || null,
+      payload.status,
+      payload.adminNotes || null,
+      req.params.id,
+    ];
     await connection.query(
-      `UPDATE reservations
+      `UPDATE design_map_reservations
        SET full_name = ?, contact_number = ?, business_name = ?, dti_number = ?, cedula_number = ?, address = ?, status = ?, admin_notes = ?, updated_at = NOW()
        WHERE id = ?`,
-      [
-        payload.fullName,
-        payload.contactNumber,
-        payload.businessName || null,
-        payload.dtiNumber || null,
-        payload.cedulaNumber || null,
-        payload.address || null,
-        payload.status,
-        payload.adminNotes || null,
-        req.params.id,
-      ]
+      updateParams
+    );
+    await connection.query(
+      `UPDATE all_stalls_reservations
+       SET full_name = ?, contact_number = ?, business_name = ?, dti_number = ?, cedula_number = ?, address = ?, status = ?, admin_notes = ?, updated_at = NOW()
+       WHERE id = ?`,
+      updateParams
     );
 
     // If admin edited the price, persist it to the related stall record
@@ -639,53 +686,12 @@ app.put('/api/reservations/:id', async (req, res, next) => {
           [payload.price, payload.stallId]
         );
       } catch (e) {
-        // non-fatal here; continue — we'll still commit reservation changes
         console.warn('Failed to update stall price during reservation update:', e?.message || e);
       }
     }
 
-    const status = payload.status;
-    if (status) {
-      if (status === 'rejected') {
-        await connection.query(
-          `UPDATE stalls
-           SET status = 'available', reservation_id = NULL, updated_at = NOW()
-           WHERE reservation_id = ?`,
-          [req.params.id]
-        );
-      } else if (status === 'approved') {
-        await connection.query(
-          `UPDATE stalls
-           SET status = 'reserved', reservation_id = ?, updated_at = NOW()
-           WHERE id = ?`,
-          [req.params.id, payload.stallId]
-        );
-      } else if (status === 'occupied') {
-        await connection.query(
-          `UPDATE stalls
-           SET status = 'occupied', reservation_id = ?, updated_at = NOW()
-           WHERE id = ?`,
-          [req.params.id, payload.stallId]
-        );
-      } else if (status === 'pending') {
-        await connection.query(
-          `UPDATE stalls
-           SET status = 'pending', reservation_id = ?, updated_at = NOW()
-           WHERE id = ?`,
-          [req.params.id, payload.stallId]
-        );
-      }
-    }
-
     await connection.commit();
-    const [rows] = await pool.query(
-      `SELECT r.*, s.price AS stall_price
-       FROM reservations r
-       LEFT JOIN stalls s ON s.id = r.stall_id
-       WHERE r.id = ?`,
-      [req.params.id]
-    );
-    const updatedReservation = mapReservation(rows[0]);
+    const updatedReservation = await selectReservationWithStall(req.params.id);
 
     // try to fetch related stall
     let updatedStall = null;
@@ -710,30 +716,19 @@ app.post('/api/reservations/:id/approve', async (req, res, next) => {
   try {
     await connection.beginTransaction();
     await connection.query(
-      `UPDATE reservations
-       SET status = 'approved', updated_at = NOW()
-       WHERE id = ?`,
+      `UPDATE design_map_reservations SET status = 'approved', updated_at = NOW() WHERE id = ?`,
       [req.params.id]
     );
     await connection.query(
-      `UPDATE stalls
-       SET status = 'reserved', updated_at = NOW()
-       WHERE reservation_id = ?`,
+      `UPDATE all_stalls_reservations SET status = 'approved', updated_at = NOW() WHERE id = ?`,
       [req.params.id]
     );
     await connection.commit();
-    const [rows] = await pool.query(
-      `SELECT r.*, s.price AS stall_price
-       FROM reservations r
-       LEFT JOIN stalls s ON s.id = r.stall_id
-       WHERE r.id = ?`,
-      [req.params.id]
-    );
-    const updatedReservation = mapReservation(rows[0]);
+    const updatedReservation = await selectReservationWithStall(req.params.id);
     // fetch stall affected
     let updatedStall = null;
     try {
-      const [stallRows] = await pool.query('SELECT * FROM stalls WHERE reservation_id = ? OR id = (SELECT stall_id FROM reservations WHERE id = ?)', [req.params.id, req.params.id]);
+      const [stallRows] = await pool.query('SELECT * FROM stalls WHERE reservation_id = ?', [req.params.id]);
       if (stallRows && stallRows.length > 0) updatedStall = mapStall(stallRows[0]);
     } catch (e) {}
     try { sendSseEvent('reservation-updated', { reservation: updatedReservation, stall: updatedStall }); } catch (e) {}
@@ -753,29 +748,18 @@ app.post('/api/reservations/:id/reject', async (req, res, next) => {
     const notes = req.body?.notes || 'Rejected by admin.';
     await connection.beginTransaction();
     await connection.query(
-      `UPDATE reservations
-       SET status = 'rejected', admin_notes = ?, updated_at = NOW()
-       WHERE id = ?`,
+      `UPDATE design_map_reservations SET status = 'rejected', admin_notes = ?, updated_at = NOW() WHERE id = ?`,
       [notes, req.params.id]
     );
     await connection.query(
-      `UPDATE stalls
-       SET status = 'available', reservation_id = NULL, updated_at = NOW()
-       WHERE reservation_id = ?`,
-      [req.params.id]
+      `UPDATE all_stalls_reservations SET status = 'rejected', admin_notes = ?, updated_at = NOW() WHERE id = ?`,
+      [notes, req.params.id]
     );
     await connection.commit();
-    const [rows] = await pool.query(
-      `SELECT r.*, s.price AS stall_price
-       FROM reservations r
-       LEFT JOIN stalls s ON s.id = r.stall_id
-       WHERE r.id = ?`,
-      [req.params.id]
-    );
-    const updatedReservation = mapReservation(rows[0]);
+    const updatedReservation = await selectReservationWithStall(req.params.id);
     let updatedStall = null;
     try {
-      const [stallRows] = await pool.query('SELECT * FROM stalls WHERE reservation_id = ? OR id = (SELECT stall_id FROM reservations WHERE id = ?)', [req.params.id, req.params.id]);
+      const [stallRows] = await pool.query('SELECT * FROM stalls WHERE reservation_id = ?', [req.params.id]);
       if (stallRows && stallRows.length > 0) updatedStall = mapStall(stallRows[0]);
     } catch (e) {}
     try { sendSseEvent('reservation-updated', { reservation: updatedReservation, stall: updatedStall }); } catch (e) {}
@@ -794,29 +778,18 @@ app.post('/api/reservations/:id/occupy', async (req, res, next) => {
   try {
     await connection.beginTransaction();
     await connection.query(
-      `UPDATE reservations
-       SET status = 'occupied', updated_at = NOW()
-       WHERE id = ?`,
+      `UPDATE design_map_reservations SET status = 'occupied', updated_at = NOW() WHERE id = ?`,
       [req.params.id]
     );
     await connection.query(
-      `UPDATE stalls
-       SET status = 'occupied', updated_at = NOW()
-       WHERE reservation_id = ?`,
+      `UPDATE all_stalls_reservations SET status = 'occupied', updated_at = NOW() WHERE id = ?`,
       [req.params.id]
     );
     await connection.commit();
-    const [rows] = await pool.query(
-      `SELECT r.*, s.price AS stall_price
-       FROM reservations r
-       LEFT JOIN stalls s ON s.id = r.stall_id
-       WHERE r.id = ?`,
-      [req.params.id]
-    );
-    const updatedReservation = mapReservation(rows[0]);
+    const updatedReservation = await selectReservationWithStall(req.params.id);
     let updatedStall = null;
     try {
-      const [stallRows] = await pool.query('SELECT * FROM stalls WHERE reservation_id = ? OR id = (SELECT stall_id FROM reservations WHERE id = ?)', [req.params.id, req.params.id]);
+      const [stallRows] = await pool.query('SELECT * FROM stalls WHERE reservation_id = ?', [req.params.id]);
       if (stallRows && stallRows.length > 0) updatedStall = mapStall(stallRows[0]);
     } catch (e) {}
     try { sendSseEvent('reservation-updated', { reservation: updatedReservation, stall: updatedStall }); } catch (e) {}
@@ -835,12 +808,8 @@ app.post('/api/admin/reset', async (req, res, next) => {
   try {
     await connection.beginTransaction();
 
-    await connection.query(
-      `UPDATE stalls
-       SET status = 'available', reservation_id = NULL, updated_at = NOW()`
-    );
-
-    await connection.query('DELETE FROM reservations');
+    await connection.query('DELETE FROM design_map_reservations');
+    await connection.query('DELETE FROM all_stalls_reservations');
     // reset all per-section counters
     await connection.query('UPDATE reservation_counter SET counter = 0');
 
@@ -859,15 +828,19 @@ app.post('/api/admin/extend-pending', async (req, res, next) => {
   try {
     await connection.beginTransaction();
 
-    const [result] = await connection.query(
-      `UPDATE reservations
-       SET expires_at = DATE_ADD(expires_at, INTERVAL 1 DAY),
-           updated_at = NOW()
+    const [result1] = await connection.query(
+      `UPDATE design_map_reservations
+       SET expires_at = DATE_ADD(expires_at, INTERVAL 1 DAY), updated_at = NOW()
+       WHERE status = 'pending'`
+    );
+    const [result2] = await connection.query(
+      `UPDATE all_stalls_reservations
+       SET expires_at = DATE_ADD(expires_at, INTERVAL 1 DAY), updated_at = NOW()
        WHERE status = 'pending'`
     );
 
     await connection.commit();
-    res.json({ ok: true, updated: result.affectedRows ?? 0 });
+    res.json({ ok: true, updated: (result1[0].affectedRows ?? 0) + (result2[0].affectedRows ?? 0) });
   } catch (err) {
     await connection.rollback();
     next(err);
@@ -880,22 +853,11 @@ app.delete('/api/reservations/:id', async (req, res, next) => {
   const connection = await pool.getConnection();
   try {
     await connection.beginTransaction();
-    await connection.query(
-      `UPDATE stalls
-       SET status = 'available', reservation_id = NULL, updated_at = NOW()
-       WHERE reservation_id = ?`,
-      [req.params.id]
-    );
-    const [result] = await connection.query('DELETE FROM reservations WHERE id = ?', [req.params.id]);
+    const [result1] = await connection.query('DELETE FROM design_map_reservations WHERE id = ?', [req.params.id]);
+    const [result2] = await connection.query('DELETE FROM all_stalls_reservations WHERE id = ?', [req.params.id]);
     await connection.commit();
-    // broadcast deletion so clients can refresh
-    try {
-      // try to find the stall that was freed
-      const [stallRows] = await pool.query('SELECT * FROM stalls WHERE reservation_id IS NULL AND updated_at > DATE_SUB(NOW(), INTERVAL 1 MINUTE)');
-      const stall = (stallRows && stallRows.length > 0) ? mapStall(stallRows[0]) : null;
-      sendSseEvent('reservation-deleted', { id: req.params.id, stall });
-    } catch (e) {}
-    res.json({ removed: result.affectedRows > 0 });
+    try { sendSseEvent('reservation-deleted', { id: req.params.id }); } catch (e) {}
+    res.json({ removed: (result1[0].affectedRows + result2[0].affectedRows) > 0 });
   } catch (err) {
     await connection.rollback();
     next(err);
