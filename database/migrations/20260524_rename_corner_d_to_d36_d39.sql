@@ -1,4 +1,3 @@
--- Rename stalls
 UPDATE stalls
 SET id = CASE id
   WHEN 'D1' THEN 'D36'
