@@ -1,4 +1,3 @@
--- IMPORTANT: Review and backup your database before running.
 
 START TRANSACTION;
 SET @old_fk_checks = @@FOREIGN_KEY_CHECKS;
