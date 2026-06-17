@@ -29,8 +29,9 @@ export async function extendPendingReservations(): Promise<{ updated: number }> 
 
 // ─── Stall Operations ───────────────────────────────────────
 
-export async function getStalls(): Promise<Stall[]> {
-  return apiFetch<Stall[]>('/stalls');
+export async function getStalls(source?: string): Promise<Stall[]> {
+  const params = source ? `?source=${encodeURIComponent(source)}` : '';
+  return apiFetch<Stall[]>(`/stalls${params}`);
 }
 
 export async function updateStall(updatedStall: Stall): Promise<Stall> {
@@ -117,8 +118,8 @@ export async function getAllStallsReservations(): Promise<Reservation[]> {
 
 // ─── Expiration Check (3 days) ──────────────────────────────
 
-export async function checkAndExpireReservations(): Promise<Stall[]> {
-  return getStalls();
+export async function checkAndExpireReservations(source?: string): Promise<Stall[]> {
+  return getStalls(source);
 }
 
 // ─── Admin Auth ─────────────────────────────────────────────
