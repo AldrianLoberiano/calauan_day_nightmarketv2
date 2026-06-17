@@ -1,4 +1,3 @@
-  ELSE id
 END,
     section = 'Corner D'
 WHERE id IN ('D1','D2','D3','D4');
