@@ -636,6 +636,7 @@ app.post('/api/reservations', async (req, res, next) => {
     const [stallRows] = await pool.query(`SELECT * FROM ${stallTable} WHERE id = ?`, [payload.stallId]);
 
     const createdReservation = mapViewReservation(reservationRows[0]);
+    createdReservation.source = source;
     const createdStall = mapStall(stallRows[0]);
     // ensure reservation DTO includes the stall price on create
     if (createdStall && createdStall.price != null) createdReservation.price = createdStall.price;
