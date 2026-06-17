@@ -33,6 +33,8 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [activeTab, setActiveTab] = useState<TabId>('dashboard');
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [stalls, setStalls] = useState<Stall[]>([]);
+  const [stallsDesignMap, setStallsDesignMap] = useState<Stall[]>([]);
+  const [stallsAllStalls, setStallsAllStalls] = useState<Stall[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState<FilterStatus>('all');
   const [selectedStall, setSelectedStall] = useState<Stall | null>(null);
@@ -47,9 +49,21 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [isExtending, setIsExtending] = useState(false);
 
   async function loadData() {
-    const updatedStalls = await checkAndExpireReservations();
-    const updatedReservations = await getReservations();
-    setStalls(updatedStalls);
+    const [stallsDesign, stallsAll, updatedReservations] = await Promise.all([
+      checkAndExpireReservations('design_map'),
+      checkAndExpireReservations('all_stalls'),
+      getReservations(),
+    ]);
+    const combinedMap = new Map<string, Stall>();
+    [...(Array.isArray(stallsDesign) ? stallsDesign : []), ...(Array.isArray(stallsAll) ? stallsAll : [])].forEach(s => {
+      const existing = combinedMap.get(s.id);
+      if (!existing || (s.status !== 'available' && existing.status === 'available')) {
+        combinedMap.set(s.id, s);
+      }
+    });
+    setStalls(Array.from(combinedMap.values()));
+    setStallsDesignMap(Array.isArray(stallsDesign) ? stallsDesign : []);
+    setStallsAllStalls(Array.isArray(stallsAll) ? stallsAll : []);
     setReservations(updatedReservations);
     setLastRefresh(new Date());
   }
@@ -132,8 +146,8 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const tabs = [
     { id: 'dashboard' as TabId, label: 'Dashboard', icon: <LayoutDashboard className="w-4 h-4" /> },
     { id: 'reservations' as TabId, label: 'Reservations', icon: <ClipboardList className="w-4 h-4" />, badge: stats.pending > 0 ? stats.pending : undefined },
-    { id: 'design-map' as TabId, label: 'Design Map', icon: <MapIcon className="w-4 h-4" /> },
-    { id: 'all-stalls' as TabId, label: 'All Stalls (1-300)', icon: <LayoutGrid className="w-4 h-4" /> },
+    { id: 'design-map' as TabId, label: 'Map A', icon: <MapIcon className="w-4 h-4" /> },
+    { id: 'all-stalls' as TabId, label: 'Map B (1-300)', icon: <LayoutGrid className="w-4 h-4" /> },
   ];
 
   const activeReservation = activeReservationId
@@ -396,7 +410,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
         {activeTab === 'design-map' && (
           <div className="space-y-4">
             <div>
-              <h2 className="text-xl font-black text-slate-800">Design Map</h2>
+              <h2 className="text-xl font-black text-slate-800">Map A</h2>
               <p className="text-sm text-slate-500">Click on any stall to view details or manage its reservation.</p>
             </div>
             <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
@@ -409,7 +423,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 </div>
               </div>
               <StallMap
-                stalls={stalls}
+                stalls={stallsDesignMap}
                 onStallClick={(stall) => setSelectedStall(stall)}
               />
             </div>
@@ -420,7 +434,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
         {activeTab === 'all-stalls' && (
           <div className="space-y-4">
             <div>
-              <h2 className="text-xl font-black text-slate-800">All Stalls (1-300)</h2>
+              <h2 className="text-xl font-black text-slate-800">Map B (1-300)</h2>
               <p className="text-sm text-slate-500">Click on any stall to view details or manage its reservation.</p>
             </div>
             <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
@@ -433,7 +447,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 </div>
               </div>
               <StallGridView
-                stalls={stalls}
+                stalls={stallsAllStalls}
                 onStallClick={(stall) => setSelectedStall(stall)}
                 selectedStallId={selectedStall?.id}
               />
