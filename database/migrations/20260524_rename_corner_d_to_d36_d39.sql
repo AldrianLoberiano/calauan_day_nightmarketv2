@@ -1,4 +1,3 @@
-SET @old_fk_checks = @@FOREIGN_KEY_CHECKS;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- Update reservations first so any existing links move to new IDs
