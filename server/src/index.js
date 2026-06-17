@@ -89,6 +89,27 @@ function mapStall(row) {
   };
 }
 
+function mapViewReservation(row) {
+  return {
+    id: row.id,
+    reservationNumber: row.reservation_number,
+    stallId: row.stall_id,
+    fullName: row.full_name,
+    contactNumber: row.contact_number,
+    businessName: row.business_name,
+    dtiNumber: row.dti_number,
+    cedulaNumber: row.cedula_number,
+    address: row.address,
+    stallUsageType: row.stall_usage_type,
+    status: row.status,
+    adminNotes: row.admin_notes,
+    price: row.stall_price != null ? Number(row.stall_price) : undefined,
+    createdAt: row.created_at,
+    expiresAt: row.expires_at,
+    updatedAt: row.updated_at,
+  };
+}
+
 async function ensureStallsSeeded() {
   const [rows] = await pool.query('SELECT COUNT(*) AS count FROM stalls');
   const count = rows[0]?.count ?? 0;
@@ -175,6 +196,60 @@ async function ensureReservationColumns() {
   } catch (e) {
     // non-fatal: log and continue
     console.warn('Could not ensure reservation columns:', e?.message || e);
+  }
+}
+
+// Ensure design_map_reservations and all_stalls_reservations tables exist
+async function ensureViewTables() {
+  const createDesignMap = `CREATE TABLE IF NOT EXISTS design_map_reservations (
+    id VARCHAR(64) NOT NULL,
+    reservation_number VARCHAR(32) NOT NULL,
+    stall_id VARCHAR(8) NOT NULL,
+    full_name VARCHAR(128) NOT NULL,
+    contact_number VARCHAR(32) NOT NULL,
+    business_name VARCHAR(128) DEFAULT NULL,
+    dti_number VARCHAR(64) DEFAULT NULL,
+    cedula_number VARCHAR(64) DEFAULT NULL,
+    address TEXT DEFAULT NULL,
+    stall_usage_type VARCHAR(64) DEFAULT NULL,
+    status VARCHAR(16) NOT NULL DEFAULT 'pending',
+    admin_notes TEXT DEFAULT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP NULL DEFAULT NULL,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_dmr_reservation_number (reservation_number),
+    KEY idx_dmr_stall (stall_id),
+    KEY idx_dmr_status (status)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`;
+
+  const createAllStalls = `CREATE TABLE IF NOT EXISTS all_stalls_reservations (
+    id VARCHAR(64) NOT NULL,
+    reservation_number VARCHAR(32) NOT NULL,
+    stall_id VARCHAR(8) NOT NULL,
+    full_name VARCHAR(128) NOT NULL,
+    contact_number VARCHAR(32) NOT NULL,
+    business_name VARCHAR(128) DEFAULT NULL,
+    dti_number VARCHAR(64) DEFAULT NULL,
+    cedula_number VARCHAR(64) DEFAULT NULL,
+    address TEXT DEFAULT NULL,
+    stall_usage_type VARCHAR(64) DEFAULT NULL,
+    status VARCHAR(16) NOT NULL DEFAULT 'pending',
+    admin_notes TEXT DEFAULT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP NULL DEFAULT NULL,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_asr_reservation_number (reservation_number),
+    KEY idx_asr_stall (stall_id),
+    KEY idx_asr_status (status)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`;
+
+  try {
+    await pool.query(createDesignMap);
+    await pool.query(createAllStalls);
+  } catch (e) {
+    console.warn('Could not ensure view tables:', e?.message || e);
   }
 }
 
@@ -411,6 +486,34 @@ app.get('/api/reservations/:id', async (req, res, next) => {
   }
 });
 
+app.get('/api/reservations/design-map', async (req, res, next) => {
+  try {
+    const [rows] = await pool.query(
+      `SELECT d.*, s.price AS stall_price
+       FROM design_map_reservations d
+       LEFT JOIN stalls s ON s.id = d.stall_id
+       ORDER BY d.created_at DESC`
+    );
+    res.json(rows.map(mapViewReservation));
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.get('/api/reservations/all-stalls', async (req, res, next) => {
+  try {
+    const [rows] = await pool.query(
+      `SELECT a.*, s.price AS stall_price
+       FROM all_stalls_reservations a
+       LEFT JOIN stalls s ON s.id = a.stall_id
+       ORDER BY a.created_at DESC`
+    );
+    res.json(rows.map(mapViewReservation));
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.post('/api/reservations', async (req, res, next) => {
   const connection = await pool.getConnection();
   try {
@@ -448,6 +551,31 @@ app.post('/api/reservations', async (req, res, next) => {
       ]
     );
 
+    // Insert into view-specific table based on source
+    const source = payload.source;
+    if (source === 'design_map' || source === 'all_stalls') {
+      const viewTable = source === 'design_map' ? 'design_map_reservations' : 'all_stalls_reservations';
+      await connection.query(
+        `INSERT INTO ${viewTable}
+          (id, reservation_number, stall_id, full_name, contact_number, business_name, dti_number, cedula_number, address, stall_usage_type, status, created_at, expires_at, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?, ?)`,
+        [
+          reservationId,
+          reservationNumber,
+          payload.stallId,
+          payload.fullName,
+          payload.contactNumber,
+          payload.businessName || null,
+          payload.dtiNumber || null,
+          payload.cedulaNumber || null,
+          payload.address || null,
+          payload.stallUsageType || null,
+          now,
+          expiresAt,
+          now,
+        ]
+      );
+    }
 
     await connection.query(
       `UPDATE stalls
@@ -797,6 +925,7 @@ app.use((err, req, res, next) => {
 // Ensure DB schema additions then start
 Promise.resolve()
   .then(() => ensureReservationColumns())
+  .then(() => ensureViewTables())
   .then(() => ensureStallsSeeded())
   .then(() => ensureAvailableStalls259To276())
   .then(() => {
