@@ -1,4 +1,3 @@
--- Update reservations first so any existing links move to new IDs
 UPDATE reservations
 SET stall_id = CASE stall_id
   WHEN 'D1' THEN 'D36'
