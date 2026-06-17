@@ -1,4 +1,3 @@
-END
 WHERE stall_id IN ('D1','D2','D3','D4');
 
 -- Rename stalls
