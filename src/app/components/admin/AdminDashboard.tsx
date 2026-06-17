@@ -26,12 +26,11 @@ interface AdminDashboardProps {
   onLogout: () => void;
 }
 
-type TabId = 'dashboard' | 'reservations' | 'map';
+type TabId = 'dashboard' | 'reservations' | 'design-map' | 'all-stalls';
 type FilterStatus = 'all' | 'pending' | 'approved' | 'rejected' | 'occupied';
 
 export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [activeTab, setActiveTab] = useState<TabId>('dashboard');
-  const [mapView, setMapView] = useState<'design' | 'grid'>('design');
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [stalls, setStalls] = useState<Stall[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -133,7 +132,8 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const tabs = [
     { id: 'dashboard' as TabId, label: 'Dashboard', icon: <LayoutDashboard className="w-4 h-4" /> },
     { id: 'reservations' as TabId, label: 'Reservations', icon: <ClipboardList className="w-4 h-4" />, badge: stats.pending > 0 ? stats.pending : undefined },
-    { id: 'map' as TabId, label: 'Stall Map', icon: <MapPin className="w-4 h-4" /> },
+    { id: 'design-map' as TabId, label: 'Design Map', icon: <MapIcon className="w-4 h-4" /> },
+    { id: 'all-stalls' as TabId, label: 'All Stalls (1-300)', icon: <LayoutGrid className="w-4 h-4" /> },
   ];
 
   const activeReservation = activeReservationId
@@ -392,65 +392,51 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
           </div>
         )}
 
-        {/* Map Tab */}
-        {activeTab === 'map' && (
+        {/* Design Map Tab */}
+        {activeTab === 'design-map' && (
           <div className="space-y-4">
             <div>
-              <h2 className="text-xl font-black text-slate-800">Stall Map (Admin View)</h2>
+              <h2 className="text-xl font-black text-slate-800">Design Map</h2>
               <p className="text-sm text-slate-500">Click on any stall to view details or manage its reservation.</p>
             </div>
             <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-              {/* View toggle tabs */}
               <div className="px-4 pt-3 pb-0 border-b border-slate-100">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-4 text-[11px] text-slate-500">
-                    <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-green-500 inline-block" />Available</span>
-                    <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-amber-400 inline-block" />Pending</span>
-                    <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-red-500 inline-block" />Reserved</span>
-                    <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-slate-400 inline-block" />Occupied</span>
-                  </div>
-                </div>
-                <div className="pb-3 overflow-x-auto">
-                  <div className="flex gap-2 min-w-max">
-                    <button
-                      id="admin-map-view-design-tab"
-                      onClick={() => setMapView('design')}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
-                        mapView === 'design'
-                          ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
-                          : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700'
-                      }`}
-                    >
-                      <MapIcon className="w-4 h-4" />
-                      Design Map
-                    </button>
-                    <button
-                      id="admin-map-view-grid-tab"
-                      onClick={() => setMapView('grid')}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
-                        mapView === 'grid'
-                          ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
-                          : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700'
-                      }`}
-                    >
-                      <LayoutGrid className="w-4 h-4" />
-                      All Stalls (1–300)
-                    </button>
-                  </div>
+                <div className="flex items-center gap-4 text-[11px] text-slate-500 pb-3">
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-green-500 inline-block" />Available</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-amber-400 inline-block" />Pending</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-red-500 inline-block" />Reserved</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-slate-400 inline-block" />Occupied</span>
                 </div>
               </div>
-              {mapView === 'design' ? (
-                <StallMap
-                  stalls={stalls}
-                  onStallClick={(stall) => setSelectedStall(stall)}
-                />
-              ) : (
-                <StallGridView
-                  stalls={stalls}
-                  onStallClick={(stall) => setSelectedStall(stall)}
-                  selectedStallId={selectedStall?.id}
-                />
-              )}
+              <StallMap
+                stalls={stalls}
+                onStallClick={(stall) => setSelectedStall(stall)}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* All Stalls Tab */}
+        {activeTab === 'all-stalls' && (
+          <div className="space-y-4">
+            <div>
+              <h2 className="text-xl font-black text-slate-800">All Stalls (1-300)</h2>
+              <p className="text-sm text-slate-500">Click on any stall to view details or manage its reservation.</p>
+            </div>
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+              <div className="px-4 pt-3 pb-0 border-b border-slate-100">
+                <div className="flex items-center gap-4 text-[11px] text-slate-500 pb-3">
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-green-500 inline-block" />Available</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-amber-400 inline-block" />Pending</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-red-500 inline-block" />Reserved</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-slate-400 inline-block" />Occupied</span>
+                </div>
+              </div>
+              <StallGridView
+                stalls={stalls}
+                onStallClick={(stall) => setSelectedStall(stall)}
+                selectedStallId={selectedStall?.id}
+              />
             </div>
           </div>
         )}
@@ -475,6 +461,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
             setReceiptData({ reservation, stall: updatedStall });
             loadData();
           }}
+          source={activeTab === 'all-stalls' ? 'all_stalls' : 'design_map'}
         />
       )}
       {receiptData && (
