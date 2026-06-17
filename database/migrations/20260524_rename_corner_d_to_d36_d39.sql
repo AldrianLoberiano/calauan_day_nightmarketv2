@@ -1,4 +1,3 @@
-  WHEN 'D3' THEN 'D38'
   WHEN 'D4' THEN 'D39'
   ELSE id
 END,
