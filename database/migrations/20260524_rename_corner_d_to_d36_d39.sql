@@ -1,5 +1,4 @@
   WHEN 'D2' THEN 'D37'
-  WHEN 'D3' THEN 'D38'
   WHEN 'D4' THEN 'D39'
   ELSE stall_id
 END
