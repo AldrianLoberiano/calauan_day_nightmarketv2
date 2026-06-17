@@ -1,4 +1,3 @@
--- Created: 2026-05-24
 -- Purpose: Update stall IDs D1-D4 to D36-D39 and move reservations.
 
 -- IMPORTANT: Review and backup your database before running.
