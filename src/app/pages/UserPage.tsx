@@ -488,6 +488,7 @@ export function UserPage() {
           stall={reserveStall}
           onClose={() => setReserveStall(null)}
           onSuccess={handleReservationSuccess}
+          source={mapView === 'design' ? 'design_map' : 'all_stalls'}
         />
       )}
       {receiptData && (
