@@ -1,4 +1,3 @@
-SET id = CASE id
   WHEN 'D1' THEN 'D36'
   WHEN 'D2' THEN 'D37'
   WHEN 'D3' THEN 'D38'
