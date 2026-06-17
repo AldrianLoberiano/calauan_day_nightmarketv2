@@ -79,6 +79,8 @@ export async function addReservation(input: {
   cedulaNumber?: string;
   price?: string;
   address?: string;
+  source?: string;
+  stallUsageType?: string;
 }): Promise<{ reservation: Reservation; stall: Stall }> {
   return apiFetch<{ reservation: Reservation; stall: Stall }>('/reservations', {
     method: 'POST',
@@ -101,6 +103,16 @@ export async function deleteReservation(reservationId: string): Promise<{ remove
   return apiFetch<{ removed: boolean }>(`/reservations/${encodeURIComponent(reservationId)}`, {
     method: 'DELETE',
   });
+}
+
+// ─── View-Specific Reservation Operations ────────────────────
+
+export async function getDesignMapReservations(): Promise<Reservation[]> {
+  return apiFetch<Reservation[]>('/reservations/design-map');
+}
+
+export async function getAllStallsReservations(): Promise<Reservation[]> {
+  return apiFetch<Reservation[]>('/reservations/all-stalls');
 }
 
 // ─── Expiration Check (3 days) ──────────────────────────────
