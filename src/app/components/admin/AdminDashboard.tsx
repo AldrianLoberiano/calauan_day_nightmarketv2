@@ -3,8 +3,7 @@ import {
   Search, RefreshCw, LogOut, LayoutDashboard, ClipboardList,
   MapPin, CheckCircle, Clock, XCircle, Package,
   TrendingUp, Users, LayoutGrid, Map as MapIcon,
-  ChevronDown, Settings, Database, CalendarClock, Shield,
-  Zap
+  ChevronDown, Settings, Database, CalendarClock, Shield
 } from 'lucide-react';
 import { Reservation, Stall } from '../../types';
 import {
@@ -297,25 +296,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
               ))}
             </nav>
 
-            {/* Quick Actions */}
-            <div className="flex items-center gap-2 shrink-0">
-              <button
-                onClick={() => setShowExtendConfirm(true)}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors"
-                title="Extend all pending reservations by 1 day"
-              >
-                <CalendarClock className="w-3.5 h-3.5" />
-                <span className="hidden md:inline">Extend</span>
-              </button>
-              <button
-                onClick={() => setShowResetConfirm(true)}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-lg transition-colors"
-                title="Reset all data"
-              >
-                <Zap className="w-3.5 h-3.5" />
-                <span className="hidden md:inline">Reset</span>
-              </button>
-            </div>
           </div>
         </div>
       </div>
