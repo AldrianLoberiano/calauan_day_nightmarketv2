@@ -2,3 +2,12 @@
 @source '../**/*.{js,ts,jsx,tsx}';
 
 @import 'tw-animate-css';
+
+@layer components {
+  .input-field {
+    @apply w-full pl-10 pr-3.5 py-2.5 border border-slate-200 rounded-xl text-sm bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all placeholder:text-slate-400;
+  }
+  .input-field-error {
+    @apply w-full pl-10 pr-3.5 py-2.5 border border-red-400 rounded-xl text-sm bg-red-50 focus:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-400 transition-all placeholder:text-slate-400;
+  }
+}
