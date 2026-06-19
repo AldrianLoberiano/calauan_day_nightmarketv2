@@ -3,7 +3,8 @@ import {
   Search, RefreshCw, LogOut, LayoutDashboard, ClipboardList,
   MapPin, CheckCircle, Clock, XCircle, Package,
   TrendingUp, Users, LayoutGrid, Map as MapIcon,
-  ChevronDown, Settings, Database, CalendarClock, Shield
+  ChevronDown, Settings, Database, CalendarClock, Shield,
+  Zap
 } from 'lucide-react';
 import { Reservation, Stall } from '../../types';
 import {
@@ -179,15 +180,15 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Admin Header */}
+      {/* ── Top Header Bar ── */}
       <header
         className="relative text-white shadow-lg sticky top-0 z-40 bg-center bg-cover"
         style={{ backgroundImage: `url(${headerImage})` }}
       >
-        <div className="absolute inset-0 bg-slate-900/55 pointer-events-none" aria-hidden="true" />
-        <div className="relative max-w-8xl mx-auto px-3 sm:px-5 py-2.5 flex items-center justify-between">
+        <div className="absolute inset-0 bg-slate-900/60 pointer-events-none" aria-hidden="true" />
+        <div className="relative max-w-[1600px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden bg-white/10 backdrop-blur-sm ring-1 ring-white/20">
               <img src={bploLogo} alt="BPLO Logo" className="w-9 h-9 object-contain" />
             </div>
             <div>
@@ -195,26 +196,26 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
               <p className="text-blue-200 text-xs hidden sm:block font-medium">Stall Reservation Mapping System</p>
             </div>
           </div>
+
           <div className="flex items-center gap-2">
             {/* Account Menu */}
             <div className="relative" ref={accountMenuRef}>
               <button
                 onClick={() => setShowAccountMenu(!showAccountMenu)}
-                className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-2 py-1.5 rounded-xl transition-all ring-1 ring-white/15 hover:ring-white/30"
+                className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-3 py-2 rounded-xl transition-all ring-1 ring-white/15 hover:ring-white/30"
               >
-                <div className="w-7 h-7 rounded-full bg-emerald-600 flex items-center justify-center text-white text-xs font-bold">
+                <div className="w-7 h-7 rounded-full bg-emerald-500 flex items-center justify-center text-white text-xs font-bold shadow-inner">
                   A
                 </div>
                 <span className="hidden sm:inline">Admin</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showAccountMenu ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${showAccountMenu ? 'rotate-180' : ''}`} />
               </button>
 
               {showAccountMenu && (
-                <div className="absolute right-0 top-full mt-2 w-72 bg-[#282828] rounded-xl shadow-2xl border border-white/10 overflow-hidden z-50">
-                  {/* User Info */}
+                <div className="absolute right-0 top-full mt-2 w-72 bg-[#1e1e1e] rounded-2xl shadow-2xl border border-white/10 overflow-hidden z-50">
                   <div className="px-4 pt-4 pb-3 border-b border-white/10">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-lg">
+                      <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold text-lg shadow-inner">
                         A
                       </div>
                       <div>
@@ -223,8 +224,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                       </div>
                     </div>
                   </div>
-
-                  {/* Menu Items */}
                   <div className="py-2">
                     <button
                       onClick={() => { setShowAccountMenu(false); }}
@@ -255,14 +254,12 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                       <span>Settings</span>
                     </button>
                   </div>
-
-                  {/* Sign Out */}
                   <div className="border-t border-white/10 py-2">
                     <button
                       onClick={() => { setShowAccountMenu(false); setShowLogoutConfirm(true); }}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-200 hover:bg-white/10 transition-colors"
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
                     >
-                      <LogOut className="w-4 h-4 text-gray-400" />
+                      <LogOut className="w-4 h-4" />
                       <span>Sign out</span>
                     </button>
                   </div>
@@ -271,34 +268,59 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
             </div>
           </div>
         </div>
-
-        {/* Tab navigation */}
-        <div className="relative max-w-8xl mx-auto px-3 sm:px-5">
-          <div className="flex gap-0.5">
-            {tabs.map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold border-b-2 transition-all relative ${
-                  activeTab === tab.id
-                    ? 'border-white text-white'
-                    : 'border-transparent text-blue-300 hover:text-white hover:border-blue-300/50'
-                }`}
-              >
-                {tab.icon}
-                {tab.label}
-                {tab.badge !== undefined && (
-                  <span className="ml-0.5 bg-amber-400 text-amber-900 text-[10px] font-black px-1.5 py-0.5 rounded-full leading-none">
-                    {tab.badge}
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
-        </div>
       </header>
 
-      <main className="max-w-8xl mx-auto px-3 sm:px-5 py-5">
+      {/* ── Toolbar: Tabs + Quick Actions ── */}
+      <div className="sticky top-[60px] z-30 bg-white border-b border-slate-200 shadow-sm">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6">
+          <div className="flex items-center justify-between gap-4 h-12">
+            {/* Tab Navigation */}
+            <nav className="flex items-center gap-1 overflow-x-auto -mb-px scrollbar-none">
+              {tabs.map(tab => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex items-center gap-1.5 px-3 py-2 text-sm font-semibold border-b-2 transition-all whitespace-nowrap rounded-t-lg ${
+                    activeTab === tab.id
+                      ? 'border-blue-600 text-blue-600 bg-blue-50/50'
+                      : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+                  }`}
+                >
+                  {tab.icon}
+                  <span className="hidden sm:inline">{tab.label}</span>
+                  {tab.badge !== undefined && (
+                    <span className="ml-0.5 bg-amber-400 text-amber-900 text-[10px] font-black px-1.5 py-0.5 rounded-full leading-none">
+                      {tab.badge}
+                    </span>
+                  )}
+                </button>
+              ))}
+            </nav>
+
+            {/* Quick Actions */}
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                onClick={() => setShowExtendConfirm(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors"
+                title="Extend all pending reservations by 1 day"
+              >
+                <CalendarClock className="w-3.5 h-3.5" />
+                <span className="hidden md:inline">Extend</span>
+              </button>
+              <button
+                onClick={() => setShowResetConfirm(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-lg transition-colors"
+                title="Reset all data"
+              >
+                <Zap className="w-3.5 h-3.5" />
+                <span className="hidden md:inline">Reset</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <main className="max-w-[1600px] mx-auto px-4 sm:px-6 py-5">
 
         {/* Dashboard Tab */}
         {activeTab === 'dashboard' && (
