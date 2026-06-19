@@ -576,38 +576,79 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
         {/* Reservations Tab */}
         {(activeTab === 'reservations-a' || activeTab === 'reservations-b') && (
-          <div className="space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <div>
-                <h2 className="text-xl font-black text-slate-800">{activeTab === 'reservations-a' ? 'Map A Reservations' : 'Map B Reservations'}</h2>
-                <p className="text-sm text-slate-500">{filteredReservations.length} of {activeTab === 'reservations-a' ? reservations.filter(r => r.source === 'design_map').length : reservations.filter(r => r.source === 'all_stalls').length} records</p>
+          <div className="space-y-5">
+            {/* Header with stats */}
+            <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                  <h2 className="text-xl font-black text-slate-800">
+                    {activeTab === 'reservations-a' ? 'Map A Reservations' : 'Map B Reservations'}
+                  </h2>
+                  <p className="text-sm text-slate-500 mt-0.5">
+                    {filteredReservations.length} of {activeTab === 'reservations-a'
+                      ? reservations.filter(r => r.source === 'design_map').length
+                      : reservations.filter(r => r.source === 'all_stalls').length} records
+                  </p>
+                </div>
+                {/* Status summary pills */}
+                <div className="flex flex-wrap gap-2">
+                  {(['pending', 'approved', 'occupied', 'rejected'] as const).map(status => {
+                    const count = filteredReservations.filter(r => r.status === status).length;
+                    const labels: Record<string, string> = { pending: 'Pending', approved: 'Approved', occupied: 'Occupied', rejected: 'Rejected' };
+                    const colors: Record<string, string> = {
+                      pending: 'bg-amber-50 text-amber-700 border-amber-200',
+                      approved: 'bg-blue-50 text-blue-700 border-blue-200',
+                      occupied: 'bg-slate-50 text-slate-600 border-slate-200',
+                      rejected: 'bg-red-50 text-red-600 border-red-200',
+                    };
+                    return (
+                      <span key={status} className={`text-xs font-bold px-3 py-1.5 rounded-full border ${colors[status]}`}>
+                        {labels[status]}: {count}
+                      </span>
+                    );
+                  })}
+                </div>
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-2.5">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search by name, reservation no., stall ID..."
-                  className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-slate-50 focus:bg-white transition-all"
-                />
+            {/* Search & Filter bar */}
+            <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
+              <div className="flex flex-col sm:flex-row gap-3">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search by name, reservation no., stall ID, contact..."
+                    className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-slate-50 focus:bg-white transition-all"
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <select
+                    value={filterStatus}
+                    onChange={(e) => setFilterStatus(e.target.value as FilterStatus)}
+                    className="border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50 focus:bg-white transition-all"
+                  >
+                    <option value="all">All Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="occupied">Occupied</option>
+                    <option value="rejected">Rejected</option>
+                  </select>
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery('')}
+                      className="px-3 py-2.5 text-xs font-semibold text-slate-500 hover:text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors"
+                    >
+                      Clear
+                    </button>
+                  )}
+                </div>
               </div>
-              <select
-                value={filterStatus}
-                onChange={(e) => setFilterStatus(e.target.value as FilterStatus)}
-                className="border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50 focus:bg-white transition-all"
-              >
-                <option value="all">All Status</option>
-                <option value="pending">Pending</option>
-                <option value="approved">Approved</option>
-                <option value="occupied">Occupied</option>
-                <option value="rejected">Rejected</option>
-              </select>
             </div>
 
+            {/* Results */}
             {filteredReservations.length > 0 ? (
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {filteredReservations.map(res => (
@@ -620,13 +661,15 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 ))}
               </div>
             ) : (
-              <div className="bg-white rounded-2xl border border-slate-200 p-10 text-center">
-                <div className="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                  <ClipboardList className="w-7 h-7 text-slate-400" />
+              <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center">
+                <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <ClipboardList className="w-8 h-8 text-slate-300" />
                 </div>
-                <p className="text-slate-600 font-semibold">No reservations found.</p>
-                <p className="text-slate-400 text-sm mt-1">
-                  {searchQuery ? 'Try a different search term.' : 'No reservations have been made yet.'}
+                <p className="text-slate-700 font-bold text-lg">No reservations found</p>
+                <p className="text-slate-400 text-sm mt-1.5 max-w-sm mx-auto">
+                  {searchQuery
+                    ? `No results for "${searchQuery}". Try adjusting your search or filter.`
+                    : 'No reservations have been made yet for this map.'}
                 </p>
               </div>
             )}
