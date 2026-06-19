@@ -4,7 +4,8 @@ import {
   MapPin, CheckCircle, Clock, XCircle, Package,
   TrendingUp, Users, LayoutGrid, Map as MapIcon,
   ChevronDown, Settings, Database, CalendarClock, Shield,
-  BarChart3, PieChart as PieChartIcon
+  BarChart3, PieChart as PieChartIcon,
+  Download, FileSpreadsheet, FileText, File
 } from 'lucide-react';
 import {
   PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
@@ -23,6 +24,7 @@ import { StallGridView } from '../primitives/StallGridView';
 import { StallDetailModal } from '../primitives/StallDetailModal';
 import { ReservationFormModal } from '../primitives/ReservationFormModal';
 import { ReceiptModal } from '../primitives/ReceiptModal';
+import { exportToCSV, exportToExcel, exportToWord } from '../../utils/export';
 
 const headerImage = new URL('../public/header1.png', import.meta.url).href;
 const bploLogo = new URL('../public/bplo-modified.png', import.meta.url).href;
@@ -53,6 +55,8 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [isExtending, setIsExtending] = useState(false);
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const accountMenuRef = useRef<HTMLDivElement>(null);
+  const [showExportMenu, setShowExportMenu] = useState(false);
+  const exportMenuRef = useRef<HTMLDivElement>(null);
 
   async function loadData() {
     const [stallsDesign, stallsAll, updatedReservations] = await Promise.all([
@@ -99,10 +103,27 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
       if (accountMenuRef.current && !accountMenuRef.current.contains(e.target as Node)) {
         setShowAccountMenu(false);
       }
+      if (exportMenuRef.current && !exportMenuRef.current.contains(e.target as Node)) {
+        setShowExportMenu(false);
+      }
     }
-    if (showAccountMenu) document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [showAccountMenu]);
+  }, [showAccountMenu, showExportMenu]);
+
+  function handleExport(format: 'csv' | 'excel' | 'word') {
+    const isMapA = activeTab === 'reservations-a';
+    const source = isMapA ? 'design_map' : 'all_stalls';
+    const mapLabel = isMapA ? 'MapA' : 'MapB';
+    const relevantReservations = reservations.filter(r => r.source === source);
+    const relevantStalls = isMapA ? stallsDesignMap : stallsAllStalls;
+
+    if (format === 'csv') exportToCSV(relevantReservations, relevantStalls, mapLabel);
+    else if (format === 'excel') exportToExcel(relevantReservations, relevantStalls, mapLabel);
+    else exportToWord(relevantReservations, relevantStalls, mapLabel);
+
+    setShowExportMenu(false);
+  }
 
   async function handleExtend() {
     setIsExtending(true);
@@ -590,17 +611,53 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                       : reservations.filter(r => r.source === 'all_stalls').length} records
                   </p>
                 </div>
-                {/* Status summary pills */}
-                <div className="flex flex-wrap gap-2">
-                  {(['pending', 'approved', 'occupied', 'rejected'] as const).map(status => {
-                    const count = filteredReservations.filter(r => r.status === status).length;
-                    const labels: Record<string, string> = { pending: 'Pending', approved: 'Approved', occupied: 'Occupied', rejected: 'Rejected' };
-                    const colors: Record<string, string> = {
-                      pending: 'bg-amber-50 text-amber-700 border-amber-200',
-                      approved: 'bg-blue-50 text-blue-700 border-blue-200',
-                      occupied: 'bg-slate-50 text-slate-600 border-slate-200',
-                      rejected: 'bg-red-50 text-red-600 border-red-200',
-                    };
+                <div className="flex items-center gap-3">
+                  {/* Export Dropdown */}
+                  <div className="relative" ref={exportMenuRef}>
+                    <button
+                      onClick={() => setShowExportMenu(!showExportMenu)}
+                      className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-xl transition-colors"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      Export
+                    </button>
+                    {showExportMenu && (
+                      <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-xl shadow-xl border border-slate-200 overflow-hidden z-50">
+                        <button
+                          onClick={() => handleExport('csv')}
+                          className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
+                        >
+                          <File className="w-4 h-4 text-green-600" />
+                          <span>Download CSV</span>
+                        </button>
+                        <button
+                          onClick={() => handleExport('excel')}
+                          className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
+                        >
+                          <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
+                          <span>Download Excel</span>
+                        </button>
+                        <button
+                          onClick={() => handleExport('word')}
+                          className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
+                        >
+                          <FileText className="w-4 h-4 text-blue-600" />
+                          <span>Download Word</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                  {/* Status summary pills */}
+                  <div className="flex flex-wrap gap-2">
+                    {(['pending', 'approved', 'occupied', 'rejected'] as const).map(status => {
+                      const count = filteredReservations.filter(r => r.status === status).length;
+                      const labels: Record<string, string> = { pending: 'Pending', approved: 'Approved', occupied: 'Occupied', rejected: 'Rejected' };
+                      const colors: Record<string, string> = {
+                        pending: 'bg-amber-50 text-amber-700 border-amber-200',
+                        approved: 'bg-blue-50 text-blue-700 border-blue-200',
+                        occupied: 'bg-slate-50 text-slate-600 border-slate-200',
+                        rejected: 'bg-red-50 text-red-600 border-red-200',
+                      };
                     return (
                       <span key={status} className={`text-xs font-bold px-3 py-1.5 rounded-full border ${colors[status]}`}>
                         {labels[status]}: {count}
@@ -609,6 +666,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                   })}
                 </div>
               </div>
+            </div>
             </div>
 
             {/* Search & Filter bar */}
