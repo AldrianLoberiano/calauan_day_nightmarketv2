@@ -24,7 +24,6 @@ interface FormErrors {
   fullName?: string;
   contactNumber?: string;
 }
-
 export function ReservationFormModal({ stall, onClose, onSuccess, source }: ReservationFormModalProps) {
   const [formData, setFormData] = useState<FormData>({
     fullName: '',
