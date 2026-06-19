@@ -19,7 +19,7 @@ const STATUS: Record<string, {
   dot: string;
 }> = {
   pending: {
-    headerBg:  'bg-gradient-to-r from-amber-400 to-amber-500',
+    headerBg:  'bg-amber-500',
     headerText: 'text-white',
     subText:   'text-amber-100',
     badge:     'bg-white text-amber-700',
@@ -27,7 +27,7 @@ const STATUS: Record<string, {
     dot:       'bg-amber-300',
   },
   approved: {
-    headerBg:  'bg-gradient-to-r from-blue-500 to-blue-600',
+    headerBg:  'bg-blue-600',
     headerText: 'text-white',
     subText:   'text-blue-200',
     badge:     'bg-white text-blue-700',
@@ -35,7 +35,7 @@ const STATUS: Record<string, {
     dot:       'bg-blue-300',
   },
   occupied: {
-    headerBg:  'bg-gradient-to-r from-slate-500 to-slate-600',
+    headerBg:  'bg-slate-500',
     headerText: 'text-white',
     subText:   'text-slate-300',
     badge:     'bg-white text-slate-600',
@@ -43,7 +43,7 @@ const STATUS: Record<string, {
     dot:       'bg-slate-400',
   },
   rejected: {
-    headerBg:  'bg-gradient-to-r from-red-400 to-red-500',
+    headerBg:  'bg-red-500',
     headerText: 'text-white',
     subText:   'text-red-200',
     badge:     'bg-white text-red-600',
