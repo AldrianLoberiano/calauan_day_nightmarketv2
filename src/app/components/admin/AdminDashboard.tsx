@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
   Search, RefreshCw, LogOut, LayoutDashboard, ClipboardList,
   MapPin, CheckCircle, Clock, XCircle, Package,
-  TrendingUp, Users, Activity, LayoutGrid, Map as MapIcon,
+  TrendingUp, Users, LayoutGrid, Map as MapIcon,
   ChevronDown, Settings, Database, CalendarClock, Shield
 } from 'lucide-react';
 import { Reservation, Stall } from '../../types';
@@ -41,7 +41,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [selectedStall, setSelectedStall] = useState<Stall | null>(null);
   const [reserveStall, setReserveStall] = useState<Stall | null>(null);
   const [receiptData, setReceiptData] = useState<{ reservation: Reservation; stall: Stall } | null>(null);
-  const [lastRefresh, setLastRefresh] = useState(new Date());
   const [activeReservationId, setActiveReservationId] = useState<string | null>(null);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
@@ -68,7 +67,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
     setStallsDesignMap(Array.isArray(stallsDesign) ? stallsDesign : []);
     setStallsAllStalls(Array.isArray(stallsAll) ? stallsAll : []);
     setReservations(updatedReservations);
-    setLastRefresh(new Date());
   }
 
   useEffect(() => {
@@ -198,18 +196,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <div className="hidden sm:flex items-center gap-1.5 bg-white/10 backdrop-blur-sm rounded-lg px-2.5 py-1.5 text-xs text-white/80 ring-1 ring-white/15">
-              <Activity className="w-3 h-3 text-green-300" />
-              <span>Refreshed {lastRefresh.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-            </div>
-            <button
-              onClick={loadData}
-              className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-3 py-1.5 rounded-xl transition-all ring-1 ring-white/15 hover:ring-white/30"
-            >
-              <RefreshCw className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Refresh</span>
-            </button>
-
             {/* Account Menu */}
             <div className="relative" ref={accountMenuRef}>
               <button
