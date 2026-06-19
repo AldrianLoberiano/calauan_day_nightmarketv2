@@ -647,24 +647,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                       </div>
                     )}
                   </div>
-                  {/* Status summary pills */}
-                  <div className="flex flex-wrap gap-2">
-                    {(['pending', 'approved', 'occupied', 'rejected'] as const).map(status => {
-                      const count = filteredReservations.filter(r => r.status === status).length;
-                      const labels: Record<string, string> = { pending: 'Pending', approved: 'Approved', occupied: 'Occupied', rejected: 'Rejected' };
-                      const colors: Record<string, string> = {
-                        pending: 'bg-amber-50 text-amber-700 border-amber-200',
-                        approved: 'bg-blue-50 text-blue-700 border-blue-200',
-                        occupied: 'bg-slate-50 text-slate-600 border-slate-200',
-                        rejected: 'bg-red-50 text-red-600 border-red-200',
-                      };
-                    return (
-                      <span key={status} className={`text-xs font-bold px-3 py-1.5 rounded-full border ${colors[status]}`}>
-                        {labels[status]}: {count}
-                      </span>
-                    );
-                  })}
-                </div>
               </div>
             </div>
             </div>
