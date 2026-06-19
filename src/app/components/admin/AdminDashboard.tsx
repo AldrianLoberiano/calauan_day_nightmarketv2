@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
   Search, RefreshCw, LogOut, LayoutDashboard, ClipboardList,
   MapPin, CheckCircle, Clock, XCircle, Package,
-  TrendingUp, Users, Activity, LayoutGrid, Map as MapIcon
+  TrendingUp, Users, Activity, LayoutGrid, Map as MapIcon,
+  ChevronDown, Settings, Database, CalendarClock, Shield
 } from 'lucide-react';
 import { Reservation, Stall } from '../../types';
 import {
@@ -47,6 +48,8 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [isResetting, setIsResetting] = useState(false);
   const [showExtendConfirm, setShowExtendConfirm] = useState(false);
   const [isExtending, setIsExtending] = useState(false);
+  const [showAccountMenu, setShowAccountMenu] = useState(false);
+  const accountMenuRef = useRef<HTMLDivElement>(null);
 
   async function loadData() {
     const [stallsDesign, stallsAll, updatedReservations] = await Promise.all([
@@ -86,9 +89,18 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
       window.alert('Reset failed. Please try again.');
     } finally {
       setIsResetting(false);
-      setShowResetConfirm(false);
     }
   }
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (accountMenuRef.current && !accountMenuRef.current.contains(e.target as Node)) {
+        setShowAccountMenu(false);
+      }
+    }
+    if (showAccountMenu) document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showAccountMenu]);
 
   async function handleExtend() {
     setIsExtending(true);
@@ -197,27 +209,80 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
               <RefreshCw className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Refresh</span>
             </button>
-            <button
-              onClick={() => setShowResetConfirm(true)}
-              className="flex items-center gap-1.5 bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold px-3 py-1.5 rounded-xl transition-colors"
-            >
-              <span className="hidden sm:inline">Reset Stalls</span>
-              <span className="sm:hidden">Reset</span>
-            </button>
-            <button
-              onClick={() => setShowExtendConfirm(true)}
-              className="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-1.5 rounded-xl transition-colors"
-            >
-              <span className="hidden sm:inline">Extend Pending +1 Day</span>
-              <span className="sm:hidden">Extend</span>
-            </button>
-            <button
-              onClick={() => setShowLogoutConfirm(true)}
-              className="flex items-center gap-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold px-3 py-1.5 rounded-xl transition-colors"
-            >
-              <LogOut className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Logout</span>
-            </button>
+
+            {/* Account Menu */}
+            <div className="relative" ref={accountMenuRef}>
+              <button
+                onClick={() => setShowAccountMenu(!showAccountMenu)}
+                className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-2 py-1.5 rounded-xl transition-all ring-1 ring-white/15 hover:ring-white/30"
+              >
+                <div className="w-7 h-7 rounded-full bg-emerald-600 flex items-center justify-center text-white text-xs font-bold">
+                  A
+                </div>
+                <span className="hidden sm:inline">Admin</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showAccountMenu ? 'rotate-180' : ''}`} />
+              </button>
+
+              {showAccountMenu && (
+                <div className="absolute right-0 top-full mt-2 w-72 bg-[#282828] rounded-xl shadow-2xl border border-white/10 overflow-hidden z-50">
+                  {/* User Info */}
+                  <div className="px-4 pt-4 pb-3 border-b border-white/10">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-lg">
+                        A
+                      </div>
+                      <div>
+                        <p className="text-white font-semibold text-sm">Admin</p>
+                        <p className="text-gray-400 text-xs">BPLO Admin Panel</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Menu Items */}
+                  <div className="py-2">
+                    <button
+                      onClick={() => { setShowAccountMenu(false); }}
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-200 hover:bg-white/10 transition-colors"
+                    >
+                      <Shield className="w-4 h-4 text-gray-400" />
+                      <span>Admin Panel</span>
+                    </button>
+                    <button
+                      onClick={() => { setShowAccountMenu(false); setShowResetConfirm(true); }}
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-200 hover:bg-white/10 transition-colors"
+                    >
+                      <Database className="w-4 h-4 text-gray-400" />
+                      <span>Reset All Data</span>
+                    </button>
+                    <button
+                      onClick={() => { setShowAccountMenu(false); setShowExtendConfirm(true); }}
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-200 hover:bg-white/10 transition-colors"
+                    >
+                      <CalendarClock className="w-4 h-4 text-gray-400" />
+                      <span>Extend Pending +1 Day</span>
+                    </button>
+                    <button
+                      onClick={() => { setShowAccountMenu(false); }}
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-200 hover:bg-white/10 transition-colors"
+                    >
+                      <Settings className="w-4 h-4 text-gray-400" />
+                      <span>Settings</span>
+                    </button>
+                  </div>
+
+                  {/* Sign Out */}
+                  <div className="border-t border-white/10 py-2">
+                    <button
+                      onClick={() => { setShowAccountMenu(false); setShowLogoutConfirm(true); }}
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-200 hover:bg-white/10 transition-colors"
+                    >
+                      <LogOut className="w-4 h-4 text-gray-400" />
+                      <span>Sign out</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
