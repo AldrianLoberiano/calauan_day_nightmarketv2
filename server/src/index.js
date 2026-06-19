@@ -307,12 +307,12 @@ async function updateReservationById(connection, id, fields) {
 
 async function selectReservationWithStall(id) {
   let [rows] = await pool.query(
-    `SELECT d.*, s.price AS stall_price FROM design_map_reservations d
+    `SELECT d.*, s.price AS stall_price, 'design_map' AS source FROM design_map_reservations d
      LEFT JOIN design_map_stalls s ON s.id = d.stall_id WHERE d.id = ?`, [id]
   );
   if (rows.length > 0) return mapViewReservation(rows[0]);
   [rows] = await pool.query(
-    `SELECT a.*, s.price AS stall_price FROM all_stalls_reservations a
+    `SELECT a.*, s.price AS stall_price, 'all_stalls' AS source FROM all_stalls_reservations a
      LEFT JOIN all_stalls_stalls s ON s.id = a.stall_id WHERE a.id = ?`, [id]
   );
   if (rows.length > 0) return mapViewReservation(rows[0]);
@@ -533,7 +533,7 @@ app.get('/api/reservations/:id', async (req, res, next) => {
   try {
     // Search in design_map_reservations first
     let [rows] = await pool.query(
-      `SELECT d.*, s.price AS stall_price
+      `SELECT d.*, s.price AS stall_price, 'design_map' AS source
        FROM design_map_reservations d
        LEFT JOIN design_map_stalls s ON s.id = d.stall_id
        WHERE d.id = ?`,
@@ -544,7 +544,7 @@ app.get('/api/reservations/:id', async (req, res, next) => {
     }
     // Search in all_stalls_reservations
     [rows] = await pool.query(
-      `SELECT a.*, s.price AS stall_price
+      `SELECT a.*, s.price AS stall_price, 'all_stalls' AS source
        FROM all_stalls_reservations a
        LEFT JOIN all_stalls_stalls s ON s.id = a.stall_id
        WHERE a.id = ?`,
@@ -560,7 +560,7 @@ app.get('/api/reservations/:id', async (req, res, next) => {
 app.get('/api/reservations/design-map', async (req, res, next) => {
   try {
     const [rows] = await pool.query(
-      `SELECT d.*, s.price AS stall_price
+      `SELECT d.*, s.price AS stall_price, 'design_map' AS source
        FROM design_map_reservations d
        LEFT JOIN design_map_stalls s ON s.id = d.stall_id
        ORDER BY d.created_at DESC`
@@ -574,7 +574,7 @@ app.get('/api/reservations/design-map', async (req, res, next) => {
 app.get('/api/reservations/all-stalls', async (req, res, next) => {
   try {
     const [rows] = await pool.query(
-      `SELECT a.*, s.price AS stall_price
+      `SELECT a.*, s.price AS stall_price, 'all_stalls' AS source
        FROM all_stalls_reservations a
        LEFT JOIN all_stalls_stalls s ON s.id = a.stall_id
        ORDER BY a.created_at DESC`
