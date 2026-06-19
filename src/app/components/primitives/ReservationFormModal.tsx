@@ -93,7 +93,7 @@ export function ReservationFormModal({ stall, onClose, onSuccess, source }: Rese
       <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden flex flex-col max-h-[90vh]">
 
         {/* ── Header ── */}
-        <div className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white px-6 py-5 shrink-0">
+        <div className="relative bg-blue-700 text-white px-6 py-5 shrink-0">
           {/* Decorative circles */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
           <div className="absolute bottom-0 left-0 w-20 h-20 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
@@ -259,7 +259,7 @@ export function ReservationFormModal({ stall, onClose, onSuccess, source }: Rese
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-slate-300 disabled:to-slate-300 disabled:cursor-not-allowed text-white rounded-xl py-2.5 text-sm font-bold transition-all shadow-lg shadow-blue-500/25 disabled:shadow-none flex items-center justify-center gap-2"
+                className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white rounded-xl py-2.5 text-sm font-bold transition-all shadow-lg shadow-blue-500/25 disabled:shadow-none flex items-center justify-center gap-2"
               >
                 {isSubmitting ? (
                   <>
