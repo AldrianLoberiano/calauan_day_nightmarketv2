@@ -3,8 +3,12 @@ import {
   Search, RefreshCw, LogOut, LayoutDashboard, ClipboardList,
   MapPin, CheckCircle, Clock, XCircle, Package,
   TrendingUp, Users, LayoutGrid, Map as MapIcon,
-  ChevronDown, Settings, Database, CalendarClock, Shield
+  ChevronDown, Settings, Database, CalendarClock, Shield,
+  BarChart3, PieChart as PieChartIcon
 } from 'lucide-react';
+import {
+  PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
+} from 'recharts';
 import { Reservation, Stall } from '../../types';
 import {
   getReservations,
@@ -132,8 +136,39 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
     const pendingStalls = stalls.filter(s => s.status === 'pending').length;
     const reservedStalls = stalls.filter(s => s.status === 'reserved').length;
 
-    return { total, pending, approved, rejected, occupied, pendingA, pendingB, availableStalls, totalStalls, occupiedStalls, pendingStalls, reservedStalls };
-  }, [reservations, stalls]);
+    // Map A (design_map) stalls
+    const stallsA = stallsDesignMap;
+    const stallsAAvailable = stallsA.filter(s => s.status === 'available').length;
+    const stallsAPending = stallsA.filter(s => s.status === 'pending').length;
+    const stallsAReserved = stallsA.filter(s => s.status === 'reserved').length;
+    const stallsAOccupied = stallsA.filter(s => s.status === 'occupied').length;
+    const reservationsATotal = reservationsA.length;
+    const reservationsAPending = reservationsA.filter(r => r.status === 'pending').length;
+    const reservationsAApproved = reservationsA.filter(r => r.status === 'approved').length;
+    const reservationsARejected = reservationsA.filter(r => r.status === 'rejected').length;
+    const reservationsAOccupied = reservationsA.filter(r => r.status === 'occupied').length;
+
+    // Map B (all_stalls) stalls
+    const stallsB = stallsAllStalls;
+    const stallsBAvailable = stallsB.filter(s => s.status === 'available').length;
+    const stallsBPending = stallsB.filter(s => s.status === 'pending').length;
+    const stallsBReserved = stallsB.filter(s => s.status === 'reserved').length;
+    const stallsBOccupied = stallsB.filter(s => s.status === 'occupied').length;
+    const reservationsBTotal = reservationsB.length;
+    const reservationsBPending = reservationsB.filter(r => r.status === 'pending').length;
+    const reservationsBApproved = reservationsB.filter(r => r.status === 'approved').length;
+    const reservationsBRejected = reservationsB.filter(r => r.status === 'rejected').length;
+    const reservationsBOccupied = reservationsB.filter(r => r.status === 'occupied').length;
+
+    return {
+      total, pending, approved, rejected, occupied, pendingA, pendingB,
+      availableStalls, totalStalls, occupiedStalls, pendingStalls, reservedStalls,
+      stallsA: { total: stallsA.length, available: stallsAAvailable, pending: stallsAPending, reserved: stallsAReserved, occupied: stallsAOccupied },
+      stallsB: { total: stallsB.length, available: stallsBAvailable, pending: stallsBPending, reserved: stallsBReserved, occupied: stallsBOccupied },
+      reservationsA: { total: reservationsATotal, pending: reservationsAPending, approved: reservationsAApproved, rejected: reservationsARejected, occupied: reservationsAOccupied },
+      reservationsB: { total: reservationsBTotal, pending: reservationsBPending, approved: reservationsBApproved, rejected: reservationsBRejected, occupied: reservationsBOccupied },
+    };
+  }, [reservations, stalls, stallsDesignMap, stallsAllStalls]);
 
   const filteredReservations = useMemo(() => {
     const source = activeTab === 'reservations-b' ? 'all_stalls' : 'design_map';
@@ -305,75 +340,201 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
         {/* Dashboard Tab */}
         {activeTab === 'dashboard' && (
           <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-xl font-black text-slate-800">Overview</h2>
-                <p className="text-sm text-slate-500 mt-0.5">Real-time stall and reservation statistics</p>
-              </div>
-            </div>
-
-            {/* Reservation Stats */}
+            {/* Page Header */}
             <div>
-              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Reservation Statistics</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <StatCard icon={<Users className="w-5 h-5" />} label="Total" value={stats.total} color="blue" />
-                <StatCard icon={<Clock className="w-5 h-5" />} label="Pending" value={stats.pending} color="yellow" />
-                <StatCard icon={<CheckCircle className="w-5 h-5" />} label="Approved" value={stats.approved} color="green" />
-                <StatCard icon={<XCircle className="w-5 h-5" />} label="Rejected" value={stats.rejected} color="red" />
+              <h2 className="text-xl font-black text-slate-800">Dashboard Overview</h2>
+              <p className="text-sm text-slate-500 mt-0.5">Real-time stall and reservation statistics for both maps</p>
+            </div>
+
+            {/* ── Summary Cards ── */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <StatCard icon={<Package className="w-5 h-5" />} label="Total Stalls" value={stats.totalStalls} />
+              <StatCard icon={<Users className="w-5 h-5" />} label="Total Reservations" value={stats.total} />
+              <StatCard icon={<CheckCircle className="w-5 h-5" />} label="Occupancy Rate" value={stats.totalStalls > 0 ? Math.round(((stats.totalStalls - stats.availableStalls) / stats.totalStalls) * 100) : 0} suffix="%" />
+              <StatCard icon={<Clock className="w-5 h-5" />} label="Pending Action" value={stats.pending} />
+            </div>
+
+            {/* ── Charts Row ── */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {/* Bar Chart: Map A vs Map B Stalls */}
+              <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+                <div className="flex items-center gap-2 mb-4">
+                  <BarChart3 className="w-4 h-4 text-slate-600" />
+                  <h3 className="text-sm font-bold text-slate-700">Stall Status Comparison</h3>
+                </div>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={[
+                      { name: 'Map A', Available: stats.stallsA.available, Pending: stats.stallsA.pending, Reserved: stats.stallsA.reserved, Occupied: stats.stallsA.occupied },
+                      { name: 'Map B', Available: stats.stallsB.available, Pending: stats.stallsB.pending, Reserved: stats.stallsB.reserved, Occupied: stats.stallsB.occupied },
+                    ]} barGap={2}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                      <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#64748b' }} />
+                      <YAxis tick={{ fontSize: 12, fill: '#64748b' }} />
+                      <Tooltip
+                        contentStyle={{ borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                        itemStyle={{ fontSize: 12 }}
+                      />
+                      <Legend wrapperStyle={{ fontSize: 12 }} />
+                      <Bar dataKey="Available" fill="#22c55e" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="Pending" fill="#fbbf24" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="Reserved" fill="#ef4444" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="Occupied" fill="#94a3b8" radius={[4, 4, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              {/* Pie Chart: Overall Distribution */}
+              <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+                <div className="flex items-center gap-2 mb-4">
+                  <PieChartIcon className="w-4 h-4 text-slate-600" />
+                  <h3 className="text-sm font-bold text-slate-700">Overall Stall Distribution</h3>
+                </div>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={[
+                          { name: 'Available', value: stats.availableStalls },
+                          { name: 'Pending', value: stats.pendingStalls },
+                          { name: 'Reserved', value: stats.reservedStalls },
+                          { name: 'Occupied', value: stats.occupiedStalls },
+                        ].filter(d => d.value > 0)}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={55}
+                        outerRadius={90}
+                        paddingAngle={3}
+                        dataKey="value"
+                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                        labelLine={false}
+                      >
+                        <Cell fill="#22c55e" />
+                        <Cell fill="#fbbf24" />
+                        <Cell fill="#ef4444" />
+                        <Cell fill="#94a3b8" />
+                      </Pie>
+                      <Tooltip
+                        contentStyle={{ borderRadius: '12px', border: '1px solid #e2e8f0' }}
+                        formatter={(value: number) => [`${value} stalls`, '']}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
               </div>
             </div>
 
-            {/* Stall Stats */}
-            <div>
-              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Stall Status Overview</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <StatCard icon={<MapPin className="w-5 h-5" />} label="Available" value={stats.availableStalls} color="green" />
-                <StatCard icon={<Clock className="w-5 h-5" />} label="Pending" value={stats.pendingStalls} color="yellow" />
-                <StatCard icon={<TrendingUp className="w-5 h-5" />} label="Reserved" value={stats.reservedStalls} color="blue" />
-                <StatCard icon={<Package className="w-5 h-5" />} label="Occupied" value={stats.occupiedStalls} color="gray" />
+            {/* ── Map A & Map B Side by Side ── */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {/* Map A Card */}
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div className="px-5 py-4 border-b border-slate-100 bg-slate-50/50">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
+                        <MapIcon className="w-4 h-4 text-blue-600" />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold text-slate-800">Map A</h3>
+                        <p className="text-[11px] text-slate-400">{stats.stallsA.total} stalls</p>
+                      </div>
+                    </div>
+                    <span className="text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-lg px-2.5 py-1">
+                      {stats.stallsA.total > 0 ? Math.round(((stats.stallsA.total - stats.stallsA.available) / stats.stallsA.total) * 100) : 0}% utilized
+                    </span>
+                  </div>
+                </div>
+                <div className="p-5">
+                  {/* Mini occupancy bar */}
+                  <div className="h-2.5 bg-slate-100 rounded-full overflow-hidden flex gap-0.5 mb-4">
+                    {stats.stallsA.occupied > 0 && (
+                      <div className="bg-slate-500 h-full rounded-full" style={{ width: `${(stats.stallsA.occupied / stats.stallsA.total) * 100}%` }} />
+                    )}
+                    {stats.stallsA.reserved > 0 && (
+                      <div className="bg-red-500 h-full rounded-full" style={{ width: `${(stats.stallsA.reserved / stats.stallsA.total) * 100}%` }} />
+                    )}
+                    {stats.stallsA.pending > 0 && (
+                      <div className="bg-amber-400 h-full rounded-full" style={{ width: `${(stats.stallsA.pending / stats.stallsA.total) * 100}%` }} />
+                    )}
+                    {stats.stallsA.available > 0 && (
+                      <div className="bg-green-400 h-full rounded-full" style={{ width: `${(stats.stallsA.available / stats.stallsA.total) * 100}%` }} />
+                    )}
+                  </div>
+                  {/* Stall counts */}
+                  <div className="grid grid-cols-2 gap-3 mb-4">
+                    <MiniStat label="Available" value={stats.stallsA.available} dotColor="bg-green-400" />
+                    <MiniStat label="Pending" value={stats.stallsA.pending} dotColor="bg-amber-400" />
+                    <MiniStat label="Reserved" value={stats.stallsA.reserved} dotColor="bg-red-500" />
+                    <MiniStat label="Occupied" value={stats.stallsA.occupied} dotColor="bg-slate-500" />
+                  </div>
+                  {/* Reservations summary */}
+                  <div className="border-t border-slate-100 pt-3">
+                    <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Reservations</p>
+                    <div className="flex gap-2">
+                      <span className="text-xs font-semibold text-slate-600 bg-slate-100 rounded-lg px-2 py-1">{stats.reservationsA.total} total</span>
+                      <span className="text-xs font-semibold text-amber-700 bg-amber-50 rounded-lg px-2 py-1">{stats.reservationsA.pending} pending</span>
+                      <span className="text-xs font-semibold text-green-700 bg-green-50 rounded-lg px-2 py-1">{stats.reservationsA.approved} approved</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Map B Card */}
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div className="px-5 py-4 border-b border-slate-100 bg-slate-50/50">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-lg bg-violet-100 flex items-center justify-center">
+                        <LayoutGrid className="w-4 h-4 text-violet-600" />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold text-slate-800">Map B</h3>
+                        <p className="text-[11px] text-slate-400">{stats.stallsB.total} stalls</p>
+                      </div>
+                    </div>
+                    <span className="text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-lg px-2.5 py-1">
+                      {stats.stallsB.total > 0 ? Math.round(((stats.stallsB.total - stats.stallsB.available) / stats.stallsB.total) * 100) : 0}% utilized
+                    </span>
+                  </div>
+                </div>
+                <div className="p-5">
+                  {/* Mini occupancy bar */}
+                  <div className="h-2.5 bg-slate-100 rounded-full overflow-hidden flex gap-0.5 mb-4">
+                    {stats.stallsB.occupied > 0 && (
+                      <div className="bg-slate-500 h-full rounded-full" style={{ width: `${(stats.stallsB.occupied / stats.stallsB.total) * 100}%` }} />
+                    )}
+                    {stats.stallsB.reserved > 0 && (
+                      <div className="bg-red-500 h-full rounded-full" style={{ width: `${(stats.stallsB.reserved / stats.stallsB.total) * 100}%` }} />
+                    )}
+                    {stats.stallsB.pending > 0 && (
+                      <div className="bg-amber-400 h-full rounded-full" style={{ width: `${(stats.stallsB.pending / stats.stallsB.total) * 100}%` }} />
+                    )}
+                    {stats.stallsB.available > 0 && (
+                      <div className="bg-green-400 h-full rounded-full" style={{ width: `${(stats.stallsB.available / stats.stallsB.total) * 100}%` }} />
+                    )}
+                  </div>
+                  {/* Stall counts */}
+                  <div className="grid grid-cols-2 gap-3 mb-4">
+                    <MiniStat label="Available" value={stats.stallsB.available} dotColor="bg-green-400" />
+                    <MiniStat label="Pending" value={stats.stallsB.pending} dotColor="bg-amber-400" />
+                    <MiniStat label="Reserved" value={stats.stallsB.reserved} dotColor="bg-red-500" />
+                    <MiniStat label="Occupied" value={stats.stallsB.occupied} dotColor="bg-slate-500" />
+                  </div>
+                  {/* Reservations summary */}
+                  <div className="border-t border-slate-100 pt-3">
+                    <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Reservations</p>
+                    <div className="flex gap-2">
+                      <span className="text-xs font-semibold text-slate-600 bg-slate-100 rounded-lg px-2 py-1">{stats.reservationsB.total} total</span>
+                      <span className="text-xs font-semibold text-amber-700 bg-amber-50 rounded-lg px-2 py-1">{stats.reservationsB.pending} pending</span>
+                      <span className="text-xs font-semibold text-green-700 bg-green-50 rounded-lg px-2 py-1">{stats.reservationsB.approved} approved</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Occupancy bar */}
-            <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-bold text-slate-700">Market Occupancy</h3>
-                <span className="text-xs text-slate-500 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1">
-                  {stats.totalStalls} total stalls
-                </span>
-              </div>
-              <div className="flex items-end gap-3 mb-3">
-                <span className="text-4xl font-black text-slate-800 leading-none">
-                  {stats.totalStalls > 0
-                    ? Math.round(((stats.totalStalls - stats.availableStalls) / stats.totalStalls) * 100)
-                    : 0}%
-                </span>
-                <span className="text-sm text-slate-500 mb-1">
-                  utilized ({stats.totalStalls - stats.availableStalls}/{stats.totalStalls})
-                </span>
-              </div>
-              <div className="h-3 bg-slate-100 rounded-full overflow-hidden flex gap-0.5">
-                {stats.occupiedStalls > 0 && (
-                  <div className="bg-slate-500 h-full rounded-full" style={{ width: `${(stats.occupiedStalls / stats.totalStalls) * 100}%` }} />
-                )}
-                {stats.reservedStalls > 0 && (
-                  <div className="bg-red-500 h-full rounded-full" style={{ width: `${(stats.reservedStalls / stats.totalStalls) * 100}%` }} />
-                )}
-                {stats.pendingStalls > 0 && (
-                  <div className="bg-amber-400 h-full rounded-full" style={{ width: `${(stats.pendingStalls / stats.totalStalls) * 100}%` }} />
-                )}
-                {stats.availableStalls > 0 && (
-                  <div className="bg-green-400 h-full rounded-full" style={{ width: `${(stats.availableStalls / stats.totalStalls) * 100}%` }} />
-                )}
-              </div>
-              <div className="flex flex-wrap gap-4 mt-3 text-xs text-slate-500">
-                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-green-400 inline-block" />Available ({stats.availableStalls})</span>
-                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block" />Pending ({stats.pendingStalls})</span>
-                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-red-500 inline-block" />Reserved ({stats.reservedStalls})</span>
-                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-slate-500 inline-block" />Occupied ({stats.occupiedStalls})</span>
-              </div>
-            </div>
-
+            {/* ── Pending Reservations ── */}
             {stats.pending > 0 && (
               <div>
                 <div className="flex items-center justify-between mb-3">
@@ -381,7 +542,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                     <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Pending Actions</h3>
                     <span className="bg-amber-100 text-amber-700 text-xs font-bold px-2 py-0.5 rounded-full">{stats.pending} pending</span>
                   </div>
-                  <button onClick={() => setActiveTab('reservations')} className="text-xs text-blue-600 font-semibold hover:underline">
+                  <button onClick={() => setActiveTab('reservations-a')} className="text-xs text-blue-600 font-semibold hover:underline">
                     View all →
                   </button>
                 </div>
@@ -657,12 +818,12 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
 }
 
 function StatCard({
-  icon, label, value, color,
+  icon, label, value, suffix,
 }: {
   icon: React.ReactNode;
   label: string;
   value: number;
-  color: 'blue' | 'green' | 'yellow' | 'red' | 'gray';
+  suffix?: string;
 }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4 flex items-center gap-3">
@@ -670,9 +831,21 @@ function StatCard({
         {icon}
       </div>
       <div>
-        <p className="text-2xl font-black leading-tight text-slate-800">{value}</p>
+        <p className="text-2xl font-black leading-tight text-slate-800">{value}{suffix}</p>
         <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{label}</p>
       </div>
+    </div>
+  );
+}
+
+function MiniStat({ label, value, dotColor }: { label: string; value: number; dotColor: string }) {
+  return (
+    <div className="flex items-center justify-between">
+      <span className="flex items-center gap-1.5 text-xs text-slate-500">
+        <span className={`w-2 h-2 rounded-full ${dotColor} inline-block`} />
+        {label}
+      </span>
+      <span className="text-sm font-bold text-slate-800">{value}</span>
     </div>
   );
 }
