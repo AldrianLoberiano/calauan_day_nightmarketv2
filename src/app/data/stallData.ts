@@ -15,7 +15,7 @@ const priceBySize: Record<StallSize, number> = {
   corner: 4500,
 };
 
-const descriptions: Record<StallCategory, string[]> = {
+const descriptions: Record<string, string[]> = {
   'Cooked Food': [
     'Ideal for selling cooked meals, snacks, and Filipino dishes.',
     'Perfect spot for a carinderia or food stall near the main aisle.',
@@ -66,6 +66,16 @@ const descriptions: Record<StallCategory, string[]> = {
     'Excellent for seeds, gardening tools, and farm supplies.',
     'Wide-open stall ideal for wholesale general goods.',
   ],
+  'Non-Food': [
+    'Spacious stall ideal for non-food merchandise and general goods.',
+    'Perfect location for clothing, accessories, and apparel.',
+    'Great for electronics, gadgets, and phone accessories.',
+    'Ideal for hardware, tools, and household essentials.',
+    'Corner stall with extra space for non-food displays.',
+    'High-visibility spot for fashion retail and trending items.',
+    'Suitable for school supplies, toys, and general merchandise.',
+    'Excellent for local crafts, bags, shoes, and accessories.',
+  ],
 };
 
 const categoryOrder: StallCategory[] = [
@@ -76,12 +86,13 @@ const categoryOrder: StallCategory[] = [
   'General Merchandise',
 ];
 
-const categoryImages: Record<StallCategory, string> = {
+const categoryImages: Record<string, string> = {
   'Cooked Food': stallImages.food,
   'Vegetables & Fruits': stallImages.veggies,
   'Dry Goods & Groceries': stallImages.dry,
   'Clothing & Apparel': stallImages.clothing,
   'General Merchandise': stallImages.general,
+  'Non-Food': stallImages.general,
 };
 
 const sizeCycle: StallSize[] = ['small', 'medium', 'medium', 'large', 'medium'];
@@ -105,6 +116,7 @@ function getCategoryForStall(num: number): StallCategory {
 
 function getDescriptionForStall(num: number, category: StallCategory): string {
   const descs = descriptions[category];
+  if (!descs) return descriptions['General Merchandise'][(num - 1) % descriptions['General Merchandise'].length];
   return descs[(num - 1) % descs.length];
 }
 
