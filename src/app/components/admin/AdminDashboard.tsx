@@ -27,7 +27,6 @@ import { ReceiptModal } from '../stalls/ReceiptModal';
 import { exportToCSV, exportToExcel, exportToWord } from '../../utils/export';
 import { VendorManagement } from './VendorManagement';
 
-const headerImage = '/images/header1.png';
 const bploLogo = '/images/bplo-modified.png';
 
 interface AdminDashboardProps {
