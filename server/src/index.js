@@ -321,6 +321,14 @@ async function ensureViewTables() {
       const passcode = String(Math.floor(100000 + Math.random() * 900000));
       await pool.query('UPDATE vendor_users SET passcode = ? WHERE id = ?', [passcode, v.id]);
     }
+
+    // Add event column to vendor_users if missing
+    const [eventCol] = await pool.query(
+      `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'vendor_users' AND COLUMN_NAME = 'event'`,
+    );
+    if (eventCol.length === 0) {
+      await pool.query(`ALTER TABLE vendor_users ADD COLUMN event VARCHAR(32) DEFAULT NULL AFTER passcode`);
+    }
   } catch (e) {
     console.warn('Could not ensure view tables:', e?.message || e);
   }
@@ -1052,7 +1060,7 @@ app.post('/api/vendors/login', async (req, res, next) => {
       return res.status(400).json({ message: 'Username and password are required' });
     }
     const [rows] = await pool.query(
-      'SELECT id, username, full_name, contact_number, business_name, email, status, password_hash FROM vendor_users WHERE username = ? LIMIT 1',
+      'SELECT id, username, full_name, contact_number, business_name, email, status, event, password_hash FROM vendor_users WHERE username = ? LIMIT 1',
       [username]
     );
     if (rows.length === 0) {
@@ -1076,6 +1084,7 @@ app.post('/api/vendors/login', async (req, res, next) => {
         contactNumber: vendor.contact_number,
         businessName: vendor.business_name,
         email: vendor.email,
+        event: vendor.event,
       },
     });
   } catch (err) {
@@ -1090,7 +1099,7 @@ app.post('/api/vendors/login-passcode', async (req, res, next) => {
       return res.status(400).json({ message: 'Email and passcode are required' });
     }
     const [rows] = await pool.query(
-      'SELECT id, username, full_name, contact_number, business_name, email, status, passcode FROM vendor_users WHERE email = ? LIMIT 1',
+      'SELECT id, username, full_name, contact_number, business_name, email, status, passcode, event FROM vendor_users WHERE email = ? LIMIT 1',
       [email]
     );
     if (rows.length === 0) {
@@ -1113,6 +1122,7 @@ app.post('/api/vendors/login-passcode', async (req, res, next) => {
         contactNumber: vendor.contact_number,
         businessName: vendor.business_name,
         email: vendor.email,
+        event: vendor.event,
       },
     });
   } catch (err) {
@@ -1122,7 +1132,7 @@ app.post('/api/vendors/login-passcode', async (req, res, next) => {
 
 app.post('/api/admin/vendors', authAdmin, async (req, res, next) => {
   try {
-    const { fullName, email, contactNumber, businessName } = req.body;
+    const { fullName, email, contactNumber, businessName, event } = req.body;
     if (!fullName || !email) {
       return res.status(400).json({ message: 'Full name and email are required' });
     }
@@ -1134,8 +1144,8 @@ app.post('/api/admin/vendors', authAdmin, async (req, res, next) => {
     const passwordHash = await bcrypt.hash('vendor', 10);
     const passcode = String(Math.floor(100000 + Math.random() * 900000));
     const [result] = await pool.query(
-      'INSERT INTO vendor_users (username, password_hash, full_name, contact_number, business_name, email, passcode) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [username, passwordHash, fullName, contactNumber || null, businessName || null, email, passcode]
+      'INSERT INTO vendor_users (username, password_hash, full_name, contact_number, business_name, email, passcode, event) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      [username, passwordHash, fullName, contactNumber || null, businessName || null, email, passcode, event || null]
     );
     res.status(201).json({
       id: result.insertId,
@@ -1145,6 +1155,7 @@ app.post('/api/admin/vendors', authAdmin, async (req, res, next) => {
       businessName: businessName || null,
       email,
       passcode,
+      event: event || null,
       status: 'active',
     });
   } catch (err) {
@@ -1155,7 +1166,7 @@ app.post('/api/admin/vendors', authAdmin, async (req, res, next) => {
 app.get('/api/admin/vendors', authAdmin, async (req, res, next) => {
   try {
     const [rows] = await pool.query(
-      'SELECT id, username, full_name, contact_number, business_name, email, passcode, status, created_at FROM vendor_users ORDER BY created_at DESC'
+      'SELECT id, username, full_name, contact_number, business_name, email, passcode, event, status, created_at FROM vendor_users ORDER BY created_at DESC'
     );
     res.json(rows.map(r => ({
       id: r.id,
@@ -1165,6 +1176,7 @@ app.get('/api/admin/vendors', authAdmin, async (req, res, next) => {
       businessName: r.business_name,
       email: r.email,
       passcode: r.passcode,
+      event: r.event,
       status: r.status,
       createdAt: r.created_at,
     })));
@@ -1175,7 +1187,7 @@ app.get('/api/admin/vendors', authAdmin, async (req, res, next) => {
 
 app.put('/api/admin/vendors/:id', authAdmin, async (req, res, next) => {
   try {
-    const { fullName, contactNumber, businessName, email, status, password } = req.body;
+    const { fullName, contactNumber, businessName, email, status, password, event } = req.body;
     const fields = [];
     const values = [];
     if (fullName !== undefined) { fields.push('full_name = ?'); values.push(fullName); }
@@ -1183,6 +1195,7 @@ app.put('/api/admin/vendors/:id', authAdmin, async (req, res, next) => {
     if (businessName !== undefined) { fields.push('business_name = ?'); values.push(businessName); }
     if (email !== undefined) { fields.push('email = ?'); values.push(email); }
     if (status !== undefined) { fields.push('status = ?'); values.push(status); }
+    if (event !== undefined) { fields.push('event = ?'); values.push(event || null); }
     if (password) {
       const passwordHash = await bcrypt.hash(password, 10);
       fields.push('password_hash = ?');
@@ -1194,14 +1207,14 @@ app.put('/api/admin/vendors/:id', authAdmin, async (req, res, next) => {
     values.push(req.params.id);
     await pool.query(`UPDATE vendor_users SET ${fields.join(', ')} WHERE id = ?`, values);
     const [rows] = await pool.query(
-      'SELECT id, username, full_name, contact_number, business_name, email, status, created_at FROM vendor_users WHERE id = ?',
+      'SELECT id, username, full_name, contact_number, business_name, email, event, status, created_at FROM vendor_users WHERE id = ?',
       [req.params.id]
     );
     if (rows.length === 0) return res.status(404).json({ message: 'Vendor not found' });
     const r = rows[0];
     res.json({
       id: r.id, username: r.username, fullName: r.full_name, contactNumber: r.contact_number,
-      businessName: r.business_name, email: r.email, status: r.status, createdAt: r.created_at,
+      businessName: r.business_name, email: r.email, event: r.event, status: r.status, createdAt: r.created_at,
     });
   } catch (err) {
     next(err);
@@ -1238,14 +1251,14 @@ app.delete('/api/admin/vendors/:id', authAdmin, async (req, res, next) => {
 app.get('/api/vendors/me', authVendor, async (req, res, next) => {
   try {
     const [rows] = await pool.query(
-      'SELECT id, username, full_name, contact_number, business_name, email, status, created_at FROM vendor_users WHERE id = ?',
+      'SELECT id, username, full_name, contact_number, business_name, email, event, status, created_at FROM vendor_users WHERE id = ?',
       [req.vendorId]
     );
     if (rows.length === 0) return res.status(404).json({ message: 'Vendor not found' });
     const r = rows[0];
     res.json({
       id: r.id, username: r.username, fullName: r.full_name, contactNumber: r.contact_number,
-      businessName: r.business_name, email: r.email, status: r.status, createdAt: r.created_at,
+      businessName: r.business_name, email: r.email, event: r.event, status: r.status, createdAt: r.created_at,
     });
   } catch (err) {
     next(err);
