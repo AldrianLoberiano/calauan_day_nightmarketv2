@@ -3,7 +3,7 @@ import { Info, Search, ChevronDown, Store, MapPin, Clock, ShieldCheck, LayoutGri
 import { Stall, Reservation } from '../types';
 const headerImage = new URL('../components/public/header1.png', import.meta.url).href;
 const bploLogo = new URL('../components/public/bplo-modified.png', import.meta.url).href;
-import { checkAndExpireReservations, getVendorToken, getVendorUser, getVendorReservations } from '../utils/storage';
+import { checkAndExpireReservations, getVendorToken, getVendorUser, getVendorReservations, getReservations } from '../utils/storage';
 import { getDisplayStallId, getDisplayCategoryById } from '../utils/helpers';
 import { StallMap } from '../components/primitives/StallMap';
 import { StallGridView } from '../components/primitives/StallGridView';
@@ -24,11 +24,18 @@ export function UserPage() {
   const [mapView, setMapView] = useState<'design' | 'grid'>('design');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [vendorStallIds, setVendorStallIds] = useState<Set<string>>(new Set());
+  const [allReservations, setAllReservations] = useState<Reservation[]>([]);
 
   async function loadStalls(source?: string) {
     const updated = await checkAndExpireReservations(source);
     setStalls(Array.isArray(updated) ? updated : []);
     setIsLoading(false);
+    try {
+      const reservations = await getReservations();
+      setAllReservations(Array.isArray(reservations) ? reservations : []);
+    } catch {
+      setAllReservations([]);
+    }
   }
 
   const source = mapView === 'design' ? 'design_map' : 'all_stalls';
@@ -502,6 +509,7 @@ export function UserPage() {
       {selectedStall && (
         <StallDetailModal
           stall={selectedStall}
+          reservation={allReservations.find(r => r.stallId === selectedStall.id && (r.status === 'pending' || r.status === 'approved' || r.status === 'occupied')) || null}
           onClose={() => setSelectedStall(null)}
           onReserve={(stall) => {
             if (!getVendorToken()) {
