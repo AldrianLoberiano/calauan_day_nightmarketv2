@@ -177,6 +177,7 @@ export function VendorDashboard({ vendor, onLogout }: VendorDashboardProps) {
           <div className="relative">
             <h2 className="text-xl sm:text-2xl font-black text-slate-800">Welcome, {vendor.fullName}</h2>
             <p className="text-slate-500 text-sm mt-0.5">View and manage your stall reservations</p>
+            {vendor.event && (
               <div className="flex items-center gap-1.5 mt-2 text-slate-500 text-xs">
             {vendor.businessName && (
               <div className="flex items-center gap-1.5 mt-2 text-slate-500 text-xs">
