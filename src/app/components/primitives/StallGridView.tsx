@@ -7,6 +7,7 @@ interface StallGridViewProps {
   onStallClick: (stall: Stall) => void;
   selectedStallId?: string;
   activeSection?: string; // 'all' | 'A' | 'B' | 'AA' | 'BB' | 'C' | 'D' | 'R'
+  vendorStallIds?: Set<string>;
 }
 
 // ─── Actual section boundaries matching the DB & Design Map ───
@@ -30,7 +31,7 @@ function range(a: number, b: number) {
   return Array.from({ length: b - a + 1 }, (_, i) => a + i);
 }
 
-export function StallGridView({ stalls, onStallClick, selectedStallId, activeSection = 'all' }: StallGridViewProps) {
+export function StallGridView({ stalls, onStallClick, selectedStallId, activeSection = 'all', vendorStallIds }: StallGridViewProps) {
   const [zoom, setZoom] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
   // Save & restore scroll position when a stall modal opens/closes
@@ -76,20 +77,21 @@ export function StallGridView({ stalls, onStallClick, selectedStallId, activeSec
   const S = ({ num, w, h }: { num: number; w: number; h: number }) => {
     const stall  = idMap.get(num);
     const sel    = stall ? selectedStallId === stall.id : false;
+    const isMine = stall ? vendorStallIds?.has(stall.id) : false;
     const disabled = !stall;
     return (
       <button
         onClick={() => { if (!disabled && stall) handleStallClick(stall); }}
         title={
           stall
-            ? `Stall ${num} · ${stall.status} · ${getDisplayCategoryById(stall.id, stall.category)} · Price: To be discussed`
+            ? `Stall ${num} · ${stall.status} · ${getDisplayCategoryById(stall.id, stall.category)}${isMine ? ' · YOUR STALL' : ''} · Price: To be discussed`
             : `Stall ${num} · Unavailable`
         }
         style={{
           width: w, height: h,
           fontSize: Math.max(7, Math.min(w, h) * 0.42),
           background:  stall ? (statusColor[stall.status]  || '#ccc') : '#e5e7eb',
-          border: `1.5px solid ${stall ? (statusBorder[stall.status] || '#999') : '#cbd5e1'}`,
+          border: isMine ? `2.5px solid #3b82f6` : `1.5px solid ${stall ? (statusBorder[stall.status] || '#999') : '#cbd5e1'}`,
           color:  stall ? '#fff' : '#94a3b8',
           fontWeight: 700,
           cursor: disabled ? 'default' : 'pointer',
@@ -99,9 +101,11 @@ export function StallGridView({ stalls, onStallClick, selectedStallId, activeSec
           outlineOffset: sel ? 1 : 0,
           transform:    sel ? 'scale(1.15)' : undefined,
           zIndex:       sel ? 20 : undefined,
-          boxShadow:    sel
-            ? '0 0 8px rgba(59,130,246,0.5)'
-            : '0 1px 2px rgba(0,0,0,0.15)',
+          boxShadow:    isMine
+            ? '0 0 8px rgba(59,130,246,0.6), 0 0 14px rgba(59,130,246,0.3)'
+            : sel
+              ? '0 0 8px rgba(59,130,246,0.5)'
+              : '0 1px 2px rgba(0,0,0,0.15)',
           transition: 'transform 0.1s, box-shadow 0.1s',
         }}
         onMouseEnter={e => {
@@ -116,7 +120,7 @@ export function StallGridView({ stalls, onStallClick, selectedStallId, activeSec
             e.currentTarget.style.zIndex = '';
           }
         }}
-      >{num}</button>
+      >{num}{isMine && <span style={{ position:'absolute', top:-4, right:-4, width:6, height:6, borderRadius:'50%', background:'#3b82f6', border:'1px solid #fff' }}/>}</button>
     );
   };
 
@@ -376,6 +380,16 @@ export function StallGridView({ stalls, onStallClick, selectedStallId, activeSec
               }}>A</div>
               <span style={{ fontSize: 12, color: '#555' }}>Section Marker</span>
             </div>
+            {vendorStallIds && vendorStallIds.size > 0 && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <div style={{
+                  width: 16, height: 16, background: '#facc15',
+                  border: '2.5px solid #3b82f6', borderRadius: 2,
+                  boxShadow: '0 0 6px rgba(59,130,246,0.4)',
+                }} />
+                <span style={{ fontSize: 12, color: '#555' }}>Your Stall</span>
+              </div>
+            )}
           </div>
 
         </div>
