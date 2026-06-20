@@ -281,7 +281,7 @@ export function UserPage() {
                   ) : (
                     <LayoutGrid className="w-4 h-4 text-blue-600" />
                   )}
-                  <span>{mapView === 'design' ? 'Map A' : 'Map B (1–300)'}</span>
+                  <span>{mapView === 'design' ? 'Map A' : 'Map B'}</span>
                   <ChevronDown
                     className={`w-3.5 h-3.5 text-slate-500 transition-transform duration-200 ${
                       dropdownOpen ? 'rotate-180' : ''
@@ -342,7 +342,7 @@ export function UserPage() {
                         onMouseLeave={e => { e.currentTarget.style.background = mapView === 'grid' ? '#f1f5f9' : 'transparent'; }}
                       >
                         <LayoutGrid style={{ width: 16, height: 16, flexShrink: 0, color: '#3b82f6' }} />
-                        Map B (1–300)
+                        Map B
                       </button>
                     </div>
                 )}
