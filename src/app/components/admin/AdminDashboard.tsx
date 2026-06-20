@@ -25,6 +25,7 @@ import { StallDetailModal } from '../primitives/StallDetailModal';
 import { ReservationFormModal } from '../primitives/ReservationFormModal';
 import { ReceiptModal } from '../primitives/ReceiptModal';
 import { exportToCSV, exportToExcel, exportToWord } from '../../utils/export';
+import { VendorManagement } from './VendorManagement';
 
 const headerImage = new URL('../public/header1.png', import.meta.url).href;
 const bploLogo = new URL('../public/bplo-modified.png', import.meta.url).href;
@@ -33,7 +34,7 @@ interface AdminDashboardProps {
   onLogout: () => void;
 }
 
-type TabId = 'dashboard' | 'reservations-a' | 'reservations-b' | 'design-map' | 'all-stalls';
+type TabId = 'dashboard' | 'reservations-a' | 'reservations-b' | 'design-map' | 'all-stalls' | 'vendors';
 type FilterStatus = 'all' | 'pending' | 'approved' | 'rejected' | 'occupied';
 
 export function AdminDashboard({ onLogout }: AdminDashboardProps) {
@@ -227,6 +228,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
     { id: 'reservations-b' as TabId, label: 'Map B Reservations', icon: <ClipboardList className="w-4 h-4" />, badge: stats.pendingB > 0 ? stats.pendingB : undefined },
     { id: 'design-map' as TabId, label: 'Map A', icon: <MapIcon className="w-4 h-4" /> },
     { id: 'all-stalls' as TabId, label: 'Map B (1-300)', icon: <LayoutGrid className="w-4 h-4" /> },
+    { id: 'vendors' as TabId, label: 'Vendors', icon: <Users className="w-4 h-4" /> },
   ];
 
   const activeReservation = activeReservationId
@@ -763,6 +765,10 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
               />
             </div>
           </div>
+        )}
+        {/* Vendors Tab */}
+        {activeTab === 'vendors' && (
+          <VendorManagement />
         )}
       </main>
 
