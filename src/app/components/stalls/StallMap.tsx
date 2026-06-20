@@ -392,28 +392,28 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               {/* MAIN BODY */}
               <div style={{ display:'flex', gap:0, position:'relative', overflow:'visible' }}>
 
-                {/* Left paired columns */}
-                <div style={{ flexShrink:0, marginLeft:1, marginRight:3, marginTop:25, display:'flex', flexDirection:'column', gap:0, position:'relative', overflow:'visible' }}>
-                  <div style={{ height:28, marginBottom:6 }} />
-                  <div style={{ position:'absolute', left:-30, top:'50%', transform:'translateY(-50%)', zIndex:5 }}>
+                {/* AA column (separate, at top) */}
+                <div style={{ flexShrink:0, marginLeft:3, marginRight:5, marginTop:-120, paddingTop:-1, display:'flex', flexDirection:'column', gap:0, position:'relative', overflow:'visible' }}>
+                  <div style={{ position:'absolute', left:-30, top:100, zIndex:5 }}>
                     <CL t="AA"/>
                   </div>
-                  <div style={{ position:'absolute', left:68, top:'50%', transform:'translateY(-50%)', zIndex:5 }}>
+                  <div style={{ display:'flex', flexDirection:'column', gap:0 }}>
+                    {aaColumnSlots.map((slot, idx) => {
+                      return slot ? <S key={slot.stall?.id ?? `aa-${idx}`} slot={slot} w={25} h={18}/> : <div key={`aa-empty-${idx}`} style={{ width:25, height:18 }} />;
+                    })}
+                  </div>
+                </div>
+
+                {/* BB column (original position) */}
+                <div style={{ flexShrink:0, marginLeft:3, marginRight:3, marginTop:25, display:'flex', flexDirection:'column', gap:0, position:'relative', overflow:'visible' }}>
+                  <div style={{ height:28, marginBottom:6 }} />
+                  <div style={{ position:'absolute', left:30, top:'50%', transform:'translateY(-50%)', zIndex:5 }}>
                     <CL t="BB"/>
                   </div>
-                  <div style={{ display:'flex', gap:10 }}>
-                    <div style={{ display:'flex', flexDirection:'column', gap:0 }}>
-                      {Array.from({ length: leftColumnRows }, (_, idx) => {
-                        const slot = aaColumnSlots[idx];
-                        return slot ? <S key={slot.stall?.id ?? `aa-${idx}`} slot={slot} w={25} h={18}/> : <div key={`aa-empty-${idx}`} style={{ width:25, height:18 }} />;
-                      })}
-                    </div>
-                    <div style={{ display:'flex', flexDirection:'column', gap:0 }}>
-                      {Array.from({ length: leftColumnRows }, (_, idx) => {
-                        const slot = bbColumnSlots[idx];
-                        return slot ? <S key={slot.stall?.id ?? `bb-${idx}`} slot={slot} w={25} h={18}/> : <div key={`bb-empty-${idx}`} style={{ width:25, height:18 }} />;
-                      })}
-                    </div>
+                  <div style={{ display:'flex', flexDirection:'column', gap:0 }}>
+                    {bbColumnSlots.map((slot, idx) => {
+                      return slot ? <S key={slot.stall?.id ?? `bb-${idx}`} slot={slot} w={25} h={18}/> : <div key={`bb-empty-${idx}`} style={{ width:25, height:18 }} />;
+                    })}
                   </div>
                 </div>
 
@@ -452,7 +452,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               </div>
 
               {/* INNER BOTTOM ROW (B/A) */}
-              <div style={{ display:'flex', gap:0, marginTop:-135, marginBottom:2, position:'relative' }}>
+              <div style={{ display:'flex', gap:0, marginTop:45, marginBottom:2, position:'relative' }}>
                 <div style={{ width:52, flexShrink:0 }}/>
                 <div style={{ position:'absolute', left:'30%', top:'-100%', transform:'translate(-50%, -50%)', zIndex:5 }}>
                   <CL t="B"/>
@@ -509,7 +509,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
 
               {/* BOTTOM OUTER ROWS */}
               <div style={{ display:'flex', gap:8, marginTop:-3, alignItems:'center' }}>
-                <div style={{ marginLeft:70, display:'flex', alignItems:'center', gap:8 }}>
+                <div style={{ marginLeft:-20, display:'flex', alignItems:'center', gap:8 }}>
                   <CL t="A"/>
                   <HR ss={outBL} w={24} h={18}/>
                 </div>
