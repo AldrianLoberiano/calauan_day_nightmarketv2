@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import crypto from 'crypto';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import pool from './db.js';
 import { generateInitialStalls } from './stalls.js';
 
@@ -9,6 +11,8 @@ dotenv.config();
 
 const app = express();
 const port = Number(process.env.PORT || 3001);
+const JWT_SECRET = process.env.JWT_SECRET || 'nightmarket_jwt_secret_2026';
+const JWT_EXPIRES_IN = '7d';
 
 app.use(cors());
 app.use(express.json());
@@ -132,6 +136,22 @@ async function ensureStallsSeeded() {
   }
 }
 
+async function ensureDefaultVendor() {
+  try {
+    const [rows] = await pool.query('SELECT id FROM vendor_users WHERE username = ? LIMIT 1', ['vendor']);
+    if (rows.length === 0) {
+      const hash = await bcrypt.hash('vendor123', 10);
+      await pool.query(
+        'INSERT INTO vendor_users (username, password_hash, full_name, contact_number, business_name) VALUES (?, ?, ?, ?, ?)',
+        ['vendor', hash, 'Sample Vendor', '09171234567', 'Sample Business']
+      );
+      console.log('Default vendor account created: vendor / vendor123');
+    }
+  } catch (e) {
+    console.warn('Could not ensure default vendor:', e?.message || e);
+  }
+}
+
 async function ensureAvailableStalls259To276() {
   const tables = ['design_map_stalls', 'all_stalls_stalls'];
   const stalls = generateInitialStalls().filter((stall) => {
@@ -238,6 +258,31 @@ async function ensureViewTables() {
     await pool.query(createAllStallsStalls);
     await pool.query(createDesignMap);
     await pool.query(createAllStalls);
+
+    // Vendor users table
+    await pool.query(`CREATE TABLE IF NOT EXISTS vendor_users (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      username VARCHAR(64) UNIQUE NOT NULL,
+      password_hash VARCHAR(255) NOT NULL,
+      full_name VARCHAR(128) NOT NULL,
+      contact_number VARCHAR(32) DEFAULT NULL,
+      business_name VARCHAR(128) DEFAULT NULL,
+      email VARCHAR(128) DEFAULT NULL,
+      status ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+    // Add vendor_id columns to reservation tables if missing
+    for (const table of ['design_map_reservations', 'all_stalls_reservations']) {
+      const [cols] = await pool.query(
+        `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ? AND COLUMN_NAME = 'vendor_id'`,
+        [table]
+      );
+      if (cols.length === 0) {
+        await pool.query(`ALTER TABLE ${table} ADD COLUMN vendor_id INT DEFAULT NULL AFTER id`);
+      }
+    }
   } catch (e) {
     console.warn('Could not ensure view tables:', e?.message || e);
   }
@@ -585,7 +630,7 @@ app.get('/api/reservations/all-stalls', async (req, res, next) => {
   }
 });
 
-app.post('/api/reservations', async (req, res, next) => {
+app.post('/api/reservations', authVendor, async (req, res, next) => {
   const connection = await pool.getConnection();
   try {
     const payload = req.body;
@@ -608,12 +653,13 @@ app.post('/api/reservations', async (req, res, next) => {
     const viewTable = source === 'all_stalls' ? 'all_stalls_reservations' : 'design_map_reservations';
     await connection.query(
       `INSERT INTO ${viewTable}
-        (id, reservation_number, stall_id, full_name, contact_number, business_name, dti_number, cedula_number, address, stall_usage_type, status, created_at, expires_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?, ?)`,
+        (id, reservation_number, stall_id, vendor_id, full_name, contact_number, business_name, dti_number, cedula_number, address, stall_usage_type, status, created_at, expires_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?, ?)`,
       [
         reservationId,
         reservationNumber,
         payload.stallId,
+        req.vendorId || null,
         payload.fullName,
         payload.contactNumber,
         payload.businessName || null,
@@ -922,6 +968,215 @@ app.post('/api/admin/login', async (req, res, next) => {
   }
 });
 
+// ─── JWT Auth Middleware ─────────────────────────────────────
+function authVendor(req, res, next) {
+  const header = req.headers.authorization;
+  if (!header || !header.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'Authentication required' });
+  }
+  try {
+    const decoded = jwt.verify(header.slice(7), JWT_SECRET);
+    req.vendorId = decoded.id;
+    req.vendorRole = decoded.role;
+    next();
+  } catch {
+    return res.status(401).json({ message: 'Invalid or expired token' });
+  }
+}
+
+function authAdmin(req, res, next) {
+  const header = req.headers.authorization;
+  if (!header || !header.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'Authentication required' });
+  }
+  try {
+    const decoded = jwt.verify(header.slice(7), JWT_SECRET);
+    if (decoded.role !== 'admin') {
+      return res.status(403).json({ message: 'Admin access required' });
+    }
+    req.adminId = decoded.id;
+    next();
+  } catch {
+    return res.status(401).json({ message: 'Invalid or expired token' });
+  }
+}
+
+// ─── Vendor Auth Routes ─────────────────────────────────────
+app.post('/api/vendors/login', async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password) {
+      return res.status(400).json({ message: 'Username and password are required' });
+    }
+    const [rows] = await pool.query(
+      'SELECT id, username, full_name, contact_number, business_name, email, status, password_hash FROM vendor_users WHERE username = ? LIMIT 1',
+      [username]
+    );
+    if (rows.length === 0) {
+      return res.status(401).json({ message: 'Invalid username or password' });
+    }
+    const vendor = rows[0];
+    if (vendor.status !== 'active') {
+      return res.status(403).json({ message: 'Account is inactive. Contact the admin.' });
+    }
+    const passwordMatch = await bcrypt.compare(password, vendor.password_hash);
+    if (!passwordMatch) {
+      return res.status(401).json({ message: 'Invalid username or password' });
+    }
+    const token = jwt.sign({ id: vendor.id, role: 'vendor' }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
+    res.json({
+      token,
+      vendor: {
+        id: vendor.id,
+        username: vendor.username,
+        fullName: vendor.full_name,
+        contactNumber: vendor.contact_number,
+        businessName: vendor.business_name,
+        email: vendor.email,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.post('/api/admin/vendors', authAdmin, async (req, res, next) => {
+  try {
+    const { username, password, fullName, contactNumber, businessName, email } = req.body;
+    if (!username || !password || !fullName) {
+      return res.status(400).json({ message: 'Username, password, and full name are required' });
+    }
+    const [existing] = await pool.query('SELECT id FROM vendor_users WHERE username = ?', [username]);
+    if (existing.length > 0) {
+      return res.status(409).json({ message: 'Username already exists' });
+    }
+    const passwordHash = await bcrypt.hash(password, 10);
+    const [result] = await pool.query(
+      'INSERT INTO vendor_users (username, password_hash, full_name, contact_number, business_name, email) VALUES (?, ?, ?, ?, ?, ?)',
+      [username, passwordHash, fullName, contactNumber || null, businessName || null, email || null]
+    );
+    res.status(201).json({
+      id: result.insertId,
+      username,
+      fullName,
+      contactNumber: contactNumber || null,
+      businessName: businessName || null,
+      email: email || null,
+      status: 'active',
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.get('/api/admin/vendors', authAdmin, async (req, res, next) => {
+  try {
+    const [rows] = await pool.query(
+      'SELECT id, username, full_name, contact_number, business_name, email, status, created_at FROM vendor_users ORDER BY created_at DESC'
+    );
+    res.json(rows.map(r => ({
+      id: r.id,
+      username: r.username,
+      fullName: r.full_name,
+      contactNumber: r.contact_number,
+      businessName: r.business_name,
+      email: r.email,
+      status: r.status,
+      createdAt: r.created_at,
+    })));
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.put('/api/admin/vendors/:id', authAdmin, async (req, res, next) => {
+  try {
+    const { fullName, contactNumber, businessName, email, status, password } = req.body;
+    const fields = [];
+    const values = [];
+    if (fullName !== undefined) { fields.push('full_name = ?'); values.push(fullName); }
+    if (contactNumber !== undefined) { fields.push('contact_number = ?'); values.push(contactNumber); }
+    if (businessName !== undefined) { fields.push('business_name = ?'); values.push(businessName); }
+    if (email !== undefined) { fields.push('email = ?'); values.push(email); }
+    if (status !== undefined) { fields.push('status = ?'); values.push(status); }
+    if (password) {
+      const passwordHash = await bcrypt.hash(password, 10);
+      fields.push('password_hash = ?');
+      values.push(passwordHash);
+    }
+    if (fields.length === 0) {
+      return res.status(400).json({ message: 'No fields to update' });
+    }
+    values.push(req.params.id);
+    await pool.query(`UPDATE vendor_users SET ${fields.join(', ')} WHERE id = ?`, values);
+    const [rows] = await pool.query(
+      'SELECT id, username, full_name, contact_number, business_name, email, status, created_at FROM vendor_users WHERE id = ?',
+      [req.params.id]
+    );
+    if (rows.length === 0) return res.status(404).json({ message: 'Vendor not found' });
+    const r = rows[0];
+    res.json({
+      id: r.id, username: r.username, fullName: r.full_name, contactNumber: r.contact_number,
+      businessName: r.business_name, email: r.email, status: r.status, createdAt: r.created_at,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.delete('/api/admin/vendors/:id', authAdmin, async (req, res, next) => {
+  try {
+    await pool.query("UPDATE vendor_users SET status = 'inactive' WHERE id = ?", [req.params.id]);
+    res.json({ ok: true });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ─── Vendor-Protected Routes ─────────────────────────────────
+app.get('/api/vendors/me', authVendor, async (req, res, next) => {
+  try {
+    const [rows] = await pool.query(
+      'SELECT id, username, full_name, contact_number, business_name, email, status, created_at FROM vendor_users WHERE id = ?',
+      [req.vendorId]
+    );
+    if (rows.length === 0) return res.status(404).json({ message: 'Vendor not found' });
+    const r = rows[0];
+    res.json({
+      id: r.id, username: r.username, fullName: r.full_name, contactNumber: r.contact_number,
+      businessName: r.business_name, email: r.email, status: r.status, createdAt: r.created_at,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.get('/api/vendors/me/reservations', authVendor, async (req, res, next) => {
+  try {
+    const [designRows] = await pool.query(
+      `SELECT d.*, s.price AS stall_price, 'design_map' AS source
+       FROM design_map_reservations d
+       LEFT JOIN design_map_stalls s ON s.id = d.stall_id
+       WHERE d.vendor_id = ?
+       ORDER BY d.created_at DESC`,
+      [req.vendorId]
+    );
+    const [allStallsRows] = await pool.query(
+      `SELECT a.*, s.price AS stall_price, 'all_stalls' AS source
+       FROM all_stalls_reservations a
+       LEFT JOIN all_stalls_stalls s ON s.id = a.stall_id
+       WHERE a.vendor_id = ?
+       ORDER BY a.created_at DESC`,
+      [req.vendorId]
+    );
+    const all = [...designRows.map(mapViewReservation), ...allStallsRows.map(mapViewReservation)]
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    res.json(all);
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({ message: 'Server error' });
@@ -933,6 +1188,7 @@ Promise.resolve()
   .then(() => ensureViewTables())
   .then(() => ensureStallsSeeded())
   .then(() => ensureAvailableStalls259To276())
+  .then(() => ensureDefaultVendor())
   .then(() => {
     app.listen(port, () => {
       console.log(`API running on http://localhost:${port}`);
