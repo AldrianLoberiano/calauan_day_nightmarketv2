@@ -1,15 +1,16 @@
 import React from 'react';
-import { X, MapPin, Tag, Ruler, ShoppingBag, CheckCircle, Clock, XCircle, MinusCircle } from 'lucide-react';
-import { Stall } from '../../types';
+import { X, MapPin, Tag, Ruler, ShoppingBag, CheckCircle, Clock, XCircle, MinusCircle, User, Building2 } from 'lucide-react';
+import { Stall, Reservation } from '../../types';
 import { formatPeso, getStatusTextClass, getStatusLabel, getDisplayStallId, getDisplaySectionByCategory, getDisplayCategoryById } from '../../utils/helpers';
 
 interface StallDetailModalProps {
   stall: Stall | null;
+  reservation?: Reservation | null;
   onClose: () => void;
   onReserve: (stall: Stall) => void;
 }
 
-export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModalProps) {
+export function StallDetailModal({ stall, reservation, onClose, onReserve }: StallDetailModalProps) {
   if (!stall) return null;
 
   const statusIcon: Record<string, React.ReactNode> = {
@@ -81,6 +82,24 @@ export function StallDetailModal({ stall, onClose, onReserve }: StallDetailModal
           </div>
 
           <p className="text-sm text-slate-600 leading-relaxed mb-4">{stall.description}</p>
+
+          {reservation && (stall.status === 'reserved' || stall.status === 'occupied' || stall.status === 'pending') && (
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 mb-4">
+              <p className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold mb-2">Reserved By</p>
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <User className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                  <p className="text-sm font-bold text-slate-800">{reservation.fullName}</p>
+                </div>
+                {reservation.businessName && (
+                  <div className="flex items-center gap-2">
+                    <Building2 className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                    <p className="text-sm font-semibold text-slate-700">{reservation.businessName}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
           {stall.status === 'pending' && (
             <div className="flex items-start gap-2.5 bg-amber-50 border border-amber-200 rounded-xl p-3 mb-4">
