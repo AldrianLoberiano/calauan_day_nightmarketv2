@@ -3,7 +3,7 @@ import { Info, Search, ChevronDown, Store, MapPin, Clock, ShieldCheck, LayoutGri
 import { Stall, Reservation } from '../types';
 const headerImage = new URL('../components/public/header1.png', import.meta.url).href;
 const bploLogo = new URL('../components/public/bplo-modified.png', import.meta.url).href;
-import { checkAndExpireReservations, getVendorToken, getVendorUser } from '../utils/storage';
+import { checkAndExpireReservations, getVendorToken, getVendorUser, getVendorReservations } from '../utils/storage';
 import { getDisplayStallId, getDisplayCategoryById } from '../utils/helpers';
 import { StallMap } from '../components/primitives/StallMap';
 import { StallGridView } from '../components/primitives/StallGridView';
@@ -23,6 +23,7 @@ export function UserPage() {
   const [filterStatus, setFilterStatus] = useState('all');
   const [mapView, setMapView] = useState<'design' | 'grid'>('design');
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [vendorStallIds, setVendorStallIds] = useState<Set<string>>(new Set());
 
   async function loadStalls(source?: string) {
     const updated = await checkAndExpireReservations(source);
@@ -57,6 +58,23 @@ export function UserPage() {
   useEffect(() => {
     void loadStalls(source);
   }, [source]);
+
+  useEffect(() => {
+    if (!getVendorToken()) {
+      setVendorStallIds(new Set());
+      return;
+    }
+    getVendorReservations()
+      .then(reservations => {
+        const stallIds = new Set(
+          reservations
+            .filter(r => r.status === 'pending' || r.status === 'approved' || r.status === 'occupied')
+            .map(r => r.stallId)
+        );
+        setVendorStallIds(stallIds);
+      })
+      .catch(() => setVendorStallIds(new Set()));
+  }, []);
 
   const safeStalls = Array.isArray(stalls) ? stalls : [];
   const availableCount = safeStalls.filter(s => s.status === 'available').length;
@@ -337,12 +355,14 @@ export function UserPage() {
               stalls={stalls}
               onStallClick={handleStallClick}
               selectedStallId={selectedStall?.id}
+              vendorStallIds={vendorStallIds}
             />
           ) : (
             <StallGridView
               stalls={stalls}
               onStallClick={handleStallClick}
               selectedStallId={selectedStall?.id}
+              vendorStallIds={vendorStallIds}
             />
           )}
         </div>
