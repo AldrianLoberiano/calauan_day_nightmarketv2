@@ -1,6 +1,6 @@
 import React from 'react';
-import { X, MapPin, Tag, Ruler, ShoppingBag, CheckCircle, Clock, XCircle, MinusCircle, User, Building2 } from 'lucide-react';
-import { Stall, Reservation } from '../../types';
+import { X, MapPin, Tag, Ruler, ShoppingBag, CheckCircle, Clock, XCircle, MinusCircle, User, Building2, AlertTriangle } from 'lucide-react';
+import { Stall, Reservation, VendorEvent } from '../../types';
 import { formatPeso, getStatusTextClass, getStatusLabel, getDisplayStallId, getDisplaySectionByCategory, getDisplayCategoryById } from '../../utils/helpers';
 
 interface StallDetailModalProps {
@@ -8,9 +8,11 @@ interface StallDetailModalProps {
   reservation?: Reservation | null;
   onClose: () => void;
   onReserve: (stall: Stall) => void;
+  vendorEvent?: VendorEvent | null;
+  source?: string;
 }
 
-export function StallDetailModal({ stall, reservation, onClose, onReserve }: StallDetailModalProps) {
+export function StallDetailModal({ stall, reservation, onClose, onReserve, vendorEvent, source }: StallDetailModalProps) {
   if (!stall) return null;
 
   const statusIcon: Record<string, React.ReactNode> = {
@@ -26,6 +28,11 @@ export function StallDetailModal({ stall, reservation, onClose, onReserve }: Sta
     large:  '2 x 3 m',
     corner: '2 x 3 m',
   };
+
+  const wrongMap = vendorEvent && (
+    (vendorEvent === 'Bazaar' && source === 'all_stalls') ||
+    (vendorEvent === 'Night Market' && source === 'design_map')
+  );
 
   const displayStallId = getDisplayStallId(stall.id);
   const displaySection = getDisplaySectionByCategory(stall.id, stall.section, stall.category);
@@ -122,12 +129,19 @@ export function StallDetailModal({ stall, reservation, onClose, onReserve }: Sta
               Close
             </button>
             {stall.status === 'available' && (
-              <button
-                onClick={() => onReserve(stall)}
-                className="flex-1 bg-blue-700 hover:bg-blue-800 text-white rounded-xl py-2.5 transition-colors text-sm font-bold shadow-sm"
-              >
-                Reserve This Stall
-              </button>
+              wrongMap ? (
+                <div className="flex-1 flex items-center justify-center gap-1.5 bg-amber-50 border border-amber-200 text-amber-700 rounded-xl py-2.5 text-sm font-semibold cursor-not-allowed">
+                  <AlertTriangle className="w-4 h-4" />
+                  {vendorEvent === 'Bazaar' ? 'Switch to Map A' : 'Switch to Map B'}
+                </div>
+              ) : (
+                <button
+                  onClick={() => onReserve(stall)}
+                  className="flex-1 bg-blue-700 hover:bg-blue-800 text-white rounded-xl py-2.5 transition-colors text-sm font-bold shadow-sm"
+                >
+                  Reserve This Stall
+                </button>
+              )
             )}
           </div>
         </div>
