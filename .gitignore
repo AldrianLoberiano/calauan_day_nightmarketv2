@@ -4,3 +4,4 @@ dist
 database/*.db
 database/*.sqlite
 database/*.sqlite3
+database/vendor_schema.sql
