@@ -11,6 +11,7 @@ interface VendorFormData {
   contactNumber: string;
   businessName: string;
   email: string;
+  event: string;
 }
 
 const emptyForm: VendorFormData = {
@@ -18,6 +19,7 @@ const emptyForm: VendorFormData = {
   contactNumber: '',
   businessName: '',
   email: '',
+  event: '',
 };
 
 export function VendorManagement() {
@@ -72,6 +74,7 @@ export function VendorManagement() {
       contactNumber: vendor.contactNumber || '',
       businessName: vendor.businessName || '',
       email: vendor.email || '',
+      event: vendor.event || '',
     });
     setError('');
     setShowForm(true);
@@ -89,6 +92,7 @@ export function VendorManagement() {
           contactNumber: formData.contactNumber || undefined,
           businessName: formData.businessName || undefined,
           email: formData.email || undefined,
+          event: formData.event || null,
         };
         await updateVendor(editingVendor.id, updateData);
       } else {
@@ -97,6 +101,7 @@ export function VendorManagement() {
           contactNumber: formData.contactNumber || undefined,
           businessName: formData.businessName || undefined,
           email: formData.email,
+          event: formData.event || undefined,
         });
       }
       setShowForm(false);
@@ -231,6 +236,15 @@ export function VendorManagement() {
                     Passcode: {vendor.passcode}
                   </p>
                 )}
+                {vendor.event && (
+                  <p className={`text-xs font-bold flex items-center gap-1.5 rounded-lg px-2 py-1 mt-1 border ${
+                    vendor.event === 'Bazaar'
+                      ? 'text-purple-700 bg-purple-50 border-purple-200'
+                      : 'text-blue-700 bg-blue-50 border-blue-200'
+                  }`}>
+                    {vendor.event === 'Bazaar' ? 'Bazaar (Map A)' : 'Night Market (Map B)'}
+                  </p>
+                )}
               </div>
 
               <div className="flex gap-2">
@@ -332,6 +346,21 @@ export function VendorManagement() {
                     disabled={isSubmitting}
                   />
                 </div>
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Event / Map Assignment *</label>
+                <select
+                  value={formData.event}
+                  onChange={e => setFormData(p => ({ ...p, event: e.target.value }))}
+                  className="input-field"
+                  required
+                  disabled={isSubmitting}
+                >
+                  <option value="">Select event...</option>
+                  <option value="Bazaar">Bazaar (Map A)</option>
+                  <option value="Night Market">Night Market (Map B)</option>
+                </select>
+                <p className="text-[11px] text-slate-400 mt-1">Determines which map the vendor can access</p>
               </div>
 
               {error && (
