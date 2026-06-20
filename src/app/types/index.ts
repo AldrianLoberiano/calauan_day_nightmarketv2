@@ -46,6 +46,7 @@ export interface AdminUser {
 }
 
 export type VendorEvent = 'Bazaar' | 'Night Market';
+
 export interface VendorUser {
   id: number;
   username: string;
@@ -54,6 +55,7 @@ export interface VendorUser {
   businessName?: string;
   email?: string;
   passcode?: string;
+  event?: VendorEvent;
   status: 'active' | 'inactive';
   createdAt?: string;
 }
