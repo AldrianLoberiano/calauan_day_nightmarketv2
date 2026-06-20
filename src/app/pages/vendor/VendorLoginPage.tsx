@@ -50,20 +50,9 @@ export function VendorLoginPage({ onLoginSuccess }: VendorLoginPageProps) {
       <div className="absolute inset-0 bg-gradient-to-b from-slate-900/70 via-slate-900/50 to-slate-900/70" aria-hidden="true" />
 
       <div className="relative w-full max-w-sm">
-        {/* Back to browsing */}
-        <a
-          href="/"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/70 hover:text-white mb-5 transition-colors"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          Browse Stalls
-        </a>
-
         {/* Logo & Title */}
         <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-20 h-20 mb-4 rounded-2xl bg-white/10 backdrop-blur-sm ring-1 ring-white/20">
-            <img src={bploLogo} alt="BPLO Logo" className="w-14 h-14 object-contain" />
-          </div>
+          <img src={bploLogo} alt="BPLO Logo" className="w-16 h-16 object-contain mx-auto mb-4" />
           <h1 className="text-white text-2xl font-black tracking-tight">Night Market</h1>
           <p className="text-slate-300 text-sm mt-1">Vendor Account Login</p>
         </div>
