@@ -114,17 +114,22 @@ export function VendorManagement() {
       await deleteVendor(vendor.id);
       setDeleteConfirm(null);
       await loadVendors();
+      setSuccessMessage('Vendor deleted successfully!');
+      setTimeout(() => setSuccessMessage(''), 3000);
     } catch (err) {
-      console.error('Failed to deactivate vendor:', err);
+      console.error('Failed to delete vendor:', err);
     }
   }
 
   async function handleToggleStatus(vendor: VendorUser) {
     try {
+      const newStatus = vendor.status === 'active' ? 'inactive' : 'active';
       await updateVendor(vendor.id, {
-        status: vendor.status === 'active' ? 'inactive' : 'active',
+        status: newStatus,
       });
       await loadVendors();
+      setSuccessMessage(`Vendor ${newStatus === 'active' ? 'activated' : 'deactivated'} successfully!`);
+      setTimeout(() => setSuccessMessage(''), 3000);
     } catch (err) {
       console.error('Failed to toggle vendor status:', err);
     }
