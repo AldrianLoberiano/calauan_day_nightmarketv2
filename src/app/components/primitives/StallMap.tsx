@@ -8,13 +8,14 @@ interface StallMapProps {
   selectedStallId?: string;
   initialZoom?: number;
   maxHeight?: string;
+  vendorStallIds?: Set<string>;
 }
 
 function range(a: number, b: number) {
   return Array.from({ length: b - a + 1 }, (_, i) => a + i);
 }
 
-export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, maxHeight }: StallMapProps) {
+export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, maxHeight, vendorStallIds }: StallMapProps) {
   const [zoom, setZoom] = useState(initialZoom ?? 1);
   const containerRef = useRef<HTMLDivElement>(null);
   const numericStalls = stalls.filter(s => s.number > 0 && /^\d+$/.test(s.id));
@@ -110,15 +111,16 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
   const S = ({ slot, w, h }: { slot: StallSlot; w: number; h: number }) => {
     const stall = slot.stall;
     const sel = stall ? selectedStallId === stall.id : false;
+    const isMine = stall ? vendorStallIds?.has(stall.id) : false;
     const disabled = slot.disabled || !stall;
     const label = slot.label;
     return (
       <button onClick={()=>{ if (!disabled && stall) onStallClick(stall); }}
-        title={stall ? `Stall ${getCornerDisplayStallId(stall.id)} · ${stall.status} · ${getDisplayCategoryById(stall.id, stall.category)} · Price: To be discussed` : 'Unavailable'}
+        title={stall ? `Stall ${getCornerDisplayStallId(stall.id)} · ${stall.status} · ${getDisplayCategoryById(stall.id, stall.category)}${isMine ? ' · YOUR STALL' : ''} · Price: To be discussed` : 'Unavailable'}
         style={{
           width:w, height:h, fontSize: Math.max(7, Math.min(w,h)*0.42),
           background: stall ? (statusColor[stall.status]||'#ccc') : '#e5e7eb',
-          border: `1.5px solid ${stall ? (statusBorder[stall.status]||'#999') : '#cbd5e1'}`,
+          border: isMine ? `2.5px solid #3b82f6` : `1.5px solid ${stall ? (statusBorder[stall.status]||'#999') : '#cbd5e1'}`,
           color: stall ? '#fff' : '#94a3b8', fontWeight:700, cursor: disabled ? 'default' : 'pointer', display:'inline-flex',
           alignItems:'center', justifyContent:'center', flexShrink:0,
           position:'relative', userSelect:'none', lineHeight:1,
@@ -126,46 +128,54 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
           outlineOffset: sel ? 1 : 0,
           transform: sel ? 'scale(1.15)' : undefined,
           zIndex: sel ? 20 : undefined,
-          boxShadow: sel ? '0 0 8px rgba(59,130,246,0.5)' : '0 1px 2px rgba(0,0,0,0.15)',
+          boxShadow: isMine
+            ? '0 0 8px rgba(59,130,246,0.6), 0 0 14px rgba(59,130,246,0.3)'
+            : sel ? '0 0 8px rgba(59,130,246,0.5)' : '0 1px 2px rgba(0,0,0,0.15)',
           transition: 'transform 0.1s, box-shadow 0.1s',
         }}
         onMouseEnter={e=>{if(!sel && !disabled){e.currentTarget.style.transform='scale(1.08)';e.currentTarget.style.zIndex='10'}}}
         onMouseLeave={e=>{if(!sel && !disabled){e.currentTarget.style.transform='';e.currentTarget.style.zIndex=''}}}
-      >{label}</button>
+      >{label}{isMine && <span style={{ position:'absolute', top:-4, right:-4, width:6, height:6, borderRadius:'50%', background:'#3b82f6', border:'1px solid #fff' }}/>}</button>
     );
   };
 
   // Corner stall
-  const CS = ({ stall, label }: { stall?: Stall; label: string }) => (
-    <button
-      onClick={()=>{ if (stall) onStallClick(stall); }}
-      title={stall ? `${label} · ${stall.status} · ${stall.category} · Price: To be discussed` : `${label} · Unavailable`}
-      disabled={!stall}
-      style={{
-        width:22,
-        height:19,
-        border: `2px solid ${stall ? (statusBorder[stall.status] || '#ef4444') : '#cbd5e1'}`,
-        background: stall ? (statusColor[stall.status] || '#22c55e') : '#e5e7eb',
-        color: '#fff',
-        fontSize:7,
-        fontWeight:900,
-        cursor: stall ? 'pointer' : 'default',
-        display:'inline-flex',
-        alignItems:'center',
-        justifyContent:'center',
-        flexShrink:0,
-        opacity: stall ? 1 : 0.5,
-        outline: stall && selectedStallId === stall.id ? '2.5px solid #3b82f6' : 'none',
-        outlineOffset: stall && selectedStallId === stall.id ? 1 : 0,
-        transform: stall && selectedStallId === stall.id ? 'scale(1.15)' : undefined,
-        zIndex: stall && selectedStallId === stall.id ? 20 : undefined,
-        boxShadow: stall && selectedStallId === stall.id ? '0 0 8px rgba(59,130,246,0.5)' : '0 1px 2px rgba(0,0,0,0.15)',
-        transition: 'transform 0.1s, box-shadow 0.1s',
-      }}
-      onMouseEnter={e=>{ if(stall && selectedStallId !== stall.id){ e.currentTarget.style.transform='scale(1.08)'; e.currentTarget.style.zIndex='10'; }}}
-      onMouseLeave={e=>{ if(stall && selectedStallId !== stall.id){ e.currentTarget.style.transform=''; e.currentTarget.style.zIndex=''; }}}
-    >{label}</button>
-  );
+  const CS = ({ stall, label }: { stall?: Stall; label: string }) => {
+    const isMine = stall ? vendorStallIds?.has(stall.id) : false;
+    return (
+      <button
+        onClick={()=>{ if (stall) onStallClick(stall); }}
+        title={stall ? `${label} · ${stall.status} · ${stall.category}${isMine ? ' · YOUR STALL' : ''} · Price: To be discussed` : `${label} · Unavailable`}
+        disabled={!stall}
+        style={{
+          width:22,
+          height:19,
+          border: isMine ? `2px solid #3b82f6` : `2px solid ${stall ? (statusBorder[stall.status] || '#ef4444') : '#cbd5e1'}`,
+          background: stall ? (statusColor[stall.status] || '#22c55e') : '#e5e7eb',
+          color: '#fff',
+          fontSize:7,
+          fontWeight:900,
+          cursor: stall ? 'pointer' : 'default',
+          display:'inline-flex',
+          alignItems:'center',
+          justifyContent:'center',
+          flexShrink:0,
+          opacity: stall ? 1 : 0.5,
+          outline: stall && selectedStallId === stall.id ? '2.5px solid #3b82f6' : 'none',
+          outlineOffset: stall && selectedStallId === stall.id ? 1 : 0,
+          transform: stall && selectedStallId === stall.id ? 'scale(1.15)' : undefined,
+          zIndex: stall && selectedStallId === stall.id ? 20 : undefined,
+          boxShadow: isMine
+            ? '0 0 8px rgba(59,130,246,0.6), 0 0 14px rgba(59,130,246,0.3)'
+            : stall && selectedStallId === stall.id ? '0 0 8px rgba(59,130,246,0.5)' : '0 1px 2px rgba(0,0,0,0.15)',
+          transition: 'transform 0.1s, box-shadow 0.1s',
+          position: 'relative',
+        }}
+        onMouseEnter={e=>{ if(stall && selectedStallId !== stall.id){ e.currentTarget.style.transform='scale(1.08)'; e.currentTarget.style.zIndex='10'; }}}
+        onMouseLeave={e=>{ if(stall && selectedStallId !== stall.id){ e.currentTarget.style.transform=''; e.currentTarget.style.zIndex=''; }}}
+      >{label}{isMine && <span style={{ position:'absolute', top:-3, right:-3, width:5, height:5, borderRadius:'50%', background:'#3b82f6', border:'1px solid #fff' }}/>}</button>
+    );
+  };
 
   // Corner marker circle
   const CL = ({ t }: { t: string }) => {
@@ -235,6 +245,13 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
             display:'flex', alignItems:'center', justifyContent:'center', fontSize:11, fontWeight:900, color:'#dc2626' }}>A</div>
           <span style={{ fontSize:12, color:'#555' }}>Corner Marker</span>
         </div>
+        {vendorStallIds && vendorStallIds.size > 0 && (
+          <div style={{ display:'flex', alignItems:'center', gap:6 }}>
+            <div style={{ width:16, height:16, background:'#facc15', border:'2.5px solid #3b82f6', borderRadius:2,
+              boxShadow:'0 0 6px rgba(59,130,246,0.4)' }}/>
+            <span style={{ fontSize:12, color:'#555' }}>Your Stall</span>
+          </div>
+        )}
       </div>
 
       <div ref={containerRef} className="w-full overflow-auto" style={{ maxHeight: maxHeight ?? '80vh', overflow:'auto' }}>
