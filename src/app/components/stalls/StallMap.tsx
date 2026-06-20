@@ -393,7 +393,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               <div style={{ display:'flex', gap:0, position:'relative', overflow:'visible' }}>
 
                 {/* AA column (separate, at top) */}
-                <div style={{ flexShrink:0, marginLeft:3, marginRight:5, marginTop:-120, paddingTop:-1, display:'flex', flexDirection:'column', gap:0, position:'relative', overflow:'visible' }}>
+                <div style={{ flexShrink:0, marginLeft:3, marginRight:10, marginTop:-120, paddingTop:-1, display:'flex', flexDirection:'column', gap:0, position:'relative', overflow:'visible' }}>
                   <div style={{ position:'absolute', left:-30, top:100, zIndex:5 }}>
                     <CL t="AA"/>
                   </div>
@@ -457,7 +457,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                 <div style={{ position:'absolute', left:'30%', top:'-100%', transform:'translate(-50%, -50%)', zIndex:5 }}>
                   <CL t="B"/>
                 </div>
-                <div style={{ display:'flex', alignItems:'center', gap:2, flex:1 }}>
+                <div style={{ display:'flex', alignItems:'center', gap:1, flex:1 }}>
                   <div style={{ display:'flex', gap:-10, marginRight:25, marginTop:-305, alignItems:'flex-end', transform:'rotate(-120deg)', transformOrigin:'right bottom' }}>
                     {[...cornerBSlots].reverse().map((slot, idx) => {
                       const t = idx - (cornerBSlots.length - 1) / 2;
@@ -508,9 +508,11 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
               </div>
 
               {/* BOTTOM OUTER ROWS */}
-              <div style={{ display:'flex', gap:8, marginTop:-3, alignItems:'center' }}>
-                <div style={{ marginLeft:-20, display:'flex', alignItems:'center', gap:8 }}>
-                  <CL t="A"/>
+              <div style={{ display:'flex', gap:8, marginTop:5, alignItems:'center' }}>
+                <div style={{ position:'relative', display:'flex', alignItems:'center', gap:0 }}>
+                  <div style={{ position:'absolute', left:400, top:'50%', transform:'translateY(50%)', zIndex:5 }}>
+                    <CL t="A"/>
+                  </div>
                   <HR ss={outBL} w={24} h={18}/>
                 </div>
               </div>
