@@ -1,15 +1,46 @@
-import { Stall, Reservation } from '../types';
+import { Stall, Reservation, VendorUser, VendorLoginResponse } from '../types';
 
 const API_BASE = (import.meta.env.VITE_API_URL ?? '/api').replace(/\/$/, '');
 
+const VENDOR_TOKEN_KEY = 'nightmarket_vendor_token';
+const VENDOR_USER_KEY = 'nightmarket_vendor_user';
+
+export function getVendorToken(): string | null {
+  try { return localStorage.getItem(VENDOR_TOKEN_KEY); } catch { return null; }
+}
+
+export function setVendorToken(token: string): void {
+  try { localStorage.setItem(VENDOR_TOKEN_KEY, token); } catch {}
+}
+
+export function getVendorUser(): VendorUser | null {
+  try {
+    const raw = localStorage.getItem(VENDOR_USER_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch { return null; }
+}
+
+export function setVendorUser(user: VendorUser): void {
+  try { localStorage.setItem(VENDOR_USER_KEY, JSON.stringify(user)); } catch {}
+}
+
+export function clearVendorSession(): void {
+  try {
+    localStorage.removeItem(VENDOR_TOKEN_KEY);
+    localStorage.removeItem(VENDOR_USER_KEY);
+  } catch {}
+}
+
 async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      ...(options?.headers ?? {}),
-    },
-    ...options,
-  });
+  const token = getVendorToken();
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...(options?.headers as Record<string, string> ?? {}),
+  };
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  const res = await fetch(`${API_BASE}${path}`, { ...options, headers });
 
   if (!res.ok) {
     const message = await res.text();
@@ -150,5 +181,62 @@ export async function rejectReservation(reservationId: string, notes?: string): 
 export async function markAsOccupied(reservationId: string): Promise<Reservation> {
   return apiFetch<Reservation>(`/reservations/${encodeURIComponent(reservationId)}/occupy`, {
     method: 'POST',
+  });
+}
+
+// ─── Vendor Auth ─────────────────────────────────────────────
+
+export async function vendorLogin(username: string, password: string): Promise<VendorLoginResponse> {
+  return apiFetch<VendorLoginResponse>('/vendors/login', {
+    method: 'POST',
+    body: JSON.stringify({ username, password }),
+  });
+}
+
+export async function getVendorProfile(): Promise<VendorUser> {
+  return apiFetch<VendorUser>('/vendors/me');
+}
+
+export async function getVendorReservations(): Promise<Reservation[]> {
+  return apiFetch<Reservation[]>('/vendors/me/reservations');
+}
+
+// ─── Admin Vendor Management ─────────────────────────────────
+
+export async function getVendors(): Promise<VendorUser[]> {
+  return apiFetch<VendorUser[]>('/admin/vendors');
+}
+
+export async function createVendor(input: {
+  username: string;
+  password: string;
+  fullName: string;
+  contactNumber?: string;
+  businessName?: string;
+  email?: string;
+}): Promise<VendorUser> {
+  return apiFetch<VendorUser>('/admin/vendors', {
+    method: 'POST',
+    body: JSON.stringify(input),
+  });
+}
+
+export async function updateVendor(id: number, input: {
+  fullName?: string;
+  contactNumber?: string;
+  businessName?: string;
+  email?: string;
+  status?: string;
+  password?: string;
+}): Promise<VendorUser> {
+  return apiFetch<VendorUser>(`/admin/vendors/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(input),
+  });
+}
+
+export async function deleteVendor(id: number): Promise<{ ok: boolean }> {
+  return apiFetch<{ ok: boolean }>(`/admin/vendors/${id}`, {
+    method: 'DELETE',
   });
 }
