@@ -121,15 +121,12 @@ The frontend proxies API requests to `http://localhost:3001` via the Vite dev pr
 .
 ├─ .env
 ├─ .env.example
-├─ ATTRIBUTIONS.md
 ├─ USER_MANUAL.md
 ├─ database/
 │  ├─ README.md
 │  ├─ map_a_full_schema.sql
 │  ├─ map_b_full_schema.sql
 │  └─ vendor_schema.sql
-├─ guidelines/
-│  └─ Guidelines.md
 ├─ index.html
 ├─ package.json
 ├─ postcss.config.mjs
