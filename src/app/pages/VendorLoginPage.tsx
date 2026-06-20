@@ -4,6 +4,7 @@ import { vendorLoginPasscode, setVendorToken, setVendorUser } from '../utils/sto
 import { VendorUser } from '../types';
 
 const bploLogo = new URL('../components/public/bplo-modified.png', import.meta.url).href;
+const loginWallpaper = new URL('../components/public/vendors.jpg', import.meta.url).href;
 
 interface VendorLoginPageProps {
   onLoginSuccess: (vendor: VendorUser) => void;
@@ -42,14 +43,19 @@ export function VendorLoginPage({ onLoginSuccess }: VendorLoginPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-sm">
+    <div
+      className="min-h-screen bg-center bg-cover flex items-center justify-center p-4 relative"
+      style={{ backgroundImage: `url(${loginWallpaper})` }}
+    >
+      <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-[1px]" aria-hidden="true" />
+
+      <div className="relative w-full max-w-sm">
         <div className="text-center mb-6">
           <div className="inline-flex items-center justify-center w-20 h-20 mb-4 rounded-2xl">
             <img src={bploLogo} alt="BPLO Logo" className="w-14 h-14 object-contain" />
           </div>
-          <h1 className="text-slate-800 text-2xl font-black tracking-tight">Night Market</h1>
-          <p className="text-slate-500 text-sm mt-1">Vendor Account Login</p>
+          <h1 className="text-white text-2xl font-black tracking-tight">Night Market</h1>
+          <p className="text-slate-300 text-sm mt-1">Vendor Account Login</p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
