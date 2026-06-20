@@ -554,15 +554,12 @@ export function UserPage() {
           reservation={allReservations.find(r => r.stallId === selectedStall.id && (r.status === 'pending' || r.status === 'approved' || r.status === 'occupied')) || null}
           onClose={() => setSelectedStall(null)}
           onReserve={(stall) => {
-            if (!getVendorToken()) {
-              window.location.href = '/vendor';
-              return;
-            }
             setSelectedStall(null);
             setReserveStall(stall);
           }}
           vendorEvent={vendorEvent}
           source={source}
+          isLoggedIn={!!getVendorToken()}
         />
       )}
       {reserveStall && (
