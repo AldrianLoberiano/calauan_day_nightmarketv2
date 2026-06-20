@@ -9,13 +9,14 @@ interface StallMapProps {
   initialZoom?: number;
   maxHeight?: string;
   vendorStallIds?: Set<string>;
+  onViewFullMap?: () => void;
 }
 
 function range(a: number, b: number) {
   return Array.from({ length: b - a + 1 }, (_, i) => a + i);
 }
 
-export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, maxHeight, vendorStallIds }: StallMapProps) {
+export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, maxHeight, vendorStallIds, onViewFullMap }: StallMapProps) {
   const [zoom, setZoom] = useState(initialZoom ?? 1);
   const containerRef = useRef<HTMLDivElement>(null);
   const numericStalls = stalls.filter(s => s.number > 0 && /^\d+$/.test(s.id));
@@ -223,6 +224,13 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
         <button onClick={()=>setZoom(z=>Math.min(2,z+0.1))}
           style={{ width:32, height:32, border:'1px solid #ddd', borderRadius:6, cursor:'pointer',
             fontSize:18, fontWeight:'bold', background:'#f9f9f9' }}>+</button>
+        {onViewFullMap && (
+          <button onClick={onViewFullMap}
+            style={{ height:32, padding:'0 10px', border:'1px solid #ddd', borderRadius:6, cursor:'pointer',
+              fontSize:11, fontWeight:600, background:'#f9f9f9', color:'#334155', marginLeft:4 }}>
+            View Full Map
+          </button>
+        )}
       </div>
 
       {/* Legend */}
