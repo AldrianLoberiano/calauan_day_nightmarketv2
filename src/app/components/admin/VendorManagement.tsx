@@ -308,7 +308,7 @@ export function VendorManagement() {
                   type="text"
                   value={formData.fullName}
                   onChange={e => setFormData(p => ({ ...p, fullName: e.target.value }))}
-                  className="input-field"
+                  className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                   required
                   disabled={isSubmitting}
                 />
@@ -319,7 +319,7 @@ export function VendorManagement() {
                   type="email"
                   value={formData.email}
                   onChange={e => setFormData(p => ({ ...p, email: e.target.value }))}
-                  className="input-field"
+                  className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                   required
                   disabled={isSubmitting}
                 />
@@ -331,7 +331,7 @@ export function VendorManagement() {
                     type="tel"
                     value={formData.contactNumber}
                     onChange={e => setFormData(p => ({ ...p, contactNumber: e.target.value }))}
-                    className="input-field"
+                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                     placeholder="09XXXXXXXXX"
                     disabled={isSubmitting}
                   />
@@ -342,23 +342,23 @@ export function VendorManagement() {
                     type="text"
                     value={formData.businessName}
                     onChange={e => setFormData(p => ({ ...p, businessName: e.target.value }))}
-                    className="input-field"
+                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                     disabled={isSubmitting}
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Event / Map Assignment *</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Map Assignment *</label>
                 <select
                   value={formData.event}
                   onChange={e => setFormData(p => ({ ...p, event: e.target.value }))}
-                  className="input-field"
+                  className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                   required
                   disabled={isSubmitting}
                 >
-                  <option value="">Select event...</option>
-                  <option value="Bazaar">Bazaar (Map A)</option>
-                  <option value="Night Market">Night Market (Map B)</option>
+                  <option value="">Select map...</option>
+                  <option value="Bazaar">Map A</option>
+                  <option value="Night Market">Map B</option>
                 </select>
                 <p className="text-[11px] text-slate-400 mt-1">Determines which map the vendor can access</p>
               </div>
