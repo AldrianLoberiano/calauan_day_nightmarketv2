@@ -235,6 +235,7 @@ export async function createVendor(input: {
   email: string;
   contactNumber?: string;
   businessName?: string;
+  event?: string;
 }): Promise<VendorUser> {
   return apiFetch<VendorUser>('/admin/vendors', {
     method: 'POST',
@@ -249,6 +250,7 @@ export async function updateVendor(id: number, input: {
   email?: string;
   status?: string;
   password?: string;
+  event?: string;
 }): Promise<VendorUser> {
   return apiFetch<VendorUser>(`/admin/vendors/${id}`, {
     method: 'PUT',
