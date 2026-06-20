@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Info, Search, ChevronDown, Store, MapPin, Clock, ShieldCheck, LayoutGrid, Map as MapIcon } from 'lucide-react';
 import { Stall, Reservation, VendorEvent } from '../types';
-const headerImage = '/images/header1.png';
 const bploLogo = '/images/bplo-modified.png';
 import { checkAndExpireReservations, getVendorToken, getVendorUser, getVendorReservations, getReservations, getVendorProfile, setVendorUser } from '../utils/storage';
 import { getDisplayStallId, getDisplayCategoryById } from '../utils/helpers';
@@ -211,10 +210,15 @@ export function UserPage() {
     <div className="min-h-screen bg-slate-50">
       {/* Hero Header */}
       <header
-        className="fixed top-0 inset-x-0 z-50 text-white bg-center bg-cover"
-        style={{ backgroundImage: `url(${headerImage})` }}
+        className="fixed top-0 inset-x-0 z-50 text-white shadow-lg"
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 via-slate-900/60 to-blue-900/70" aria-hidden="true" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(135deg, #1a0533 0%, #2d1066 25%, #4c1d95 50%, #6b21a8 75%, #2d1066 100%)',
+          }}
+        />
+        <div className="absolute inset-0 bg-slate-900/30 pointer-events-none" />
         <div className="relative max-w-8xl mx-auto px-3 sm:px-5 py-2.5 sm:py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -223,7 +227,7 @@ export function UserPage() {
               </div>
               <div>
                 <h1 className="font-black text-base sm:text-lg leading-tight tracking-tight">Stall Reservation System</h1>
-                <p className="text-blue-200 text-xs sm:text-sm font-medium">Night Market Stall Mapping</p>
+                <p className="text-purple-200 text-xs sm:text-sm font-medium">Night Market Stall Mapping</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -495,42 +499,40 @@ export function UserPage() {
         {/* Footer info */}
         <div
           className="relative text-white rounded-2xl p-4 sm:p-5 overflow-hidden"
-          style={{ backgroundImage: `url(${headerImage})` }}
         >
           <div
             className="absolute inset-0"
             style={{
-              background:
-                'linear-gradient(135deg, rgba(76, 29, 149, 0.92), rgba(88, 28, 135, 0.85) 45%, rgba(30, 27, 75, 0.92))',
+              background: 'linear-gradient(135deg, #1a0533 0%, #2d1066 25%, #4c1d95 50%, #6b21a8 75%, #2d1066 100%)',
             }}
             aria-hidden="true"
           />
           <div className="relative grid sm:grid-cols-3 gap-5">
             <div className="flex gap-3">
               <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0 mt-0.5">
-                <MapPin className="w-4 h-4 text-blue-200" />
+                <MapPin className="w-4 h-4 text-purple-200" />
               </div>
               <div>
                 <h3 className="font-bold text-sm mb-1">BPLO Office Location</h3>
-                <p className="text-blue-300 text-xs leading-relaxed">Municipal Hall, Ground Floor, Business Permits &amp; Licensing Office</p>
+                <p className="text-purple-200 text-xs leading-relaxed">Municipal Hall, Ground Floor, Business Permits &amp; Licensing Office</p>
               </div>
             </div>
             <div className="flex gap-3">
               <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0 mt-0.5">
-                <Clock className="w-4 h-4 text-blue-200" />
+                <Clock className="w-4 h-4 text-purple-200" />
               </div>
               <div>
                 <h3 className="font-bold text-sm mb-1">Office Hours</h3>
-                <p className="text-blue-300 text-xs leading-relaxed">Monday – Friday: 8:00 AM – 5:00 PM (No noon break)</p>
+                <p className="text-purple-200 text-xs leading-relaxed">Monday – Friday: 8:00 AM – 5:00 PM (No noon break)</p>
               </div>
             </div>
             <div className="flex gap-3">
               <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0 mt-0.5">
-                <ShieldCheck className="w-4 h-4 text-blue-200" />
+                <ShieldCheck className="w-4 h-4 text-purple-200" />
               </div>
               <div>
                 <h3 className="font-bold text-sm mb-1">Important Reminder</h3>
-                <p className="text-blue-300 text-xs leading-relaxed">Reservations expire in 3 days if not processed. Present your receipt at the BPLO Office.</p>
+                <p className="text-purple-200 text-xs leading-relaxed">Reservations expire in 3 days if not processed. Present your receipt at the BPLO Office.</p>
               </div>
             </div>
           </div>
