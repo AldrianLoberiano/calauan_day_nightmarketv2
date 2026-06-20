@@ -1,7 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router';
 import { UserPage } from './pages/UserPage';
 import { AdminPage } from './pages/AdminPage';
-import { VendorPage } from './pages/VendorPage';
+import { VendorPage } from './pages/vendor/VendorPage';
 
 function NotFoundPage() {
   return (
