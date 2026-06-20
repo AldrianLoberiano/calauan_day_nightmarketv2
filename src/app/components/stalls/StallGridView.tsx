@@ -6,8 +6,9 @@ interface StallGridViewProps {
   stalls: Stall[];
   onStallClick: (stall: Stall) => void;
   selectedStallId?: string;
-  activeSection?: string; // 'all' | 'A' | 'B' | 'AA' | 'BB' | 'C' | 'D' | 'R'
+  activeSection?: string;
   vendorStallIds?: Set<string>;
+  onViewFullMap?: () => void;
 }
 
 // ─── Actual section boundaries matching the DB & Design Map ───
@@ -31,7 +32,7 @@ function range(a: number, b: number) {
   return Array.from({ length: b - a + 1 }, (_, i) => a + i);
 }
 
-export function StallGridView({ stalls, onStallClick, selectedStallId, activeSection = 'all', vendorStallIds }: StallGridViewProps) {
+export function StallGridView({ stalls, onStallClick, selectedStallId, activeSection = 'all', vendorStallIds, onViewFullMap }: StallGridViewProps) {
   const [zoom, setZoom] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
   // Save & restore scroll position when a stall modal opens/closes
@@ -187,6 +188,13 @@ export function StallGridView({ stalls, onStallClick, selectedStallId, activeSec
           style={{ padding: '0 12px', height: 32, border: '1px solid #ddd', borderRadius: 6, cursor: 'pointer', fontSize: 11, background: '#f9f9f9' }}>Reset</button>
         <button onClick={() => setZoom(z => Math.min(2, z + 0.1))}
           style={{ width: 32, height: 32, border: '1px solid #ddd', borderRadius: 6, cursor: 'pointer', fontSize: 18, fontWeight: 'bold', background: '#f9f9f9' }}>+</button>
+        {onViewFullMap && (
+          <button onClick={onViewFullMap}
+            style={{ height: 32, padding: '0 10px', border: '1px solid #ddd', borderRadius: 6, cursor: 'pointer',
+              fontSize: 11, fontWeight: 600, background: '#f9f9f9', color: '#334155', marginLeft: 4 }}>
+            View Full Map
+          </button>
+        )}
       </div>
 
       {/* ── Scrollable canvas ── */}
