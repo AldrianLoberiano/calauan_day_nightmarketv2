@@ -59,14 +59,19 @@ export function VendorLoginPage({ onLoginSuccess }: VendorLoginPageProps) {
 
         {/* Login Card */}
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-700 to-blue-800 px-6 py-4">
+          <div
+            className="px-6 py-4"
+            style={{
+              background: 'linear-gradient(135deg, #1a0533 0%, #2d1066 25%, #4c1d95 50%, #6b21a8 75%, #2d1066 100%)',
+            }}
+          >
             <div className="flex items-center gap-2.5">
               <div className="w-9 h-9 bg-white/15 rounded-xl flex items-center justify-center">
                 <Store className="w-5 h-5 text-white" />
               </div>
               <div>
                 <h2 className="text-white text-base font-bold leading-tight">Vendor Login</h2>
-                <p className="text-blue-100 text-xs">Use your email and admin-provided passcode</p>
+                <p className="text-purple-200 text-xs">Use your email and admin-provided passcode</p>
               </div>
             </div>
           </div>
