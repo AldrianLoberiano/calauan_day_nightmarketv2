@@ -227,7 +227,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
     { id: 'reservations-a' as TabId, label: 'Map A Reservations', icon: <ClipboardList className="w-4 h-4" />, badge: stats.pendingA > 0 ? stats.pendingA : undefined },
     { id: 'reservations-b' as TabId, label: 'Map B Reservations', icon: <ClipboardList className="w-4 h-4" />, badge: stats.pendingB > 0 ? stats.pendingB : undefined },
     { id: 'design-map' as TabId, label: 'Map A', icon: <MapIcon className="w-4 h-4" /> },
-    { id: 'all-stalls' as TabId, label: 'Map B (1-300)', icon: <LayoutGrid className="w-4 h-4" /> },
+    { id: 'all-stalls' as TabId, label: 'Map B', icon: <LayoutGrid className="w-4 h-4" /> },
     { id: 'vendors' as TabId, label: 'Vendors', icon: <Users className="w-4 h-4" /> },
   ];
 
@@ -746,7 +746,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
         {activeTab === 'all-stalls' && (
           <div className="space-y-4">
             <div>
-              <h2 className="text-xl font-black text-slate-800">Map B (1-300)</h2>
+              <h2 className="text-xl font-black text-slate-800">Map B</h2>
               <p className="text-sm text-slate-500">Click on any stall to view details or manage its reservation.</p>
             </div>
             <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
