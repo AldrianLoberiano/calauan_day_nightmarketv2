@@ -984,7 +984,8 @@ app.delete('/api/reservations/:id', async (req, res, next) => {
 
     await connection.commit();
     try { sendSseEvent('reservation-deleted', { id: req.params.id }); } catch (e) {}
-    res.json({ removed: (result1[0].affectedRows + result2[0].affectedRows) > 0 });
+    const affected = (result1?.[0]?.affectedRows || 0) + (result2?.[0]?.affectedRows || 0);
+    res.json({ removed: affected > 0 });
   } catch (err) {
     await connection.rollback();
     next(err);
@@ -1207,9 +1208,26 @@ app.put('/api/admin/vendors/:id', authAdmin, async (req, res, next) => {
   }
 });
 
+app.get('/api/admin/vendors/:id/reservation-count', authAdmin, async (req, res, next) => {
+  try {
+    const [dm] = await pool.query('SELECT COUNT(*) AS cnt FROM design_map_reservations WHERE vendor_id = ?', [req.params.id]);
+    const [as_] = await pool.query('SELECT COUNT(*) AS cnt FROM all_stalls_reservations WHERE vendor_id = ?', [req.params.id]);
+    const count = (dm[0]?.cnt || 0) + (as_[0]?.cnt || 0);
+    res.json({ count });
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.delete('/api/admin/vendors/:id', authAdmin, async (req, res, next) => {
   try {
-    await pool.query("UPDATE vendor_users SET status = 'inactive' WHERE id = ?", [req.params.id]);
+    const [dm] = await pool.query('SELECT COUNT(*) AS cnt FROM design_map_reservations WHERE vendor_id = ?', [req.params.id]);
+    const [as_] = await pool.query('SELECT COUNT(*) AS cnt FROM all_stalls_reservations WHERE vendor_id = ?', [req.params.id]);
+    const count = (dm[0]?.cnt || 0) + (as_[0]?.cnt || 0);
+    if (count > 0) {
+      return res.status(400).json({ message: 'Cannot delete vendor with existing reservations. Deactivate instead.' });
+    }
+    await pool.query('DELETE FROM vendor_users WHERE id = ?', [req.params.id]);
     res.json({ ok: true });
   } catch (err) {
     next(err);
