@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  X, User, Phone, MapPin, Clock, Building2, CheckCircle,
+  X, User, Phone, MapPin, Clock, Building2, CheckCircle, CheckCircle2,
   XCircle, Package, Calendar, ShieldCheck, Tag
 } from 'lucide-react';
 import { Reservation, Stall } from '../../types';
@@ -68,6 +68,12 @@ export function ReservationDetailsModal({
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState<Reservation>({ ...reservation });
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+
+  function showSuccess(msg: string) {
+    setSuccessMessage(msg);
+    setTimeout(() => setSuccessMessage(''), 3000);
+  }
 
   useEffect(() => {
     if (!isEditing) {
@@ -84,6 +90,7 @@ export function ReservationDetailsModal({
     await new Promise(r => setTimeout(r, 600));
     await markAsOccupied(reservation.id);
     setIsProcessing(false);
+    showSuccess('Marked as occupied!');
     onUpdate();
   }
 
@@ -92,6 +99,7 @@ export function ReservationDetailsModal({
     await new Promise(r => setTimeout(r, 600));
     await approveReservation(reservation.id);
     setIsProcessing(false);
+    showSuccess('Reservation approved!');
     onUpdate();
   }
 
@@ -101,6 +109,7 @@ export function ReservationDetailsModal({
     await rejectReservation(reservation.id, rejectNotes || 'Rejected by admin.');
     setIsProcessing(false);
     setShowRejectForm(false);
+    showSuccess('Reservation rejected.');
     onUpdate();
   }
 
@@ -115,6 +124,7 @@ export function ReservationDetailsModal({
     await new Promise(r => setTimeout(r, 400));
     setIsProcessing(false);
     setIsEditing(false);
+    showSuccess('Changes saved!');
     onUpdate();
   }
 
@@ -124,6 +134,7 @@ export function ReservationDetailsModal({
       await deleteReservation(reservation.id);
       await new Promise(r => setTimeout(r, 400));
       setShowDeleteConfirm(false);
+      showSuccess('Reservation deleted.');
       onUpdate();
       onClose();
     } catch {
@@ -450,6 +461,15 @@ export function ReservationDetailsModal({
                 Delete
               </button>
             </div>
+          </div>
+        </div>
+      )}
+      {/* Success Toast */}
+      {successMessage && (
+        <div className="fixed bottom-4 right-4 z-[60] animate-in slide-in-from-bottom-2 fade-in duration-300">
+          <div className="flex items-center gap-3 bg-emerald-600 text-white px-5 py-3 rounded-xl shadow-lg">
+            <CheckCircle2 className="w-5 h-5 shrink-0" />
+            <span className="text-sm font-bold">{successMessage}</span>
           </div>
         </div>
       )}
