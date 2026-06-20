@@ -233,35 +233,6 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
         )}
       </div>
 
-      {/* Legend */}
-      <div style={{ display:'flex', flexWrap:'wrap', alignItems:'center', justifyContent:'center',
-        gap:18, marginTop:12, padding:'10px 12px', borderBottom:'1px solid #e5e7eb', background:'#fff' }}>
-        <span style={{ fontSize:12, fontWeight:700, color:'#777', letterSpacing:'0.08em' }}>LEGEND:</span>
-        {[{c:'#22c55e',l:'Available'},{c:'#facc15',l:'Pending'},{c:'#ef4444',l:'Reserved'},{c:'#6b7280',l:'Occupied'}].map(i=>(
-          <div key={i.l} style={{ display:'flex', alignItems:'center', gap:6 }}>
-            <div style={{ width:16, height:16, background:i.c, border:'1.5px solid rgba(0,0,0,0.2)', borderRadius:2 }}/>
-            <span style={{ fontSize:12, color:'#555' }}>{i.l}</span>
-          </div>
-        ))}
-        <div style={{ display:'flex', alignItems:'center', gap:6 }}>
-          <div style={{ width:22, height:19, border:'2px solid #ef4444', background:'#fef2f2',
-            display:'flex', alignItems:'center', justifyContent:'center', fontSize:7, fontWeight:900, color:'#dc2626' }}>G1</div>
-          <span style={{ fontSize:12, color:'#555' }}>Corner Stall</span>
-        </div>
-        <div style={{ display:'flex', alignItems:'center', gap:6 }}>
-          <div style={{ width:24, height:24, borderRadius:'50%', border:'3px solid #dc2626', background:'#fff',
-            display:'flex', alignItems:'center', justifyContent:'center', fontSize:11, fontWeight:900, color:'#dc2626' }}>A</div>
-          <span style={{ fontSize:12, color:'#555' }}>Corner Marker</span>
-        </div>
-        {vendorStallIds && vendorStallIds.size > 0 && (
-          <div style={{ display:'flex', alignItems:'center', gap:6 }}>
-            <div style={{ width:16, height:16, background:'#facc15', border:'2.5px solid #3b82f6', borderRadius:2,
-              boxShadow:'0 0 6px rgba(59,130,246,0.4)' }}/>
-            <span style={{ fontSize:12, color:'#555' }}>Your Stall</span>
-          </div>
-        )}
-      </div>
-
       <div ref={containerRef} className="w-full overflow-auto" style={{ maxHeight: maxHeight ?? '80vh', overflow:'auto' }}>
         <div style={{ transform:`scale(${zoom})`, transformOrigin:'top left', minWidth:1850,
           padding:14, background:'#fff', fontFamily:"'Courier New',monospace", position:'relative',
