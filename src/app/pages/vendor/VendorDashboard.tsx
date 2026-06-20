@@ -20,6 +20,7 @@ export function VendorDashboard({ vendor, onLogout }: VendorDashboardProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedReservation, setSelectedReservation] = useState<Reservation | null>(null);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const profileMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -157,7 +158,7 @@ export function VendorDashboard({ vendor, onLogout }: VendorDashboardProps) {
                   </div>
                   <div className="border-t border-white/10 py-2">
                     <button
-                      onClick={() => { setShowProfileMenu(false); handleLogout(); }}
+                      onClick={() => { setShowProfileMenu(false); setShowLogoutConfirm(true); }}
                       className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
                     >
                       <LogOut className="w-4 h-4" />
@@ -377,6 +378,37 @@ export function VendorDashboard({ vendor, onLogout }: VendorDashboardProps) {
           )}
         </div>
       </main>
+
+      {/* Logout Confirmation */}
+      {showLogoutConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" onClick={() => setShowLogoutConfirm(false)}>
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+                <LogOut className="w-5 h-5 text-red-600" />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-slate-800">Sign Out</h3>
+                <p className="text-xs text-slate-500">Are you sure you want to sign out?</p>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setShowLogoutConfirm(false)}
+                className="flex-1 border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl py-2.5 text-sm font-semibold transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleLogout}
+                className="flex-1 bg-red-600 hover:bg-red-700 text-white rounded-xl py-2.5 text-sm font-bold transition-colors"
+              >
+                Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
