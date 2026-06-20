@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
-import { Lock, User, Eye, EyeOff, Store, AlertCircle, LogOut } from 'lucide-react';
-import { vendorLogin, setVendorToken, setVendorUser, clearVendorSession } from '../utils/storage';
+import { Lock, Mail, Eye, EyeOff, Store, AlertCircle } from 'lucide-react';
+import { vendorLoginPasscode, setVendorToken, setVendorUser } from '../utils/storage';
 import { VendorUser } from '../types';
 
 const bploLogo = new URL('../components/public/bplo-modified.png', import.meta.url).href;
 
 interface VendorLoginPageProps {
   onLoginSuccess: (vendor: VendorUser) => void;
-  onSwitchToAdmin?: () => void;
 }
 
-export function VendorLoginPage({ onLoginSuccess, onSwitchToAdmin }: VendorLoginPageProps) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+export function VendorLoginPage({ onLoginSuccess }: VendorLoginPageProps) {
+  const [email, setEmail] = useState('');
+  const [passcode, setPasscode] = useState('');
+  const [showPasscode, setShowPasscode] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -25,14 +24,14 @@ export function VendorLoginPage({ onLoginSuccess, onSwitchToAdmin }: VendorLogin
     await new Promise(r => setTimeout(r, 600));
 
     try {
-      const result = await vendorLogin(username.trim(), password);
+      const result = await vendorLoginPasscode(email.trim(), passcode.trim());
       setVendorToken(result.token);
       setVendorUser(result.vendor);
       onLoginSuccess(result.vendor);
     } catch (err: any) {
       const msg = err?.message || '';
       if (msg.includes('401') || msg.includes('Invalid')) {
-        setError('Invalid username or password. Please try again.');
+        setError('Invalid email or passcode. Please try again.');
       } else if (msg.includes('403') || msg.includes('inactive')) {
         setError('Account is inactive. Contact the administrator.');
       } else {
@@ -59,7 +58,7 @@ export function VendorLoginPage({ onLoginSuccess, onSwitchToAdmin }: VendorLogin
               <Store className="w-5 h-5 text-blue-200" />
               <div>
                 <h2 className="text-white text-base font-bold leading-tight">Vendor Login</h2>
-                <p className="text-blue-200 text-xs">Access your stall reservations</p>
+                <p className="text-blue-200 text-xs">Use your email and admin-provided passcode</p>
               </div>
             </div>
           </div>
@@ -67,41 +66,41 @@ export function VendorLoginPage({ onLoginSuccess, onSwitchToAdmin }: VendorLogin
           <div className="p-6">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Username</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Email</label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                   <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Enter your username"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email"
                     className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-slate-50 focus:bg-white transition-all disabled:opacity-60"
                     disabled={isLoading}
-                    autoComplete="username"
+                    autoComplete="email"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Password</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Passcode</label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                   <input
-                    type={showPassword ? 'text' : 'password'}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter your password"
+                    type={showPasscode ? 'text' : 'password'}
+                    value={passcode}
+                    onChange={(e) => setPasscode(e.target.value)}
+                    placeholder="Enter your 6-digit passcode"
                     className="w-full pl-10 pr-10 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-slate-50 focus:bg-white transition-all disabled:opacity-60"
                     disabled={isLoading}
-                    autoComplete="current-password"
+                    autoComplete="off"
                   />
                   <button
                     type="button"
-                    onClick={() => setShowPassword(!showPassword)}
+                    onClick={() => setShowPasscode(!showPasscode)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
                     tabIndex={-1}
                   >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {showPasscode ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
@@ -115,7 +114,7 @@ export function VendorLoginPage({ onLoginSuccess, onSwitchToAdmin }: VendorLogin
 
               <button
                 type="submit"
-                disabled={isLoading || !username || !password}
+                disabled={isLoading || !email || !passcode}
                 className="w-full bg-blue-700 hover:bg-blue-800 disabled:bg-slate-300 disabled:cursor-not-allowed text-white rounded-xl py-2.5 font-bold text-sm transition-all mt-2 flex items-center justify-center gap-2"
               >
                 {isLoading ? (
@@ -127,21 +126,13 @@ export function VendorLoginPage({ onLoginSuccess, onSwitchToAdmin }: VendorLogin
               </button>
             </form>
 
-            <div className="mt-4 pt-4 border-t border-slate-100 flex flex-col gap-2">
+            <div className="mt-4 pt-4 border-t border-slate-100">
               <a
                 href="/"
-                className="text-center text-slate-500 hover:text-slate-700 text-xs font-medium transition-colors"
+                className="text-center block text-slate-500 hover:text-slate-700 text-xs font-medium transition-colors"
               >
                 Browse Stalls (Guest)
               </a>
-              {onSwitchToAdmin && (
-                <button
-                  onClick={onSwitchToAdmin}
-                  className="text-center text-slate-400 hover:text-slate-600 text-xs font-medium transition-colors"
-                >
-                  Admin Login
-                </button>
-              )}
             </div>
           </div>
         </div>
