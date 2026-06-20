@@ -52,6 +52,7 @@ export interface VendorUser {
   contactNumber?: string;
   businessName?: string;
   email?: string;
+  passcode?: string;
   status: 'active' | 'inactive';
   createdAt?: string;
 }
