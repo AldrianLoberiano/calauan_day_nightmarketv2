@@ -102,7 +102,7 @@ export function VendorDashboard({ vendor, onLogout }: VendorDashboardProps) {
         <div className="absolute inset-0 bg-slate-900/30 pointer-events-none" />
         <div className="relative max-w-[1600px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden bg-white/10 backdrop-blur-sm ring-1 ring-white/20">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden">
               <img src={bploLogo} alt="Logo" className="w-9 h-9 object-contain" />
             </div>
             <div>
