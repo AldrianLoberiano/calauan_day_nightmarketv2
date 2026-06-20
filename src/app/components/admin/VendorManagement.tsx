@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Users, Plus, Eye, EyeOff, Edit3, Trash2, X, AlertCircle,
-  User, Lock, Phone, Building2, Mail, CheckCircle, Ban
+  Users, Plus, Edit3, Trash2, X, AlertCircle,
+  User, Phone, Building2, Mail, CheckCircle, Ban
 } from 'lucide-react';
 import { VendorUser } from '../../types';
 import { getVendors, createVendor, updateVendor, deleteVendor } from '../../utils/storage';
 
 interface VendorFormData {
-  username: string;
-  password: string;
   fullName: string;
   contactNumber: string;
   businessName: string;
@@ -16,8 +14,6 @@ interface VendorFormData {
 }
 
 const emptyForm: VendorFormData = {
-  username: '',
-  password: '',
   fullName: '',
   contactNumber: '',
   businessName: '',
@@ -30,7 +26,6 @@ export function VendorManagement() {
   const [showForm, setShowForm] = useState(false);
   const [editingVendor, setEditingVendor] = useState<VendorUser | null>(null);
   const [formData, setFormData] = useState<VendorFormData>(emptyForm);
-  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<VendorUser | null>(null);
@@ -53,7 +48,6 @@ export function VendorManagement() {
   function openCreateForm() {
     setEditingVendor(null);
     setFormData(emptyForm);
-    setShowPassword(false);
     setError('');
     setShowForm(true);
   }
@@ -61,14 +55,11 @@ export function VendorManagement() {
   function openEditForm(vendor: VendorUser) {
     setEditingVendor(vendor);
     setFormData({
-      username: vendor.username,
-      password: '',
       fullName: vendor.fullName,
       contactNumber: vendor.contactNumber || '',
       businessName: vendor.businessName || '',
       email: vendor.email || '',
     });
-    setShowPassword(false);
     setError('');
     setShowForm(true);
   }
@@ -86,23 +77,13 @@ export function VendorManagement() {
           businessName: formData.businessName || undefined,
           email: formData.email || undefined,
         };
-        if (formData.password) {
-          updateData.password = formData.password;
-        }
         await updateVendor(editingVendor.id, updateData);
       } else {
-        if (!formData.password) {
-          setError('Password is required for new vendors.');
-          setIsSubmitting(false);
-          return;
-        }
         await createVendor({
-          username: formData.username,
-          password: formData.password,
           fullName: formData.fullName,
           contactNumber: formData.contactNumber || undefined,
           businessName: formData.businessName || undefined,
-          email: formData.email || undefined,
+          email: formData.email,
         });
       }
       setShowForm(false);
@@ -215,6 +196,11 @@ export function VendorManagement() {
                     <Mail className="w-3 h-3" /> {vendor.email}
                   </p>
                 )}
+                {vendor.passcode && (
+                  <p className="text-xs font-mono font-bold text-amber-600 flex items-center gap-1.5 bg-amber-50 border border-amber-200 rounded-lg px-2 py-1 mt-1">
+                    Passcode: {vendor.passcode}
+                  </p>
+                )}
               </div>
 
               <div className="flex gap-2">
@@ -256,50 +242,23 @@ export function VendorManagement() {
               </div>
             </div>
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
-              {!editingVendor && (
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-1.5">Username *</label>
-                  <input
-                    type="text"
-                    value={formData.username}
-                    onChange={e => setFormData(p => ({ ...p, username: e.target.value }))}
-                    className="input-field"
-                    required
-                    disabled={isSubmitting}
-                  />
-                </div>
-              )}
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1.5">
-                  Password {editingVendor ? '(leave blank to keep current)' : '*'}
-                </label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    value={formData.password}
-                    onChange={e => setFormData(p => ({ ...p, password: e.target.value }))}
-                    className="input-field pl-10 pr-10"
-                    placeholder={editingVendor ? '••••••••' : ''}
-                    required={!editingVendor}
-                    disabled={isSubmitting}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-                    tabIndex={-1}
-                  >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
-                </div>
-              </div>
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-1.5">Full Name *</label>
                 <input
                   type="text"
                   value={formData.fullName}
                   onChange={e => setFormData(p => ({ ...p, fullName: e.target.value }))}
+                  className="input-field"
+                  required
+                  disabled={isSubmitting}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Email *</label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={e => setFormData(p => ({ ...p, email: e.target.value }))}
                   className="input-field"
                   required
                   disabled={isSubmitting}
@@ -327,16 +286,6 @@ export function VendorManagement() {
                     disabled={isSubmitting}
                   />
                 </div>
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Email</label>
-                <input
-                  type="email"
-                  value={formData.email}
-                  onChange={e => setFormData(p => ({ ...p, email: e.target.value }))}
-                  className="input-field"
-                  disabled={isSubmitting}
-                />
               </div>
 
               {error && (
