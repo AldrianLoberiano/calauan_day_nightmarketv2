@@ -4,6 +4,7 @@ const API_BASE = (import.meta.env.VITE_API_URL ?? '/api').replace(/\/$/, '');
 
 const VENDOR_TOKEN_KEY = 'nightmarket_vendor_token';
 const VENDOR_USER_KEY = 'nightmarket_vendor_user';
+const ADMIN_TOKEN_KEY = 'nightmarket_admin_token';
 
 export function getVendorToken(): string | null {
   try { return localStorage.getItem(VENDOR_TOKEN_KEY); } catch { return null; }
@@ -31,8 +32,23 @@ export function clearVendorSession(): void {
   } catch {}
 }
 
+export function getAdminToken(): string | null {
+  try { return localStorage.getItem(ADMIN_TOKEN_KEY); } catch { return null; }
+}
+
+export function setAdminToken(token: string): void {
+  try { localStorage.setItem(ADMIN_TOKEN_KEY, token); } catch {}
+}
+
+export function clearAdminSession(): void {
+  try { localStorage.removeItem(ADMIN_TOKEN_KEY); } catch {}
+}
+
 async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
-  const token = getVendorToken();
+  const vendorToken = getVendorToken();
+  const adminToken = getAdminToken();
+  const isAdminPath = path.startsWith('/admin/');
+  const token = isAdminPath ? adminToken : vendorToken;
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     ...(options?.headers as Record<string, string> ?? {}),
@@ -155,12 +171,12 @@ export async function checkAndExpireReservations(source?: string): Promise<Stall
 
 // ─── Admin Auth ─────────────────────────────────────────────
 
-export async function verifyAdminLogin(username: string, password: string): Promise<boolean> {
-  const result = await apiFetch<{ ok: boolean }>('/admin/login', {
+export async function verifyAdminLogin(username: string, password: string): Promise<string | null> {
+  const result = await apiFetch<{ ok: boolean; token?: string }>('/admin/login', {
     method: 'POST',
     body: JSON.stringify({ username, password }),
   });
-  return result.ok;
+  return result.ok && result.token ? result.token : null;
 }
 
 // ─── Status Update (Admin Actions) ──────────────────────────
@@ -193,6 +209,13 @@ export async function vendorLogin(username: string, password: string): Promise<V
   });
 }
 
+export async function vendorLoginPasscode(email: string, passcode: string): Promise<VendorLoginResponse> {
+  return apiFetch<VendorLoginResponse>('/vendors/login-passcode', {
+    method: 'POST',
+    body: JSON.stringify({ email, passcode }),
+  });
+}
+
 export async function getVendorProfile(): Promise<VendorUser> {
   return apiFetch<VendorUser>('/vendors/me');
 }
@@ -208,12 +231,10 @@ export async function getVendors(): Promise<VendorUser[]> {
 }
 
 export async function createVendor(input: {
-  username: string;
-  password: string;
   fullName: string;
+  email: string;
   contactNumber?: string;
   businessName?: string;
-  email?: string;
 }): Promise<VendorUser> {
   return apiFetch<VendorUser>('/admin/vendors', {
     method: 'POST',
