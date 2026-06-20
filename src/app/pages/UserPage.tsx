@@ -25,6 +25,7 @@ export function UserPage() {
   const [vendorStallIds, setVendorStallIds] = useState<Set<string>>(new Set());
   const [allReservations, setAllReservations] = useState<Reservation[]>([]);
   const [vendorEvent, setVendorEvent] = useState<VendorEvent | null>(null);
+  const [showFullMap, setShowFullMap] = useState(false);
 
   useEffect(() => {
     if (getVendorToken()) {
@@ -398,6 +399,7 @@ export function UserPage() {
               onStallClick={handleStallClick}
               selectedStallId={selectedStall?.id}
               vendorStallIds={vendorStallIds}
+              onViewFullMap={() => setShowFullMap(true)}
             />
           ) : (
             <StallGridView
@@ -405,6 +407,7 @@ export function UserPage() {
               onStallClick={handleStallClick}
               selectedStallId={selectedStall?.id}
               vendorStallIds={vendorStallIds}
+              onViewFullMap={() => setShowFullMap(true)}
             />
           )}
         </div>
@@ -567,6 +570,40 @@ export function UserPage() {
           stall={receiptData.stall}
           onClose={() => { setReceiptData(null); void loadStalls(source); }}
         />
+      )}
+
+      {showFullMap && (
+        <div className="fixed inset-0 z-[100] bg-white flex flex-col" style={{ animation: 'fadeIn 0.15s ease' }}>
+          <div className="flex items-center justify-between px-4 py-2 border-b border-slate-200 bg-white">
+            <h2 className="text-sm font-bold text-slate-800">
+              {mapView === 'design' ? 'Map A — Night Market' : 'Map B — All Stalls'} (Full View)
+            </h2>
+            <button
+              onClick={() => setShowFullMap(false)}
+              className="px-3 py-1.5 text-xs font-semibold text-white bg-red-500 hover:bg-red-600 rounded-lg transition-colors"
+            >
+              Close
+            </button>
+          </div>
+          <div className="flex-1 overflow-auto">
+            {mapView === 'design' ? (
+              <StallMap
+                stalls={stalls}
+                onStallClick={(stall) => { setShowFullMap(false); handleStallClick(stall); }}
+                selectedStallId={selectedStall?.id}
+                vendorStallIds={vendorStallIds}
+                initialZoom={0.85}
+              />
+            ) : (
+              <StallGridView
+                stalls={stalls}
+                onStallClick={(stall) => { setShowFullMap(false); handleStallClick(stall); }}
+                selectedStallId={selectedStall?.id}
+                vendorStallIds={vendorStallIds}
+              />
+            )}
+          </div>
+        </div>
       )}
     </div>
   );
