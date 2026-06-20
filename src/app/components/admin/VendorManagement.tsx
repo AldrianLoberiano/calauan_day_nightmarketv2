@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Users, Plus, Edit3, Trash2, X, AlertCircle,
-  User, Phone, Building2, Mail, CheckCircle, Ban
+  Users, Plus, Edit3, Trash2, X, AlertCircle, CheckCircle, CheckCircle2,
+  User, Phone, Building2, Mail, Ban
 } from 'lucide-react';
 import { VendorUser } from '../../types';
-import { getVendors, createVendor, updateVendor, deleteVendor } from '../../utils/storage';
+import { getVendors, createVendor, updateVendor, deleteVendor, getVendorReservationCount } from '../../utils/storage';
 
 interface VendorFormData {
   fullName: string;
@@ -29,6 +29,8 @@ export function VendorManagement() {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<VendorUser | null>(null);
+  const [reservationCounts, setReservationCounts] = useState<Record<number, number>>({});
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     loadVendors();
@@ -39,6 +41,17 @@ export function VendorManagement() {
     try {
       const data = await getVendors();
       setVendors(data);
+      const counts: Record<number, number> = {};
+      await Promise.all(
+        data.map(async (v) => {
+          try {
+            counts[v.id] = await getVendorReservationCount(v.id);
+          } catch {
+            counts[v.id] = 0;
+          }
+        })
+      );
+      setReservationCounts(counts);
     } catch (err) {
       console.error('Failed to load vendors:', err);
     }
@@ -88,6 +101,8 @@ export function VendorManagement() {
       }
       setShowForm(false);
       await loadVendors();
+      setSuccessMessage(editingVendor ? 'Vendor updated successfully!' : 'Vendor created successfully!');
+      setTimeout(() => setSuccessMessage(''), 3000);
     } catch (err: any) {
       setError(err?.message || 'Operation failed. Please try again.');
     }
@@ -117,6 +132,16 @@ export function VendorManagement() {
 
   return (
     <div className="space-y-5">
+      {/* Success Toast */}
+      {successMessage && (
+        <div className="fixed top-4 right-4 z-50 animate-in slide-in-from-top-2 fade-in duration-300">
+          <div className="flex items-center gap-3 bg-emerald-600 text-white px-5 py-3 rounded-xl shadow-lg shadow-emerald-500/30">
+            <CheckCircle2 className="w-5 h-5 shrink-0" />
+            <span className="text-sm font-bold">{successMessage}</span>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -221,6 +246,22 @@ export function VendorManagement() {
                 >
                   {vendor.status === 'active' ? <Ban className="w-3 h-3" /> : <CheckCircle className="w-3 h-3" />}
                 </button>
+                {(reservationCounts[vendor.id] ?? 0) === 0 ? (
+                  <button
+                    onClick={() => setDeleteConfirm(vendor)}
+                    className="flex items-center justify-center px-3 py-2 text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded-xl transition-colors"
+                    title="Delete vendor"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                  </button>
+                ) : (
+                  <div
+                    className="flex items-center justify-center px-3 py-2 text-xs font-semibold text-slate-400 bg-slate-50 rounded-xl cursor-not-allowed"
+                    title={`${reservationCounts[vendor.id] ?? 0} reservation(s) — deactivate instead`}
+                  >
+                    <Trash2 className="w-3 h-3" />
+                  </div>
+                )}
               </div>
             </div>
           ))}
@@ -329,9 +370,9 @@ export function VendorManagement() {
             <div className="w-12 h-12 bg-red-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
               <Trash2 className="w-6 h-6 text-red-600" />
             </div>
-            <h3 className="text-lg font-black text-slate-800">Deactivate Vendor?</h3>
+            <h3 className="text-lg font-black text-slate-800">Delete Vendor?</h3>
             <p className="text-sm text-slate-500 mt-2">
-              This will deactivate <strong>{deleteConfirm.fullName}</strong>'s account. They won't be able to log in.
+              This will permanently delete <strong>{deleteConfirm.fullName}</strong>'s account. This action cannot be undone.
             </p>
             <div className="flex gap-2 mt-5">
               <button
@@ -344,7 +385,7 @@ export function VendorManagement() {
                 onClick={() => handleDelete(deleteConfirm)}
                 className="flex-1 bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2.5 rounded-xl transition-colors"
               >
-                Deactivate
+                Delete
               </button>
             </div>
           </div>
