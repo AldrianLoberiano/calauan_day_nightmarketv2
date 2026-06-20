@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Info, Search, ChevronDown, Store, MapPin, Clock, ShieldCheck, LayoutGrid, Map as MapIcon } from 'lucide-react';
-import { Stall, Reservation } from '../types';
+import { Stall, Reservation, VendorEvent } from '../types';
 const headerImage = '/images/header1.png';
 const bploLogo = '/images/bplo-modified.png';
-import { checkAndExpireReservations, getVendorToken, getVendorUser, getVendorReservations, getReservations } from '../utils/storage';
+import { checkAndExpireReservations, getVendorToken, getVendorUser, getVendorReservations, getReservations, getVendorProfile, setVendorUser } from '../utils/storage';
 import { getDisplayStallId, getDisplayCategoryById } from '../utils/helpers';
 import { StallMap } from '../components/stalls/StallMap';
 import { StallGridView } from '../components/stalls/StallGridView';
@@ -25,6 +25,26 @@ export function UserPage() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [vendorStallIds, setVendorStallIds] = useState<Set<string>>(new Set());
   const [allReservations, setAllReservations] = useState<Reservation[]>([]);
+  const [vendorEvent, setVendorEvent] = useState<VendorEvent | null>(null);
+
+  useEffect(() => {
+    if (getVendorToken()) {
+      const v = getVendorUser();
+      if (v?.event) {
+        setVendorEvent(v.event);
+        setMapView(v.event === 'Bazaar' ? 'design' : 'grid');
+      }
+      getVendorProfile().then(fresh => {
+        if (fresh) {
+          setVendorUser(fresh);
+          if (fresh.event) {
+            setVendorEvent(fresh.event);
+            setMapView(fresh.event === 'Bazaar' ? 'design' : 'grid');
+          }
+        }
+      }).catch(() => {});
+    }
+  }, []);
 
   async function loadStalls(source?: string) {
     const updated = await checkAndExpireReservations(source);
@@ -263,7 +283,9 @@ export function UserPage() {
           <div className="px-4 py-3 border-b border-slate-100">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div>
-                <h2 className="text-base font-bold text-slate-800">Map A — Night Market</h2>
+                <h2 className="text-base font-bold text-slate-800">
+                  {mapView === 'design' ? 'Map A — Night Market' : 'Map B — All Stalls'}
+                </h2>
                 <p className="text-xs text-slate-500 mt-0.5">Click on any stall to view details and availability</p>
               </div>
               <div className="flex items-center gap-4">
@@ -291,6 +313,11 @@ export function UserPage() {
                     <LayoutGrid className="w-4 h-4 text-blue-600" />
                   )}
                   <span>{mapView === 'design' ? 'Map A' : 'Map B'}</span>
+                  {vendorEvent && (
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 ml-1">
+                      {vendorEvent === 'Bazaar' ? 'Map A Only' : 'Map B Only'}
+                    </span>
+                  )}
                   <ChevronDown
                     className={`w-3.5 h-3.5 text-slate-500 transition-transform duration-200 ${
                       dropdownOpen ? 'rotate-180' : ''
@@ -306,6 +333,7 @@ export function UserPage() {
                     <button
                       id="map-view-design-tab"
                       onClick={() => { setMapView('design'); setDropdownOpen(false); }}
+                      disabled={vendorEvent === 'Night Market'}
                       style={{
                         width: '100%',
                         display: 'flex',
@@ -314,46 +342,51 @@ export function UserPage() {
                         padding: '10px 16px',
                         fontSize: '13px',
                         fontWeight: 500,
-                        color: '#1e293b',
+                        color: vendorEvent === 'Night Market' ? '#94a3b8' : '#1e293b',
                         background: mapView === 'design' ? '#f1f5f9' : 'transparent',
                         border: 'none',
                         borderLeft: mapView === 'design' ? '3px solid #3b82f6' : '3px solid transparent',
-                        cursor: 'pointer',
+                        cursor: vendorEvent === 'Night Market' ? 'not-allowed' : 'pointer',
                         textAlign: 'left',
                         transition: 'background 0.12s',
+                        opacity: vendorEvent === 'Night Market' ? 0.5 : 1,
                       }}
-                      onMouseEnter={e => { e.currentTarget.style.background = '#f8fafc'; }}
+                      onMouseEnter={e => { if (vendorEvent !== 'Night Market') e.currentTarget.style.background = '#f8fafc'; }}
                       onMouseLeave={e => { e.currentTarget.style.background = mapView === 'design' ? '#f1f5f9' : 'transparent'; }}
                     >
                       <MapIcon style={{ width: 16, height: 16, flexShrink: 0, color: '#3b82f6' }} />
                       Map A
+                      {vendorEvent === 'Bazaar' && <span className="ml-auto text-[10px] font-bold text-green-600">Your Map</span>}
                     </button>
-                      <button
-                        id="map-view-grid-tab"
-                        onClick={() => { setMapView('grid'); setDropdownOpen(false); }}
-                        style={{
-                          width: '100%',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '10px',
-                          padding: '10px 16px',
-                          fontSize: '13px',
-                          fontWeight: 500,
-                          color: '#1e293b',
-                          background: mapView === 'grid' ? '#f1f5f9' : 'transparent',
-                          border: 'none',
-                          borderLeft: mapView === 'grid' ? '3px solid #3b82f6' : '3px solid transparent',
-                          cursor: 'pointer',
-                          textAlign: 'left',
-                          transition: 'background 0.12s',
-                        }}
-                        onMouseEnter={e => { e.currentTarget.style.background = '#f8fafc'; }}
-                        onMouseLeave={e => { e.currentTarget.style.background = mapView === 'grid' ? '#f1f5f9' : 'transparent'; }}
-                      >
-                        <LayoutGrid style={{ width: 16, height: 16, flexShrink: 0, color: '#3b82f6' }} />
-                        Map B
-                      </button>
-                    </div>
+                    <button
+                      id="map-view-grid-tab"
+                      onClick={() => { setMapView('grid'); setDropdownOpen(false); }}
+                      disabled={vendorEvent === 'Bazaar'}
+                      style={{
+                        width: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '10px',
+                        padding: '10px 16px',
+                        fontSize: '13px',
+                        fontWeight: 500,
+                        color: vendorEvent === 'Bazaar' ? '#94a3b8' : '#1e293b',
+                        background: mapView === 'grid' ? '#f1f5f9' : 'transparent',
+                        border: 'none',
+                        borderLeft: mapView === 'grid' ? '3px solid #3b82f6' : '3px solid transparent',
+                        cursor: vendorEvent === 'Bazaar' ? 'not-allowed' : 'pointer',
+                        textAlign: 'left',
+                        transition: 'background 0.12s',
+                        opacity: vendorEvent === 'Bazaar' ? 0.5 : 1,
+                      }}
+                      onMouseEnter={e => { if (vendorEvent !== 'Bazaar') e.currentTarget.style.background = '#f8fafc'; }}
+                      onMouseLeave={e => { e.currentTarget.style.background = mapView === 'grid' ? '#f1f5f9' : 'transparent'; }}
+                    >
+                      <LayoutGrid style={{ width: 16, height: 16, flexShrink: 0, color: '#3b82f6' }} />
+                      Map B
+                      {vendorEvent === 'Night Market' && <span className="ml-auto text-[10px] font-bold text-green-600">Your Map</span>}
+                    </button>
+                  </div>
                 )}
               </div>
             </div>
@@ -528,6 +561,8 @@ export function UserPage() {
             setSelectedStall(null);
             setReserveStall(stall);
           }}
+          vendorEvent={vendorEvent}
+          source={source}
         />
       )}
       {reserveStall && (
