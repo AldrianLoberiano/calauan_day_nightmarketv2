@@ -166,18 +166,18 @@ describe('deleteReservation', () => {
 });
 
 describe('verifyAdminLogin', () => {
-  it('returns true on successful login', async () => {
-    mockFetch.mockResolvedValue(mockJsonResponse({ ok: true }));
+  it('returns token on successful login', async () => {
+    mockFetch.mockResolvedValue(mockJsonResponse({ ok: true, token: 'fake-admin-token' }));
 
     const result = await verifyAdminLogin('admin', 'pass');
-    expect(result).toBe(true);
+    expect(result).toBe('fake-admin-token');
   });
 
-  it('returns false on failed login', async () => {
+  it('returns null on failed login', async () => {
     mockFetch.mockResolvedValue(mockJsonResponse({ ok: false }));
 
     const result = await verifyAdminLogin('admin', 'wrong');
-    expect(result).toBe(false);
+    expect(result).toBeNull();
   });
 });
 
