@@ -83,11 +83,7 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
 
         {/* Success header */}
         <div className="receipt-modal-header relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-emerald-600 via-emerald-500 to-teal-600" />
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute -top-8 -right-8 w-32 h-32 bg-white rounded-full" />
-            <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-white rounded-full" />
-          </div>
+          <div className="absolute inset-0 bg-emerald-600" />
           <div className="relative px-6 py-5 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center ring-1 ring-white/30">
@@ -115,7 +111,7 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
             <div className="border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
 
               {/* Receipt top — navy */}
-              <div className="bg-gradient-to-br from-slate-800 to-slate-900 text-center py-5 px-5 relative overflow-hidden">
+              <div className="bg-slate-800 text-center py-5 px-5 relative overflow-hidden">
                 <div className="absolute inset-0 opacity-5">
                   <div className="absolute top-2 left-4 w-16 h-16 border border-white rounded-full" />
                   <div className="absolute bottom-1 right-6 w-10 h-10 border border-white rounded-full" />
