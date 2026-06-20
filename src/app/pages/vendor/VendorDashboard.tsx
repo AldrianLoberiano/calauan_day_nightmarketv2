@@ -106,7 +106,6 @@ export function VendorDashboard({ vendor, onLogout }: VendorDashboardProps) {
             </div>
             <div>
               <h1 className="font-black text-base sm:text-lg leading-tight tracking-tight">BPLO Night Market</h1>
-              <p className="text-purple-200 text-xs hidden sm:block font-medium">Vendor Portal</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
