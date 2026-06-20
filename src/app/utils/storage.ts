@@ -261,3 +261,8 @@ export async function deleteVendor(id: number): Promise<{ ok: boolean }> {
     method: 'DELETE',
   });
 }
+
+export async function getVendorReservationCount(id: number): Promise<number> {
+  const result = await apiFetch<{ count: number }>(`/admin/vendors/${id}/reservation-count`);
+  return result.count;
+}
