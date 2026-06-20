@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { X, User, Phone, Building2, MapPin, Loader2, Info, ShieldCheck, FileText } from 'lucide-react';
 import { Stall, Reservation } from '../../types';
 import { formatPeso, getCornerDisplayStallId, getDisplayCategoryById } from '../../utils/helpers';
-import { addReservation } from '../../utils/storage';
+import { addReservation, getVendorUser } from '../../utils/storage';
 
 interface ReservationFormModalProps {
   stall: Stall | null;
@@ -26,10 +26,11 @@ interface FormErrors {
 }
 
 export function ReservationFormModal({ stall, onClose, onSuccess, source }: ReservationFormModalProps) {
+  const vendorUser = getVendorUser();
   const [formData, setFormData] = useState<FormData>({
-    fullName: '',
-    contactNumber: '',
-    businessName: '',
+    fullName: vendorUser?.fullName || '',
+    contactNumber: vendorUser?.contactNumber || '',
+    businessName: vendorUser?.businessName || '',
     dtiNumber: '',
     cedulaNumber: '',
     address: '',
