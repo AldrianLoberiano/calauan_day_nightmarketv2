@@ -152,6 +152,27 @@ async function ensureDefaultVendor() {
   }
 }
 
+async function ensureDefaultAdmin() {
+  try {
+    await pool.query(`CREATE TABLE IF NOT EXISTS admin_users (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      username VARCHAR(64) UNIQUE NOT NULL,
+      password VARCHAR(255) NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+    const [rows] = await pool.query('SELECT id FROM admin_users WHERE username = ? LIMIT 1', ['admin']);
+    if (rows.length === 0) {
+      await pool.query(
+        'INSERT INTO admin_users (username, password) VALUES (?, ?)',
+        ['admin', 'admin123']
+      );
+      console.log('Default admin account created: admin / admin123');
+    }
+  } catch (e) {
+    console.warn('Could not ensure default admin:', e?.message || e);
+  }
+}
+
 async function ensureAvailableStalls259To276() {
   const tables = ['design_map_stalls', 'all_stalls_stalls'];
   const stalls = generateInitialStalls().filter((stall) => {
@@ -282,6 +303,23 @@ async function ensureViewTables() {
       if (cols.length === 0) {
         await pool.query(`ALTER TABLE ${table} ADD COLUMN vendor_id INT DEFAULT NULL AFTER id`);
       }
+    }
+
+    // Add passcode column to vendor_users if missing
+    const [passcodeCol] = await pool.query(
+      `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'vendor_users' AND COLUMN_NAME = 'passcode'`,
+    );
+    if (passcodeCol.length === 0) {
+      await pool.query(`ALTER TABLE vendor_users ADD COLUMN passcode VARCHAR(8) DEFAULT NULL AFTER email`);
+    }
+
+    // Auto-generate passcodes for vendors that don't have one
+    const [vendorsWithoutPasscode] = await pool.query(
+      'SELECT id FROM vendor_users WHERE passcode IS NULL'
+    );
+    for (const v of vendorsWithoutPasscode) {
+      const passcode = String(Math.floor(100000 + Math.random() * 900000));
+      await pool.query('UPDATE vendor_users SET passcode = ? WHERE id = ?', [passcode, v.id]);
     }
   } catch (e) {
     console.warn('Could not ensure view tables:', e?.message || e);
@@ -962,7 +1000,11 @@ app.post('/api/admin/login', async (req, res, next) => {
       'SELECT id FROM admin_users WHERE username = ? AND password = ? LIMIT 1',
       [username, password]
     );
-    res.json({ ok: rows.length > 0 });
+    if (rows.length === 0) {
+      return res.status(401).json({ ok: false, message: 'Invalid credentials' });
+    }
+    const token = jwt.sign({ id: rows[0].id, role: 'admin' }, JWT_SECRET, { expiresIn: '7d' });
+    res.json({ ok: true, token });
   } catch (err) {
     next(err);
   }
@@ -1040,20 +1082,59 @@ app.post('/api/vendors/login', async (req, res, next) => {
   }
 });
 
+app.post('/api/vendors/login-passcode', async (req, res, next) => {
+  try {
+    const { email, passcode } = req.body;
+    if (!email || !passcode) {
+      return res.status(400).json({ message: 'Email and passcode are required' });
+    }
+    const [rows] = await pool.query(
+      'SELECT id, username, full_name, contact_number, business_name, email, status, passcode FROM vendor_users WHERE email = ? LIMIT 1',
+      [email]
+    );
+    if (rows.length === 0) {
+      return res.status(401).json({ message: 'Invalid email or passcode' });
+    }
+    const vendor = rows[0];
+    if (vendor.status !== 'active') {
+      return res.status(403).json({ message: 'Account is inactive. Contact the admin.' });
+    }
+    if (vendor.passcode !== passcode) {
+      return res.status(401).json({ message: 'Invalid email or passcode' });
+    }
+    const token = jwt.sign({ id: vendor.id, role: 'vendor' }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
+    res.json({
+      token,
+      vendor: {
+        id: vendor.id,
+        username: vendor.username,
+        fullName: vendor.full_name,
+        contactNumber: vendor.contact_number,
+        businessName: vendor.business_name,
+        email: vendor.email,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.post('/api/admin/vendors', authAdmin, async (req, res, next) => {
   try {
-    const { username, password, fullName, contactNumber, businessName, email } = req.body;
-    if (!username || !password || !fullName) {
-      return res.status(400).json({ message: 'Username, password, and full name are required' });
+    const { fullName, email, contactNumber, businessName } = req.body;
+    if (!fullName || !email) {
+      return res.status(400).json({ message: 'Full name and email are required' });
     }
-    const [existing] = await pool.query('SELECT id FROM vendor_users WHERE username = ?', [username]);
-    if (existing.length > 0) {
-      return res.status(409).json({ message: 'Username already exists' });
+    const [existingEmail] = await pool.query('SELECT id FROM vendor_users WHERE email = ?', [email]);
+    if (existingEmail.length > 0) {
+      return res.status(409).json({ message: 'Email already exists' });
     }
-    const passwordHash = await bcrypt.hash(password, 10);
+    const username = email.split('@')[0] + '_' + Date.now().toString(36);
+    const passwordHash = await bcrypt.hash('vendor', 10);
+    const passcode = String(Math.floor(100000 + Math.random() * 900000));
     const [result] = await pool.query(
-      'INSERT INTO vendor_users (username, password_hash, full_name, contact_number, business_name, email) VALUES (?, ?, ?, ?, ?, ?)',
-      [username, passwordHash, fullName, contactNumber || null, businessName || null, email || null]
+      'INSERT INTO vendor_users (username, password_hash, full_name, contact_number, business_name, email, passcode) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      [username, passwordHash, fullName, contactNumber || null, businessName || null, email, passcode]
     );
     res.status(201).json({
       id: result.insertId,
@@ -1061,7 +1142,8 @@ app.post('/api/admin/vendors', authAdmin, async (req, res, next) => {
       fullName,
       contactNumber: contactNumber || null,
       businessName: businessName || null,
-      email: email || null,
+      email,
+      passcode,
       status: 'active',
     });
   } catch (err) {
@@ -1072,7 +1154,7 @@ app.post('/api/admin/vendors', authAdmin, async (req, res, next) => {
 app.get('/api/admin/vendors', authAdmin, async (req, res, next) => {
   try {
     const [rows] = await pool.query(
-      'SELECT id, username, full_name, contact_number, business_name, email, status, created_at FROM vendor_users ORDER BY created_at DESC'
+      'SELECT id, username, full_name, contact_number, business_name, email, passcode, status, created_at FROM vendor_users ORDER BY created_at DESC'
     );
     res.json(rows.map(r => ({
       id: r.id,
@@ -1081,6 +1163,7 @@ app.get('/api/admin/vendors', authAdmin, async (req, res, next) => {
       contactNumber: r.contact_number,
       businessName: r.business_name,
       email: r.email,
+      passcode: r.passcode,
       status: r.status,
       createdAt: r.created_at,
     })));
@@ -1189,6 +1272,7 @@ Promise.resolve()
   .then(() => ensureStallsSeeded())
   .then(() => ensureAvailableStalls259To276())
   .then(() => ensureDefaultVendor())
+  .then(() => ensureDefaultAdmin())
   .then(() => {
     app.listen(port, () => {
       console.log(`API running on http://localhost:${port}`);
