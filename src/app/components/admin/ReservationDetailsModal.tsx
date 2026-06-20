@@ -120,12 +120,16 @@ export function ReservationDetailsModal({
 
   async function handleDelete() {
     setIsProcessing(true);
-    await deleteReservation(reservation.id);
-    await new Promise(r => setTimeout(r, 400));
+    try {
+      await deleteReservation(reservation.id);
+      await new Promise(r => setTimeout(r, 400));
+      setShowDeleteConfirm(false);
+      onUpdate();
+      onClose();
+    } catch {
+      setShowDeleteConfirm(false);
+    }
     setIsProcessing(false);
-    setShowDeleteConfirm(false);
-    onUpdate();
-    onClose();
   }
 
   return (
