@@ -179,6 +179,10 @@ export function VendorDashboard({ vendor, onLogout }: VendorDashboardProps) {
             <p className="text-slate-500 text-sm mt-0.5">View and manage your stall reservations</p>
             {vendor.event && (
               <div className="flex items-center gap-1.5 mt-2 text-slate-500 text-xs">
+                <Store className="w-3.5 h-3.5" />
+                <span>Event: {vendor.event} — Map {vendor.event === 'Bazaar' ? 'A' : 'B'}</span>
+              </div>
+            )}
             {vendor.businessName && (
               <div className="flex items-center gap-1.5 mt-2 text-slate-500 text-xs">
                 <Building2 className="w-3.5 h-3.5" />
@@ -226,25 +230,6 @@ export function VendorDashboard({ vendor, onLogout }: VendorDashboardProps) {
             </div>
             <p className="text-2xl font-black text-black">{stats.occupied}</p>
           </div>
-        </div>
-
-        {/* Refresh + Link */}
-        <div className="flex items-center justify-between">
-          <a
-            href="/"
-            className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-black bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors"
-          >
-            <ExternalLink className="w-3.5 h-3.5" />
-            Browse Stalls
-          </a>
-          <button
-            onClick={loadReservations}
-            disabled={isLoading}
-            className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl transition-colors disabled:opacity-60"
-          >
-            <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
-            Refresh
-          </button>
         </div>
 
         {/* Reservations List */}
