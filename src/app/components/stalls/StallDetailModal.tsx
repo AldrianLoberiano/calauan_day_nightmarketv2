@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, MapPin, Tag, Ruler, ShoppingBag, CheckCircle, Clock, XCircle, MinusCircle, User, Building2, AlertTriangle } from 'lucide-react';
+import { X, MapPin, Tag, Ruler, ShoppingBag, CheckCircle, Clock, XCircle, MinusCircle, User, Building2, AlertTriangle, ShieldCheck } from 'lucide-react';
 import { Stall, Reservation, VendorEvent } from '../../types';
 import { formatPeso, getStatusTextClass, getStatusLabel, getDisplayStallId, getDisplaySectionByCategory, getDisplayCategoryById } from '../../utils/helpers';
 
@@ -10,9 +10,10 @@ interface StallDetailModalProps {
   onReserve: (stall: Stall) => void;
   vendorEvent?: VendorEvent | null;
   source?: string;
+  isLoggedIn?: boolean;
 }
 
-export function StallDetailModal({ stall, reservation, onClose, onReserve, vendorEvent, source }: StallDetailModalProps) {
+export function StallDetailModal({ stall, reservation, onClose, onReserve, vendorEvent, source, isLoggedIn }: StallDetailModalProps) {
   if (!stall) return null;
 
   const statusIcon: Record<string, React.ReactNode> = {
@@ -134,6 +135,14 @@ export function StallDetailModal({ stall, reservation, onClose, onReserve, vendo
                   <AlertTriangle className="w-4 h-4" />
                   {vendorEvent === 'Bazaar' ? 'Switch to Map A' : 'Switch to Map B'}
                 </div>
+              ) : !isLoggedIn ? (
+                <a
+                  href="/vendor"
+                  className="flex-1 flex items-center justify-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl py-2.5 text-sm font-semibold transition-colors text-center"
+                >
+                  <ShieldCheck className="w-4 h-4" />
+                  Login to Reserve
+                </a>
               ) : (
                 <button
                   onClick={() => onReserve(stall)}
