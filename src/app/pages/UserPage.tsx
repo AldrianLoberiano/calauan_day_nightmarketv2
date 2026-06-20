@@ -3,7 +3,7 @@ import { Info, Search, ChevronDown, Store, MapPin, Clock, ShieldCheck, LayoutGri
 import { Stall, Reservation } from '../types';
 const headerImage = new URL('../components/public/header1.png', import.meta.url).href;
 const bploLogo = new URL('../components/public/bplo-modified.png', import.meta.url).href;
-import { checkAndExpireReservations } from '../utils/storage';
+import { checkAndExpireReservations, getVendorToken, getVendorUser } from '../utils/storage';
 import { getDisplayStallId, getDisplayCategoryById } from '../utils/helpers';
 import { StallMap } from '../components/primitives/StallMap';
 import { StallGridView } from '../components/primitives/StallGridView';
@@ -484,6 +484,10 @@ export function UserPage() {
           stall={selectedStall}
           onClose={() => setSelectedStall(null)}
           onReserve={(stall) => {
+            if (!getVendorToken()) {
+              window.location.href = '/vendor';
+              return;
+            }
             setSelectedStall(null);
             setReserveStall(stall);
           }}
