@@ -1,25 +1,24 @@
 import { useState } from 'react';
 import { AdminLogin } from '../components/admin/AdminLogin';
 import { AdminDashboard } from '../components/admin/AdminDashboard';
-
-const AUTH_STORAGE_KEY = 'bplo_admin_authenticated';
+import { getAdminToken, setAdminToken, clearAdminSession } from '../utils/storage';
 
 export function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     try {
-      return localStorage.getItem(AUTH_STORAGE_KEY) === 'true';
+      return !!getAdminToken();
     } catch {
       return false;
     }
   });
 
-  function handleLoginSuccess() {
-    localStorage.setItem(AUTH_STORAGE_KEY, 'true');
+  function handleLoginSuccess(token: string) {
+    setAdminToken(token);
     setIsAuthenticated(true);
   }
 
   function handleLogout() {
-    localStorage.removeItem(AUTH_STORAGE_KEY);
+    clearAdminSession();
     setIsAuthenticated(false);
   }
 
