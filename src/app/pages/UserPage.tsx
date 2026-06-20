@@ -244,19 +244,8 @@ export function UserPage() {
         </div>
       </header>
 
-      {/* How it works banner */}
-      <div className="bg-blue-700 border-b border-blue-800 pt-16 sm:pt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5">
-          <div className="flex items-start sm:items-center gap-2 text-sm text-white">
-            <Info className="w-4 h-4 shrink-0 mt-0.5 sm:mt-0 opacity-80" />
-            <span className="text-blue-100">
-              <strong className="text-white">How to Reserve:</strong> Click on any{' '}
-              <span className="bg-green-500 text-white text-xs px-1.5 py-0.5 rounded font-semibold">Green</span>{' '}
-              stall on the map → View details → Click "Reserve" → Fill in your info → Get your reservation number.
-            </span>
-          </div>
-        </div>
-      </div>
+      {/* Spacer for fixed header */}
+      <div className="pt-16 sm:pt-20" />
 
       <main className="max-w-8xl mx-auto px-3 sm:px-5 py-5 space-y-4">
 
