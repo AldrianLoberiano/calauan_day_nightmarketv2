@@ -924,7 +924,7 @@ app.post('/api/reservations/:id/occupy', async (req, res, next) => {
   }
 });
 
-app.post('/api/admin/reset', async (req, res, next) => {
+app.post('/api/admin/reset', authAdmin, async (req, res, next) => {
   const connection = await pool.getConnection();
   try {
     await connection.beginTransaction();
@@ -946,7 +946,7 @@ app.post('/api/admin/reset', async (req, res, next) => {
   }
 });
 
-app.post('/api/admin/extend-pending', async (req, res, next) => {
+app.post('/api/admin/extend-pending', authAdmin, async (req, res, next) => {
   const connection = await pool.getConnection();
   try {
     await connection.beginTransaction();
@@ -963,7 +963,7 @@ app.post('/api/admin/extend-pending', async (req, res, next) => {
     );
 
     await connection.commit();
-    res.json({ ok: true, updated: (result1[0].affectedRows ?? 0) + (result2[0].affectedRows ?? 0) });
+    res.json({ ok: true, updated: (result1.affectedRows ?? 0) + (result2.affectedRows ?? 0) });
   } catch (err) {
     await connection.rollback();
     next(err);
