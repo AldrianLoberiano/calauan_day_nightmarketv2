@@ -19,16 +19,16 @@ import {
 } from '../../utils/storage';
 import { ReservationCard } from './ReservationCard';
 import { ReservationDetailsModal } from './ReservationDetailsModal';
-import { StallMap } from '../primitives/StallMap';
-import { StallGridView } from '../primitives/StallGridView';
-import { StallDetailModal } from '../primitives/StallDetailModal';
-import { ReservationFormModal } from '../primitives/ReservationFormModal';
-import { ReceiptModal } from '../primitives/ReceiptModal';
+import { StallMap } from '../stalls/StallMap';
+import { StallGridView } from '../stalls/StallGridView';
+import { StallDetailModal } from '../stalls/StallDetailModal';
+import { ReservationFormModal } from '../stalls/ReservationFormModal';
+import { ReceiptModal } from '../stalls/ReceiptModal';
 import { exportToCSV, exportToExcel, exportToWord } from '../../utils/export';
 import { VendorManagement } from './VendorManagement';
 
-const headerImage = new URL('../public/header1.png', import.meta.url).href;
-const bploLogo = new URL('../public/bplo-modified.png', import.meta.url).href;
+const headerImage = '/images/header1.png';
+const bploLogo = '/images/bplo-modified.png';
 
 interface AdminDashboardProps {
   onLogout: () => void;
