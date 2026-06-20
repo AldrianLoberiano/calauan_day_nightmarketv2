@@ -6,7 +6,7 @@ const loginWallpaper = new URL('../public/wallpaper.png', import.meta.url).href;
 import { verifyAdminLogin } from '../../utils/storage';
 
 interface AdminLoginProps {
-  onLoginSuccess: () => void;
+  onLoginSuccess: (token: string) => void;
 }
 
 export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
@@ -24,9 +24,9 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
     await new Promise(r => setTimeout(r, 800));
 
     try {
-      const ok = await verifyAdminLogin(username.trim(), password);
-      if (ok) {
-        onLoginSuccess();
+      const token = await verifyAdminLogin(username.trim(), password);
+      if (token) {
+        onLoginSuccess(token);
       } else {
         setError('Invalid username or password. Please try again.');
       }
