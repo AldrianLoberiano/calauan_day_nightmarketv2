@@ -44,3 +44,19 @@ export interface AdminUser {
   username: string;
   password: string;
 }
+
+export interface VendorUser {
+  id: number;
+  username: string;
+  fullName: string;
+  contactNumber?: string;
+  businessName?: string;
+  email?: string;
+  status: 'active' | 'inactive';
+  createdAt?: string;
+}
+
+export interface VendorLoginResponse {
+  token: string;
+  vendor: Omit<VendorUser, 'status' | 'createdAt'>;
+}
