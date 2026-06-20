@@ -1,6 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router';
 import { UserPage } from './pages/UserPage';
 import { AdminPage } from './pages/AdminPage';
+import { VendorPage } from './pages/VendorPage';
 
 function NotFoundPage() {
   return (
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: '/',
     Component: UserPage,
+  },
+  {
+    path: '/vendor',
+    Component: VendorPage,
   },
   {
     path: '/admin',
