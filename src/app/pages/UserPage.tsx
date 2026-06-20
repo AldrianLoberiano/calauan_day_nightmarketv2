@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Info, Search, ChevronDown, Store, MapPin, Clock, ShieldCheck, LayoutGrid, Map as MapIcon } from 'lucide-react';
 import { Stall, Reservation } from '../types';
-const headerImage = new URL('../components/public/header1.png', import.meta.url).href;
-const bploLogo = new URL('../components/public/bplo-modified.png', import.meta.url).href;
+const headerImage = '/images/header1.png';
+const bploLogo = '/images/bplo-modified.png';
 import { checkAndExpireReservations, getVendorToken, getVendorUser, getVendorReservations, getReservations } from '../utils/storage';
 import { getDisplayStallId, getDisplayCategoryById } from '../utils/helpers';
-import { StallMap } from '../components/primitives/StallMap';
-import { StallGridView } from '../components/primitives/StallGridView';
-import { StallDetailModal } from '../components/primitives/StallDetailModal';
-import { ReservationFormModal } from '../components/primitives/ReservationFormModal';
-import { ReceiptModal } from '../components/primitives/ReceiptModal';
+import { StallMap } from '../components/stalls/StallMap';
+import { StallGridView } from '../components/stalls/StallGridView';
+import { StallDetailModal } from '../components/stalls/StallDetailModal';
+import { ReservationFormModal } from '../components/stalls/ReservationFormModal';
+import { ReceiptModal } from '../components/stalls/ReceiptModal';
 
 export function UserPage() {
   const [stalls, setStalls] = useState<Stall[]>([]);
@@ -194,22 +194,31 @@ export function UserPage() {
         className="fixed top-0 inset-x-0 z-50 text-white bg-center bg-cover"
         style={{ backgroundImage: `url(${headerImage})` }}
       >
-        <div className="absolute inset-0 bg-slate-900/55" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 via-slate-900/60 to-blue-900/70" aria-hidden="true" />
         <div className="relative max-w-8xl mx-auto px-3 sm:px-5 py-2.5 sm:py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-xl flex items-center justify-center overflow-hidden">
-                <img src={bploLogo} alt="BPLO Logo" className="w-10 h-10 object-contain" />
+              <div className="w-11 h-11 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center ring-1 ring-white/20 overflow-hidden">
+                <img src={bploLogo} alt="BPLO Logo" className="w-9 h-9 object-contain" />
               </div>
               <div>
                 <h1 className="font-black text-base sm:text-lg leading-tight tracking-tight">Stall Reservation System</h1>
                 <p className="text-blue-200 text-xs sm:text-sm font-medium">Night Market Stall Mapping</p>
               </div>
             </div>
-            <div className="text-xs text-blue-100 font-semibold bg-white/10 backdrop-blur-sm rounded-xl px-3 py-1.5 ring-1 ring-white/15">
-              {now.toLocaleDateString([], { year: 'numeric', month: 'short', day: '2-digit' })}
-              <span className="mx-1.5 text-blue-200/80">|</span>
-              {now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+            <div className="flex items-center gap-2">
+              <a
+                href="/vendor"
+                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl ring-1 ring-white/15 transition-colors"
+              >
+                <Store className="w-3.5 h-3.5" />
+                Vendor Login
+              </a>
+              <div className="text-xs text-blue-100 font-semibold bg-white/10 backdrop-blur-sm rounded-xl px-3 py-1.5 ring-1 ring-white/15">
+                {now.toLocaleDateString([], { year: 'numeric', month: 'short', day: '2-digit' })}
+                <span className="mx-1.5 text-blue-200/80">|</span>
+                {now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+              </div>
             </div>
           </div>
         </div>
