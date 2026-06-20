@@ -41,7 +41,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
       className="min-h-screen bg-center bg-cover flex items-center justify-center p-4 relative"
       style={{ backgroundImage: `url(${loginWallpaper})` }}
     >
-      <div className="absolute inset-0 bg-slate-900/60" aria-hidden="true" />
+      <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-[1px]" aria-hidden="true" />
 
       <div className="relative w-full max-w-sm">
         {/* Logo & Title */}
@@ -58,7 +58,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
         </div>
 
         {/* Login Card */}
-        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
           {/* Card Header Strip */}
           <div className="bg-blue-800 px-6 py-4">
             <div className="flex items-center gap-2">
