@@ -239,10 +239,15 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
     <div className="min-h-screen bg-slate-50">
       {/* ── Top Header Bar ── */}
       <header
-        className="relative text-white shadow-lg sticky top-0 z-40 bg-center bg-cover"
-        style={{ backgroundImage: `url(${headerImage})` }}
+        className="relative text-white shadow-lg sticky top-0 z-40"
       >
-        <div className="absolute inset-0 bg-slate-900/60 pointer-events-none" aria-hidden="true" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(135deg, #1a0533 0%, #2d1066 25%, #4c1d95 50%, #6b21a8 75%, #2d1066 100%)',
+          }}
+        />
+        <div className="absolute inset-0 bg-slate-900/30 pointer-events-none" aria-hidden="true" />
         <div className="relative max-w-[1600px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden">
@@ -250,7 +255,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
             </div>
             <div>
               <h1 className="font-black text-base sm:text-lg leading-tight tracking-tight">BPLO Admin Panel</h1>
-              <p className="text-blue-200 text-xs hidden sm:block font-medium">Stall Reservation Mapping System</p>
+              <p className="text-purple-200 text-xs hidden sm:block font-medium">Stall Reservation Mapping System</p>
             </div>
           </div>
 
