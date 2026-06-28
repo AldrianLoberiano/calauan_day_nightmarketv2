@@ -53,6 +53,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [isResetting, setIsResetting] = useState(false);
   const [showExtendConfirm, setShowExtendConfirm] = useState(false);
   const [isExtending, setIsExtending] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const accountMenuRef = useRef<HTMLDivElement>(null);
   const [showExportMenu, setShowExportMenu] = useState(false);
