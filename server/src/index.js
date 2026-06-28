@@ -1192,6 +1192,7 @@ app.get('/api/admin/vendors', authAdmin, async (req, res, next) => {
         fullName: r.full_name,
         contactNumber: r.contact_number,
         businessName: r.business_name,
+        email: r.email,
   }
 });
 
