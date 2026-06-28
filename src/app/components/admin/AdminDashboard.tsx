@@ -294,7 +294,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                       <span>Admin Panel</span>
                     </button>
                     <button
-                      <span>Extend Pending +1 Day</span>
                     </button>
                     <button
                       onClick={() => { setShowAccountMenu(false); }}
