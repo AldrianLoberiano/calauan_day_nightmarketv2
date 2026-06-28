@@ -258,6 +258,7 @@ export function UserPage() {
             <StatPill color="bg-amber-400" label="Pending" count={pendingCount} />
             <StatPill color="bg-red-500" label="Reserved" count={reservedCount} />
             <StatPill color="bg-slate-400" label="Occupied" count={occupiedCount} />
+            <div className="ml-auto flex items-center gap-1.5 bg-slate-50 rounded-lg px-2.5 sm:px-3 py-1.5 border border-slate-200">
               <Store className="w-3.5 h-3.5 text-slate-500" />
               <span className="text-xs text-slate-500">Total: <span className="text-slate-800 font-bold">{stalls.length}</span></span>
             </div>
