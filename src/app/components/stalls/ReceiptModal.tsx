@@ -37,7 +37,7 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
 
   return (
     <div
-      className="receipt-modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+      className="receipt-modal-overlay fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <style>{`
@@ -79,7 +79,7 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
         }
       `}</style>
 
-      <div className="receipt-modal-shell bg-white rounded-3xl shadow-2xl w-full max-w-md max-h-[95vh] overflow-hidden flex flex-col">
+      <div className="receipt-modal-shell bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl w-full max-w-md max-h-[95vh] overflow-hidden flex flex-col">
 
         {/* Success header */}
         <div className="receipt-modal-header relative overflow-hidden">
@@ -96,9 +96,9 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
             </div>
             <button
               onClick={onClose}
-              className="receipt-modal-close text-white/70 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-xl p-2"
+              className="receipt-modal-close text-white/70 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-xl p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center"
             >
-              <X className="w-4 h-4" />
+              <X className="w-5 h-5" />
             </button>
           </div>
         </div>
@@ -127,7 +127,7 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
               <div className="bg-gradient-to-b from-slate-50 to-white text-center py-6 px-5 border-b border-dashed border-slate-200 relative">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
                 <p className="text-[10px] text-slate-400 uppercase tracking-[0.15em] font-bold">Reservation Number</p>
-                <p className="text-3xl font-black text-slate-900 tracking-wider mt-2 font-mono">{reservation.reservationNumber}</p>
+                <p className="text-2xl sm:text-3xl font-black text-slate-900 tracking-wider mt-2 font-mono break-all">{reservation.reservationNumber}</p>
                 <div className="inline-flex items-center gap-1.5 mt-3 bg-amber-50 border border-amber-200 text-amber-700 text-xs font-bold px-3 py-1 rounded-full">
                   <Clock className="w-3 h-3" />
                   PENDING PROCESSING
@@ -192,25 +192,25 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
         </div>
 
         {/* Action buttons */}
-        <div className="receipt-modal-actions px-5 pb-5 pt-2 bg-white border-t border-slate-100">
+        <div className="receipt-modal-actions px-5 pb-5 pt-2 bg-white border-t border-slate-100" style={{ paddingBottom: 'max(1.25rem, env(safe-area-inset-bottom))' }}>
           <div className="flex gap-2.5">
             <button
               onClick={handleDownload}
-              className="flex items-center justify-center gap-2 flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl py-3 text-sm font-bold transition-colors"
+              className="flex items-center justify-center gap-2 flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl py-3.5 text-sm font-bold transition-colors min-h-[48px]"
             >
               <Download className="w-4 h-4" />
               Save
             </button>
             <button
               onClick={handlePrint}
-              className="flex items-center justify-center gap-2 flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl py-3 text-sm font-bold transition-colors"
+              className="flex items-center justify-center gap-2 flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl py-3.5 text-sm font-bold transition-colors min-h-[48px]"
             >
               <Printer className="w-4 h-4" />
               Print
             </button>
             <button
               onClick={onClose}
-              className="flex items-center justify-center gap-2 flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-xl py-3 text-sm font-bold transition-all shadow-lg shadow-blue-500/25"
+              className="flex items-center justify-center gap-2 flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-xl py-3.5 text-sm font-bold transition-all shadow-lg shadow-blue-500/25 min-h-[48px]"
             >
               Done
             </button>
@@ -254,7 +254,7 @@ function generateReceiptText(
     '------------------------------------------',
     'NEXT STEPS:',
     '1. Take a screenshot or capture this receipt.',
-    '2. Visit the BPLO Office within 4 to 5 days.',
+    '2. Visit the BPLO Office within 4 days.',
     `3. Present your Reservation Number: ${reservation.reservationNumber}`,
     '4. Complete your business permit application.',
     '------------------------------------------',
