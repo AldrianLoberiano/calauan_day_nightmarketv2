@@ -1247,6 +1247,7 @@ app.get('/api/admin/vendors/:id/reservation-count', authAdmin, async (req, res, 
       const [dm] = await pool.query('SELECT COUNT(*) AS cnt FROM design_map_reservations WHERE vendor_id = ?', [req.params.id]);
       count += dm[0]?.cnt || 0;
     } catch {}
+    try {
     res.json({ count });
   } catch (err) {
     next(err);
