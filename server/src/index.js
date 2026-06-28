@@ -1242,7 +1242,6 @@ app.put('/api/admin/vendors/:id', authAdmin, async (req, res, next) => {
 
 app.get('/api/admin/vendors/:id/reservation-count', authAdmin, async (req, res, next) => {
   try {
-    const [dm] = await pool.query('SELECT COUNT(*) AS cnt FROM design_map_reservations WHERE vendor_id = ?', [req.params.id]);
     const [as_] = await pool.query('SELECT COUNT(*) AS cnt FROM all_stalls_reservations WHERE vendor_id = ?', [req.params.id]);
     const count = (dm[0]?.cnt || 0) + (as_[0]?.cnt || 0);
     res.json({ count });
