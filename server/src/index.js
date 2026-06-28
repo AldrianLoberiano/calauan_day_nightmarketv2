@@ -1196,6 +1196,7 @@ app.get('/api/admin/vendors', authAdmin, async (req, res, next) => {
         passcode: null,
         event: null,
         status: r.status,
+        createdAt: r.created_at,
   }
 });
 
