@@ -218,6 +218,7 @@ export function UserPage() {
         <div className="absolute inset-0 bg-slate-900/30 pointer-events-none" />
         <div className="relative max-w-8xl mx-auto px-3 sm:px-5 py-2.5 sm:py-3">
           <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 sm:gap-3">
               </div>
               <div>
                 <h1 className="font-black text-base sm:text-lg leading-tight tracking-tight">Stall Reservation System</h1>
