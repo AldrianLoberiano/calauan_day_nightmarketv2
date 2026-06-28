@@ -1183,6 +1183,7 @@ app.get('/api/admin/vendors', authAdmin, async (req, res, next) => {
   } catch (err) {
     // Fallback: try without passcode/event columns in case they don't exist yet
     try {
+      const [rows] = await pool.query(
   }
 });
 
