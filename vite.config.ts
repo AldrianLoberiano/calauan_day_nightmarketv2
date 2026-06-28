@@ -33,6 +33,7 @@ export default defineConfig({
   },
 
   server: {
+    host: true,
     proxy: {
       // Proxy API requests to backend. Configure options to better support
       // long-lived Server-Sent Events (SSE) connections used by /api/events.
