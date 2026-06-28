@@ -294,7 +294,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                       <span>Admin Panel</span>
                     </button>
                     <button
-                      <span>Reset All Data</span>
                     </button>
                     <button
                       onClick={() => { setShowAccountMenu(false); setShowExtendConfirm(true); }}
