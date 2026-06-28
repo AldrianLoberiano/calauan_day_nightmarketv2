@@ -892,6 +892,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
           </div>
         </div>
       )}
+      {showSettingsModal && (
     </div>
   );
 }
