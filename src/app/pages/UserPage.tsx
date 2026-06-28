@@ -218,7 +218,6 @@ export function UserPage() {
         <div className="absolute inset-0 bg-slate-900/30 pointer-events-none" />
         <div className="relative max-w-8xl mx-auto px-3 sm:px-5 py-2.5 sm:py-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
               <div className="w-11 h-11 rounded-xl flex items-center justify-center overflow-hidden">
                 <img src={bploLogo} alt="BPLO Logo" className="w-9 h-9 object-contain" />
               </div>
