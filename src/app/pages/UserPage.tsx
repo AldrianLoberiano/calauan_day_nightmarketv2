@@ -223,7 +223,6 @@ export function UserPage() {
                 <img src={bploLogo} alt="BPLO Logo" className="w-7 h-7 sm:w-9 sm:h-9 object-contain" />
               </div>
               <div>
-                <p className="text-purple-200 text-xs sm:text-sm font-medium">Night Market Stall Mapping</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
