@@ -27,7 +27,7 @@ npm install
 
 ```bash
 # Backend (from server/)
-npm run dev
+npm start
 
 # Frontend (from project root)
 npm run dev
@@ -37,7 +37,7 @@ npm run dev
 
 | Role | Username | Password / Passcode |
 |------|----------|---------------------|
-| Admin | `admin` | `bplo2026` |
+| Admin | `admin` | `admin123` |
 | Vendor | `vendor` | Passcode: shown in admin panel |
 
 ---
