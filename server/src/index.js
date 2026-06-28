@@ -1181,7 +1181,6 @@ app.get('/api/admin/vendors', authAdmin, async (req, res, next) => {
       createdAt: r.created_at,
     })));
   } catch (err) {
-    next(err);
   }
 });
 
