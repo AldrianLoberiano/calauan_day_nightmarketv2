@@ -1266,6 +1266,7 @@ app.delete('/api/admin/vendors/:id', authAdmin, async (req, res, next) => {
     } catch {}
     try {
       const [as_] = await pool.query('SELECT COUNT(*) AS cnt FROM all_stalls_reservations WHERE vendor_id = ?', [req.params.id]);
+      count += as_[0]?.cnt || 0;
     if (count > 0) {
       return res.status(400).json({ message: 'Cannot delete vendor with existing reservations. Deactivate instead.' });
     }
