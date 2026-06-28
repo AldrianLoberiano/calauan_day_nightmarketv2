@@ -1259,6 +1259,7 @@ app.get('/api/admin/vendors/:id/reservation-count', authAdmin, async (req, res, 
 
 app.delete('/api/admin/vendors/:id', authAdmin, async (req, res, next) => {
   try {
+    let count = 0;
     if (count > 0) {
       return res.status(400).json({ message: 'Cannot delete vendor with existing reservations. Deactivate instead.' });
     }
