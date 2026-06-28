@@ -1189,6 +1189,7 @@ app.get('/api/admin/vendors', authAdmin, async (req, res, next) => {
       res.json(rows.map(r => ({
         id: r.id,
         username: r.username,
+        fullName: r.full_name,
   }
 });
 
