@@ -294,7 +294,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                       <span>Admin Panel</span>
                     </button>
                     <button
-                      <CalendarClock className="w-4 h-4 text-gray-400" />
                       <span>Extend Pending +1 Day</span>
                     </button>
                     <button
