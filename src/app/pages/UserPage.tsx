@@ -220,6 +220,7 @@ export function UserPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center overflow-hidden shrink-0">
+                <img src={bploLogo} alt="BPLO Logo" className="w-7 h-7 sm:w-9 sm:h-9 object-contain" />
               </div>
               <div>
                 <h1 className="font-black text-base sm:text-lg leading-tight tracking-tight">Stall Reservation System</h1>
