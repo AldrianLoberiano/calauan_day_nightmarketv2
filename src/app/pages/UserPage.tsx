@@ -253,6 +253,7 @@ export function UserPage() {
 
         {/* Stat Summary Bar */}
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm px-3 sm:px-4 py-2.5 sm:py-3">
+          <div className="flex flex-wrap items-center gap-x-3 sm:gap-x-6 gap-y-1.5 sm:gap-y-2">
             <StatPill color="bg-green-500" label="Available" count={availableCount} />
             <div className="w-px h-4 bg-slate-200 hidden sm:block" />
             <StatPill color="bg-amber-400" label="Pending" count={pendingCount} />
