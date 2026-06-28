@@ -224,6 +224,7 @@ export function UserPage() {
               </div>
               <div>
                 <h1 className="font-black text-sm sm:text-lg leading-tight tracking-tight">Stall Reservation</h1>
+                <p className="text-purple-200 text-[10px] sm:text-sm font-medium hidden sm:block">Night Market Stall Mapping</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
