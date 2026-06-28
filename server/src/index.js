@@ -1184,6 +1184,7 @@ app.get('/api/admin/vendors', authAdmin, async (req, res, next) => {
     // Fallback: try without passcode/event columns in case they don't exist yet
     try {
       const [rows] = await pool.query(
+        'SELECT id, username, full_name, contact_number, business_name, email, status, created_at FROM vendor_users ORDER BY created_at DESC'
   }
 });
 
