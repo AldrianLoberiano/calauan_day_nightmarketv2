@@ -1193,6 +1193,7 @@ app.get('/api/admin/vendors', authAdmin, async (req, res, next) => {
         contactNumber: r.contact_number,
         businessName: r.business_name,
         email: r.email,
+        passcode: null,
   }
 });
 
