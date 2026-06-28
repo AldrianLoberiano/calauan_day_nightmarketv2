@@ -1187,6 +1187,7 @@ app.get('/api/admin/vendors', authAdmin, async (req, res, next) => {
         'SELECT id, username, full_name, contact_number, business_name, email, status, created_at FROM vendor_users ORDER BY created_at DESC'
       );
       res.json(rows.map(r => ({
+        id: r.id,
   }
 });
 
