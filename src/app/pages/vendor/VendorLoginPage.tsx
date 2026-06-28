@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Lock, Mail, Eye, EyeOff, Store, AlertCircle, ArrowLeft } from 'lucide-react';
+import { Lock, Mail, Eye, EyeOff, Store, AlertCircle } from 'lucide-react';
 import { vendorLoginPasscode, setVendorToken, setVendorUser } from '../../utils/storage';
 import { VendorUser } from '../../types';
 
@@ -44,7 +44,7 @@ export function VendorLoginPage({ onLoginSuccess }: VendorLoginPageProps) {
 
   return (
     <div
-      className="min-h-screen bg-center bg-cover flex items-center justify-center p-4 relative"
+      className="min-h-[100dvh] bg-center bg-cover flex items-center justify-center p-4 sm:p-6 relative"
       style={{ backgroundImage: `url(${loginWallpaper})` }}
     >
       <div className="absolute inset-0 bg-gradient-to-b from-slate-900/70 via-slate-900/50 to-slate-900/70" aria-hidden="true" />
@@ -53,7 +53,7 @@ export function VendorLoginPage({ onLoginSuccess }: VendorLoginPageProps) {
         {/* Logo & Title */}
         <div className="text-center mb-6">
           <img src={bploLogo} alt="BPLO Logo" className="w-16 h-16 object-contain mx-auto mb-4" />
-          <h1 className="text-white text-2xl font-black tracking-tight">Night Market</h1>
+          <h1 className="text-white text-xl sm:text-2xl font-black tracking-tight">Night Market</h1>
           <p className="text-slate-300 text-sm mt-1">Vendor Account Login</p>
         </div>
 
@@ -87,7 +87,7 @@ export function VendorLoginPage({ onLoginSuccess }: VendorLoginPageProps) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email"
-                    className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-slate-50 focus:bg-white transition-all disabled:opacity-60"
+                    className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-slate-50 focus:bg-white transition-all disabled:opacity-60"
                     disabled={isLoading}
                     autoComplete="email"
                   />
@@ -103,17 +103,17 @@ export function VendorLoginPage({ onLoginSuccess }: VendorLoginPageProps) {
                     value={passcode}
                     onChange={(e) => setPasscode(e.target.value)}
                     placeholder="Enter your 6-digit passcode"
-                    className="w-full pl-10 pr-10 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-slate-50 focus:bg-white transition-all disabled:opacity-60"
+                    className="w-full pl-10 pr-10 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-slate-50 focus:bg-white transition-all disabled:opacity-60"
                     disabled={isLoading}
                     autoComplete="off"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPasscode(!showPasscode)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 min-w-[40px] min-h-[40px] flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors rounded-lg"
                     tabIndex={-1}
                   >
-                    {showPasscode ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {showPasscode ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
                 </div>
               </div>
@@ -128,7 +128,7 @@ export function VendorLoginPage({ onLoginSuccess }: VendorLoginPageProps) {
               <button
                 type="submit"
                 disabled={isLoading || !email || !passcode}
-                className="w-full bg-blue-700 hover:bg-blue-800 disabled:bg-slate-300 disabled:cursor-not-allowed text-white rounded-xl py-2.5 font-bold text-sm transition-all mt-2 flex items-center justify-center gap-2 shadow-sm shadow-blue-700/25"
+                className="w-full bg-blue-700 hover:bg-blue-800 disabled:bg-slate-300 disabled:cursor-not-allowed text-white rounded-xl py-3.5 font-bold text-sm transition-all mt-2 flex items-center justify-center gap-2 shadow-sm shadow-blue-700/25 min-h-[48px]"
               >
                 {isLoading ? (
                   <>
