@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Info, Search, ChevronDown, Store, MapPin, Clock, ShieldCheck, LayoutGrid, Map as MapIcon } from 'lucide-react';
+import { Search, ChevronDown, Store, MapPin, Clock, ShieldCheck, LayoutGrid, Map as MapIcon } from 'lucide-react';
 import { Stall, Reservation, VendorEvent } from '../types';
 const bploLogo = '/images/bplo-modified.png';
 import { checkAndExpireReservations, getVendorToken, getVendorUser, getVendorReservations, getReservations, getVendorProfile, setVendorUser } from '../utils/storage';
@@ -80,10 +80,6 @@ export function UserPage() {
       clearInterval(interval);
       try { es.close(); } catch (e) {}
     };
-  }, [source]);
-
-  useEffect(() => {
-    void loadStalls(source);
   }, [source]);
 
   useEffect(() => {
