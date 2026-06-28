@@ -16,9 +16,10 @@ import {
 } from './helpers';
 
 describe('formatPeso', () => {
-  it('returns placeholder text', () => {
-    expect(formatPeso(100)).toBe('To be discussed');
-    expect(formatPeso(0)).toBe('To be discussed');
+  it('formats amount as Philippine Pesos', () => {
+    expect(formatPeso(100)).toBe('₱100.00');
+    expect(formatPeso(1500)).toBe('₱1,500.00');
+    expect(formatPeso(0)).toBe('₱0.00');
   });
 });
 
