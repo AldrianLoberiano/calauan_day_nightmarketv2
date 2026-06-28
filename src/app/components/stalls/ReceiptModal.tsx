@@ -169,7 +169,7 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="w-5 h-5 bg-blue-200 text-blue-700 text-[10px] font-bold rounded-full flex items-center justify-center shrink-0 mt-0.5">2</span>
-                    Visit the <strong>BPLO Office</strong> within <strong>4 to 5 days</strong>.
+                    Visit the <strong>BPLO Office</strong> within <strong>4 days</strong>.
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="w-5 h-5 bg-blue-200 text-blue-700 text-[10px] font-bold rounded-full flex items-center justify-center shrink-0 mt-0.5">3</span>
