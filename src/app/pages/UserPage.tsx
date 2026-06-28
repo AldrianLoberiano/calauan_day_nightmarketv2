@@ -227,6 +227,7 @@ export function UserPage() {
                 <p className="text-purple-200 text-[10px] sm:text-sm font-medium hidden sm:block">Night Market Stall Mapping</p>
               </div>
             </div>
+            <div className="flex items-center gap-1.5 sm:gap-2">
               <a
                 href="/vendor"
                 className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl ring-1 ring-white/15 transition-colors"
