@@ -1200,6 +1200,7 @@ app.get('/api/admin/vendors', authAdmin, async (req, res, next) => {
       })));
     } catch (fallbackErr) {
       next(fallbackErr);
+    }
   }
 });
 
