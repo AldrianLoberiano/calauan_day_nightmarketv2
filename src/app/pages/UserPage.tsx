@@ -607,6 +607,7 @@ function StatPill({ color, label, count }: { color: string; label: string; count
   return (
     <div className="flex items-center gap-1.5 sm:gap-2">
       <span className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full ${color} shrink-0`} />
+      <span className="text-[10px] sm:text-xs text-slate-500 font-medium">{label}</span>
     </div>
   );
 }
