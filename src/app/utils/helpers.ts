@@ -1,7 +1,7 @@
 import { StallStatus, ReservationStatus } from '../types';
 
 export function formatPeso(amount: number): string {
-  return 'To be discussed';
+  return `₱${Number(amount).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 export function getStallColorClass(status: StallStatus): string {
