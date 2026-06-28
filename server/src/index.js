@@ -1195,6 +1195,7 @@ app.get('/api/admin/vendors', authAdmin, async (req, res, next) => {
         email: r.email,
         passcode: null,
         event: null,
+        status: r.status,
   }
 });
 
