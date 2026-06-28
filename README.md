@@ -74,13 +74,13 @@ This project includes a Node/Express + MySQL backend under `server/`.
    - `cd server`
    - `npm i`
 4. Start the API server:
-   - `npm run dev`
+   - `npm start`
 
 The frontend proxies API requests to `http://localhost:3001` via the Vite dev proxy. You can override this with `VITE_API_URL` in `.env`.
 
 ### Default credentials
 
-- **Admin:** `admin` / `bplo2026`
+- **Admin:** `admin` / `admin123`
 - **Default vendor:** `vendor` / `vendor123` (passcode shown in admin panel after creation)
 
 ### API Endpoints
@@ -212,9 +212,15 @@ The frontend proxies API requests to `http://localhost:3001` via the Vite dev pr
 
 - `npm run dev` — Start the Vite dev server
 - `npm run build` — Build for production
-- `npm run preview` — Preview the production build
 - `npm run test` — Run Vitest (108 tests)
 - `npm run test:watch` — Run Vitest in watch mode
+
+### Server Scripts (run from `server/`)
+
+- `npm start` — Start the API server (`node src/index.js`)
+- `npm run dev` — Start the API server with file watching (`node --watch src/index.js`)
+- `npm run test` — Run server tests
+- `npm run test:watch` — Run server tests in watch mode
 
 ## Developer Notes
 
