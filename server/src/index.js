@@ -1242,6 +1242,7 @@ app.put('/api/admin/vendors/:id', authAdmin, async (req, res, next) => {
 
 app.get('/api/admin/vendors/:id/reservation-count', authAdmin, async (req, res, next) => {
   try {
+    let count = 0;
     res.json({ count });
   } catch (err) {
     next(err);
