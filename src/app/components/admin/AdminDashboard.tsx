@@ -896,6 +896,49 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/50" onClick={() => setShowSettingsModal(false)} />
           <div className="relative w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div className="px-5 py-4 border-b border-slate-200 bg-slate-50">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Settings className="w-5 h-5 text-slate-600" />
+                  <h3 className="text-lg font-black text-slate-800">Settings</h3>
+                </div>
+                <button
+                  onClick={() => setShowSettingsModal(false)}
+                  className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-200 transition-colors text-slate-500"
+                >
+                  <XCircle className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+            <div className="p-5 space-y-3">
+              <button
+                onClick={() => { setShowSettingsModal(false); setShowExtendConfirm(true); }}
+                className="w-full flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors text-left group"
+              >
+                <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center group-hover:bg-emerald-200 transition-colors">
+                  <CalendarClock className="w-5 h-5 text-emerald-600" />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-slate-800">Extend Pending +1 Day</p>
+                  <p className="text-xs text-slate-500 mt-0.5">Adds 1 day to the expiry of all pending reservations</p>
+                </div>
+              </button>
+              <button
+                onClick={() => { setShowSettingsModal(false); setShowResetConfirm(true); }}
+                className="w-full flex items-center gap-3 p-4 rounded-xl border border-red-200 hover:bg-red-50 transition-colors text-left group"
+              >
+                <div className="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center group-hover:bg-red-200 transition-colors">
+                  <Database className="w-5 h-5 text-red-600" />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-red-800">Reset All Data</p>
+                  <p className="text-xs text-red-500 mt-0.5">Set all stalls to available, clear all reservations, and reset counters</p>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
