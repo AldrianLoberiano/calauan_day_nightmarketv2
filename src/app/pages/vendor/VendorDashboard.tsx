@@ -117,7 +117,7 @@ export function VendorDashboard({ vendor, onLogout }: VendorDashboardProps) {
             <div className="relative" ref={profileMenuRef}>
               <button
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
-                className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-3 py-2 rounded-xl transition-all ring-1 ring-white/15 hover:ring-white/30"
+                className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-3 py-2.5 rounded-xl transition-all ring-1 ring-white/15 hover:ring-white/30 min-h-[44px]"
               >
                 <div className="w-7 h-7 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white text-xs font-bold ring-1 ring-white/30">
                   {vendor.fullName.charAt(0).toUpperCase()}
@@ -127,7 +127,7 @@ export function VendorDashboard({ vendor, onLogout }: VendorDashboardProps) {
               </button>
 
               {showProfileMenu && (
-                <div className="absolute right-0 top-full mt-2 w-72 bg-[#1e1e1e] rounded-2xl shadow-2xl border border-white/10 overflow-hidden z-50">
+                <div className="absolute right-0 top-full mt-2 w-72 max-w-[calc(100vw-2rem)] bg-[#1e1e1e] rounded-2xl shadow-2xl border border-white/10 overflow-hidden z-50">
                   <div className="px-4 pt-4 pb-3 border-b border-white/10">
                     <div className="flex items-center gap-3">
                       <div className="w-11 h-11 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white font-bold text-lg ring-2 ring-white/30">
@@ -252,7 +252,7 @@ export function VendorDashboard({ vendor, onLogout }: VendorDashboardProps) {
               </p>
               <a
                 href="/"
-                className="inline-flex items-center gap-2 mt-4 px-4 py-2.5 bg-black hover:bg-slate-800 text-white text-sm font-bold rounded-xl transition-colors"
+                className="inline-flex items-center gap-2 mt-4 px-4 py-3 bg-black hover:bg-slate-800 text-white text-sm font-bold rounded-xl transition-colors min-h-[48px]"
               >
                 Browse Stalls
                 <ChevronRight className="w-4 h-4" />
@@ -303,7 +303,7 @@ export function VendorDashboard({ vendor, onLogout }: VendorDashboardProps) {
                       <div className="px-4 pb-4 pt-0 border-t border-slate-100 mt-0">
                         <div className="pt-3 space-y-3">
                           {/* Contact Details */}
-                          <div className="grid grid-cols-2 gap-3">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div className="flex items-start gap-2 bg-slate-50 rounded-xl p-3">
                               <User className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
                               <div>
@@ -395,13 +395,13 @@ export function VendorDashboard({ vendor, onLogout }: VendorDashboardProps) {
             <div className="flex gap-2">
               <button
                 onClick={() => setShowLogoutConfirm(false)}
-                className="flex-1 border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl py-2.5 text-sm font-semibold transition-colors"
+                className="flex-1 border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl py-3 text-sm font-semibold transition-colors min-h-[48px]"
               >
                 Cancel
               </button>
               <button
                 onClick={handleLogout}
-                className="flex-1 bg-red-600 hover:bg-red-700 text-white rounded-xl py-2.5 text-sm font-bold transition-colors"
+                className="flex-1 bg-red-600 hover:bg-red-700 text-white rounded-xl py-3 text-sm font-bold transition-colors min-h-[48px]"
               >
                 Sign Out
               </button>
