@@ -223,6 +223,7 @@ export function UserPage() {
                 <img src={bploLogo} alt="BPLO Logo" className="w-7 h-7 sm:w-9 sm:h-9 object-contain" />
               </div>
               <div>
+                <h1 className="font-black text-sm sm:text-lg leading-tight tracking-tight">Stall Reservation</h1>
               </div>
             </div>
             <div className="flex items-center gap-2">
