@@ -1249,6 +1249,7 @@ app.get('/api/admin/vendors/:id/reservation-count', authAdmin, async (req, res, 
     } catch {}
     try {
       const [as_] = await pool.query('SELECT COUNT(*) AS cnt FROM all_stalls_reservations WHERE vendor_id = ?', [req.params.id]);
+      count += as_[0]?.cnt || 0;
     res.json({ count });
   } catch (err) {
     next(err);
