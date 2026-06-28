@@ -276,7 +276,6 @@ export function UserPage() {
                 </h2>
                 <p className="text-xs text-slate-500 mt-0.5">Click on any stall to view details and availability</p>
               </div>
-              <div className="flex items-center gap-4">
                 <div className="flex items-center gap-4 text-[11px] text-slate-500 hidden sm:flex">
                   <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-green-500 inline-block" />Available</span>
                   <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-amber-400 inline-block" />Pending</span>
