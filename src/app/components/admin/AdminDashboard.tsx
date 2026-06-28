@@ -294,7 +294,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                       <span>Admin Panel</span>
                     </button>
                     <button
-                      <Database className="w-4 h-4 text-gray-400" />
                       <span>Reset All Data</span>
                     </button>
                     <button
