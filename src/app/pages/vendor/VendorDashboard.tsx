@@ -113,14 +113,6 @@ export function VendorDashboard({ vendor, onLogout }: VendorDashboardProps) {
             </div>
           </div>
           <div className="flex items-center gap-1.5 sm:gap-2">
-            {/* Browse Stalls link - visible on mobile */}
-            <a
-              href="/"
-              className="sm:hidden flex items-center gap-1 px-2 py-1.5 text-[10px] font-semibold text-white bg-white/10 hover:bg-white/20 rounded-lg ring-1 ring-white/15 transition-colors"
-            >
-              <ExternalLink className="w-3 h-3" />
-              Stalls
-            </a>
             {/* Profile Menu */}
             <div className="relative" ref={profileMenuRef}>
               <button
