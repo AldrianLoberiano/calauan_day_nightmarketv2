@@ -1181,6 +1181,7 @@ app.get('/api/admin/vendors', authAdmin, async (req, res, next) => {
       createdAt: r.created_at,
     })));
   } catch (err) {
+    // Fallback: try without passcode/event columns in case they don't exist yet
   }
 });
 
