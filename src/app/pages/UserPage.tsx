@@ -277,6 +277,7 @@ export function UserPage() {
                 <p className="text-xs text-slate-500 mt-0.5">Click on any stall to view details and availability</p>
               </div>
               <div className="flex items-center gap-3 sm:gap-4">
+                <div className="flex items-center gap-2.5 sm:gap-4 text-[10px] sm:text-[11px] text-slate-500">
                 </div>
               </div>
             </div>
