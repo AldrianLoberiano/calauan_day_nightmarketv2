@@ -233,6 +233,7 @@ export function UserPage() {
                 className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-[11px] sm:text-xs font-semibold text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl ring-1 ring-white/15 transition-colors"
               >
                 <Store className="w-3.5 h-3.5" />
+                <span className="hidden xs:inline">Vendor</span>
               </a>
               <div className="text-xs text-blue-100 font-semibold bg-white/10 backdrop-blur-sm rounded-xl px-3 py-1.5 ring-1 ring-white/15">
                 {now.toLocaleDateString([], { year: 'numeric', month: 'short', day: '2-digit' })}
