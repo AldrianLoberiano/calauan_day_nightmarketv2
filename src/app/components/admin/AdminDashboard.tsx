@@ -294,6 +294,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                       <span>Admin Panel</span>
                     </button>
                     <button
+                      onClick={() => { setShowAccountMenu(false); setShowSettingsModal(true); }}
                       className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-200 hover:bg-white/10 transition-colors"
                     >
                       <Settings className="w-4 h-4 text-gray-400" />
