@@ -1175,7 +1175,6 @@ app.get('/api/admin/vendors', authAdmin, async (req, res, next) => {
       contactNumber: r.contact_number,
       businessName: r.business_name,
       email: r.email,
-      passcode: r.passcode,
       event: r.event,
       status: r.status,
       createdAt: r.created_at,
