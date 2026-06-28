@@ -276,7 +276,6 @@ export function UserPage() {
                 </h2>
                 <p className="text-xs text-slate-500 mt-0.5">Click on any stall to view details and availability</p>
               </div>
-                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-amber-400 inline-block" />Pending</span>
                   <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-red-500 inline-block" />Reserved</span>
                   <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-slate-400 inline-block" />Occupied</span>
                 </div>
