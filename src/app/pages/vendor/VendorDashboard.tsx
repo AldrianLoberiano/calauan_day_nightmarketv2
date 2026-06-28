@@ -100,19 +100,27 @@ export function VendorDashboard({ vendor, onLogout }: VendorDashboardProps) {
           }}
         />
         <div className="absolute inset-0 bg-slate-900/30 pointer-events-none" />
-        <div className="relative max-w-[1600px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden">
-              <img src={bploLogo} alt="Logo" className="w-9 h-9 object-contain" />
+        <div className="relative max-w-[1600px] mx-auto px-3 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center overflow-hidden shrink-0">
+              <img src={bploLogo} alt="Logo" className="w-7 h-7 sm:w-9 sm:h-9 object-contain" />
             </div>
             <div>
-              <h1 className="font-black text-base sm:text-lg leading-tight tracking-tight">BPLO Night Market</h1>
-              <p className="text-purple-200 text-xs hidden sm:block font-medium">
+              <h1 className="font-black text-sm sm:text-lg leading-tight tracking-tight">BPLO Night Market</h1>
+              <p className="text-purple-200 text-[10px] sm:text-xs hidden sm:block font-medium">
                 {vendor.event ? `${vendor.event} Vendor` : 'Vendor Portal'}
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            {/* Browse Stalls link - visible on mobile */}
+            <a
+              href="/"
+              className="sm:hidden flex items-center gap-1 px-2 py-1.5 text-[10px] font-semibold text-white bg-white/10 hover:bg-white/20 rounded-lg ring-1 ring-white/15 transition-colors"
+            >
+              <ExternalLink className="w-3 h-3" />
+              Stalls
+            </a>
             {/* Profile Menu */}
             <div className="relative" ref={profileMenuRef}>
               <button
@@ -174,10 +182,10 @@ export function VendorDashboard({ vendor, onLogout }: VendorDashboardProps) {
 
       <main className="max-w-[1600px] mx-auto px-4 sm:px-6 py-6 space-y-6">
         {/* Welcome Banner */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 relative overflow-hidden">
+        <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 relative overflow-hidden">
           <div className="relative">
-            <h2 className="text-xl sm:text-2xl font-black text-slate-800">Welcome, {vendor.fullName}</h2>
-            <p className="text-slate-500 text-sm mt-0.5">View and manage your stall reservations</p>
+            <h2 className="text-lg sm:text-2xl font-black text-slate-800">Welcome, {vendor.fullName}</h2>
+            <p className="text-slate-500 text-xs sm:text-sm mt-0.5">View and manage your stall reservations</p>
             {vendor.event && (
               <div className="flex items-center gap-1.5 mt-2 text-slate-500 text-xs">
                 <Store className="w-3.5 h-3.5" />
@@ -194,42 +202,42 @@ export function VendorDashboard({ vendor, onLogout }: VendorDashboardProps) {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-          <div className="bg-white rounded-2xl border border-slate-200 p-4 hover:shadow-md transition-shadow">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center">
-                <ClipboardList className="w-4 h-4 text-black" />
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
+          <div className="bg-white rounded-2xl border border-slate-200 p-3 sm:p-4 hover:shadow-md transition-shadow">
+            <div className="flex items-center gap-2 mb-1.5 sm:mb-2">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 bg-slate-100 rounded-lg flex items-center justify-center">
+                <ClipboardList className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-black" />
               </div>
-              <p className="text-[11px] font-bold text-black uppercase tracking-wider">Total</p>
+              <p className="text-[10px] sm:text-[11px] font-bold text-black uppercase tracking-wider">Total</p>
             </div>
-            <p className="text-2xl font-black text-black">{stats.total}</p>
+            <p className="text-xl sm:text-2xl font-black text-black">{stats.total}</p>
           </div>
-          <div className="bg-white rounded-2xl border border-slate-200 p-4 hover:shadow-md transition-shadow">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center">
-                <Clock className="w-4 h-4 text-black" />
+          <div className="bg-white rounded-2xl border border-slate-200 p-3 sm:p-4 hover:shadow-md transition-shadow">
+            <div className="flex items-center gap-2 mb-1.5 sm:mb-2">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 bg-slate-100 rounded-lg flex items-center justify-center">
+                <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-black" />
               </div>
-              <p className="text-[11px] font-bold text-black uppercase tracking-wider">Pending</p>
+              <p className="text-[10px] sm:text-[11px] font-bold text-black uppercase tracking-wider">Pending</p>
             </div>
-            <p className="text-2xl font-black text-black">{stats.pending}</p>
+            <p className="text-xl sm:text-2xl font-black text-black">{stats.pending}</p>
           </div>
-          <div className="bg-white rounded-2xl border border-slate-200 p-4 hover:shadow-md transition-shadow">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center">
-                <CheckCircle className="w-4 h-4 text-black" />
+          <div className="bg-white rounded-2xl border border-slate-200 p-3 sm:p-4 hover:shadow-md transition-shadow">
+            <div className="flex items-center gap-2 mb-1.5 sm:mb-2">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 bg-slate-100 rounded-lg flex items-center justify-center">
+                <CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-black" />
               </div>
-              <p className="text-[11px] font-bold text-black uppercase tracking-wider">Approved</p>
+              <p className="text-[10px] sm:text-[11px] font-bold text-black uppercase tracking-wider">Approved</p>
             </div>
-            <p className="text-2xl font-black text-black">{stats.approved}</p>
+            <p className="text-xl sm:text-2xl font-black text-black">{stats.approved}</p>
           </div>
-          <div className="bg-white rounded-2xl border border-slate-200 p-4 hover:shadow-md transition-shadow">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center">
-                <Package className="w-4 h-4 text-black" />
+          <div className="bg-white rounded-2xl border border-slate-200 p-3 sm:p-4 hover:shadow-md transition-shadow">
+            <div className="flex items-center gap-2 mb-1.5 sm:mb-2">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 bg-slate-100 rounded-lg flex items-center justify-center">
+                <Package className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-black" />
               </div>
-              <p className="text-[11px] font-bold text-black uppercase tracking-wider">Occupied</p>
+              <p className="text-[10px] sm:text-[11px] font-bold text-black uppercase tracking-wider">Occupied</p>
             </div>
-            <p className="text-2xl font-black text-black">{stats.occupied}</p>
+            <p className="text-xl sm:text-2xl font-black text-black">{stats.occupied}</p>
           </div>
         </div>
 
