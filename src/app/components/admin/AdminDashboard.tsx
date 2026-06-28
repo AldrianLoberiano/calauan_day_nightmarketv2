@@ -192,7 +192,6 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   }, [reservations, stalls, stallsDesignMap, stallsAllStalls]);
 
   const filteredReservations = useMemo(() => {
-    const source = activeTab === 'reservations-b' ? 'all_stalls' : 'design_map';
     return reservations
       .filter(r => {
         if (activeTab === 'reservations-a' && r.source !== 'design_map') return false;
@@ -214,7 +213,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   }, [reservations, filterStatus, searchQuery, activeTab]);
 
   function getStallForReservation(res: Reservation): Stall | undefined {
-    const source = (res as any).source;
+    const source = res.source;
     if (source === 'all_stalls') {
       return stallsAllStalls.find(s => s.id === res.stallId);
     }
