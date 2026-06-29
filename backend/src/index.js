@@ -17,6 +17,9 @@ if (!JWT_SECRET) {
   process.exit(1);
 }
 const JWT_EXPIRES_IN = '7d';
+const DEFAULT_ADMIN_PASSWORD = process.env.DEFAULT_ADMIN_PASSWORD || 'admin123';
+const DEFAULT_VENDOR_PASSWORD = process.env.DEFAULT_VENDOR_PASSWORD || 'vendor123';
+const NEW_VENDOR_PASSWORD = process.env.NEW_VENDOR_PASSWORD || 'changeme';
 
 const VALID_SOURCES = ['design_map', 'all_stalls'];
 
@@ -191,12 +194,12 @@ async function ensureDefaultVendor() {
   try {
     const [rows] = await pool.query('SELECT id FROM vendor_users WHERE username = ? LIMIT 1', ['vendor']);
     if (rows.length === 0) {
-      const hash = await bcrypt.hash('vendor123', 10);
+      const hash = await bcrypt.hash(DEFAULT_VENDOR_PASSWORD, 10);
       await pool.query(
         'INSERT INTO vendor_users (username, password_hash, full_name, contact_number, business_name) VALUES (?, ?, ?, ?, ?)',
         ['vendor', hash, 'Sample Vendor', '09171234567', 'Sample Business']
       );
-      console.log('Default vendor account created: vendor / vendor123');
+      console.log(`Default vendor account created: vendor / ${DEFAULT_VENDOR_PASSWORD}`);
     }
   } catch (e) {
     console.warn('Could not ensure default vendor:', e?.message || e);
@@ -243,7 +246,7 @@ async function ensureDefaultAdmin() {
 
     const [rows] = await pool.query('SELECT id FROM admin_users WHERE username = ? LIMIT 1', ['admin']);
     if (rows.length === 0) {
-      const hash = await bcrypt.hash('admin123', 10);
+      const hash = await bcrypt.hash(DEFAULT_ADMIN_PASSWORD, 10);
       await pool.query(
         'INSERT INTO admin_users (username, password_hash) VALUES (?, ?)',
         ['admin', hash]
