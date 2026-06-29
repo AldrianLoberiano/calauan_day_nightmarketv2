@@ -30,7 +30,7 @@ A full-stack stall reservation system for the Calauan Day & Night Market. Built 
 
 ### Admin
 
-- JWT-based authentication (real tokens, not localStorage flags)
+- JWT-based authentication with **image CAPTCHA verification** (prevents bot logins)
 - Dashboard with charts, reservation management, and vendor overview
 - **Real-time reservation updates** (3-second polling + visibility/focus refresh)
 
@@ -76,11 +76,13 @@ A full-stack stall reservation system for the Calauan Day & Night Market. Built 
 
 - Admin passwords stored with **bcrypt** hashing (migrated from plaintext)
 - **JWT_SECRET** required in `.env` — server exits on startup if missing
+- **Image CAPTCHA** on admin login (client-side validated, prevents automated attacks)
 - **Rate limiting** on admin login, vendor login, and reservation creation
 - **CORS restricted** in production via `CORS_ORIGIN` env var
 - `x-powered-by` header disabled; trust proxy enabled
 - Status validation on admin vendor updates
 - Source parameter validated against allowlist on all stall/reservation endpoints
+- Default passwords configurable via environment variables (not hardcoded)
 
 ---
 
