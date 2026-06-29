@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   X, User, Phone, MapPin, Clock, Building2, CheckCircle, CheckCircle2,
   XCircle, Package, Calendar, ShieldCheck, Tag
@@ -72,17 +72,28 @@ export function ReservationDetailsModal({
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  function scheduleTimeout(fn: () => void, ms: number) {
+    const id = setTimeout(fn, ms);
+    timers.current.push(id);
+    return id;
+  }
+
+  useEffect(() => {
+    return () => timers.current.forEach(clearTimeout);
+  }, []);
 
   function showSuccess(msg: string) {
     setSuccessMessage(msg);
     setErrorMessage('');
-    setTimeout(() => setSuccessMessage(''), 3000);
+    scheduleTimeout(() => setSuccessMessage(''), 3000);
   }
 
   function showError(msg: string) {
     setErrorMessage(msg);
     setSuccessMessage('');
-    setTimeout(() => setErrorMessage(''), 3000);
+    scheduleTimeout(() => setErrorMessage(''), 3000);
   }
 
   useEffect(() => {
@@ -158,7 +169,7 @@ export function ReservationDetailsModal({
       showSuccess('Reservation deleted.');
       onUpdate();
       onDelete?.();
-      setTimeout(() => onClose(), 1500);
+      scheduleTimeout(() => onClose(), 1500);
     } catch {
       showError('Failed to delete reservation. Please try again.');
     }
