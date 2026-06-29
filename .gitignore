@@ -1,7 +1,26 @@
-node_modules
-dist
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build output
+dist/
+**/dist/
+
+# Environment files
 .env
-database/*.db
-database/*.sqlite
-database/*.sqlite3
-database/vendor_schema.sql
+**/.env
+
+# Database files
+**/database/*.db
+**/database/*.sqlite
+**/database/*.sqlite3
+**/database/vendor_schema.sql
+
+# IDE
+.vscode/
+
+# Vite
+**/.vite/
+
+# Server
+server/
