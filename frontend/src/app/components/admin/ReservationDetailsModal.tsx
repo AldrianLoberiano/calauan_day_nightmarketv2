@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import { Reservation, Stall } from '../../types';
 import { formatDate, getDaysRemaining, isExpired, getDisplayStallId } from '../../utils/helpers';
-import { approveReservation, rejectReservation, markAsOccupied, updateReservationAdmin, deleteReservation } from '../../utils/storage';
+import { approveReservation, rejectReservation, markAsOccupied, updateReservation, deleteReservation } from '../../utils/storage';
 
 interface ReservationDetailsModalProps {
   reservation: Reservation;
@@ -87,30 +87,39 @@ export function ReservationDetailsModal({
 
   async function handleMarkOccupied() {
     setIsProcessing(true);
-    await new Promise(r => setTimeout(r, 600));
-    await markAsOccupied(reservation.id);
+    try {
+      await markAsOccupied(reservation.id);
+      showSuccess('Marked as occupied!');
+      onUpdate();
+    } catch {
+      showSuccess('Failed to mark as occupied. Please try again.');
+    }
     setIsProcessing(false);
-    showSuccess('Marked as occupied!');
-    onUpdate();
   }
 
   async function handleApprove() {
     setIsProcessing(true);
-    await new Promise(r => setTimeout(r, 600));
-    await approveReservation(reservation.id);
+    try {
+      await approveReservation(reservation.id);
+      showSuccess('Reservation approved!');
+      onUpdate();
+    } catch {
+      showSuccess('Failed to approve. Please try again.');
+    }
     setIsProcessing(false);
-    showSuccess('Reservation approved!');
-    onUpdate();
   }
 
   async function handleReject() {
     setIsProcessing(true);
-    await new Promise(r => setTimeout(r, 600));
-    await rejectReservation(reservation.id, rejectNotes || 'Rejected by admin.');
+    try {
+      await rejectReservation(reservation.id, rejectNotes || 'Rejected by admin.');
+      setShowRejectForm(false);
+      showSuccess('Reservation rejected.');
+      onUpdate();
+    } catch {
+      showSuccess('Failed to reject. Please try again.');
+    }
     setIsProcessing(false);
-    setShowRejectForm(false);
-    showSuccess('Reservation rejected.');
-    onUpdate();
   }
 
   async function handleSaveChanges(e?: React.FormEvent) {
@@ -120,7 +129,7 @@ export function ReservationDetailsModal({
       ...editData,
       updatedAt: new Date().toISOString(),
     };
-    await updateReservationAdmin(updated);
+    await updateReservation(updated);
     await new Promise(r => setTimeout(r, 400));
     setIsProcessing(false);
     setIsEditing(false);
