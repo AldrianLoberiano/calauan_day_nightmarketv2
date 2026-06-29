@@ -48,6 +48,26 @@ function rateLimit(req, res, next) {
   next();
 }
 
+// --- Rate limiter for reservation creation ---
+const reservationAttempts = new Map();
+const RESERVATION_RATE_LIMIT = 5;
+
+function reservationRateLimit(req, res, next) {
+  const ip = req.ip || req.connection.remoteAddress;
+  const key = `res:${ip}`;
+  const now = Date.now();
+  const record = reservationAttempts.get(key);
+  if (!record || now - record.start > RATE_LIMIT_WINDOW) {
+    reservationAttempts.set(key, { start: now, count: 1 });
+    return next();
+  }
+  record.count++;
+  if (record.count > RESERVATION_RATE_LIMIT) {
+    return res.status(429).json({ message: 'Too many reservations. Please wait before creating another.' });
+  }
+  next();
+}
+
 // --- Simple SSE (Server-Sent Events) broadcaster for real-time updates ---
 const sseClients = new Set();
 const sseHeartbeats = new Map();
@@ -728,13 +748,22 @@ app.get('/api/reservations/all-stalls', async (req, res, next) => {
   }
 });
 
-app.post('/api/reservations', authVendor, async (req, res, next) => {
+app.post('/api/reservations', authVendor, reservationRateLimit, async (req, res, next) => {
   const connection = await pool.getConnection();
   try {
     const payload = req.body;
     const source = payload.source;
     if (source && !VALID_SOURCES.includes(source)) {
       return res.status(400).json({ message: 'Invalid source parameter' });
+    }
+    if (!payload.fullName || typeof payload.fullName !== 'string' || payload.fullName.trim().length === 0) {
+      return res.status(400).json({ message: 'Full name is required' });
+    }
+    if (!payload.contactNumber || typeof payload.contactNumber !== 'string' || payload.contactNumber.trim().length === 0) {
+      return res.status(400).json({ message: 'Contact number is required' });
+    }
+    if (!payload.stallId || typeof payload.stallId !== 'string') {
+      return res.status(400).json({ message: 'Stall ID is required' });
     }
     const now = new Date();
     const expiresAt = new Date(now);
