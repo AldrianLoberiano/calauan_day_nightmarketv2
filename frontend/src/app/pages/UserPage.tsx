@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Search, ChevronDown, Store, MapPin, Clock, ShieldCheck, LayoutGrid, Map as MapIcon } from 'lucide-react';
 import { Stall, Reservation, VendorEvent } from '../types';
 const bploLogo = '/images/bplo-modified.png';
@@ -16,7 +16,6 @@ export function UserPage() {
   const [reserveStall, setReserveStall] = useState<Stall | null>(null);
   const [receiptData, setReceiptData] = useState<{ reservation: Reservation; stall: Stall } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [now, setNow] = useState(new Date());
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCategory, setFilterCategory] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
@@ -71,13 +70,9 @@ export function UserPage() {
     es.addEventListener('reservation-created', reload as EventListener);
     es.addEventListener('reservation-updated', reload as EventListener);
     es.addEventListener('reservation-deleted', reload as EventListener);
-    es.onerror = () => {
-      // EventSource will auto-retry; no-op here. Could add backoff/logging.
-    };
+    es.onerror = () => {};
 
-    const interval = setInterval(() => setNow(new Date()), 1000);
     return () => {
-      clearInterval(interval);
       try { es.close(); } catch (e) {}
     };
   }, [source]);
@@ -111,7 +106,8 @@ export function UserPage() {
     if (category === 'Cooked Food' || category === 'Vegetables & Fruits') return 'Food';
     return 'Non-Food';
   }
-  const filteredStalls = safeStalls.filter(s => {
+
+  const filteredStalls = useMemo(() => safeStalls.filter(s => {
     if (filterStatus !== 'all' && s.status !== filterStatus) return false;
     if (filterCategory !== 'all' && mapCategory(s.category) !== filterCategory) return false;
     if (searchQuery.trim()) {
@@ -119,7 +115,7 @@ export function UserPage() {
       return s.id.toLowerCase().includes(q) || s.category.toLowerCase().includes(q) || s.description.toLowerCase().includes(q);
     }
     return true;
-  });
+  }), [safeStalls, filterStatus, filterCategory, searchQuery]);
 
   const directoryLayout = [
     { label: 'A', start: 1, end: 47, displayStart: 1 },
@@ -237,9 +233,7 @@ export function UserPage() {
                 <span className="xs:hidden">Login</span>
               </a>
               <div className="text-[10px] sm:text-xs text-blue-100 font-semibold bg-white/10 backdrop-blur-sm rounded-xl px-2 sm:px-3 py-1.5 ring-1 ring-white/15 hidden sm:block">
-                {now.toLocaleDateString([], { year: 'numeric', month: 'short', day: '2-digit' })}
-                <span className="mx-1.5 text-blue-200/80">|</span>
-                {now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                <LiveClock />
               </div>
             </div>
           </div>
@@ -664,5 +658,20 @@ function StallBrowserCard({ stall, onClick, displayId }: { stall: Stall; onClick
         View details →
       </p>
     </button>
+  );
+}
+
+function LiveClock() {
+  const [now, setNow] = useState(new Date());
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <>
+      {now.toLocaleDateString([], { year: 'numeric', month: 'short', day: '2-digit' })}
+      <span className="mx-1.5 text-blue-200/80">|</span>
+      {now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+    </>
   );
 }
