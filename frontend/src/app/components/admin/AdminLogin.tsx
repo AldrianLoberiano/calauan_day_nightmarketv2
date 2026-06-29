@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Lock, User, Eye, EyeOff, ShieldCheck, AlertCircle } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Lock, User, Eye, EyeOff, ShieldCheck, AlertCircle, RefreshCw } from 'lucide-react';
 
 const bploLogo = '/images/bplo-modified.png';
 const loginWallpaper = '/images/wallpaper.png';
@@ -9,16 +9,94 @@ interface AdminLoginProps {
   onLoginSuccess: (token: string) => void;
 }
 
+function generateCaptcha(): string {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+  let result = '';
+  for (let i = 0; i < 6; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
+
 export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [captchaText, setCaptchaText] = useState('');
+  const [captchaInput, setCaptchaInput] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    refreshCaptcha();
+  }, []);
+
+  function refreshCaptcha() {
+    const text = generateCaptcha();
+    setCaptchaText(text);
+    setCaptchaInput('');
+    setTimeout(() => drawCaptcha(text), 0);
+  }
+
+  function drawCaptcha(text: string) {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const width = canvas.width;
+    const height = canvas.height;
+
+    // Background
+    ctx.fillStyle = '#f1f5f9';
+    ctx.fillRect(0, 0, width, height);
+
+    // Noise lines
+    for (let i = 0; i < 5; i++) {
+      ctx.strokeStyle = `hsl(${Math.random() * 360}, 50%, 70%)`;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(Math.random() * width, Math.random() * height);
+      ctx.lineTo(Math.random() * width, Math.random() * height);
+      ctx.stroke();
+    }
+
+    // Noise dots
+    for (let i = 0; i < 30; i++) {
+      ctx.fillStyle = `hsl(${Math.random() * 360}, 50%, 60%)`;
+      ctx.beginPath();
+      ctx.arc(Math.random() * width, Math.random() * height, 1.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Characters
+    const fontSize = 28;
+    ctx.font = `bold ${fontSize}px monospace`;
+    ctx.textBaseline = 'middle';
+    const charWidth = width / (text.length + 1);
+    for (let i = 0; i < text.length; i++) {
+      ctx.fillStyle = `hsl(${Math.random() * 360}, 60%, 35%)`;
+      ctx.save();
+      const x = charWidth * (i + 1);
+      const y = height / 2 + (Math.random() - 0.5) * 10;
+      ctx.translate(x, y);
+      ctx.rotate((Math.random() - 0.5) * 0.4);
+      ctx.fillText(text[i], 0, 0);
+      ctx.restore();
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
+
+    if (captchaInput !== captchaText) {
+      setError('Captcha verification failed. Please try again.');
+      refreshCaptcha();
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -117,6 +195,36 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
                 </div>
               </div>
 
+              {/* CAPTCHA */}
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Verification Code</label>
+                <div className="flex items-center gap-2">
+                  <canvas
+                    ref={canvasRef}
+                    width={160}
+                    height={50}
+                    className="rounded-xl border border-slate-200 shrink-0"
+                  />
+                  <button
+                    type="button"
+                    onClick={refreshCaptcha}
+                    className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-xl transition-colors shrink-0"
+                    title="Refresh captcha"
+                  >
+                    <RefreshCw className="w-4 h-4" />
+                  </button>
+                </div>
+                <input
+                  type="text"
+                  value={captchaInput}
+                  onChange={(e) => setCaptchaInput(e.target.value)}
+                  placeholder="Type the code above"
+                  className="w-full px-4 py-2.5 mt-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-slate-50 focus:bg-white transition-all disabled:opacity-60"
+                  disabled={isLoading}
+                  autoComplete="off"
+                />
+              </div>
+
               {/* Error message */}
               {error && (
                 <div className="flex items-start gap-2 bg-red-50 border border-red-200 rounded-xl p-3">
@@ -128,7 +236,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
               {/* Submit */}
               <button
                 type="submit"
-                disabled={isLoading || !username || !password}
+                disabled={isLoading || !username || !password || !captchaInput}
                 className="w-full bg-blue-700 hover:bg-blue-800 disabled:bg-slate-300 disabled:cursor-not-allowed text-white rounded-xl py-2.5 font-bold text-sm transition-all mt-2 flex items-center justify-center gap-2"
               >
                 {isLoading ? (
