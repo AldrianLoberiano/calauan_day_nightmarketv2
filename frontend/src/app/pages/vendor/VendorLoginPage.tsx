@@ -22,8 +22,6 @@ export function VendorLoginPage({ onLoginSuccess }: VendorLoginPageProps) {
     setError('');
     setIsLoading(true);
 
-    await new Promise(r => setTimeout(r, 600));
-
     try {
       const result = await vendorLoginPasscode(email.trim(), passcode.trim());
       setVendorToken(result.token);
