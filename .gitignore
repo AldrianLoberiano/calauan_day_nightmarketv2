@@ -16,10 +16,7 @@ dist/
 **/.env.*.local
 
 # Database files
-**/database/*.db
-**/database/*.sqlite
-**/database/*.sqlite3
-**/database/*.sql
+**/database/
 
 # IDE
 .vscode/
@@ -48,3 +45,5 @@ tmp/
 temp/
 **/tmp/
 **/temp/
+backend/database/map_a_full_schema.sql
+backend/database/map_b_full_schema.sql
