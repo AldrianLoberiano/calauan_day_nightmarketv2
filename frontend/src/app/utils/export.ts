@@ -17,7 +17,7 @@ interface ExportRow {
   address: string;
   status: string;
   category: string;
-  price: number | string;
+  price?: number | string;
   createdAt: string;
   expiresAt: string;
 }
@@ -29,7 +29,8 @@ function buildExportData(
 ): ExportRow[] {
   return reservations.map(res => {
     const stall = stalls.find(s => s.id === res.stallId);
-    return {
+    const price = res.price ?? stall?.price;
+    const row: ExportRow = {
       reservationNumber: res.reservationNumber,
       stallId: res.stallId,
       displayStallId: getDisplayStallId(res.stallId),
@@ -42,32 +43,38 @@ function buildExportData(
       address: res.address || '',
       status: res.status.charAt(0).toUpperCase() + res.status.slice(1),
       category: stall ? getDisplayCategoryById(res.stallId, stall.category) : '',
-      price: res.price ?? stall?.price ?? '',
       createdAt: new Date(res.createdAt).toLocaleDateString('en-PH'),
       expiresAt: new Date(res.expiresAt).toLocaleDateString('en-PH'),
     };
+    if (price != null && price !== '') {
+      row.price = price;
+    }
+    return row;
   });
 }
 
-const HEADERS = [
-  'Reservation No.',
-  'Stall ID',
-  'Section',
-  'Full Name',
-  'Contact Number',
-  'Business Name',
-  'DTI Number',
-  'Cedula Number',
-  'Address',
-  'Status',
-  'Category',
-  'Price',
-  'Date Created',
-  'Expiry Date',
-];
+function getHeaders(data: ExportRow[]): string[] {
+  const base = [
+    'Reservation No.',
+    'Stall ID',
+    'Section',
+    'Full Name',
+    'Contact Number',
+    'Business Name',
+    'DTI Number',
+    'Cedula Number',
+    'Address',
+    'Status',
+    'Category',
+  ];
+  const hasPrice = data.some(r => r.price != null && r.price !== '');
+  if (hasPrice) base.push('Price');
+  base.push('Date Created', 'Expiry Date');
+  return base;
+}
 
-function rowToArray(row: ExportRow): (string | number)[] {
-  return [
+function rowToArray(row: ExportRow, includePrice: boolean): (string | number)[] {
+  const arr: (string | number)[] = [
     row.reservationNumber,
     row.displayStallId,
     row.section,
@@ -79,10 +86,10 @@ function rowToArray(row: ExportRow): (string | number)[] {
     row.address,
     row.status,
     row.category,
-    row.price,
-    row.createdAt,
-    row.expiresAt,
   ];
+  if (includePrice) arr.push(row.price ?? '');
+  arr.push(row.createdAt, row.expiresAt);
+  return arr;
 }
 
 // ─── CSV Export ───────────────────────────────────────────
@@ -92,10 +99,12 @@ export function exportToCSV(
   mapLabel: string
 ) {
   const data = buildExportData(reservations, stalls, mapLabel);
-  const rows = data.map(rowToArray);
+  const headers = getHeaders(data);
+  const includePrice = headers.includes('Price');
+  const rows = data.map(r => rowToArray(r, includePrice));
 
   const csvContent = [
-    HEADERS.join(','),
+    headers.join(','),
     ...rows.map(row =>
       row.map(cell => {
         const str = String(cell ?? '');
@@ -117,12 +126,13 @@ export function exportToExcel(
   mapLabel: string
 ) {
   const data = buildExportData(reservations, stalls, mapLabel);
-  const rows = data.map(rowToArray);
+  const headers = getHeaders(data);
+  const includePrice = headers.includes('Price');
+  const rows = data.map(r => rowToArray(r, includePrice));
 
-  const ws = XLSX.utils.aoa_to_sheet([HEADERS, ...rows]);
+  const ws = XLSX.utils.aoa_to_sheet([headers, ...rows]);
 
-  // Set column widths
-  ws['!cols'] = [
+  const baseCols = [
     { wch: 22 }, // Reservation No.
     { wch: 10 }, // Stall ID
     { wch: 10 }, // Section
@@ -134,10 +144,10 @@ export function exportToExcel(
     { wch: 30 }, // Address
     { wch: 10 }, // Status
     { wch: 20 }, // Category
-    { wch: 10 }, // Price
-    { wch: 14 }, // Created
-    { wch: 14 }, // Expires
   ];
+  if (includePrice) baseCols.push({ wch: 10 }); // Price
+  baseCols.push({ wch: 14 }, { wch: 14 }); // Created, Expires
+  ws['!cols'] = baseCols;
 
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'Reservations');
@@ -154,24 +164,26 @@ export async function exportToWord(
   mapLabel: string
 ) {
   const data = buildExportData(reservations, stalls, mapLabel);
+  const headers = getHeaders(data);
+  const includePrice = headers.includes('Price');
 
   const headerRow = new TableRow({
     tableHeader: true,
-    children: HEADERS.map(h =>
+    children: headers.map(h =>
       new TableCell({
         children: [new Paragraph({ text: h, bold: true, size: 18 })],
         shading: { type: ShadingType.SOLID, color: '1e40af', fill: '1e40af' },
-        width: { size: 100 / HEADERS.length, type: WidthType.PERCENTAGE },
+        width: { size: 100 / headers.length, type: WidthType.PERCENTAGE },
       })
     ),
   });
 
   const dataRows = data.map(row =>
     new TableRow({
-      children: rowToArray(row).map(cell =>
+      children: rowToArray(row, includePrice).map(cell =>
         new TableCell({
           children: [new Paragraph({ text: String(cell ?? ''), size: 18 })],
-          width: { size: 100 / HEADERS.length, type: WidthType.PERCENTAGE },
+          width: { size: 100 / headers.length, type: WidthType.PERCENTAGE },
         })
       ),
     })
