@@ -24,7 +24,19 @@ export function VendorDashboard({ vendor, onLogout }: VendorDashboardProps) {
   const profileMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    loadReservations();
+    let active = true;
+    async function run() {
+      setIsLoading(true);
+      try {
+        const data = await getVendorReservations();
+        if (active) setReservations(data);
+      } catch (err) {
+        console.error('Failed to load reservations:', err);
+      }
+      if (active) setIsLoading(false);
+    }
+    void run();
+    return () => { active = false; };
   }, []);
 
   useEffect(() => {
