@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { X, CheckCircle, MapPin, Phone, User, Calendar, Building2, Clock, Download, Printer, FileText } from 'lucide-react';
 import { Reservation, Stall } from '../../types';
 import { formatDate, getDisplayStallId, getDisplaySectionByCategory, getDisplayCategoryById } from '../../utils/helpers';
@@ -10,6 +10,16 @@ interface ReceiptModalProps {
 }
 
 export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps) {
+  useEffect(() => {
+    const id = 'receipt-print-styles';
+    if (!document.getElementById(id)) {
+      const style = document.createElement('style');
+      style.id = id;
+      style.textContent = `@media print{.receipt-modal-overlay,.receipt-modal-overlay *{visibility:visible!important}.receipt-modal-overlay{position:static!important;inset:auto!important;display:block!important;padding:0!important;background:#fff!important;backdrop-filter:none!important}.receipt-modal-shell{width:100%!important;max-width:none!important;max-height:none!important;overflow:visible!important;box-shadow:none!important;border-radius:0!important}.receipt-modal-header,.receipt-modal-actions,.receipt-modal-close{display:none!important}.receipt-modal-printable{padding:6mm!important;font-size:11px!important;line-height:1.35!important}.receipt-modal-printable *{color:#000!important;background:transparent!important;box-shadow:none!important}.receipt-modal-printable svg{display:none!important}.receipt-modal-printable .p-4,.receipt-modal-printable .p-5,.receipt-modal-printable .py-5,.receipt-modal-printable .px-4{padding:4px!important}.receipt-modal-printable .text-3xl{font-size:20px!important}.receipt-modal-printable{page-break-inside:avoid}.receipt-modal-printable *{-webkit-print-color-adjust:exact;print-color-adjust:exact}}`;
+      document.head.appendChild(style);
+    }
+  }, []);
+
   if (!reservation || !stall) return null;
 
   const displayStallId = getDisplayStallId(stall.id);
@@ -40,45 +50,6 @@ export function ReceiptModal({ reservation, stall, onClose }: ReceiptModalProps)
       className="receipt-modal-overlay fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
-      <style>{`
-        @media print {
-          @page { size: 8.5in 11in; margin: 12mm; }
-          body { background: #fff !important; }
-          body * { visibility: hidden !important; }
-          .receipt-modal-overlay,
-          .receipt-modal-overlay * { visibility: visible !important; }
-          .receipt-modal-overlay {
-            position: static !important; inset: auto !important;
-            display: block !important; padding: 0 !important;
-            background: #fff !important; backdrop-filter: none !important;
-          }
-          .receipt-modal-shell {
-            width: 100% !important; max-width: none !important;
-            max-height: none !important; overflow: visible !important;
-            box-shadow: none !important; border-radius: 0 !important;
-          }
-          .receipt-modal-header, .receipt-modal-actions, .receipt-modal-close {
-            display: none !important;
-          }
-          .receipt-modal-printable {
-            padding: 6mm !important; font-size: 11px !important;
-            line-height: 1.35 !important;
-          }
-          .receipt-modal-printable * {
-            color: #000 !important; background: transparent !important;
-            box-shadow: none !important;
-          }
-          .receipt-modal-printable svg { display: none !important; }
-          .receipt-modal-printable .p-4,
-          .receipt-modal-printable .p-5,
-          .receipt-modal-printable .py-5,
-          .receipt-modal-printable .px-4 { padding: 4px !important; }
-          .receipt-modal-printable .text-3xl { font-size: 20px !important; }
-          .receipt-modal-printable { page-break-inside: avoid; }
-          .receipt-modal-printable * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-        }
-      `}</style>
-
       <div className="receipt-modal-shell bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl w-full max-w-md max-h-[95vh] overflow-hidden flex flex-col">
 
         {/* Success header */}
