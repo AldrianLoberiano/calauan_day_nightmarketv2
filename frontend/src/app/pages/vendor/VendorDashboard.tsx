@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   LogOut, Clock, CheckCircle, XCircle, Package, ClipboardList,
   MapPin, Store, RefreshCw, ChevronRight, ChevronDown, Eye, User, Phone,
-  Building2, Calendar, AlertTriangle, ExternalLink
+  Building2, Calendar, AlertTriangle, ExternalLink, Tag
 } from 'lucide-react';
 import { VendorUser, Reservation } from '../../types';
 import { getVendorReservations, clearVendorSession, getVendorUser } from '../../utils/storage';
@@ -290,8 +290,10 @@ export function VendorDashboard({ vendor, onLogout }: VendorDashboardProps) {
                               <Calendar className="w-3 h-3" />
                               {formatDate(res.createdAt)}
                             </span>
-                            {res.price != null && (
-                              <span className="text-slate-400">{formatPeso(Number(res.price))}/mo</span>
+                            {res.price != null ? (
+                              <span className="text-green-600 font-bold">{formatPeso(Number(res.price))}</span>
+                            ) : (
+                              <span className="text-amber-600 font-semibold italic">Price to be discussed</span>
                             )}
                           </div>
                         </div>
@@ -336,6 +338,23 @@ export function VendorDashboard({ vendor, onLogout }: VendorDashboardProps) {
                                 </div>
                               </div>
                             )}
+                            <div className={`flex items-start gap-2 rounded-xl p-3 ${
+                              res.price != null
+                                ? 'bg-green-50 border border-green-200'
+                                : 'bg-amber-50 border border-amber-200'
+                            }`}>
+                              <Tag className={`w-4 h-4 shrink-0 mt-0.5 ${
+                                res.price != null ? 'text-green-500' : 'text-amber-500'
+                              }`} />
+                              <div>
+                                <p className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Price</p>
+                                <p className={`text-xs font-bold mt-0.5 ${
+                                  res.price != null ? 'text-green-700' : 'text-amber-700 italic'
+                                }`}>
+                                  {res.price != null ? formatPeso(Number(res.price)) : 'To be discussed'}
+                                </p>
+                              </div>
+                            </div>
                           </div>
 
                           {/* Rejection Reason */}
