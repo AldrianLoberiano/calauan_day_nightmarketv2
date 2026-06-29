@@ -102,7 +102,7 @@ function mapReservation(row) {
     address: row.address,
     status: row.status,
     adminNotes: row.admin_notes,
-    price: row.stall_price != null ? Number(row.stall_price) : undefined,
+    price: row.status !== 'pending' && row.stall_price != null ? Number(row.stall_price) : undefined,
     createdAt: row.created_at,
     expiresAt: row.expires_at,
     updatedAt: row.updated_at,
@@ -138,7 +138,7 @@ function mapViewReservation(row) {
     stallUsageType: row.stall_usage_type,
     status: row.status,
     adminNotes: row.admin_notes,
-    price: row.stall_price != null ? Number(row.stall_price) : undefined,
+    price: row.status !== 'pending' && row.stall_price != null ? Number(row.stall_price) : undefined,
     source: row.source,
     createdAt: row.created_at,
     expiresAt: row.expires_at,
@@ -785,8 +785,6 @@ app.post('/api/reservations', authVendor, async (req, res, next) => {
     const createdReservation = mapViewReservation(reservationRows[0]);
     createdReservation.source = source;
     const createdStall = mapStall(stallRows[0]);
-    // ensure reservation DTO includes the stall price on create
-    if (createdStall && createdStall.price != null) createdReservation.price = createdStall.price;
 
     // Broadcast to SSE clients
     try { sendSseEvent('reservation-created', { reservation: createdReservation, stall: createdStall }); } catch (e) {}
