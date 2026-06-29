@@ -87,7 +87,7 @@ export function VendorManagement() {
 
     try {
       if (editingVendor) {
-        const updateData: any = {
+        const updateData: { fullName: string; contactNumber?: string; businessName?: string; email?: string; event?: string | null } = {
           fullName: formData.fullName,
           contactNumber: formData.contactNumber || undefined,
           businessName: formData.businessName || undefined,
