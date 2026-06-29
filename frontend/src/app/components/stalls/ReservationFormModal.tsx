@@ -117,7 +117,7 @@ export function ReservationFormModal({ stall, onClose, onSuccess, source }: Rese
                 <div className="flex items-center gap-2 mt-2">
                   <span className="text-blue-200 text-xs font-medium">{getDisplayCategoryById(stall.id, stall.category)}</span>
                   <span className="w-1 h-1 rounded-full bg-blue-400" />
-                  <span className="text-white/80 text-xs font-semibold">{formatPeso(stall.price)}</span>
+                  <span className="text-white/80 text-xs font-semibold italic">Price to be discussed</span>
                 </div>
               </div>
               {!isSubmitting && (
