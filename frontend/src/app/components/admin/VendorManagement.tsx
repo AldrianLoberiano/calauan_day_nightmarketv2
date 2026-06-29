@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Users, Plus, Edit3, Trash2, X, AlertCircle, CheckCircle, CheckCircle2,
-  User, Phone, Building2, Mail, Ban, Eye, EyeOff
+  User, Phone, Building2, Mail, Ban, Eye, EyeOff, Search
 } from 'lucide-react';
 import { VendorUser } from '../../types';
 import { getVendors, createVendor, updateVendor, deleteVendor, getVendorReservationCount } from '../../utils/storage';
@@ -34,6 +34,8 @@ export function VendorManagement() {
   const [reservationCounts, setReservationCounts] = useState<Record<number, number>>({});
   const [successMessage, setSuccessMessage] = useState('');
   const [visiblePasscodes, setVisiblePasscodes] = useState<Record<number, boolean>>({});
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterMap, setFilterMap] = useState<'all' | 'A' | 'B'>('all');
 
   useEffect(() => {
     loadVendors();
@@ -172,6 +174,31 @@ export function VendorManagement() {
         </div>
       </div>
 
+      {/* Search & Filter */}
+      {vendors.length > 0 && (
+        <div className="flex gap-2">
+          <div className="relative flex-1">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search by name, business, email..."
+              className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-slate-50 focus:bg-white transition-all"
+            />
+          </div>
+          <select
+            value={filterMap}
+            onChange={(e) => setFilterMap(e.target.value as 'all' | 'A' | 'B')}
+            className="border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50 focus:bg-white transition-all"
+          >
+            <option value="all">All Maps</option>
+            <option value="A">Map A (Bazaar)</option>
+            <option value="B">Map B (Night Market)</option>
+          </select>
+        </div>
+      )}
+
       {/* Vendor List */}
       {isLoading ? (
         <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center">
@@ -188,7 +215,18 @@ export function VendorManagement() {
         </div>
       ) : (
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {vendors.map(vendor => (
+          {vendors.filter(vendor => {
+            if (filterMap === 'A' && vendor.event !== 'Bazaar') return false;
+            if (filterMap === 'B' && vendor.event !== 'Night Market') return false;
+            if (!searchQuery.trim()) return true;
+            const q = searchQuery.toLowerCase();
+            return (
+              vendor.fullName.toLowerCase().includes(q) ||
+              (vendor.businessName?.toLowerCase().includes(q) ?? false) ||
+              (vendor.email?.toLowerCase().includes(q) ?? false) ||
+              vendor.contactNumber.includes(q)
+            );
+          }).map(vendor => (
             <div
               key={vendor.id}
               className={`bg-white rounded-2xl border p-4 transition-all ${
@@ -294,6 +332,30 @@ export function VendorManagement() {
               </div>
             </div>
           ))}
+          {vendors.filter(vendor => {
+            if (filterMap === 'A' && vendor.event !== 'Bazaar') return false;
+            if (filterMap === 'B' && vendor.event !== 'Night Market') return false;
+            if (!searchQuery.trim()) return true;
+            const q = searchQuery.toLowerCase();
+            return (
+              vendor.fullName.toLowerCase().includes(q) ||
+              (vendor.businessName?.toLowerCase().includes(q) ?? false) ||
+              (vendor.email?.toLowerCase().includes(q) ?? false) ||
+              vendor.contactNumber.includes(q)
+            );
+          }).length === 0 && (
+            <div className="sm:col-span-2 lg:col-span-3 bg-white rounded-2xl border border-slate-200 p-8 text-center">
+              <p className="text-slate-500 text-sm">
+                {searchQuery
+                  ? `No vendors match "${searchQuery}"`
+                  : filterMap === 'A'
+                  ? 'No Map A (Bazaar) vendors'
+                  : filterMap === 'B'
+                  ? 'No Map B (Night Market) vendors'
+                  : 'No vendors found'}
+              </p>
+            </div>
+          )}
         </div>
       )}
 
