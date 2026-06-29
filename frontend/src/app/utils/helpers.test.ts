@@ -10,7 +10,6 @@ import {
   capitalize,
   getDisplayStallId,
   getDisplaySectionById,
-  getCornerDisplayStallId,
   getDisplayCategoryById,
   getDisplaySectionByCategory,
 } from './helpers';
@@ -269,10 +268,10 @@ describe('getDisplaySectionById', () => {
   });
 });
 
-describe('getCornerDisplayStallId', () => {
-  it('delegates to getDisplayStallId', () => {
-    expect(getCornerDisplayStallId('A1')).toBe('G5');
-    expect(getCornerDisplayStallId('1')).toBe('A1');
+describe('getDisplayStallId corner mapping', () => {
+  it('maps corner IDs correctly', () => {
+    expect(getDisplayStallId('A1')).toBe('G5');
+    expect(getDisplayStallId('1')).toBe('A1');
   });
 });
 
