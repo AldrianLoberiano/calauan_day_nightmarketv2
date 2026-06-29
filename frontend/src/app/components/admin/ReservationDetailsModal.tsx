@@ -155,7 +155,7 @@ export function ReservationDetailsModal({
       setShowDeleteConfirm(false);
       showSuccess('Reservation deleted.');
       onUpdate();
-      onClose();
+      setTimeout(() => onClose(), 1500);
     } catch {
       showError('Failed to delete reservation. Please try again.');
     }
