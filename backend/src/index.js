@@ -192,6 +192,16 @@ async function ensureDefaultAdmin() {
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
 
+    // Ensure password_hash column exists (add if missing)
+    try {
+      const [hashCol] = await pool.query(
+        `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'admin_users' AND COLUMN_NAME = 'password_hash'`
+      );
+      if (hashCol.length === 0) {
+        await pool.query(`ALTER TABLE admin_users ADD COLUMN password_hash VARCHAR(255) NOT NULL DEFAULT ''`);
+      }
+    } catch { /* column exists */ }
+
     // Migrate old plaintext password column to password_hash if needed
     try {
       const [cols] = await pool.query(
@@ -203,6 +213,8 @@ async function ensureDefaultAdmin() {
           if (admin.password && !admin.password.startsWith('$2')) {
             const hash = await bcrypt.hash(admin.password, 10);
             await pool.query('UPDATE admin_users SET password_hash = ? WHERE id = ?', [hash, admin.id]);
+          } else if (admin.password && admin.password.startsWith('$2')) {
+            await pool.query('UPDATE admin_users SET password_hash = ? WHERE id = ?', [admin.password, admin.id]);
           }
         }
         await pool.query('ALTER TABLE admin_users DROP COLUMN password');
@@ -731,7 +743,6 @@ app.post('/api/reservations', authVendor, async (req, res, next) => {
     await connection.beginTransaction();
 
     // determine stall section so counters are per-section
-    const source = payload.source;
     const stallTable = source === 'all_stalls' ? 'all_stalls_stalls' : 'design_map_stalls';
     const [stallInfoRows] = await connection.query(`SELECT section FROM ${stallTable} WHERE id = ? FOR UPDATE`, [payload.stallId]);
     const rawSection = stallInfoRows[0]?.section || 'X';
