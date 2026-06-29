@@ -1230,7 +1230,7 @@ app.post('/api/admin/vendors', authAdmin, async (req, res, next) => {
       return res.status(409).json({ message: 'Email already exists' });
     }
     const username = email.split('@')[0] + '_' + Date.now().toString(36);
-    const passwordHash = await bcrypt.hash('vendor', 10);
+    const passwordHash = await bcrypt.hash(NEW_VENDOR_PASSWORD, 10);
     const passcode = String(Math.floor(100000 + Math.random() * 900000));
     const [result] = await pool.query(
       'INSERT INTO vendor_users (username, password_hash, full_name, contact_number, business_name, email, passcode, event) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
