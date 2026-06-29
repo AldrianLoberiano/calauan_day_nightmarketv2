@@ -24,10 +24,10 @@ export function StallDetailModal({ stall, reservation, onClose, onReserve, vendo
   };
 
   const sizeLabel: Record<string, string> = {
-    small:  '2 x 3 m',
+    small:  '1.5 x 2 m',
     medium: '2 x 3 m',
-    large:  '2 x 3 m',
-    corner: '2 x 3 m',
+    large:  '3 x 4 m',
+    corner: '3 x 3 m',
   };
 
   const wrongMap = vendorEvent && (
