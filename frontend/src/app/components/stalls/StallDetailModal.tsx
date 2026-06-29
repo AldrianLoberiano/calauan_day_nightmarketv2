@@ -83,7 +83,7 @@ export function StallDetailModal({ stall, reservation, onClose, onReserve, vendo
         <div className="p-5">
           {/* Info grid */}
           <div className="grid grid-cols-2 gap-2.5 mb-4">
-            <InfoTile icon={<Tag className="w-4 h-4 text-blue-600" />} label="Monthly Rent" value={formatPeso(stall.price)} />
+            <InfoTile icon={<Tag className="w-4 h-4 text-blue-600" />} label="Monthly Rent" value="Price to be discussed" />
             <InfoTile icon={<Ruler className="w-4 h-4 text-blue-600" />} label="Size" value={sizeLabel[stall.size]} />
             <InfoTile icon={<MapPin className="w-4 h-4 text-blue-600" />} label="Location" value={locationLabel} />
             <InfoTile icon={<ShoppingBag className="w-4 h-4 text-blue-600" />} label="Type" value={getDisplayCategoryById(stall.id, stall.category)} />
