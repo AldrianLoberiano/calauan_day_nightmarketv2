@@ -233,7 +233,7 @@ export function VendorManagement() {
                 )}
                 {vendor.passcode && (
                   <p className="text-xs font-mono font-bold text-amber-600 flex items-center gap-1.5 bg-amber-50 border border-amber-200 rounded-lg px-2 py-1 mt-1">
-                    Passcode: {vendor.passcode}
+                    Passcode: {'•'.repeat(vendor.passcode.length)}
                   </p>
                 )}
                 {vendor.event && (
