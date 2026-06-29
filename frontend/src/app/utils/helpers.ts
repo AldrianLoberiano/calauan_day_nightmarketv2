@@ -116,10 +116,6 @@ export function getDisplaySectionById(stallId: string, fallbackSection: string):
   return fallbackSection;
 }
 
-export function getCornerDisplayStallId(stallId: string): string {
-  return getDisplayStallId(stallId);
-}
-
 export function getDisplayCategoryById(stallId: string, category: string): string {
   if (!stallId) return category;
   // Treat corner A1-A5 as Non-Food for display purposes
