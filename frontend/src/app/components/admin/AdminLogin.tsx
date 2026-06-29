@@ -253,6 +253,12 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
         <p className="text-center text-slate-400 text-xs mt-5">
           For authorized BPLO personnel only.
         </p>
+        <a
+          href="/"
+          className="mt-3 block text-center text-xs text-slate-300 hover:text-white font-semibold underline transition-colors"
+        >
+          Go to Public Map
+        </a>
       </div>
     </div>
   );
