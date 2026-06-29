@@ -20,6 +20,8 @@ const JWT_EXPIRES_IN = '7d';
 const DEFAULT_ADMIN_PASSWORD = process.env.DEFAULT_ADMIN_PASSWORD || 'admin123';
 const DEFAULT_VENDOR_PASSWORD = process.env.DEFAULT_VENDOR_PASSWORD || 'vendor123';
 const NEW_VENDOR_PASSWORD = process.env.NEW_VENDOR_PASSWORD || 'changeme';
+const SECURITY_QUESTION = process.env.SECURITY_QUESTION || 'What is the name of this market?';
+const SECURITY_ANSWER = (process.env.SECURITY_ANSWER || 'calauan').toLowerCase();
 
 const VALID_SOURCES = ['design_map', 'all_stalls'];
 
@@ -1085,6 +1087,10 @@ app.delete('/api/reservations/:id', authAdmin, async (req, res, next) => {
   } finally {
     connection.release();
   }
+});
+
+app.get('/api/admin/security-question', (req, res) => {
+  res.json({ question: SECURITY_QUESTION });
 });
 
 app.post('/api/admin/login', rateLimit, async (req, res, next) => {
