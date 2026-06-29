@@ -4,7 +4,7 @@ import {
   MapPin, CheckCircle, Clock, XCircle, Package,
   TrendingUp, Users, LayoutGrid, Map as MapIcon,
   ChevronDown, Settings, Database, CalendarClock, Shield,
-  BarChart3, PieChart as PieChartIcon,
+  BarChart3, PieChart as PieChartIcon, CheckCircle2,
   Download, FileSpreadsheet, FileText, File
 } from 'lucide-react';
 import {
@@ -58,6 +58,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const accountMenuRef = useRef<HTMLDivElement>(null);
   const [showExportMenu, setShowExportMenu] = useState(false);
   const exportMenuRef = useRef<HTMLDivElement>(null);
+  const [toastMessage, setToastMessage] = useState('');
 
   async function loadData() {
     const [stallsDesign, stallsAll, updatedReservations] = await Promise.all([
@@ -82,8 +83,23 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
     void loadData();
     const interval = setInterval(() => {
       void loadData();
-    }, 30000);
-    return () => clearInterval(interval);
+    }, 3000);
+
+    function handleVisibility() {
+      if (document.visibilityState === 'visible') void loadData();
+    }
+    function handleFocus() {
+      void loadData();
+    }
+
+    document.addEventListener('visibilitychange', handleVisibility);
+    window.addEventListener('focus', handleFocus);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', handleVisibility);
+      window.removeEventListener('focus', handleFocus);
+    };
   }, []);
 
   async function handleReset() {
@@ -797,6 +813,10 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
           stall={getStallForReservation(activeReservation)}
           onClose={() => setActiveReservationId(null)}
           onUpdate={() => { void loadData(); }}
+          onDelete={() => {
+            setToastMessage('Reservation deleted.');
+            setTimeout(() => setToastMessage(''), 3000);
+          }}
         />
       )}
       {showLogoutConfirm && (
@@ -936,6 +956,14 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 </div>
               </button>
             </div>
+          </div>
+        </div>
+      )}
+      {toastMessage && (
+        <div className="fixed bottom-4 right-4 z-[60] animate-in slide-in-from-bottom-2 fade-in duration-300">
+          <div className="flex items-center gap-3 bg-emerald-600 text-white px-5 py-3 rounded-xl shadow-lg">
+            <CheckCircle2 className="w-5 h-5 shrink-0" />
+            <span className="text-sm font-bold">{toastMessage}</span>
           </div>
         </div>
       )}
