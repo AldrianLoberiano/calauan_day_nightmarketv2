@@ -47,7 +47,10 @@ export function clearAdminSession(): void {
 async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
   const vendorToken = getVendorToken();
   const adminToken = getAdminToken();
-  const isAdminPath = path.startsWith('/admin/');
+  const method = (options?.method || 'GET').toUpperCase();
+  const isAdminPath = path.startsWith('/admin/')
+    || (path.startsWith('/reservations/') && (path.endsWith('/approve') || path.endsWith('/reject') || path.endsWith('/occupy')))
+    || (path.startsWith('/reservations/') && (method === 'PUT' || method === 'DELETE'));
   const token = isAdminPath ? adminToken : vendorToken;
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
