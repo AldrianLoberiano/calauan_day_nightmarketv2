@@ -11,11 +11,39 @@ dotenv.config();
 
 const app = express();
 const port = Number(process.env.PORT || 3001);
-const JWT_SECRET = process.env.JWT_SECRET || 'nightmarket_jwt_secret_2026';
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  console.error('FATAL: JWT_SECRET is not set in environment. Add it to .env');
+  process.exit(1);
+}
 const JWT_EXPIRES_IN = '7d';
 
-app.use(cors());
+const VALID_SOURCES = ['design_map', 'all_stalls'];
+
+const corsOrigin = process.env.CORS_ORIGIN || (process.env.NODE_ENV === 'production' ? false : '*');
+app.use(cors(typeof corsOrigin === 'string' ? { origin: corsOrigin } : {}));
 app.use(express.json());
+
+// ─── Simple Rate Limiter ─────────────────────────────────────
+const loginAttempts = new Map();
+const RATE_LIMIT_WINDOW = 15 * 60 * 1000;
+const RATE_LIMIT_MAX = 10;
+
+function rateLimit(req, res, next) {
+  const ip = req.ip || req.connection.remoteAddress;
+  const key = `login:${ip}`;
+  const now = Date.now();
+  const record = loginAttempts.get(key);
+  if (!record || now - record.start > RATE_LIMIT_WINDOW) {
+    loginAttempts.set(key, { start: now, count: 1 });
+    return next();
+  }
+  record.count++;
+  if (record.count > RATE_LIMIT_MAX) {
+    return res.status(429).json({ message: 'Too many login attempts. Try again later.' });
+  }
+  next();
+}
 
 // --- Simple SSE (Server-Sent Events) broadcaster for real-time updates ---
 const sseClients = new Set();
@@ -157,16 +185,34 @@ async function ensureDefaultAdmin() {
     await pool.query(`CREATE TABLE IF NOT EXISTS admin_users (
       id INT AUTO_INCREMENT PRIMARY KEY,
       username VARCHAR(64) UNIQUE NOT NULL,
-      password VARCHAR(255) NOT NULL,
+      password_hash VARCHAR(255) NOT NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+    // Migrate old plaintext password column to password_hash if needed
+    try {
+      const [cols] = await pool.query(
+        `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'admin_users' AND COLUMN_NAME = 'password'`
+      );
+      if (cols.length > 0) {
+        const [allAdmins] = await pool.query('SELECT id, password FROM admin_users');
+        for (const admin of allAdmins) {
+          if (admin.password && !admin.password.startsWith('$2')) {
+            const hash = await bcrypt.hash(admin.password, 10);
+            await pool.query('UPDATE admin_users SET password_hash = ? WHERE id = ?', [hash, admin.id]);
+          }
+        }
+        await pool.query('ALTER TABLE admin_users DROP COLUMN password');
+      }
+    } catch { /* column may already be migrated */ }
+
     const [rows] = await pool.query('SELECT id FROM admin_users WHERE username = ? LIMIT 1', ['admin']);
     if (rows.length === 0) {
+      const hash = await bcrypt.hash('admin123', 10);
       await pool.query(
-        'INSERT INTO admin_users (username, password) VALUES (?, ?)',
-        ['admin', 'admin123']
+        'INSERT INTO admin_users (username, password_hash) VALUES (?, ?)',
+        ['admin', hash]
       );
-      console.log('Default admin account created: admin / admin123');
     }
   } catch (e) {
     console.warn('Could not ensure default admin:', e?.message || e);
@@ -423,11 +469,6 @@ async function updateStallStatus(connection, stallId, status, source) {
   await connection.query(`UPDATE ${table} SET status = ?, updated_at = NOW() WHERE id = ?`, [status, stallId]);
 }
 
-async function nextReservationNumber(connection) {
-  // legacy single-counter support removed — use nextReservationNumberBySection
-  throw new Error('Use nextReservationNumberBySection(connection, section) instead');
-}
-
 async function nextReservationNumberBySection(connection, section) {
   const year = new Date().getFullYear();
   const sec = (section || 'X').toString().toUpperCase();
@@ -550,6 +591,9 @@ app.get('/api/stalls', async (req, res, next) => {
   try {
     await expireReservations();
     const source = req.query.source;
+    if (source && !VALID_SOURCES.includes(source)) {
+      return res.status(400).json({ message: 'Invalid source parameter' });
+    }
     let rows;
     if (source === 'design_map') {
       [rows] = await pool.query('SELECT * FROM design_map_stalls');
@@ -579,10 +623,13 @@ app.get('/api/stalls/:id', async (req, res, next) => {
   }
 });
 
-app.put('/api/stalls/:id', async (req, res, next) => {
+app.put('/api/stalls/:id', authAdmin, async (req, res, next) => {
   try {
     const payload = req.body;
     const source = req.query.source;
+    if (source && !VALID_SOURCES.includes(source)) {
+      return res.status(400).json({ message: 'Invalid source parameter' });
+    }
     const table = source === 'all_stalls' ? 'all_stalls_stalls' : 'design_map_stalls';
     await pool.query(
       `UPDATE ${table}
@@ -745,7 +792,7 @@ app.post('/api/reservations', authVendor, async (req, res, next) => {
   }
 });
 
-app.put('/api/reservations/:id', async (req, res, next) => {
+app.put('/api/reservations/:id', authAdmin, async (req, res, next) => {
   const connection = await pool.getConnection();
   try {
     const payload = req.body;
@@ -812,7 +859,7 @@ app.put('/api/reservations/:id', async (req, res, next) => {
   }
 });
 
-app.post('/api/reservations/:id/approve', async (req, res, next) => {
+app.post('/api/reservations/:id/approve', authAdmin, async (req, res, next) => {
   const connection = await pool.getConnection();
   try {
     await connection.beginTransaction();
@@ -849,7 +896,7 @@ app.post('/api/reservations/:id/approve', async (req, res, next) => {
   }
 });
 
-app.post('/api/reservations/:id/reject', async (req, res, next) => {
+app.post('/api/reservations/:id/reject', authAdmin, async (req, res, next) => {
   const connection = await pool.getConnection();
   try {
     const notes = req.body?.notes || 'Rejected by admin.';
@@ -887,7 +934,7 @@ app.post('/api/reservations/:id/reject', async (req, res, next) => {
   }
 });
 
-app.post('/api/reservations/:id/occupy', async (req, res, next) => {
+app.post('/api/reservations/:id/occupy', authAdmin, async (req, res, next) => {
   const connection = await pool.getConnection();
   try {
     await connection.beginTransaction();
@@ -972,7 +1019,7 @@ app.post('/api/admin/extend-pending', authAdmin, async (req, res, next) => {
   }
 });
 
-app.delete('/api/reservations/:id', async (req, res, next) => {
+app.delete('/api/reservations/:id', authAdmin, async (req, res, next) => {
   const connection = await pool.getConnection();
   try {
     await connection.beginTransaction();
@@ -1002,14 +1049,18 @@ app.delete('/api/reservations/:id', async (req, res, next) => {
   }
 });
 
-app.post('/api/admin/login', async (req, res, next) => {
+app.post('/api/admin/login', rateLimit, async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const [rows] = await pool.query(
-      'SELECT id FROM admin_users WHERE username = ? AND password = ? LIMIT 1',
-      [username, password]
+      'SELECT id, password_hash FROM admin_users WHERE username = ? LIMIT 1',
+      [username]
     );
     if (rows.length === 0) {
+      return res.status(401).json({ ok: false, message: 'Invalid credentials' });
+    }
+    const valid = await bcrypt.compare(password, rows[0].password_hash);
+    if (!valid) {
       return res.status(401).json({ ok: false, message: 'Invalid credentials' });
     }
     const token = jwt.sign({ id: rows[0].id, role: 'admin' }, JWT_SECRET, { expiresIn: '7d' });
@@ -1053,7 +1104,7 @@ function authAdmin(req, res, next) {
 }
 
 // ─── Vendor Auth Routes ─────────────────────────────────────
-app.post('/api/vendors/login', async (req, res, next) => {
+app.post('/api/vendors/login', rateLimit, async (req, res, next) => {
   try {
     const { username, password } = req.body;
     if (!username || !password) {
