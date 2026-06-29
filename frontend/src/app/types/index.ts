@@ -6,7 +6,8 @@ export type StallCategory =
   | 'Vegetables & Fruits'
   | 'Dry Goods & Groceries'
   | 'Clothing & Apparel'
-  | 'General Merchandise';
+  | 'General Merchandise'
+  | 'Non-Food';
 
 export interface Stall {
   id: string;
