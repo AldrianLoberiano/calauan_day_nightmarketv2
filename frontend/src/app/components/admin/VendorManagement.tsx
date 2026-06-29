@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Users, Plus, Edit3, Trash2, X, AlertCircle, CheckCircle, CheckCircle2,
-  User, Phone, Building2, Mail, Ban
+  User, Phone, Building2, Mail, Ban, Eye, EyeOff
 } from 'lucide-react';
 import { VendorUser } from '../../types';
 import { getVendors, createVendor, updateVendor, deleteVendor, getVendorReservationCount } from '../../utils/storage';
@@ -33,6 +33,7 @@ export function VendorManagement() {
   const [deleteConfirm, setDeleteConfirm] = useState<VendorUser | null>(null);
   const [reservationCounts, setReservationCounts] = useState<Record<number, number>>({});
   const [successMessage, setSuccessMessage] = useState('');
+  const [visiblePasscodes, setVisiblePasscodes] = useState<Record<number, boolean>>({});
 
   useEffect(() => {
     loadVendors();
@@ -232,9 +233,18 @@ export function VendorManagement() {
                   </p>
                 )}
                 {vendor.passcode && (
-                  <p className="text-xs font-mono font-bold text-amber-600 flex items-center gap-1.5 bg-amber-50 border border-amber-200 rounded-lg px-2 py-1 mt-1">
-                    Passcode: {'•'.repeat(vendor.passcode.length)}
-                  </p>
+                  <div className="flex items-center gap-1.5 mt-1">
+                    <p className="text-xs font-mono font-bold text-amber-600 flex items-center gap-1.5 bg-amber-50 border border-amber-200 rounded-lg px-2 py-1">
+                      Passcode: {visiblePasscodes[vendor.id] ? vendor.passcode : '•'.repeat(vendor.passcode.length)}
+                    </p>
+                    <button
+                      onClick={() => setVisiblePasscodes(prev => ({ ...prev, [vendor.id]: !prev[vendor.id] }))}
+                      className="p-1 rounded-lg hover:bg-amber-100 text-amber-600 transition-colors"
+                      title={visiblePasscodes[vendor.id] ? 'Hide passcode' : 'Show passcode'}
+                    >
+                      {visiblePasscodes[vendor.id] ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                    </button>
+                  </div>
                 )}
                 {vendor.event && (
                   <p className={`text-xs font-bold flex items-center gap-1.5 rounded-lg px-2 py-1 mt-1 border ${
