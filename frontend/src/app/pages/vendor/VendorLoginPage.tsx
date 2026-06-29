@@ -142,6 +142,12 @@ export function VendorLoginPage({ onLoginSuccess }: VendorLoginPageProps) {
         <p className="text-center text-slate-400 text-[10px] sm:text-xs mt-3 sm:mt-5">
           Calauan Day & Night Market Stall Reservation System
         </p>
+        <a
+          href="/"
+          className="mt-3 block text-center text-xs text-blue-400 hover:text-blue-300 font-semibold underline transition-colors"
+        >
+          Go to Public Map
+        </a>
       </div>
     </div>
   );
