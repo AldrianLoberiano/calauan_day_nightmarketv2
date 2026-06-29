@@ -29,7 +29,7 @@ function buildExportData(
 ): ExportRow[] {
   return reservations.map(res => {
     const stall = stalls.find(s => s.id === res.stallId);
-    const price = res.price ?? stall?.price;
+    const price = res.price ?? (res.status !== 'pending' ? stall?.price : undefined);
     const row: ExportRow = {
       reservationNumber: res.reservationNumber,
       stallId: res.stallId,
@@ -48,6 +48,8 @@ function buildExportData(
     };
     if (price != null && price !== '') {
       row.price = price;
+    } else if (res.status === 'pending') {
+      row.price = 'To be discussed';
     }
     return row;
   });
