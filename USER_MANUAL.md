@@ -67,6 +67,8 @@ npm run dev
 ### Admin
 
 1. **Login** — Go to `/admin` and enter admin credentials.
+   - Enter **username** and **password**
+   - **CAPTCHA**: Type the characters shown in the image. Click the refresh button to generate a new code if needed.
 2. **Dashboard tabs:**
    - **Overview** — Charts showing stall status distribution and reservation counts.
    - **Map A Reservations** — List all Map A reservations with search and status filters.
