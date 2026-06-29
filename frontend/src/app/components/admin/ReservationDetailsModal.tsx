@@ -69,10 +69,18 @@ export function ReservationDetailsModal({
   const [editData, setEditData] = useState<Reservation>({ ...reservation });
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   function showSuccess(msg: string) {
     setSuccessMessage(msg);
+    setErrorMessage('');
     setTimeout(() => setSuccessMessage(''), 3000);
+  }
+
+  function showError(msg: string) {
+    setErrorMessage(msg);
+    setSuccessMessage('');
+    setTimeout(() => setErrorMessage(''), 3000);
   }
 
   useEffect(() => {
@@ -92,7 +100,7 @@ export function ReservationDetailsModal({
       showSuccess('Marked as occupied!');
       onUpdate();
     } catch {
-      showSuccess('Failed to mark as occupied. Please try again.');
+      showError('Failed to mark as occupied. Please try again.');
     }
     setIsProcessing(false);
   }
@@ -104,7 +112,7 @@ export function ReservationDetailsModal({
       showSuccess('Reservation approved!');
       onUpdate();
     } catch {
-      showSuccess('Failed to approve. Please try again.');
+      showError('Failed to approve. Please try again.');
     }
     setIsProcessing(false);
   }
@@ -117,37 +125,39 @@ export function ReservationDetailsModal({
       showSuccess('Reservation rejected.');
       onUpdate();
     } catch {
-      showSuccess('Failed to reject. Please try again.');
+      showError('Failed to reject. Please try again.');
     }
     setIsProcessing(false);
   }
 
   async function handleSaveChanges(e?: React.FormEvent) {
-    try { e?.preventDefault?.(); } catch (err) {}
+    e?.preventDefault?.();
     setIsProcessing(true);
-    const updated: Reservation = {
-      ...editData,
-      updatedAt: new Date().toISOString(),
-    };
-    await updateReservation(updated);
-    await new Promise(r => setTimeout(r, 400));
+    try {
+      const updated: Reservation = {
+        ...editData,
+        updatedAt: new Date().toISOString(),
+      };
+      await updateReservation(updated);
+      setIsEditing(false);
+      showSuccess('Changes saved!');
+      onUpdate();
+    } catch {
+      showError('Failed to save changes. Please try again.');
+    }
     setIsProcessing(false);
-    setIsEditing(false);
-    showSuccess('Changes saved!');
-    onUpdate();
   }
 
   async function handleDelete() {
     setIsProcessing(true);
     try {
       await deleteReservation(reservation.id);
-      await new Promise(r => setTimeout(r, 400));
       setShowDeleteConfirm(false);
       showSuccess('Reservation deleted.');
       onUpdate();
       onClose();
     } catch {
-      setShowDeleteConfirm(false);
+      showError('Failed to delete reservation. Please try again.');
     }
     setIsProcessing(false);
   }
@@ -479,6 +489,15 @@ export function ReservationDetailsModal({
           <div className="flex items-center gap-3 bg-emerald-600 text-white px-5 py-3 rounded-xl shadow-lg">
             <CheckCircle2 className="w-5 h-5 shrink-0" />
             <span className="text-sm font-bold">{successMessage}</span>
+          </div>
+        </div>
+      )}
+      {/* Error Toast */}
+      {errorMessage && (
+        <div className="fixed bottom-4 right-4 z-[60] animate-in slide-in-from-bottom-2 fade-in duration-300">
+          <div className="flex items-center gap-3 bg-red-600 text-white px-5 py-3 rounded-xl shadow-lg">
+            <XCircle className="w-5 h-5 shrink-0" />
+            <span className="text-sm font-bold">{errorMessage}</span>
           </div>
         </div>
       )}
