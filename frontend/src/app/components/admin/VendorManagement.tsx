@@ -224,7 +224,7 @@ export function VendorManagement() {
               vendor.fullName.toLowerCase().includes(q) ||
               (vendor.businessName?.toLowerCase().includes(q) ?? false) ||
               (vendor.email?.toLowerCase().includes(q) ?? false) ||
-              vendor.contactNumber.includes(q)
+              (vendor.contactNumber?.toLowerCase().includes(q) ?? false)
             );
           }).map(vendor => (
             <div
@@ -341,7 +341,7 @@ export function VendorManagement() {
               vendor.fullName.toLowerCase().includes(q) ||
               (vendor.businessName?.toLowerCase().includes(q) ?? false) ||
               (vendor.email?.toLowerCase().includes(q) ?? false) ||
-              vendor.contactNumber.includes(q)
+              (vendor.contactNumber?.toLowerCase().includes(q) ?? false)
             );
           }).length === 0 && (
             <div className="sm:col-span-2 lg:col-span-3 bg-white rounded-2xl border border-slate-200 p-8 text-center">
