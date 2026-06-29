@@ -12,6 +12,7 @@ interface ReservationDetailsModalProps {
   stall?: Stall;
   onClose: () => void;
   onUpdate: () => void;
+  onDelete?: () => void;
 }
 
 const STATUS: Record<string, {
@@ -61,6 +62,7 @@ export function ReservationDetailsModal({
   stall,
   onClose,
   onUpdate,
+  onDelete,
 }: ReservationDetailsModalProps) {
   const [showRejectForm, setShowRejectForm] = useState(false);
   const [rejectNotes, setRejectNotes] = useState('');
@@ -155,6 +157,7 @@ export function ReservationDetailsModal({
       setShowDeleteConfirm(false);
       showSuccess('Reservation deleted.');
       onUpdate();
+      onDelete?.();
       setTimeout(() => onClose(), 1500);
     } catch {
       showError('Failed to delete reservation. Please try again.');
@@ -328,7 +331,7 @@ export function ReservationDetailsModal({
                 {reservation.cedulaNumber && (
                   <InfoRow icon={<ShieldCheck className="w-3.5 h-3.5 text-slate-400" />} value={`Cedula: ${reservation.cedulaNumber}`} />
                 )}
-                <InfoRow icon={<Tag className="w-3.5 h-3.5 text-slate-400" />} value={`Price: ${(reservation.price ?? stall?.price) ? `₱${Number(reservation.price ?? stall?.price).toLocaleString()}` : 'To be discussed'}`} />
+                <InfoRow icon={<Tag className="w-3.5 h-3.5 text-slate-400" />} value={`Price: ${reservation.price != null ? `₱${Number(reservation.price).toLocaleString()}` : 'To be discussed'}`} />
                 {reservation.address && (
                   <InfoRow icon={<MapPin className="w-3.5 h-3.5 text-slate-400" />} value={reservation.address} />
                 )}
