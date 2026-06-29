@@ -20,6 +20,9 @@ const JWT_EXPIRES_IN = '7d';
 
 const VALID_SOURCES = ['design_map', 'all_stalls'];
 
+app.disable('x-powered-by');
+app.set('trust proxy', 1);
+
 const corsOrigin = process.env.CORS_ORIGIN || (process.env.NODE_ENV === 'production' ? false : '*');
 app.use(cors(typeof corsOrigin === 'string' ? { origin: corsOrigin } : {}));
 app.use(express.json());
@@ -432,16 +435,6 @@ async function findReservationById(id) {
   return { row: null, table: null };
 }
 
-async function updateReservationById(connection, id, fields) {
-  const result1 = await connection.query(
-    `UPDATE design_map_reservations SET ${fields} WHERE id = ?`, [id]
-  );
-  const result2 = await connection.query(
-    `UPDATE all_stalls_reservations SET ${fields} WHERE id = ?`, [id]
-  );
-  return (result1[0].affectedRows + result2[0].affectedRows) > 0;
-}
-
 async function selectReservationWithStall(id) {
   let [rows] = await pool.query(
     `SELECT d.*, s.price AS stall_price, 'design_map' AS source FROM design_map_reservations d
@@ -565,7 +558,7 @@ async function getHealthDetails() {
   return details;
 }
 
-app.get('/api/health/details', async (req, res, next) => {
+app.get('/api/health/details', authAdmin, async (req, res, next) => {
   try {
     const d = await getHealthDetails();
     res.json(d);
@@ -727,6 +720,10 @@ app.post('/api/reservations', authVendor, async (req, res, next) => {
   const connection = await pool.getConnection();
   try {
     const payload = req.body;
+    const source = payload.source;
+    if (source && !VALID_SOURCES.includes(source)) {
+      return res.status(400).json({ message: 'Invalid source parameter' });
+    }
     const now = new Date();
     const expiresAt = new Date(now);
     expiresAt.setDate(expiresAt.getDate() + 4);
@@ -1143,7 +1140,7 @@ app.post('/api/vendors/login', rateLimit, async (req, res, next) => {
   }
 });
 
-app.post('/api/vendors/login-passcode', async (req, res, next) => {
+app.post('/api/vendors/login-passcode', rateLimit, async (req, res, next) => {
   try {
     const { email, passcode } = req.body;
     if (!email || !passcode) {
@@ -1258,6 +1255,9 @@ app.get('/api/admin/vendors', authAdmin, async (req, res, next) => {
 app.put('/api/admin/vendors/:id', authAdmin, async (req, res, next) => {
   try {
     const { fullName, contactNumber, businessName, email, status, password, event } = req.body;
+    if (status !== undefined && !['active', 'inactive'].includes(status)) {
+      return res.status(400).json({ message: 'Invalid status value' });
+    }
     const fields = [];
     const values = [];
     if (fullName !== undefined) { fields.push('full_name = ?'); values.push(fullName); }
