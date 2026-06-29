@@ -27,6 +27,7 @@ export function UserPage() {
   const [showFullMap, setShowFullMap] = useState(false);
 
   useEffect(() => {
+    let mounted = true;
     if (getVendorToken()) {
       const v = getVendorUser();
       if (v?.event) {
@@ -34,7 +35,7 @@ export function UserPage() {
         setMapView(v.event === 'Bazaar' ? 'design' : 'grid');
       }
       getVendorProfile().then(fresh => {
-        if (fresh) {
+        if (fresh && mounted) {
           setVendorUser(fresh);
           if (fresh.event) {
             setVendorEvent(fresh.event);
@@ -43,6 +44,7 @@ export function UserPage() {
         }
       }).catch(() => {});
     }
+    return () => { mounted = false; };
   }, []);
 
   async function loadStalls(source?: string) {
@@ -60,19 +62,30 @@ export function UserPage() {
   const source = mapView === 'design' ? 'design_map' : 'all_stalls';
 
   useEffect(() => {
-    void loadStalls(source);
+    let active = true;
+    void (async () => {
+      try {
+        const updated = await checkAndExpireReservations(source);
+        if (active) setStalls(Array.isArray(updated) ? updated : []);
+        if (active) setIsLoading(false);
+        const reservations = await getReservations();
+        if (active) setAllReservations(Array.isArray(reservations) ? reservations : []);
+      } catch {
+        if (active) setAllReservations([]);
+      }
+    })();
 
-    // Subscribe to server-sent events for realtime updates
     const apiBase = (import.meta.env.VITE_API_URL ?? '/api').replace(/\/$/, '');
     const eventsUrl = `${apiBase}/events`;
     const es = new EventSource(eventsUrl);
-    const reload = () => { void loadStalls(source); };
+    const reload = () => { void (async () => { try { const updated = await checkAndExpireReservations(source); if (active) setStalls(Array.isArray(updated) ? updated : []); const reservations = await getReservations(); if (active) setAllReservations(Array.isArray(reservations) ? reservations : []); } catch {} })(); };
     es.addEventListener('reservation-created', reload as EventListener);
     es.addEventListener('reservation-updated', reload as EventListener);
     es.addEventListener('reservation-deleted', reload as EventListener);
     es.onerror = () => {};
 
     return () => {
+      active = false;
       try { es.close(); } catch (e) {}
     };
   }, [source]);
