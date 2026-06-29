@@ -170,6 +170,11 @@ export async function checkAndExpireReservations(source?: string): Promise<Stall
 
 // ─── Admin Auth ─────────────────────────────────────────────
 
+export async function getSecurityQuestion(): Promise<string> {
+  const result = await apiFetch<{ question: string }>('/admin/security-question');
+  return result.question;
+}
+
 export async function verifyAdminLogin(username: string, password: string): Promise<string | null> {
   const result = await apiFetch<{ ok: boolean; token?: string }>('/admin/login', {
     method: 'POST',
