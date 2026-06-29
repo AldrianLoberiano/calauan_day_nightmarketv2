@@ -21,8 +21,6 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
     setError('');
     setIsLoading(true);
 
-    await new Promise(r => setTimeout(r, 800));
-
     try {
       const token = await verifyAdminLogin(username.trim(), password);
       if (token) {
