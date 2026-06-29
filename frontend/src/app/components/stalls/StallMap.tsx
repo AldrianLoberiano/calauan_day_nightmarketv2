@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Stall } from '../../types';
-import { getCornerDisplayStallId, getStallColorClass, getDisplayCategoryById } from '../../utils/helpers';
+import { getDisplayStallId, getStallColorClass, getDisplayCategoryById } from '../../utils/helpers';
 
 interface StallMapProps {
   stalls: Stall[];
@@ -117,7 +117,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
     const label = slot.label;
     return (
       <button onClick={()=>{ if (!disabled && stall) onStallClick(stall); }}
-        title={stall ? `Stall ${getCornerDisplayStallId(stall.id)} · ${stall.status} · ${getDisplayCategoryById(stall.id, stall.category)}${isMine ? ' · YOUR STALL' : ''} · Price: To be discussed` : 'Unavailable'}
+        title={stall ? `Stall ${getDisplayStallId(stall.id)} · ${stall.status} · ${getDisplayCategoryById(stall.id, stall.category)}${isMine ? ' · YOUR STALL' : ''} · Price: To be discussed` : 'Unavailable'}
         style={{
           width:w, height:h, fontSize: Math.max(7, Math.min(w,h)*0.42),
           background: stall ? (statusColor[stall.status]||'#ccc') : '#e5e7eb',
@@ -494,7 +494,7 @@ export function StallMap({ stalls, onStallClick, selectedStallId, initialZoom, m
                             zIndex:5,
                           }}
                         >
-                          <CS stall={s} label={getCornerDisplayStallId(s.id)}/>
+                          <CS stall={s} label={getDisplayStallId(s.id)}/>
                         </div>
                       );
                     })}
