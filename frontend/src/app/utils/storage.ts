@@ -143,10 +143,6 @@ export async function updateReservation(updated: Reservation): Promise<Reservati
   });
 }
 
-export async function updateReservationAdmin(updated: Reservation): Promise<Reservation> {
-  return updateReservation(updated);
-}
-
 export async function deleteReservation(reservationId: string): Promise<{ removed: boolean }> {
   return apiFetch<{ removed: boolean }>(`/reservations/${encodeURIComponent(reservationId)}`, {
     method: 'DELETE',
