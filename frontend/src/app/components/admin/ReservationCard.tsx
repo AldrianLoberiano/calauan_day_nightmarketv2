@@ -1,5 +1,5 @@
 import {
-  User, MapPin, Calendar, ChevronRight, Clock
+  User, MapPin, Calendar, ChevronRight, Clock, Tag
 } from 'lucide-react';
 import { Reservation, Stall } from '../../types';
 import { formatDate, getDaysRemaining, isExpired, getDisplayStallId } from '../../utils/helpers';
@@ -98,6 +98,19 @@ export function ReservationCard({ reservation, stall, onView }: ReservationCardP
 
       {/* ── White body ──────────────────────────────────────── */}
       <div className="px-4 pt-3 pb-2 space-y-2.5">
+        {/* Price */}
+        <div className={`flex items-center gap-1.5 text-xs font-bold px-2.5 py-1.5 rounded-lg ${
+          reservation.price != null
+            ? 'text-green-700 bg-green-50 border border-green-200'
+            : 'text-amber-700 bg-amber-50 border border-amber-200'
+        }`}>
+          <Tag className="w-3.5 h-3.5 shrink-0" />
+          <span>
+            {reservation.price != null
+              ? `₱${Number(reservation.price).toLocaleString()}`
+              : 'Price to be discussed'}
+          </span>
+        </div>
         {/* Applicant */}
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
