@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, User, Phone, Building2, MapPin, Loader2, Info, ShieldCheck, FileText } from 'lucide-react';
 import { Stall, Reservation } from '../../types';
-import { formatPeso, getCornerDisplayStallId, getDisplayCategoryById } from '../../utils/helpers';
+import { formatPeso, getDisplayStallId, getDisplayCategoryById } from '../../utils/helpers';
 import { addReservation, getVendorUser } from '../../utils/storage';
 
 interface ReservationFormModalProps {
@@ -37,6 +37,7 @@ export function ReservationFormModal({ stall, onClose, onSuccess, source }: Rese
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   if (!stall) return null;
 
@@ -62,21 +63,26 @@ export function ReservationFormModal({ stall, onClose, onSuccess, source }: Rese
     if (!stall) return;
 
     setIsSubmitting(true);
-    await new Promise(r => setTimeout(r, 1200));
+    setSubmitError('');
 
-    const result = await addReservation({
-      stallId: stall.id,
-      fullName: formData.fullName.trim(),
-      contactNumber: formData.contactNumber.trim(),
-      businessName: formData.businessName.trim() || undefined,
-      dtiNumber: formData.dtiNumber.trim() || undefined,
-      cedulaNumber: formData.cedulaNumber.trim() || undefined,
-      address: formData.address.trim() || undefined,
-      source,
-    });
+    try {
+      const result = await addReservation({
+        stallId: stall.id,
+        fullName: formData.fullName.trim(),
+        contactNumber: formData.contactNumber.trim(),
+        businessName: formData.businessName.trim() || undefined,
+        dtiNumber: formData.dtiNumber.trim() || undefined,
+        cedulaNumber: formData.cedulaNumber.trim() || undefined,
+        address: formData.address.trim() || undefined,
+        source,
+      });
 
-    setIsSubmitting(false);
-    onSuccess(result.reservation, result.stall);
+      setIsSubmitting(false);
+      onSuccess(result.reservation, result.stall);
+    } catch (err) {
+      setIsSubmitting(false);
+      setSubmitError('Failed to submit reservation. Please try again.');
+    }
   }
 
   function handleChange(field: keyof FormData, value: string) {
@@ -104,7 +110,7 @@ export function ReservationFormModal({ stall, onClose, onSuccess, source }: Rese
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <span className="inline-flex items-center gap-1 bg-white/15 backdrop-blur-sm text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
-                    Stall {getCornerDisplayStallId(stall.id)}
+                    Stall {getDisplayStallId(stall.id)}
                   </span>
                 </div>
                 <h2 className="text-xl font-black tracking-tight">Reserve This Stall</h2>
@@ -245,6 +251,11 @@ export function ReservationFormModal({ stall, onClose, onSuccess, source }: Rese
 
           {/* ── Sticky Footer ── */}
           <div className="border-t border-slate-100 bg-white px-5 py-4 space-y-3">
+            {submitError && (
+              <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-xl p-2.5 text-xs text-red-700">
+                {submitError}
+              </div>
+            )}
             <p className="text-[11px] text-slate-400 leading-relaxed">
               Reservation expires in <strong className="text-slate-600">3 days</strong> if not processed at the BPLO office. This does not guarantee final approval.
             </p>
