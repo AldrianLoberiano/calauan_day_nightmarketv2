@@ -80,24 +80,46 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   }
 
   useEffect(() => {
-    void loadData();
-    const interval = setInterval(() => {
-      void loadData();
-    }, 3000);
+    let active = true;
+    async function poll() {
+      try {
+        const [stallsDesign, stallsAll, updatedReservations] = await Promise.all([
+          checkAndExpireReservations('design_map'),
+          checkAndExpireReservations('all_stalls'),
+          getReservations(),
+        ]);
+        if (!active) return;
+        const combinedMap = new Map<string, Stall>();
+        [...(Array.isArray(stallsDesign) ? stallsDesign : []), ...(Array.isArray(stallsAll) ? stallsAll : [])].forEach(s => {
+          const existing = combinedMap.get(s.id);
+          if (!existing || (s.status !== 'available' && existing.status === 'available')) {
+            combinedMap.set(s.id, s);
+          }
+        });
+        setStalls(Array.from(combinedMap.values()));
+        setStallsDesignMap(Array.isArray(stallsDesign) ? stallsDesign : []);
+        setStallsAllStalls(Array.isArray(stallsAll) ? stallsAll : []);
+        setReservations(updatedReservations);
+      } catch {}
+    }
+    void poll();
+    const interval = setInterval(() => void poll(), 3000);
 
     function handleVisibility() {
-      if (document.visibilityState === 'visible') void loadData();
+      if (document.visibilityState === 'visible') void poll();
     }
     function handleFocus() {
-      void loadData();
+      void poll();
     }
 
     document.addEventListener('visibilitychange', handleVisibility);
     window.addEventListener('focus', handleFocus);
 
     return () => {
+      active = false;
       clearInterval(interval);
       document.removeEventListener('visibilitychange', handleVisibility);
+      window.removeEventListener('focus', handleFocus);
       window.removeEventListener('focus', handleFocus);
     };
   }, []);
