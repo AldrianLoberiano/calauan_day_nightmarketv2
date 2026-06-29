@@ -5,22 +5,45 @@ node_modules/
 # Build output
 dist/
 **/dist/
+**/build/
 
-# Environment files
+# Environment files (contains secrets)
 .env
+.env.local
+.env.*.local
 **/.env
+**/.env.local
+**/.env.*.local
 
 # Database files
 **/database/*.db
 **/database/*.sqlite
 **/database/*.sqlite3
-**/database/vendor_schema.sql
 
 # IDE
 .vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
 
 # Vite
 **/.vite/
 
-# Server
-server/
+# Logs
+*.log
+npm-debug.log*
+**/*.log
+
+# Coverage
+coverage/
+**/coverage/
+
+# Temp files
+tmp/
+temp/
+**/tmp/
+**/temp/
